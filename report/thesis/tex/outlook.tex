@@ -1,4 +1,5 @@
 \chapter{Outlook}
 \label{chapter:outlook}
 
-In the near future this report is meant to accompany by a more complex guide for the rs/6000 back-end that deals with extending the back-end for the PPU. Then the purpose of this guide will be more clear as new intrinsic functions will be added to the back-end and there could be the need for even more complex intrinsics in the future as well. Then the AltiVec keyword simply needs to be replaced by the PPU's keyword.
+As it was hinted in the discussion of this report, there are plans on extending the rs/6000 back-end of GCC so it supports the PPU's vector unit
+This is surrently in the works currently as there are even some PPU-specific intrinsics already. Because the PPU is a simple PowerISA chip with a custom vector unit the implementation of intrinsics is easily transferable from the AltiVec vector extension to the PPU by swapping the |ALTIVEC| keyword with |S2PP|. With some knowledge of RTL this report then allows to add new composite intrinsic functions based on the instruction set of the PPU. By then this guide should be accompanied by a more complex thesis that explains the extension of the rs/6000 back-end and is meant to provide the reader with more insight into things like RTL and maybe makes reading the GCC internal obsolete.
