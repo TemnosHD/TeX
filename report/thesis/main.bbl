@@ -1,0 +1,20 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{\textit{Alvarez}(2006)}]{altivecbuiltins}
+Alvarez, M., Adding new simd instructions to the gcc back-end, accessed
+  2017.01.25, 2006.
+
+\bibitem[{\textit{Free Software~Foundation}(2017)}]{GCCinternals}
+Free Software~Foundation, I., \textit{GNU COmpiler Collectioin Internals
+  Manual}, https://gcc.gnu.org/onlinedocs/gccint/index.html, 2017.
+
+\bibitem[{\textit{IBM}(2015)}]{ibmvecbuiltins}
+IBM, \textit{XL C for AIX v13.1.3, Vector built-in functions}, accessed
+  2017.01.25, 2015.
+
+\end{thebibliography}

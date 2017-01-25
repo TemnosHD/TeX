@@ -42,7 +42,16 @@
     numberstyle=\color{black}
     }
 \lstMakeShortInline[columns=fixed]|
-
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usetikzlibrary{shadings,shadows}
+\newenvironment{myexampleblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,%
+    colbacklower=LimeGreen!75!LightGreen,%
+    title=#1]}%
+    {\endtcolorbox}
 
 % tables
 \usepackage{multirow}                             % col- and rowspan...
@@ -247,7 +256,8 @@ neu-ron pre-synaptic post-synaptic}
 % ------------- Bibliography ---------------------
 \cleardoublepage
 \bibliographystyle{bib/agu}
-\bibliography{bib/vision}
+%\bibliography{bib/vision}
+\bibliography{bib/myrefs}
 \addcontentsline{toc}{chapter}{Bibliography}
 % ------------------------------------------------
 

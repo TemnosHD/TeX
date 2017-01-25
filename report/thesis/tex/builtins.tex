@@ -6,7 +6,7 @@ Most of this is done in the machine description that builds an interface between
 We will not dive further into this specific topic since these details are not needed for the purpose of this report. Therefore we will utilize existing insns and see what makes them complete intrinsic functions.
 
 The functions we will take a look at are called |vec_addc| or |vec_vaddcuw| when used in any front-end. This is one of the differences between normal functions and intrinsics as the latter one is the same for every front-end because it is implemented into the back-end.
-This function, which takes two vectors that have unsigned int elements as arguments, ``returns a vector containing the carries produced by adding each set of corresponding elements of two given vectors`` , this means for |c = vec_addc(a,b)| that the resulting vector |c|'s elements' bits are 1 if adding |a| and |b| produces a carry at that bit position and |0| otherwise. Therefore the name ``Vector ADD Carry Unsigned Wordsize``. But the use of this function is less important than the way it is implemented.\todo{https://www.ibm.com/ support/knowledgecenter/ SSGH2K\_13.1.3/com.ibm.xlc1313. aix.doc/compiler\_ref/ vec\_addc.html}
+This function, which takes two vectors that have unsigned int elements as arguments, ``returns a vector containing the carries produced by adding each set of corresponding elements of two given vectors`` , this means for |c = vec_addc(a,b)| that the resulting vector |c|'s elements' bits are 1 if adding |a| and |b| produces a carry at that bit position and |0| otherwise. Therefore the name ``Vector ADD Carry Unsigned Wordsize``. But the use of this function is less important than the way it is implemented\cite{ibmvecbuiltins}.
 The alternative acronym vaddcuw depicts the name of the instruction on a processor level which is ``|vaddcuw  %c,%a,%b|`` and is implemented as a synonym intrinsic to |vec_addc|. Hence |vaddcuw| and |vec_addc| have their specific insn with the code |altivec_vaddcuw|.
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
 (define_insn "altivec_vaddcuw"
@@ -158,4 +158,4 @@ At last we define a shorter function name in |s2pp.h|:
 \end{lstlisting}
 This completes our special intrinsic function!
 
-For implementing a builtin function for earlier GCC versions (4.4 and earlier) I highly recommend the guide by Mauricio Alvarez \todo{(http://people.ac.upc.edu/ alvarez/media/ gcc-isa-extensions.html)} 
+For implementing a builtin function for earlier GCC versions (4.4 and earlier) I highly recommend the guide by Mauricio Alvarez \cite{altivecbuiltins}.
