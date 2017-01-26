@@ -1,35 +1,55 @@
 \chapter{Compiler Structure}
 \label{chapter:compiler structure}
-\todo{add at lest one nice structural picture of a compiler}
+\newlength\Colsep
+\setlength\Colsep{10pt}
 Typically a compiler consists of a front-end, middle-end and back-end. These three parts sit on top of each other with the front-end on top and the back-end at the bottom and pass down the programs code as it is translated and optimized or compiled. But communication between the parts does not go only one way (at least for GCC)\todo{add reference}
 and changes that are made in the back-end affect the front-end as well!
-Such modular architecture  allows for a compiler to support many different front-ends and back-ends independently because all code needs to pass the same middle-end no matter which front-end or back-end is used. In normal cases a front-ends are associated with programming languages and back-ends with CPU architectures or ``targets`` while the middle-end is at the heart of the compiler and is usually what distinguishes between different compilers, as does the communication between the three parts.
-  
-\begin{myexampleblock}{front-end}
+Such modular architecture  allows for a compiler to support many different front-ends and back-ends independently because all code needs to pass the same middle-end no matter which front-end or back-end is used. In normal cases a front-ends are associated with programming languages and back-ends with CPU architectures or ``targets'' while the middle-end is at the heart of the compiler and is usually what distinguishes between different compilers, as does the communication between the three parts.
+\smallskip
+\noindent\begin{minipage}{\textwidth}
+\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
+    \begin{tikzpicture}[baseline=(current bounding box.south west)]
+    	\coordinate (anch) at (0,0);
+    	%%\coordinate (anch2) at (0,13);
+		\node (tl) at (2.8, 10) {\texttt{o}};
+		\node (ml) at (2.7, 6) {\texttt{o}};
+		\node (bl) at (2.7, 3) {\texttt{o}};
+		%%\draw[->] (anch) -- (tl);
+	\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{\dimexpr0.6\textwidth-0.5\Colsep\relax}
+ \begin{myexampleblock}{front-end}
 	\begin{itemize}
-		\item recognizes language
+		\item recognizes programming language \tikz[baseline] \node[coordinate] (box1){}; 
 		\item pre-processing
 		\item type checking
-		\item generates Immediate Representation (IR)
+		\item generates IR
 	\end{itemize}
 \end{myexampleblock}
 \begin{myexampleblock}{middle-end}
 	\begin{itemize}
-		\item general optimizations to IR
-		\item ``compiler magic''
-		\item passes IR
+		\item general optimizations to IR \tikz[baseline] \node[coordinate] (top2) {};
+		\item compiler specific actions
+		\item passes IR \tikz[baseline] \node[coordinate] (bot2) {};
 	\end{itemize}
 \end{myexampleblock}
 \begin{myexampleblock}{back-end}
 	\begin{itemize}
-		\item target specific
-		\item further/final optimization
+		\item target specific optimization \tikz[baseline] \node[coordinate] (top3) {};
 		\item register allocation (spilling)
-		\item generates assembly code
+		\item generation of assembly code
 	\end{itemize}
 \end{myexampleblock}
-
-
+\end{minipage}
+\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
+    \begin{tikzpicture}
+		\node at (0, 10.5) {\texttt{o}};
+		\node at (0, 6.5) {\texttt{o}};
+		\node at (0, 3) {\texttt{o}};
+	\end{tikzpicture}
+\end{minipage}\hfill
+\end{minipage}
+\vspace{\baselineskip}
 The first part of the compilation process is the translation of code which is written in some programming language by the front-end into a so called Intermediate Representation (IR) that looks the same for every front-end language and usually is never seen by the user. AS already described, any supported programming language (C, C++, Java…) is implemented in its own front-end that defines how the language is translated into IR. After that the IR is send to the middle-end where it is mainly optimized and then passed to the back-end. The back-end first performs further optimization that is target-specific followed by allocating registers and handling relative memory. Finally the code is translated into the assembly language that is supported by the target which the back-end belongs to.
 This last step executed by the back-end can seen as independent from the back-end as the translation into assembly is pretty straight forward, but the rs/6000 back-end for instance allows for direct assembly output that is not dependent on IR. Therefore we combine these the assembler and the back-end.
 After the code is compiled and emitted as an object file it is also linked, which means combining different object files and assigning absolute memory addresses to them and at last the symbols which are used in assembly are substituted by their respective opcodes. Opcodes are almost the lowest representation of machine code as the machine would not accept strings a input but rather bits that are represented as hex literals. These opcodes form pairs with assembly macros and can be found in binutils. Finally the resulting binary file is emitted by the linker and loaded into the memory of the processor to be executed.

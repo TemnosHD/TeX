@@ -28,7 +28,7 @@
 %\usepackage {wrapfig}                            % another one
 %\usepackage {picins}                             % another one
 %\usepackage{timing}                              % deprecated use, use below!
-\usepackage{tikz-timing}                          % timing diagrams
+\usepackage{tikz}                          % timing diagrams
 \usepackage{sidecap}
 
 \usepackage{listings}
@@ -45,6 +45,7 @@
 \usepackage{multicol}
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,breakable}
+\usepackage{tikz}
 \usetikzlibrary{shadings,shadows}
 \newenvironment{myexampleblock}[1]{%
     \tcolorbox[beamer,%
@@ -151,6 +152,8 @@ neu-ron pre-synaptic post-synaptic}
 
 
 \begin{document}
+
+\tikzstyle{every picture}+=[remember picture]
 
 % ------------- Cover Pages ----------------------
 
