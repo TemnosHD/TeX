@@ -1,26 +1,24 @@
 \chapter{Compiler Structure}
 \label{chapter:compiler structure}
-\newlength\Colsep
-\setlength\Colsep{10pt}
 Typically a compiler consists of a front-end, middle-end and back-end. These three parts sit on top of each other with the front-end on top and the back-end at the bottom and pass down the programs code as it is translated and optimized or compiled. But communication between the parts does not go only one way (at least for GCC)\todo{add reference}
 and changes that are made in the back-end affect the front-end as well!
 Such modular architecture  allows for a compiler to support many different front-ends and back-ends independently because all code needs to pass the same middle-end no matter which front-end or back-end is used. In normal cases a front-ends are associated with programming languages and back-ends with CPU architectures or ``targets'' while the middle-end is at the heart of the compiler and is usually what distinguishes between different compilers, as does the communication between the three parts.
 \smallskip
-\noindent\begin{minipage}{\textwidth}
-\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
-    \begin{tikzpicture}[baseline=(current bounding box.south west)]
-    	\coordinate (anch) at (0,0);
-    	%%\coordinate (anch2) at (0,13);
-		\node (tl) at (2.8, 10) {\texttt{o}};
-		\node (ml) at (2.7, 6) {\texttt{o}};
-		\node (bl) at (2.7, 3) {\texttt{o}};
-		%%\draw[->] (anch) -- (tl);
-	\end{tikzpicture}
-\end{minipage}\hfill
-\begin{minipage}[c]{\dimexpr0.6\textwidth-0.5\Colsep\relax}
+%\noindent\begin{minipage}{\textwidth}
+%%\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
+%%    \begin{tikzpicture}[baseline=(current bounding box.south west)]
+%%    	\coordinate (anch) at (0,0);
+%%    	%%\coordinate (anch2) at (0,13);
+%%		\node (tl) at (2.8, 10) {\texttt{o}};
+%%		\node (ml) at (2.7, 6) {\texttt{o}};
+%%		\node (bl) at (2.7, 3) {\texttt{o}};
+%%		%%\draw[->] (anch) -- (tl);
+%%	\end{tikzpicture}
+%%\end{minipage}\hfill
+%%\begin{minipage}[c]{\dimexpr0.6\textwidth-0.5\Colsep\relax}
  \begin{myexampleblock}{front-end}
 	\begin{itemize}
-		\item recognizes programming language \tikz[baseline] \node[coordinate] (box1){}; 
+		\item recognizes programming language
 		\item pre-processing
 		\item type checking
 		\item generates IR
@@ -28,27 +26,50 @@ Such modular architecture  allows for a compiler to support many different front
 \end{myexampleblock}
 \begin{myexampleblock}{middle-end}
 	\begin{itemize}
-		\item general optimizations to IR \tikz[baseline] \node[coordinate] (top2) {};
+		\item general optimizations to IR
 		\item compiler specific actions
-		\item passes IR \tikz[baseline] \node[coordinate] (bot2) {};
+		\item passes IR
 	\end{itemize}
 \end{myexampleblock}
 \begin{myexampleblock}{back-end}
 	\begin{itemize}
-		\item target specific optimization \tikz[baseline] \node[coordinate] (top3) {};
+		\item target specific optimization
 		\item register allocation (spilling)
 		\item generation of assembly code
 	\end{itemize}
 \end{myexampleblock}
-\end{minipage}
-\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
-    \begin{tikzpicture}
-		\node at (0, 10.5) {\texttt{o}};
-		\node at (0, 6.5) {\texttt{o}};
-		\node at (0, 3) {\texttt{o}};
-	\end{tikzpicture}
-\end{minipage}\hfill
-\end{minipage}
+%%\end{minipage}
+%%\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
+%%    \begin{tikzpicture}
+%%		\node at (0, 10.5) {\texttt{o}};
+%%		\node at (0, 6.5) {\texttt{o}};
+%%		\node at (0, 3) {\texttt{o}};
+%%	\end{tikzpicture}
+%\end{minipage}\hfill
+%\end{minipage}
+%%\begin{myblock}{}
+%%    \tikzmark{n1}
+%%    \shownode{n1}    
+%%   %remove the previous line: just used to see where the invisible node is placed
+%%    \begin{varblock}[0.5\textwidth]{front-end}
+%%	\begin{itemize}
+%%		\item recognizes programming language \tikz[baseline] \node[coordinate] (box1){}; 
+%%		\item pre-processing
+%%		\item type checking
+%%		\item generates IR
+%%	\end{itemize}
+%%    \end{varblock}
+%%    \showanchor{n1}
+%%   %remove also this: just used to see where n1 is positioned
+%%\end{myblock}
+%\begin{tikzpicture}[remember picture,overlay,-stealth]
+%	\path[line width=0.2cm](n2.east)edge[bend left](n1.west);
+%	\path[line width=0.2cm](n1.south)edge[bend left](n3.east);
+%	\path[line width=0.2cm](n3.west)edge[bend left](n2.south);
+%	% in case you need to connect some block from ``north''
+%	%\path[line width=0.2cm](n3.north)edge[bend left](n1.south west); % is wrong
+%	\path[line width=0.2cm]\newabove(n3) edge[bend left](n1.south west);
+%\end{tikzpicture}
 \vspace{\baselineskip}
 The first part of the compilation process is the translation of code which is written in some programming language by the front-end into a so called Intermediate Representation (IR) that looks the same for every front-end language and usually is never seen by the user. AS already described, any supported programming language (C, C++, Java…) is implemented in its own front-end that defines how the language is translated into IR. After that the IR is send to the middle-end where it is mainly optimized and then passed to the back-end. The back-end first performs further optimization that is target-specific followed by allocating registers and handling relative memory. Finally the code is translated into the assembly language that is supported by the target which the back-end belongs to.
 This last step executed by the back-end can seen as independent from the back-end as the translation into assembly is pretty straight forward, but the rs/6000 back-end for instance allows for direct assembly output that is not dependent on IR. Therefore we combine these the assembler and the back-end.
