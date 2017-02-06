@@ -1,0 +1,16 @@
+\chapter{Insn-Coding}
+\label{chapter:insn coding}
+
+The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. The specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010.
+
+The PPU's distinct feature is its vector unit or vector extension that allows for Single Input Multiple Data (SIMD) operations.
+This was added due to the need for fast handling and writing of the synaptic weights into the array of synaptic values on the HICANN.
+Specifically the vector extension allows for either use of 8 element vectors with element being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
+Thus every vector is 16 bytes or 128 Bits long.
+This is also the size of each vector register that is available, 32 in total, in contrast to 32 general purpose registers with 32 bit each.
+Also there is an accumulator featured as part of the vector extension which is used in every arithmetic operation and a condition register which holds 3 bits, that determine which condition applies, for every half byte or nibble, making 96 bit in total.
+\todo{add special regs of normal prcessro part, CC, LR, etc.}
+The PPU also features 4 KiB of memory as well as access to the synapse array of the HICANN which holds up to 32x32, thus 1024 different values.
+To handle the vector unit the instruction set was extended by xz \todo{count number of vector istructions.} new instructions that partly share their opcodes with existing AltiVec instructions.
+
+\todo{theoretical gain in speed when using vector unit compared to normal instructions especially with single load and store. include PPU clock frequencies for each part in calculation.}
