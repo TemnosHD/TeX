@@ -1,0 +1,312 @@
+\documentclass[10pt]{beamer}
+\usetheme{Boadilla}
+\usecolortheme{beaver}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{xcolor}
+\lstset{escapeinside={<@}{@>}}
+\usepackage[font=small,labelfont=bf]{caption}
+\title{Currently known bugs/features of the PPU and how to workaround them}
+%\setbeamercovered{transparent} 
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{caption}[numbered]
+\author{Arthur Heimbrecht}
+%\logo{} 
+%\institute{} 
+\date{\today} 
+%\subject{} 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+%splatbug
+%conditionals bug
+%what about syncing_
+
+\section{Conditionals}
+\begin{frame}[fragile]{conditionals}{}
+	\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+	li %r0, 1
+	li %r1, 0x2222
+	li %r2, 0x3333
+	fxvsplath 0, %r0
+	fxvsplath 1, %r1
+	fxvsplath 2, %r2
+	fxvsplath 3, %r0
+	fxvsplath 4, %r0
+	fxvcmph 0
+	fxvaddhm 3, 1, 2, 1	
+	fxvaddhm 4, 2, 2, 2
+	\end{lstlisting}
+	\begin{columns}[t]
+		\begin{column}{0.4\textwidth}
+			\begin{block}{expected result}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001 0001 0001 0001 0001
+				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+				vr2: 3333 3333 3333 3333 3333 3333 3333 3333
+				vr3: 5555 5555 5555 5555 5555 5555 5555 5555
+				vr4: 0001 0001 0001 0001 0001 0001 0001 0001
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.4\textwidth}
+    		\begin{block}{actual result}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001 0001 0001 0001 0001
+				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+				vr2: 3333 3333 3333 3333 3333 3333 3333 3333
+				vr3: 5555 5555 5555 5555 5555 5555 5555 5555
+				vr4: 5555 5555 5555 5555 5555 5555 5555 5551
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{possible workarounds}{}
+	\begin{columns}[t]
+		\begin{column}{0.3\textwidth}
+			\begin{block}{zeros}
+			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0
+				li %r1, 1
+				li %r2, 0x2222
+				li %r3, 0x3333
+				fxvsplath 0, %r0
+				fxvsplath 1, %r1
+				fxvsplath 2, %r2
+				fxvsplath 3, %r3
+				fxvsplath 4, %r1
+				fxvsplath 5, %r1
+				fxvcmph 1
+				<@\textcolor{red}{fxvaddhm 4, 0, 0, 0}@>
+				fxvaddhm 4, 2, 1, 1
+				<@\textcolor{red}{fxvaddhm 5, 0, 0, 0}@>
+				fxvaddhm 5, 3, 3, 2
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001
+				vr1: 2222 2222 2222 2222
+				vr2: 3333 3333 3333 3333
+				vr3: 5555 5555 5555 5555
+				vr4: 0000 0000 0000 0000
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.3\textwidth}
+    		\begin{block}{previous content}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0
+				li %r1, 1
+				li %r2, 0x2222
+				li %r3, 0x3333
+				fxvsplath 0, %r0
+				fxvsplath 1, %r1
+				fxvsplath 2, %r2
+				fxvsplath 3, %r3
+				fxvsplath 4, %r1
+				fxvsplath 5, %r1
+				fxvcmph 1
+				<@\textcolor{red}{fxvaddhm 4, 4, 0, 0}@>
+				fxvaddhm 4, 2, 1, 1
+				<@\textcolor{red}{fxvaddhm 5, 5, 0, 0}@>
+				fxvaddhm 5, 3, 3, 2
+	\end{lstlisting}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001
+				vr1: 2222 2222 2222 2222
+				vr2: 3333 3333 3333 3333
+				vr3: 5555 5555 5555 5555
+				vr4: 0001 0001 0001 0001
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.3\textwidth}
+    		\begin{block}{first operand's value}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0
+				li %r1, 1
+				li %r2, 0x2222
+				li %r3, 0x3333
+				fxvsplath 0, %r0
+				fxvsplath 1, %r1
+				fxvsplath 2, %r2
+				fxvsplath 3, %r3
+				fxvsplath 4, %r1
+				fxvsplath 5, %r1
+				fxvcmph 1
+				<@\textcolor{red}{fxvaddhm 4, 2, 0, 0}@>
+				fxvaddhm 4, 2, 1, 1
+				<@\textcolor{red}{fxvaddhm 5, 3, 0, 0}@>
+				fxvaddhm 5, 3, 3, 2
+	\end{lstlisting}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001
+				vr1: 2222 2222 2222 2222
+				vr2: 3333 3333 3333 3333
+				vr3: 5555 5555 5555 5555
+				vr4: 0001 0001 0001 0001
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+\end{frame}
+
+\section{fxvsplatb}
+\begin{frame}[fragile]{problem}{}
+    \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+	li %r0, 0
+	...
+	li %r0, 1
+	fxvsplatb 0, %r0
+	\end{lstlisting}
+	\begin{columns}[t]
+		\begin{column}{0.4\textwidth}
+			\begin{block}{expected result}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001 0001 0001 0001 0001
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.4\textwidth}
+    		\begin{block}{actual result}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0000 0000 0000 0000 0000 0000 0000 0000
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{possible workarounds}{}
+	\begin{columns}[t]
+		\begin{column}{0.4\textwidth}
+			\begin{block}{sync}
+			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0
+				...
+				li %r0, 1
+				fxvsplatb 0, %r0
+				<@\textcolor{red}{sync}@>
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.4\textwidth}
+    		\begin{block}{use splath}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0
+				...
+				li %r0, 1
+				<@\textcolor{red}{sync}@>
+				fxvsplath 0, %r0
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0001 0001 0001 0001
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+\end{frame}
+
+\section{fxvpck}
+\begin{frame}[fragile]{fxvpck}{}
+	\begin{columns}[t]
+		\begin{column}{0.4\textwidth}
+			\begin{block}{nux manual}
+			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0x11
+				li %r1, 0x22
+				fxvsplatb 0, %r0
+				fxvsplatb 1, %r1
+				fxvpcku 2, 0, 1
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
+				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.4\textwidth}
+    		\begin{block}{actual implementation}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0x11
+				li %r1, 0x22
+				li %r31, 0x3000
+				addi %r30, r%31, 0x10
+				fxvsplatb 0, %r0
+				fxvsplatb 1, %r1
+				fxvstax 0, 0, %r31
+				fxvstax 1, 0, %r30
+				fxvpcku 2, %r31, %r30
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
+				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+	equivalent for fxvupck
+\end{frame}
+
+\section{syncing}
+\begin{frame}[fragile]{possible workarounds}{}
+	\begin{columns}[t]
+		\begin{column}{0.4\textwidth}
+			\begin{block}{nux manual}
+			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0x11
+				li %r1, 0x22
+				fxvsplatb 0, %r0
+				fxvsplatb 1, %r1
+				fxvpcku 2, 0, 1
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
+				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.4\textwidth}
+    		\begin{block}{actual implementation}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r0, 0x11
+				li %r1, 0x22
+				li %r31, 0x3000
+				addi %r30, r%31, 0x10
+				fxvsplatb 0, %r0
+				fxvsplatb 1, %r1
+				fxvstax 0, 0, %r31
+				fxvstax 1, 0, %r30
+				fxvpcku 2, %r31, %r30
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
+				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}
