@@ -76,16 +76,16 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{possible workarounds}{}
+\begin{frame}[fragile]{possible workarounds with fxvaddhm}{this abuses the the bug}
 	\begin{columns}[t]
 		\begin{column}{0.3\textwidth}
 			\begin{block}{zeros}
 			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0
+				<@\textcolor{red}{li \%r0, 0}@>
 				li %r1, 1
 				li %r2, 0x2222
 				li %r3, 0x3333
-				fxvsplath 0, %r0
+				<@\textcolor{red}{fxvsplath 0, \%r0}@>
 				fxvsplath 1, %r1
 				fxvsplath 2, %r2
 				fxvsplath 3, %r3
@@ -98,22 +98,23 @@
 				fxvaddhm 5, 3, 3, 2
 			\end{lstlisting}
       		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 0001 0001 0001 0001
-				vr1: 2222 2222 2222 2222
-				vr2: 3333 3333 3333 3333
-				vr3: 5555 5555 5555 5555
-				vr4: 0000 0000 0000 0000
+				vr0: 0000 0000 0000 0000
+				vr1: 0001 0001 0001 0001
+				vr2: 2222 2222 2222 2222
+				vr3: 3333 3333 3333 3333
+				vr4: 5555 5555 5555 5555
+				vr5: 0000 0000 0000 0000
 			\end{lstlisting}
 			\end{block}
     	\end{column}
     	\begin{column}{0.3\textwidth}
     		\begin{block}{previous content}
     		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0
+				<@\textcolor{red}{li \%r0, 0}@>
 				li %r1, 1
 				li %r2, 0x2222
 				li %r3, 0x3333
-				fxvsplath 0, %r0
+				<@\textcolor{red}{fxvsplath 0, \%r0}@>
 				fxvsplath 1, %r1
 				fxvsplath 2, %r2
 				fxvsplath 3, %r3
@@ -126,22 +127,23 @@
 				fxvaddhm 5, 3, 3, 2
 	\end{lstlisting}
       			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 0001 0001 0001 0001
-				vr1: 2222 2222 2222 2222
-				vr2: 3333 3333 3333 3333
-				vr3: 5555 5555 5555 5555
-				vr4: 0001 0001 0001 0001
+				vr0: 0000 0000 0000 0000
+				vr1: 0001 0001 0001 0001
+				vr2: 2222 2222 2222 2222
+				vr3: 3333 3333 3333 3333
+				vr4: 5555 5555 5555 5555
+				vr5: 0001 0001 0001 0001
 				\end{lstlisting}
 			\end{block}
     	\end{column}
     	\begin{column}{0.3\textwidth}
     		\begin{block}{first operand's value}
     		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0
+				<@\textcolor{red}{li \%r0, 0}@>
 				li %r1, 1
 				li %r2, 0x2222
 				li %r3, 0x3333
-				fxvsplath 0, %r0
+				<@\textcolor{red}{fxvsplath 0, \%r0}@>
 				fxvsplath 1, %r1
 				fxvsplath 2, %r2
 				fxvsplath 3, %r3
@@ -154,11 +156,102 @@
 				fxvaddhm 5, 3, 3, 2
 	\end{lstlisting}
       			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 0001 0001 0001 0001
-				vr1: 2222 2222 2222 2222
-				vr2: 3333 3333 3333 3333
-				vr3: 5555 5555 5555 5555
-				vr4: 0001 0001 0001 0001
+				vr0: 0000 0000 0000 0000
+				vr1: 0001 0001 0001 0001
+				vr2: 2222 2222 2222 2222
+				vr3: 3333 3333 3333 3333
+				vr4: 5555 5555 5555 5555
+				vr5: 3333 3333 3333 3333
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{possible workarounds with fxvsel}{this is pretty but only valid for airthmeitc without accumulator}
+	\begin{columns}[t]
+		\begin{column}{0.3\textwidth}
+			\begin{block}{zeros}
+			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				<@\textcolor{red}{li \%r0, 0}@>
+				li %r1, 1
+				li %r2, 0x2222
+				li %r3, 0x3333
+				<@\textcolor{red}{fxvsplath 0, \%r0}@>
+				fxvsplath 1, %r1
+				fxvsplath 2, %r2
+				fxvsplath 3, %r3
+				fxvsplath 4, %r1
+				fxvsplath 5, %r1
+				fxvcmph 1
+				fxvaddhm 4, 2, 1, <@\textcolor{red}{0}@>
+				<@\textcolor{red}{fxvsel 4, 4, 0, 1}@>
+				fxvaddhm 5, 3, 3, <@\textcolor{red}{0}@>
+				<@\textcolor{red}{fxvsel 5, 5, 0, 2}@>
+			\end{lstlisting}
+      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0000 0000 0000 0000
+				vr1: 0001 0001 0001 0001
+				vr2: 2222 2222 2222 2222
+				vr3: 3333 3333 3333 3333
+				vr4: 5555 5555 5555 5555
+				vr5: 0000 0000 0000 0000
+			\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.3\textwidth}
+    		\begin{block}{previous content}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				<@\textcolor{red}{li \%r0, 0}@>
+				li %r1, 1
+				li %r2, 0x2222
+				li %r3, 0x3333
+				<@\textcolor{red}{fxvsplath 0, \%r0}@>
+				fxvsplath 1, %r1
+				fxvsplath 2, %r2
+				fxvsplath 3, %r3
+				fxvsplath 4, %r1
+				fxvsplath 5, %r1
+				fxvcmph 1
+				fxvaddhm <@\textcolor{red}{0}@>, 2, 1, <@\textcolor{red}{0}@>
+				<@\textcolor{red}{fxvsel 4, 0, 4, 1}@>
+				fxvaddhm <@\textcolor{red}{0}@>, 3, 3, <@\textcolor{red}{0}@>
+				<@\textcolor{red}{fxvsel 5, 0, 5, 2}@>
+	\end{lstlisting}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0000 0000 0000 0000
+				vr1: 0001 0001 0001 0001
+				vr2: 2222 2222 2222 2222
+				vr3: 3333 3333 3333 3333
+				vr4: 5555 5555 5555 5555
+				vr5: 0001 0001 0001 0001
+				\end{lstlisting}
+			\end{block}
+    	\end{column}
+    	\begin{column}{0.3\textwidth}
+    		\begin{block}{first operand's value}
+    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+				li %r1, 1
+				li %r2, 0x2222
+				li %r3, 0x3333
+				fxvsplath 1, %r1
+				fxvsplath 2, %r2
+				fxvsplath 3, %r3
+				fxvsplath 4, %r1
+				fxvsplath 5, %r1
+				fxvcmph 1
+				fxvaddhm 4, 2, 1, <@\textcolor{red}{0}@>
+				<@\textcolor{red}{fxvsel 4, 4, 2, 1}@>
+				fxvaddhm 5, 3, 3, <@\textcolor{red}{0}@>
+				<@\textcolor{red}{fxvsel 5, 5, 3, 2}@>
+	\end{lstlisting}
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				vr0: 0000 0000 0000 0000
+				vr1: 0001 0001 0001 0001
+				vr2: 2222 2222 2222 2222
+				vr3: 3333 3333 3333 3333
+				vr4: 5555 5555 5555 5555
+				vr5: 3333 3333 3333 3333
 				\end{lstlisting}
 			\end{block}
     	\end{column}
@@ -166,6 +259,27 @@
 \end{frame}
 
 \section{fxvsplatb}
+\begin{frame}[fragile]{fxv.h content}{}
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+	...
+	/** Bugfix for fxvsplatb in HICANN-DLS v1 !
+	 * This instruction has incorrect hazard detection for the general-purpose register
+	 * argument. E.g.:
+	 *   lis r9, 15
+	 *   fxvsplatb 1, r9
+	 * will use the old value of register r9.
+	 *
+	 * The fix uses the fxvsplath instruction, which does hazard detection correctly. */
+	//#define fxv_splatb(x, y) _fxv_insn_gpr1("fxvsplatb", x, y)
+	#define _fxv_splatb(rt, gpra) \
+	  asm volatile("fxvsplath " #rt ", %[a]" \
+	      :: [a] "r"( (( (gpra) & 0xff) << 8) | ( (gpra) & 0xff) ))
+	#define fxv_splatb(x, y) _fxv_splatb(x, y)
+	/* End of bugfix for fxvsplatb */
+	...
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}[fragile]{problem}{}
     \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
 	li %r0, 0
@@ -175,14 +289,14 @@
 	\end{lstlisting}
 	\begin{columns}[t]
 		\begin{column}{0.4\textwidth}
-			\begin{block}{expected result}
+			\begin{block}{expected result and actual result}
       			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
 				vr0: 0001 0001 0001 0001 0001 0001 0001 0001
 				\end{lstlisting}
 			\end{block}
     	\end{column}
     	\begin{column}{0.4\textwidth}
-    		\begin{block}{actual result}
+    		\begin{block}{expected result according to fxv.h}
       			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
 				vr0: 0000 0000 0000 0000 0000 0000 0000 0000
 				\end{lstlisting}
@@ -191,120 +305,56 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{possible workarounds}{}
-	\begin{columns}[t]
-		\begin{column}{0.4\textwidth}
-			\begin{block}{sync}
-			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0
-				...
-				li %r0, 1
-				fxvsplatb 0, %r0
-				<@\textcolor{red}{sync}@>
-			\end{lstlisting}
-      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 0001 0001 0001 0001
-			\end{lstlisting}
-			\end{block}
-    	\end{column}
-    	\begin{column}{0.4\textwidth}
-    		\begin{block}{use splath}
-    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0
-				...
-				li %r0, 1
-				<@\textcolor{red}{sync}@>
-				fxvsplath 0, %r0
-			\end{lstlisting}
-      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 0001 0001 0001 0001
-			\end{lstlisting}
-			\end{block}
-    	\end{column}
-	\end{columns}
-\end{frame}
-
 \section{fxvpck}
 \begin{frame}[fragile]{fxvpck}{}
-	\begin{columns}[t]
-		\begin{column}{0.4\textwidth}
-			\begin{block}{nux manual}
-			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0x11
-				li %r1, 0x22
-				fxvsplatb 0, %r0
-				fxvsplatb 1, %r1
-				fxvpcku 2, 0, 1
-			\end{lstlisting}
+		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+			li %r0, 0x1122
+			li %r1, 0x3344
+			fxvsplath 0, %r0
+			fxvsplath 1, %r1
+			fxvpcku 2, 0, 1
+		\end{lstlisting}
       		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+				vr0: 1122 1122 1122 1122 1122 1122 1122 1122
+				vr1: 3344 3344 3344 3344 3344 3344 3344 3344
+				vr2: 1111 1111 1111 1111 3333 3333 3333 3333
 			\end{lstlisting}
-			\end{block}
-    	\end{column}
-    	\begin{column}{0.4\textwidth}
-    		\begin{block}{actual implementation}
-    		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0x11
-				li %r1, 0x22
-				li %r31, 0x3000
-				addi %r30, r%31, 0x10
-				fxvsplatb 0, %r0
-				fxvsplatb 1, %r1
-				fxvstax 0, 0, %r31
-				fxvstax 1, 0, %r30
-				fxvpcku 2, %r31, %r30
-			\end{lstlisting}
-      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
-			\end{lstlisting}
-			\end{block}
-    	\end{column}
-	\end{columns}
-	equivalent for fxvupck
 \end{frame}
 
 \section{syncing}
 \begin{frame}[fragile]{possible workarounds}{}
 	\begin{columns}[t]
 		\begin{column}{0.4\textwidth}
-			\begin{block}{nux manual}
+			\begin{block}{syncing after load and store}
 			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
 				li %r0, 0x11
-				li %r1, 0x22
 				fxvsplatb 0, %r0
-				fxvsplatb 1, %r1
-				fxvpcku 2, 0, 1
+				li %r31, 0x3000
+				fxvstax 0, 0, %r31
+				<@\textcolor{red}{sync}@>
+				li %r31, 0x2000
 			\end{lstlisting}
-      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+      			\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+				2000: 0000 0000 0000 0000 0000 0000 0000 0000
+				...
+				3000: 1111 1111 1111 1111 1111 1111 1111 1111
 			\end{lstlisting}
-			\end{block}
+		\end{block}
     	\end{column}
     	\begin{column}{0.4\textwidth}
-    		\begin{block}{actual implementation}
+    		\begin{block}{syncing after splat?}
     		\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
 				li %r0, 0x11
-				li %r1, 0x22
-				li %r31, 0x3000
-				addi %r30, r%31, 0x10
+				li %r0, 0x22
 				fxvsplatb 0, %r0
-				fxvsplatb 1, %r1
-				fxvstax 0, 0, %r31
-				fxvstax 1, 0, %r30
-				fxvpcku 2, %r31, %r30
+				<@\textcolor{red}{sync}@>
+				li %r0, 0x33
 			\end{lstlisting}
       		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-				vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-				vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+				vr0: 2222 2222 2222 2222 2222 2222 2222 2222
 			\end{lstlisting}
 			\end{block}
+		apperently not necessary
     	\end{column}
 	\end{columns}
 \end{frame}

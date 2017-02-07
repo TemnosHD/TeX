@@ -1,39 +1,35 @@
 \frametitle{possible workarounds}\framesubtitle {}
 \begin{columns}[t]
 \begin{column}{0.4\textwidth}
-\begin{block}{nux manual}
+\begin{block}{syncing after load and store}
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
 li %r0, 0x11
-li %r1, 0x22
 fxvsplatb 0, %r0
-fxvsplatb 1, %r1
-fxvpcku 2, 0, 1
+li %r31, 0x3000
+fxvstax 0, 0, %r31
+<@\textcolor{red}{sync}@>
+li %r31, 0x2000
 \end{lstlisting}
        \begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+2000: 0000 0000 0000 0000 0000 0000 0000 0000
+...
+3000: 1111 1111 1111 1111 1111 1111 1111 1111
 \end{lstlisting}
 \end{block}
      \end{column}
      \begin{column}{0.4\textwidth}
-     \begin{block}{actual implementation}
+     \begin{block}{syncing after splat?}
      \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
 li %r0, 0x11
-li %r1, 0x22
-li %r31, 0x3000
-addi %r30, r%31, 0x10
+li %r0, 0x22
 fxvsplatb 0, %r0
-fxvsplatb 1, %r1
-fxvstax 0, 0, %r31
-fxvstax 1, 0, %r30
-fxvpcku 2, %r31, %r30
+<@\textcolor{red}{sync}@>
+li %r0, 0x33
 \end{lstlisting}
        \begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-vr2: 1122 1122 1122 1122 1122 1122 1122 1122
+vr0: 2222 2222 2222 2222 2222 2222 2222 2222
 \end{lstlisting}
 \end{block}
+apperently not necessary
      \end{column}
 \end{columns}
