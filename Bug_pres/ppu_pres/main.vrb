@@ -1,35 +1,90 @@
-\frametitle{possible workarounds}\framesubtitle {}
+\frametitle{possible workarounds with fxvaddhm}\framesubtitle {this abuses the the bug}
 \begin{columns}[t]
-\begin{column}{0.4\textwidth}
-\begin{block}{syncing after load and store}
+\begin{column}{0.3\textwidth}
+\begin{block}{zeros}
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-li %r0, 0x11
-fxvsplatb 0, %r0
-li %r31, 0x3000
-fxvstax 0, 0, %r31
-<@\textcolor{red}{sync}@>
-li %r31, 0x2000
+<@\textcolor{red}{li \%r0, 0}@>
+li %r1, 1
+li %r2, 0x2222
+li %r3, 0x3333
+<@\textcolor{red}{fxvsplath 0, \%r0}@>
+fxvsplath 1, %r1
+fxvsplath 2, %r2
+fxvsplath 3, %r3
+fxvsplath 4, %r1
+fxvsplath 5, %r1
+fxvcmph 1
+<@\textcolor{red}{fxvaddhm 4, 0, 0, 0}@>
+fxvaddhm 4, 2, 1, 1
+<@\textcolor{red}{fxvaddhm 5, 0, 0, 0}@>
+fxvaddhm 5, 3, 3, 2
 \end{lstlisting}
        \begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-2000: 0000 0000 0000 0000 0000 0000 0000 0000
-...
-3000: 1111 1111 1111 1111 1111 1111 1111 1111
+vr0: 0000 0000 0000 0000
+vr1: 0001 0001 0001 0001
+vr2: 2222 2222 2222 2222
+vr3: 3333 3333 3333 3333
+vr4: 5555 5555 5555 5555
+vr5: 0000 0000 0000 0000
 \end{lstlisting}
 \end{block}
      \end{column}
-     \begin{column}{0.4\textwidth}
-     \begin{block}{syncing after splat?}
+     \begin{column}{0.3\textwidth}
+     \begin{block}{previous content}
      \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-li %r0, 0x11
-li %r0, 0x22
-fxvsplatb 0, %r0
-<@\textcolor{red}{sync}@>
-li %r0, 0x33
+<@\textcolor{red}{li \%r0, 0}@>
+li %r1, 1
+li %r2, 0x2222
+li %r3, 0x3333
+<@\textcolor{red}{fxvsplath 0, \%r0}@>
+fxvsplath 1, %r1
+fxvsplath 2, %r2
+fxvsplath 3, %r3
+fxvsplath 4, %r1
+fxvsplath 5, %r1
+fxvcmph 1
+<@\textcolor{red}{fxvaddhm 4, 4, 0, 0}@>
+fxvaddhm 4, 2, 1, 1
+<@\textcolor{red}{fxvaddhm 5, 5, 0, 0}@>
+fxvaddhm 5, 3, 3, 2
 \end{lstlisting}
        \begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-vr0: 2222 2222 2222 2222 2222 2222 2222 2222
+vr0: 0000 0000 0000 0000
+vr1: 0001 0001 0001 0001
+vr2: 2222 2222 2222 2222
+vr3: 3333 3333 3333 3333
+vr4: 5555 5555 5555 5555
+vr5: 0001 0001 0001 0001
 \end{lstlisting}
 \end{block}
-apperently not necessary
+     \end{column}
+     \begin{column}{0.3\textwidth}
+     \begin{block}{first operand's value}
+     \begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
+<@\textcolor{red}{li \%r0, 0}@>
+li %r1, 1
+li %r2, 0x2222
+li %r3, 0x3333
+<@\textcolor{red}{fxvsplath 0, \%r0}@>
+fxvsplath 1, %r1
+fxvsplath 2, %r2
+fxvsplath 3, %r3
+fxvsplath 4, %r1
+fxvsplath 5, %r1
+fxvcmph 1
+<@\textcolor{red}{fxvaddhm 4, 2, 0, 0}@>
+fxvaddhm 4, 2, 1, 1
+<@\textcolor{red}{fxvaddhm 5, 3, 0, 0}@>
+fxvaddhm 5, 3, 3, 2
+\end{lstlisting}
+       \begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
+vr0: 0000 0000 0000 0000
+vr1: 0001 0001 0001 0001
+vr2: 2222 2222 2222 2222
+vr3: 3333 3333 3333 3333
+vr4: 5555 5555 5555 5555
+vr5: 3333 3333 3333 3333
+\end{lstlisting}
+\end{block}
      \end{column}
 \end{columns}

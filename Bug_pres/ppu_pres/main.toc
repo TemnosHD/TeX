@@ -1,6 +1,6 @@
-\beamer@endinputifotherversion {3.33pt}
+\beamer@endinputifotherversion {3.26pt}
 \select@language {english}
-\beamer@sectionintoc {1}{Conditionals}{3}{0}{1}
-\beamer@sectionintoc {2}{fxvsplatb}{6}{0}{2}
-\beamer@sectionintoc {3}{fxvpck}{8}{0}{3}
-\beamer@sectionintoc {4}{syncing}{9}{0}{4}
+\beamer@sectionintoc {1}{fxvsplatb}{3}{0}{1}
+\beamer@sectionintoc {2}{Conditionals}{5}{0}{2}
+\beamer@sectionintoc {3}{syncing}{7}{0}{3}
+\beamer@sectionintoc {4}{Appendix}{8}{0}{4}
