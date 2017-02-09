@@ -1,0 +1,20 @@
+\chapter{Basics of neural networks}
+\label{chapter:networks}
+
+Neural networks build the main application of the Hicann DLS system. This short chapter is meant to give an overview over neural networks and synaptic weights.
+
+On a very abstract level neurons in the brain resemble nodes of a network.
+As in a network neurons are interconnected through dendrites, synapses and axons which can be of different strength. 
+Also a neuron is either spiking, meaning it is activated and sends this information to connected neurons or resting meaning it is not activated.
+In case a neuron is spiking, it send this information through its axon to other other neurons that are connected to the axon by synapses.
+These synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
+This is equal to a gain with which the signal is either amplified or damped \todo{ is this word right?}.
+The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
+If the integrated signals reach a certain threshold the neuron spikes and then sends a signal itself to other neurons.
+
+With all these physiological parts there are only two important parts we need to take a look at in order to copy the function of a neural network: the neuron and the synapses.
+Basically we assume that all neurons are connected to each other through a synaptic weight.
+If two neurons are actually not meant to be connected, the synaptic weight simply is set to zero for these neurons to be disconnected.
+Now if we display the all neurons inputs and outputs in a 2D plain we get an array of synapses, which is equivalent to a weight matrix.
+
+The synapses in the Hicann DLS laid out similarly hence its name ``synaptic array".

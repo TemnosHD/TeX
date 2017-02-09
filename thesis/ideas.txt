@@ -1,0 +1,10 @@
+explain asm code
+explain intrinsics
+what is an instruction
+what in an operation
+what is an opcode
+what is an operand
+what is an argument
+cached memory would be better
+extra MC for VE with better bandwidth
+larger vectors in future versions of this processor.

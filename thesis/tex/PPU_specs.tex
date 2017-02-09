@@ -1,10 +1,46 @@
 \chapter{Insn-Coding}
 \label{chapter:insn coding}
 
-The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. The specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010.
+The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010.
 
-The PPU's distinct feature is its vector unit or vector extension that allows for Single Input Multiple Data (SIMD) operations.
-This was added due to the need for fast handling and writing of the synaptic weights into the array of synaptic values on the HICANN.
+mention vector pipeline
+mention processor cycles.
+
+The PPU's distinct feature is its vector unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
+It is literally an extension to the main processors (MP) architecture, since there are very few ways these both can interact.
+most importantly all vector instructions that are intended for the VE must pass the MP first.
+The MP goes through the hole program step by step and passes any vector instruction to the VE whenever it occurs.
+These instructions then go into the so called vector pipeline that holds all vector instructions.
+The VE itself then executes all instructions in this pipeline as they occur but and allows for parallel in-order-execution.
+
+The VE was added due to the need for fast handling and writing of the synaptic weights into the array of synaptic values on the HICANN.
+Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
+The basic processor does not have access to this bus and therefore must use to VE in order to communicate with the synapse array.
+On the other side both, the basic processor and the VE are connected to the same memory controller that manages 16 kiB of memory.
+This memory is used for data as well as the program itself and thus must be handled with some care as programs must not be larger than these 16 kiB.
+Having the VE and basic processor to share this memory controller without any caching can cause problems at times.
+An easy example is the sequential storing of a vector in memory followed by a loading instruction that requests the very same address of the vector in order to load one of its elements.
+This would lead to both instructions being in the wrong order as the vector pipeline delays the vector store instructions way to the memory controller by a few cycles ultimately reaching the memory controller after the load instruction which is passed on directly.
+But this not only happens for the VE but also can be caused by the compiler as it optimizes memory access mostly for performance.
+This may result in unintended reordering of memory operations which then leads to errors.
+Because of this there is the possibility to prohibit such reordering by introducing a memory barrier.
+A memory barrier basically is a line of code that that splits the remaining code into code that occurs before the barrier and code that occurs after the barrier.
+It prohibits the compiler from mixing instructions from different sides to the barrier due to reordering.
+Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
+On a processor level there exists also a memory barrier that would typically not be called by a user.
+It's called syncing and on PowerPC the instruction |sync| is used for this.
+Because the processor itself delays certain instructions to optimize performance (as part of its out-of-order architecture) it may happen that a dependency between two instructions is not detected.
+This would result in the very same problem as described earlier.
+Therefore the processor can be instructed to wait until all store and load instructions are executed.
+The memory controller then sends a signal to the processor that it is all done.
+
+It is fairly obvious that only the second kind of memory barrier helps us in or cause to avoid wrong ordering in the memory controller.Luckily both the VE and the basic processor use the same memory controller which makes |sync| apply in both cases.
+Also since all vector instructions must go though the main processor first, any hold executing instructions on the MP affects the VE the same way.
+
+Besides the VE and the MP, the memory also provides access to the FPGA through a different interface \todo{check this} in order to allow for external access to the memory.
+This is needed for writing programs into the memory as well as getting results during or after execution.
+This also allows for communication during runtime of the PPU.
 Specifically the vector extension allows for either use of 8 element vectors with element being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
 Thus every vector is 16 bytes or 128 Bits long.
 This is also the size of each vector register that is available, 32 in total, in contrast to 32 general purpose registers with 32 bit each.

@@ -234,27 +234,13 @@ middle solution preferred
 				fxvsplatb 1, %r1
 			\end{lstlisting}
       		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-      		    vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+      		vr0: 1111 1111 1111 1111 1111 1111 1111 1111
+		vr1: 2222 2222 2222 2222 2222 2222 2222 2222
 			\end{lstlisting}
 			should this be done automatically or by the user? e.g. every time the user stores vectors by hand?
 \end{frame}
 
 \section{Appendix}
-
-\begin{frame}[fragile]{problem fxvmulhfs}{}
-			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
-				li %r0, 0x11
-				li %r1, 0x22
-				fxvsplatb 0, %r0
-				fxvsplatb 0, %r0
-			\end{lstlisting} \TODO{add mulhfs testcase}
-      		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-      		    vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-			\end{lstlisting}
-			workaround needed?
-\end{frame}
 
 \begin{frame}[fragile]{problem fxvpckbl, fxvupckbl, fxvupckbr}{}
 			\begin{lstlisting}[language=C++,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{red}]
@@ -262,11 +248,11 @@ middle solution preferred
 				li %r1, 0x22
 				fxvsplatb 0, %r0
 				fxvsplatb 0, %r0
-			\end{lstlisting} \TODO{add mulhfs testcase}
+			\end{lstlisting} 
       		\begin{lstlisting}[language=C++,basicstyle=\fontsize{5}{7}\selectfont\ttfamily,keywordstyle=\color{red}]
-      		    vr0: 1111 1111 1111 1111 1111 1111 1111 1111
-				vr1: 2222 2222 2222 2222 2222 2222 2222 2222
-			\end{lstlisting}
+      		vr0: 1111 1111 1111 1111 1111 1111 1111 1111
+		vr1: 2222 2222 2222 2222 2222 2222 2222 2222
+		\end{lstlisting}
 			workaround needed?
 \end{frame}
 
