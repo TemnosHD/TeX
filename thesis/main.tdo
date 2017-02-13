@@ -1,0 +1,13 @@
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ what does hicann stand for?}{2}{section*.5}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ is this word right?}{2}{section*.6}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ CURRENT STATE OF PROGRAMMING ON HICANN -> MOTIVATION main feature analogue spiking PPU can read spiking times size and alignment of weights }{3}{section*.7}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ add reference}{5}{section*.8}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ cite freidmann dissertation}{5}{section*.9}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ PPU paper}{5}{section*.10}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ check this}{6}{section*.11}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ reference}{6}{section*.12}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ reference}{6}{section*.13}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ http://www.nxp.com/assets/documents/data/en/reference-manuals/ALTIVECPEM.pdf}{7}{section*.14}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ vector register file \par \par \par \par ALU FPU memory memory controller = MMU clockcycle pipeline }{8}{section*.15}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ reload register spilling register handling endianess wordsize \par different parts of an instruction, mention: opcodes, asm instruction, operation, operand, insn, IR, builtin function/intrinsic }{10}{section*.16}
+\contentsline {todo}{\color@box {}{orange}{\leavevmode {\color {orange}o}}\ asm tests user level tests compiler tests }{12}{section*.17}
