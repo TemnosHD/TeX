@@ -23,30 +23,39 @@ If two neurons are actually not meant to be connected, the synaptic weight simpl
 Now if we display the all neurons inputs and outputs in a 2D plain we get an array of synapses, which is equivalent to a weight matrix.
 
 \section{Implementation in Hicann-DLS}
-The Hicann-DLS system tries to implement this structure as closely as possible in order to simulate physiological processes in such networks.
-At its core it therefore has a so called ``synaptic array" that connects 32 neurons which are located on a single ship.
-Each neuron as an output as well as an input which are connected in a way that all outputs are aligned along one axis and the inputs are collected rectangular to that axis.
-This gives a total of 1024 synapses which are aligned in an array, hence its name.
-Inside the neurons the individual input signal is evaluated in regard to a threshold and other parameters which decide whether the neuron is spiking or not.
-If the neuron is spiking it sends out an output signal to all connected synapses to the output line.
-Each synapse then multiplies the signal it receives with its weight and sends the result to the input of a neuron.
-All signals sent by synapses to an input are integrated to a resulting input signal which reaches a neuron.
+The Hicann-DLS system tries to implement this structure as close to reality as possible in order to simulate physiological processes in such networks.
+At its core it therefore has a so called ``synaptic array" that connects 32 neurons which are located on a single ship to 64 different inputs.
+Each neuron's input is aligned along one axis of an array while the 64 outputs of different neurons are on a rectangular axis.
+This gives a 2D array of 2048 synapses in total.
+The FPGA connects the 64 outputs of the synapse array to neurons in the system while it can also connect the neurons on the same chip to the output channels.
+Along each output channel the signal reaches all synapses where it is proccsed.
+Each synapse then multiplies the signal it receives with its own weight and sends the result to the inputline of a neuron.
+All signals sent by synapses to an input are integrated along the line to a resulting input signal which finally reaches a neuron.
 This is not done continuously but discretely and the output signals of all neurons are sent out at the same time.
 The output signal of each neuron is also sent to an analogue digital converter (ADC) in order to analyze the data in digital form.
+Inside the neurons the individual input signal is evaluated in regard to a threshold and other parameters which decide whether the neuron is spiking or not.
+If the neuron is spiking it sends out an output signal to the FPGA which is responsible for spike routing.
 
 The Hicann-DLS system is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
 This is the plasticity processing unit (PPU) which is also connected to the synapse array and thus can read and write synaptic weights.
 
-The whole chip itself is also connected to a field programmable gate array (FPGA) that is connected to the synapses as well as the memory of the PPU.
+The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
 In general the PPU is meant to simulate plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment and record data.
-Therefore the PPU can also read out spiking times of neurons as they are needed for plasticity.
-This is realized through the same bus that connects the PPU to the synapse array and virtually the spiking times are saved in the synapse array where they can be loaded by the PPU.
+Therefore the PPU can also read out spiking rates and other additional information of neurons as they are needed for plasticity.
+This is realized through the same omnibus that connects the PPU to the memory and virtually the spiking times are accessible through a pointer with a special address.
 
-The synapses in the synapse array in detail consist of ....
+The synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of information each.
+The first two of these bits are used for calibration while the other 6 
+
+\subsection{The plasticy processing unit}
 
 \add{
 CURRENT STATE OF PROGRAMMING ON HICANN -> MOTIVATION
 main feature analogue spiking
 PPU can read spiking times
 size and alignment of weights 
+read paper first
+64 outputs
+32 inputs to 32 neurons
+
 }
