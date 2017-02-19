@@ -1,305 +1,39 @@
 \chapter{Introduction}
 \label{chapter:introduction}
 
-The goal of this thesis is the extension of an existing back-end of GCC to a point where it supports the existing architecure of the PPU a.k.a. nux.
+As neuromorphic computing becomes ever more popular, many applications for neuromorphic systems emerge and make use of neuromorphic hardware's advantages over traditional computers.
+But to do so one must be familiar with a system as often it differs in many ways from common system architectures.
+As a result programing for such systems can feel odd to new users as they need to abandon some familiar techniques and acquire new skills.
+This understandably is a hurdle for many users and also initially takes a significant amount of time. 
+The more a system's programming abandons common elements of programming which users have got used to the more this can become a problem.
+Not only do fewer users take the initiative of writing for such systems but also can code easily get confusing, hard to debug and even ineffective.
 
-\section{Basic Processor Architecture}
-\label{section:processor}
+An example of this is the current state of programming for the plasticity processing unit of the Hicann-DLS.
+It is responsible for applying learning rules to neural systems on the Hicann-DLS and resembles a common processor which was extended for this cause.
+As basic programming is still the same for this processor it differs for creating the mentioned learning rules.
+Although these are still programmed in C a user needs to use a set of functions and predefined variables while at the heart of this is basic assembly programming.
+This was done for the reason of not making a user learn assembly that wants to write programs for the PPU.
+This lead to PPU programs having a distinct look and feel that is only in some regards similar to C but feels like being pushed back to the origins of computing; thing like reading out the value of a variable need unhandy workarounds and accessing memory is a repetitive set of program lines.
+The main reason we feel such reluctant when it comes to ``antique'' programming are compilers.
 
-Next to all processors used these days are built upon the so called von-Neumann architecture \todo{add reference}.
-\todo{cite freidmann dissertation}Though the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which are needed at some point.
-The main advantage of digital systems over analogue systems such as the human brain, is the ability to do calculations at much higher speeds.
-For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of the experiment.
-We now dive shortly into basics of such processors and explain common terms.
+What compilers have done and do for us every single day has become normal and we enjoy the state of not worrying about what a computer does at its core as long as we get a result at the end.
+Hence the absence of a compiler strikes us quite hard.
 
-In general a microprocessor can be seen as a combination of two units which are a operational section and a control section.
-The control logic section is responsible for fetching instructions and operands, interpreting them and controlling their execution as well as reading and writing to the main memory or other buses.
-The operational section on the other side saves operands and results as long as they are needed and performs any logic or arithmetic operation on these as told by the control logic section.
-Prominent parts of the operational section are the arithmetic logic unit (ALU) and the register file.
+But luckily the PPU is not without compiler support, though this does not apply completely.
+The part which is responsible for computing learning rules -of all parts- is the one part that is not supported by any compiler there is.
+This is due to the custom nature of the PPU, which was developed solely for the BrainScaleS project and the hicann-DLS.
+A user therefore needs the most basic kind of programming to make use of the additional features of the PPU, which is the current state of programming.
+In the worst case this can lead to ineffective programs - as performance is important for neuromorphic programming - and demand an unreasonable amount of time and work to achieve simple results.
 
-The register file can be seen as short-term memory of the processor.
-It consists of several elements, called registers, that have the same size which is determined by the architecture; a 32-bit architecture has 32-bit wide registers.
-Typically the number of registers varies for different architectures and also their purpose.
-Common purposes of registers are:
-\begin{description}
-    \item[general-purpose GPR] These registers can be used for virtually anything and in most cases carry values that are soon to be used by the ALU. Few of these registers can be reserved as stack pointers. Most registers on a processor are typically GPRs.
-    \item[link register LR] This register marks the jump point function calls. This means that after a function completes the program jumps to the address in the link register.
-    \item[compare register CR] This register's value is set by an instruction that compares one or two values in registers. Its value can determine for some instructions if they are executed or not.
-\end{description}        
-Non-general-purpose registers are also called special-purpose registers SPRs.
+The only way to fix this situation is adding support of the PPU to a compiler.
 
-The ALU normally uses the values which are stored in the register file for perform the aforementioned logic or arithmetic operations and saves the result there as well.
-In case of more complicated arithmetics some architectures also have an accumulator that is part of the ALU or sits next to it.
-Intermediate results then are stored there because access is faster for the accumulator compared to registers.
-In general it is good to know
-\begin{equation}
-    \text{speed(accumulator)} < \text{speed(register)} \ll \text{speed(memory)}
-\end{equation}
-As speed is always important in computing we therefore want to use registers as much as possible and only write results to the memory or save registers when there are not enough registers available for the current task.
-Registers such as the accumulator can also either be accessible directly or are only accessible to subsections such as the ALU.
-This is different for every processor architecture and depends on things like:
-\begin{itemize}
-    \item space on the chip
-    \item maximum clock frequency
-    \item complexity of instruction set
-    \item available time and money for the design
-    \item energy consumption
-\end{itemize}
+Not only could this allow for full C-style programming when working on the PPU but also include code optimization and code debugging.
+We therefore aim to achieve ``full'' compiler support of the PPU's hardware and make programming easy again.
 
-These items always influence each other as a complex instruction set means that complicated arithmetic operations with many operands can be done in few clock cycles but this often also means that the maximum clock frequency must be lower as the circuit design has a longer time constant until the next instruction may follow.
-During a single clock cycle a chip usually does one instruction.
-An example for an add instruction (|result = add(a,b)|) would be:
-\begin{lstlisting}
-    1. clock cycle load a from register 1, load b from register 2
-    2. clock cycle add a and b
-    3. clock cycle write result to register 3
-\end{lstlisting}
-The faster the clock frequency the faster this instruction will have finished the faster the processor.
-But also the more complex the instruction set is the fewer instructions are needed overall the faster the processor.
-As mentioned above this results in a trade-off between clock frequency and instruction set complexity.
-The instruction set includes all available instructions for an ALU thus the ALU gets easily more complicated and needs more space as the instruction set gets more complicated.
+This thesis will focus on the way to achieve this and briefly explain the process itself.
+As a fundamental knowledge of both processors and compilers is needed along this way we will start with a very basic introduction to both in general and also apply this to the specific processor and compiler we use.
+This may not make actual literature for both obsolete but should explain the basic concepts to an extend which is sufficient for our cause.
+The following chapter will then explain a few test scenarios that put the contests of the previous chapter to use and also make us more familiar with the PPU.
+Afterwards the process of extending the compiler is explained and the result of this presented.
+It follows a recap of what was done and an outlook to what might be done in the future.
 
-Because of this one usually differs between two kinds of processor:
-\begin{itemize}
-    \item Complex Instruction Set Computer CISC
-    \item Reduced Instruction Set Computer RISC
-\end{itemize}
-The latter one usually provides more registers as the ALU needs less space and can be operated at higher clock frequencies, therefore it is perfect for simple processors that only need to do simple arithmetic as fast as possible.
-Also RISC processors allow for pipelining which means that instructions that take more than one clock cycle are put in a so called pipeline where each step of an instruction is can be used by subsequent instructions.
-This means that as the first clock cycle after starting an instruction has finished a different instruction is started directly as the first step of the previous instruction is completed and therefore available again.
-This virtually increases the clock frequency as many instructions can be performed in parallel.
-
-Next we take look at memory.
-Normally the memory of a von-Neumann machine contains both, the program and data.
-The program here describes a list of instructions that are part of the instruction set.
-Each instruction itself is represented as a sequence of bits that resemble the following.
-\add{graphic of opcode}
-The first part which is called opcode is simply a number that stands for an operation performed by the ALU.
-Typically this is something like 8 bits long.
-The second and third parts are the argument addresses or operands of an operation.
-Addresses may only be as wide as a register i.e. 16 bit for the processor to be able to access all addresses.
-The last part is the result's address which is also as wide as a register in this case 16 bit.
-An instruction therefore takes a total of 56 bit in this case which is a little bit less than 4 addresses (remember 16 bit each) of memory.
-Therefore instructions may be limited in size which is supported by the architecture.
-In this case a third operand would not be possible.
-\add{little more on operands next operand types, register memory
-then memory and mmu}
-
-Therefore it is important, especially for larger scale systems, to keep track of memory usage.
-This is e.g. to prevent malicious programs from accessing memory which is used by other software.
-For this reason next to all CPUs include a memory management unit (MMU).
-It handles all memory access of the processor as it can provide a set of virtual memory addresses which itself then transforms into physical addresses.
-Most modern MMUs also incorporate a cache that stores memory operations while others are handled and detects dependencies within this cache which it can resolve.
-This results in faster transfer of data as two or more instructions access the same memory which then is handled in the cache.
-The PPU though includes only a very simple MMU that does not cache memory instructions and also has matching virtual and physical addresses.
-The memory of the Hicann-DLS is 16 kiB in total (ranging from addresses |0x0000| to |0x4000|) and both the vector extension and the main processor use the same MMU.
-
-\add{bus}
-use this:
-
-This may result in unintended reordering of memory operations which then leads to errors.
-Because of this there is the possibility to prohibit such reordering by introducing a memory barrier.
-A memory barrier basically is a line of code that that splits the remaining code into code that occurs before the barrier and code that occurs after the barrier.
-It prohibits the compiler from mixing instructions from different sides to the barrier due to reordering.
-Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
-On a processor level there exists also a memory barrier that would typically not be called by a user.
-It's called syncing and on PowerPC the instruction |sync| is used for this.
-Because the processor itself delays certain instructions to optimize performance (as part of its out-of-order architecture) it may happen that a dependency between two instructions is not detected.
-This would result in the very same problem as described earlier.
-Therefore the processor can be instructed to wait until all store and load instructions are executed.
-The memory controller then sends a signal to the processor that it is all done.
-It is fairly obvious that only the second kind of memory barrier helps us in or cause to avoid wrong ordering in the memory controller.Luckily both the VE and the basic processor use the same memory controller which makes |sync| apply in both cases.
-Also since all vector instructions must go though the main processor first, any hold executing instructions on the MP affects the VE the same way.
-Besides the VE and the MP, the memory also provides access to the FPGA through a different interface \todo{check this} in order to allow for external access to the memory.
-This is needed for writing programs into the memory as well as getting results during or after execution.
-This also allows for communication during runtime of the PPU.
-
-MMU
-
-\subsection{Vector Extensions}
-
-Using the same principles as mentioned in the section about von-Neumann architectures, theses is also the possibility to create registers or whole architectures that make use of even more than the common 64-bit.
-This is mostly wanted for highly parallel processes such as graphic rendering or audio and video processing \todo{reference}.
-But also early supercomputers such as the Cray-1 \todo{reference} made use of vector processing to gain performance by operating on multiple values  simultaneously through a single register.
-This could either be realized through a parallel architecture or more easily through pipelining the instruction on one vector over its elements.
-The latter one makes sense since there are typically no dependencies between single elements in the same vector.
-Nowadays many of the common architectures support vector processing.
-A few examples of these are:
-\begin{itemize}
-    \item x86 with SSE-series and AVX
-    \item IA-32 with MMX
-    \item AMD K6-2 with 3DNow!
-    \item PowerPC with AltiVec and SPE
-\end{itemize}
-As mentioned these were mostly intended for speeding up tasks like adjusting the contrast of an image.
-There is also the possibility to vectorize loops in programming if there are no dependencies between loop cycles.
-    
-
-\subsubsection{AltiVec Vector Extension}
-In our case we take a special interest in the AltiVec vector extension which developed by Apple, IBM and Motorola in the mid 1990's and is also known as Vector Media Extension (VMX) and Velocity Engine. 
-The AltiVec extension provides the processor with a single-precision floating point and integer SIMD instruction set.
-The vector registers are 128-bit each and 32 in total. \todo{http://www.nxp.com/assets/documents/data/en/reference-manuals/ALTIVECPEM.pdf}
-These can either hold sixteen 8-bit |char|s, eight 16-bit |short|s or four 32-bit |int|s or single precision |float|s, each signed and unsigned.
-Single elements of these vectors can only be accessed through memory because there is no instruction that combines scalar register with vector registers.
-Except for one type of instruction that ``splats'' the value of a scalar register into all elements of the vector register.
-The reason we take such an interest in this vector extension is that it resembles most characteristics of the PPU's vector extensiond is already implemented in the PowerPC back-end of GCC.
-There a few differences though:
-\begin{addmargin}[2em]{0em}
-    First the PPU's VE uses a conditonal register (CR) to perform instructions only on those elements of a register, that meet the condition, which is specified by the user, while the AltiVec VE utilizes the CR which included in the PowerPC architecture.
-    This results in not allowing selective operations on individual elements through the CR but allows for checking if all elements meet the condition in a single instruction.
-    If element-wise selection is needed AltiVec offers this through vector masks.
-    
-    The AltiVec VE has two register on its own though, which are the VCSR and VRSAVE registers.
-            The Vector Status and Control Register (VSCR) is responsible for detecting saturation in vector operations and decides which floating point mode is used.
-            The Vector Save/Restore Register (VRSAVE) assists applications and operation systems by indicating for each VR if it is currently used by a process and thus must be restored in case of an interrupt.
-    
-    Both of these register are not available in the PPU's VE but would likely not be needed for simple arithmetic tasks as the PPU is meant to perform.
-\end{addmargin}
-    
-\add{vector register file
-ALU
-FPU
-memory
-memory controller = MMU
-clockcycle
-pipeline
-}
-\add{preliminary paragraph with:
-    physiology -> hicann -> PPU -> processor in general -> compiler -> backend
-    methods in next chapter}
-
-This thesis mainly focuses on an essential part of the HICANN-DLS system.
-HICANN-DLS stands for high input count analogue neural network Digital Learning System.
-For this reason it is important to understand the basics behind this and what the PPU is meant to do.
-
-\section{Basics of Neural Networks}
-Neural networks build the main application of the Hicann DLS system. This short chapter is meant to give an overview over neural networks and synaptic weights.
-
-On a very abstract level neurons in the brain resemble nodes of a network.
-As in a network neurons are interconnected through dendrites, synapses and axons which can be of different strength. 
-Also we assume that a neuron is either spiking, meaning it is activated and sends this information to connected neurons or resting meaning it is not activated.
-In case a neuron is spiking, it send this information through its axon to other other neurons that are connected to the axon by synapses.
-These synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
-This is equal to a gain with which the signal is either amplified or damped \todo{ is this word right?}.
-The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
-If the integrated signals reach a certain threshold the neuron spikes and then sends a signal itself to other neurons.
-
-\add{put the following part in the next section}
-With all these physiological parts there are only two important parts we need to take a look at in order to copy the function of a neural network: the neuron and the synapses.
-\add{add something here}
-If two neurons are actually not meant to be connected, the spike's address and the SRAM\unsure{explain this further} address of the synapse do not match an thus the spike is ignored by the synapse.
-Now if we display the all neurons inputs and outputs in a 2D plain we get an array of synapses, which is equivalent to a weight matrix.
-
-\section{Implementation in Hicann-DLS}
-The Hicann-DLS system tries to implement this structure as close to reality as possible in order to simulate physiological processes in such networks.
-At its core it therefore has a so called ``synaptic array" that connects 32 neurons which are located on a single ship to 64 different pre-synaptic inputs.
-Each neuron's post-synaptic input is aligned along one axis of an array while the 64 outputs of different neurons are on a rectangular axis.
-This gives a 2D array of 2048 synapses in total.
-An FPGA connects the 64 pre-synaptic inputs to various neurons in the system while it can also connect the neurons of the same chip to the pre-synaptic inputs.
-Along these input lines the signal reaches all synapses where it is processed individually.\todo{add part about sram here}
-Each synapse multiplies the signal it receives with its weight and sends the result to the post-synaptic input of a neuron.
-All signals sent by synapses to an input are integrated along the line to a resulting input signal which finally reaches a neuron.
-Inside the neurons the individual input signal is evaluated in regard to a threshold and other parameters which decide whether the neuron is spiking or not.
-If the neuron is spiking it sends out an output signal to the FPGA which is responsible for spike routing.
-The output signal of each neuron is also sent to an analogue digital converter (ADC) in order to analyze the data in digital form.
-All of this is done continuously and may not follow discrete time steps.
-
-The Hicann-DLS system is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
-This is the plasticity processing unit (PPU) which is also connected to the synapse array and thus can read and write synaptic weights.
-
-The synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of information each.
-The 6 bit weights are always right aligned and the most significant bit has a value of $2^{-1}$ with subsequent bits having half the value of the previous bit.
-The first two of these bits are used for calibration.
-The synapse array can also be used in 16 bit mode for higher accuracy.
-This combines two synapses to a single virtual synapse with 12 bit weights and 4 bits for calibration.
-
-The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
-
-\add{sram}
-
-\subsection{The plasticity processing unit}
-
-The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
-Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010.
-
-One such task is applying learning rules to the synapses during or in between experiments which can either be done by hand or with the help of the aforementioned PPU.
-The second option is especially valuable when updating synaptic weights during an experiment as the PPU does this much faster than a system which interacts from the outside.
-This is important for achieving experimental speeds that are $10^{4}$ times faster than their biological counterparts.
-
-the PPU accompanied by 16 kiB of memory as well as 4 kiB of instruction cache which together is called the plasticity sub-system.
-The PPU's distinct feature is its special-function unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
-The VE is only weakly coupled to the general purpose part (GPP)of the PPU and mostly both parts can operate in parallel while interaction is highly limited.
-All vector instructions that are intended for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE.
-These instructions then go into a queue that holds all vector instructions.
-Vector instructions then are processed in-order from this queue.
-Between being fetched from the queue and execution the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for pipelining of such instructions.
-This means i.e. that during the process of accessing a vector on memory, some arithmetic operations can be performed on a different vector.
-This allows for faster processing speeds as such instructions can be run out of order.
-The limiting factor for this remains the vectors register file's single port for reading and writing.
-
-The other limiting factor in processing speed is the memory access.
-Both, the GPP and the VE, share the same memory management unit (MMU) and thus any access of the GPP to vectors in memory must be handled with care as the GPP and VE are not synchronized.
-For this reason one must be aware of the |sync| instruction that stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
-This can result in up to a few hundred cycles of waiting and therefore should only be done if necessary.
-|sync| is a standard instruction of the PowerISA and further information can be found here \add{reference}.
-
-
-In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment and record data.
-It is therefore a key feature of the hicann-dls as it allows for implementation of different plasticity by programs running on the PPU during experiments.
-Therefore the PPU is also able to read out spiking rates and other additional information of synapses as they are needed for plasticity.
-
-
-
-\add{mention vector pipeline
-mention processor cycles.
-minimum 3 cycles per instruciton
-This is realized through the same omnibus that connects the PPU to the memory and virtually the spiking times are accessible through a pointer with a special address.
-}
-
-The VE was added due to the need for fast handling and writing of the synaptic weights into the array of synaptic values on the HICANN.
-Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
-The basic processor does not have access to this bus and therefore must use to VE in order to communicate with the synapse array.
-On the other side both, the basic processor and the VE are connected to the same memory controller that manages 16 kiB of memory.
-This memory is used for data as well as the program itself and thus must be handled with some care as programs must not be larger than these 16 kiB.
-Having the VE and basic processor to share this memory controller without any caching can cause problems at times.
-An easy example is the sequential storing of a vector in memory followed by a loading instruction that requests the very same address of the vector in order to load one of its elements.
-This would lead to both instructions being in the wrong order as the vector pipeline delays the vector store instructions way to the memory controller by a few cycles ultimately reaching the memory controller after the load instruction which is passed on directly.
-But this not only happens for the VE but also can be caused by the compiler as it optimizes memory access mostly for performance.
-This may result in unintended reordering of memory operations which then leads to errors.
-Because of this there is the possibility to prohibit such reordering by introducing a memory barrier.
-A memory barrier basically is a line of code that that splits the remaining code into code that occurs before the barrier and code that occurs after the barrier.
-It prohibits the compiler from mixing instructions from different sides to the barrier due to reordering.
-Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
-On a processor level there exists also a memory barrier that would typically not be called by a user.
-It's called syncing and on PowerPC the instruction |sync| is used for this.
-Because the processor itself delays certain instructions to optimize performance (as part of its out-of-order architecture) it may happen that a dependency between two instructions is not detected.
-This would result in the very same problem as described earlier.
-Therefore the processor can be instructed to wait until all store and load instructions are executed.
-The memory controller then sends a signal to the processor that it is all done.
-
-It is fairly obvious that only the second kind of memory barrier helps us in or cause to avoid wrong ordering in the memory controller.Luckily both the VE and the basic processor use the same memory controller which makes |sync| apply in both cases.
-Also since all vector instructions must go though the main processor first, any hold executing instructions on the MP affects the VE the same way.
-
-Besides the VE and the MP, the memory also provides access to the FPGA through a different interface \todo{check this} in order to allow for external access to the memory.
-This is needed for writing programs into the memory as well as getting results during or after execution.
-This also allows for communication during runtime of the PPU.
-Specifically the vector extension allows for either use of 8 element vectors with element being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
-Thus every vector is 16 bytes or 128 Bits long.
-This is also the size of each vector register that is available, 32 in total, in contrast to 32 general purpose registers with 32 bit each.
-Also there is an accumulator featured as part of the vector extension which is used in every arithmetic operation and a condition register which holds 3 bits, that determine which condition applies, for every half byte or nibble, making 96 bit in total.
-\todo{add special regs of normal prcessro part, CC, LR, etc.}
-The PPU also features 4 KiB of memory as well as access to the synapse array of the HICANN which holds up to 32x32, thus 1024 different values.
-To handle the vector unit the instruction set was extended by xz \todo{count number of vector istructions.} new instructions that partly share their opcodes with existing AltiVec instructions.
-
-\todo{theoretical gain in speed when using vector unit compared to normal instructions especially with single load and store. include PPU clock frequencies for each part in calculation.}
-
-\add{
-CURRENT STATE OF PROGRAMMING ON HICANN -> MOTIVATION
-main feature analogue spiking
-PPU can read spiking times
-size and alignment of weights 
-read paper first
-64 outputs
-32 inputs to 32 neurons
-
-}

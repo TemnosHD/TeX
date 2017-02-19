@@ -92,31 +92,7 @@ There a few differences though:
     Both of these register are not available in the PPU's VE but would likely not be needed for simple arithmetic tasks as the PPU is meant to perform.
 \end{addmargin}
     
-    
-\subsection{s2pp Vector Extension}
-Vector condition register
-Vector accumulator
-
-
-use this:
-
-The PPU's distinct feature is its vector unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
-It is literally an extension to the main processors (MP) architecture, since there are very few ways these both can interact.
-most importantly all vector instructions that are intended for the VE must pass the MP first.
-The MP goes through the hole program step by step and passes any vector instruction to the VE whenever it occurs.
-These instructions then go into the so called vector pipeline that holds all vector instructions.
-The VE itself then executes all instructions in this pipeline as they occur but and allows for parallel in-order-execution.
-
-The VE was added due to the need for fast handling and writing of the synaptic weights into the array of synaptic values on the HICANN.
-Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
-The basic processor does not have access to this bus and therefore must use to VE in order to communicate with the synapse array.
-
-
 \add{vector register file
-
-
-
-
 ALU
 FPU
 memory

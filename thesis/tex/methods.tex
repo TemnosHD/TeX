@@ -1,0 +1,341 @@
+\chapter{Methods}
+\label{chapter:methods}
+
+\section{Basic Processor Architecture}
+\label{section:processor}
+
+Next to all processors used these days are built upon the so called von-Neumann architecture \todo{add reference}.
+\todo{cite freidmann dissertation}Though the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which are needed at some point.
+The main advantage of digital systems over analogue systems such as the human brain, is the ability to do calculations at much higher speeds.
+For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of the experiment.
+We now dive shortly into basics of such processors and explain common terms.
+
+In general a microprocessor can be seen as a combination of two units which are a operational section and a control section.
+The control logic section is responsible for fetching instructions and operands, interpreting them and controlling their execution as well as reading and writing to the main memory or other buses.
+The operational section on the other side saves operands and results as long as they are needed and performs any logic or arithmetic operation on these as told by the control logic section.
+Prominent parts of the operational section are the arithmetic logic unit (ALU) and the register file.
+
+The register file can be seen as short-term memory of the processor.
+It consists of several elements, called registers, that have the same size which is determined by the architecture; a 32-bit architecture has 32-bit wide registers.
+Typically the number of registers varies for different architectures and also their purpose.
+Common purposes of registers are:
+\begin{description}
+    \item[general-purpose GPR] These registers can be used for virtually anything and in most cases carry values that are soon to be used by the ALU. Few of these registers can be reserved as stack pointers. Most registers on a processor are typically GPRs.
+    \item[link register LR] This register marks the jump point function calls. This means that after a function completes the program jumps to the address in the link register.
+    \item[compare register CR] This register's value is set by an instruction that compares one or two values in registers. Its value can determine for some instructions if they are executed or not.
+\end{description}        
+Non-general-purpose registers are also called special-purpose registers SPRs.
+
+The ALU normally uses the values which are stored in the register file for perform the aforementioned logic or arithmetic operations and saves the result there as well.
+In case of more complicated arithmetics some architectures also have an accumulator that is part of the ALU or sits next to it.
+Intermediate results then are stored there because access is faster for the accumulator compared to registers.
+In general it is good to know
+\begin{equation}
+    \text{speed(accumulator)} < \text{speed(register)} \ll \text{speed(memory)}
+\end{equation}
+As speed is always important in computing we therefore want to use registers as much as possible and only write results to the memory or save registers when there are not enough registers available for the current task.
+Registers such as the accumulator can also either be accessible directly or are only accessible to subsections such as the ALU.
+This is different for every processor architecture and depends on things like:
+\begin{itemize}
+    \item space on the chip
+    \item maximum clock frequency
+    \item complexity of instruction set
+    \item available time and money for the design
+    \item energy consumption
+\end{itemize}
+
+These items always influence each other as a complex instruction set means that complicated arithmetic operations with many operands can be done in few clock cycles but this often also means that the maximum clock frequency must be lower as the circuit design has a longer time constant until the next instruction may follow.
+During a single clock cycle a chip usually does one so called micro instruction which is part of a machine instruction.
+An example for an add instruction (|result = add(a,b)|) would be:
+\begin{lstlisting}
+    1. fetch the instruction from memory
+    2. decode instruction
+    3. fetch first operand a
+    4. fetch second operand b
+    5. perform operation on operands
+    6. store result
+\end{lstlisting}
+For different and more complex machine instructions the amount of micro instructions can be much higher, but this basically sets the minimum amount of micro instructions for any machine instruction.
+Now the faster the clock frequency the faster these micro instructions will have finished the faster the processor.
+But also the more complex the instruction set is the fewer machine instructions are needed overall the faster the processor.
+As mentioned above this results in a trade-off between clock frequency and instruction set complexity.
+The instruction set includes all available instructions for an ALU thus the ALU gets easily more complicated and needs more space as the instruction set gets more complicated.
+
+Because of this one usually differs between two kinds of processor:
+\begin{itemize}
+    \item Complex Instruction Set Computer CISC
+    \item Reduced Instruction Set Computer RISC
+\end{itemize}
+The latter one usually is reduced to such simple instructions as |add| or |sub| and connects them to create more complex instructions overall.
+As the PPU is a RISC architecture we focus on its key values.
+This is similar to the micro instructions which were mentioned earlier, but now every instruction has the same set of microinstructions with a different operation at 5.
+RISC architectures therefore start ``pipelining'' their instructions which means stating the next machine instruction as the previous machine instruction finished the first micro instruction in a clock cycle.
+Ideally this will increase the performance by a factor that is equal to the number of micro instructions in a machine instruction as that many machine instructions can be initiated in the same time it would take to complete a single machine instruction.
+It must be noted though that the processor must detect hazards which are data dependencies between instructions where one instruction needs the result of another.
+Such instructions usually are postponed in a delay-slot and other instructions that do not cause hazards are executed instead.
+This results in reordering of instructions on a processor level.
+Also it takes several cycles for memory instructions to load or store data this effectively stalls the processor until the memory instruction has finished.
+Therefore RISCs try to avoid memory access as much as possible and use registers instead.
+Luckily a normal RISC architecture provides more registers as the ALU needs less space due to reduced complexity and also can be operated at higher clock frequencies, therefore it is perfect for simple processors that only need to do simple arithmetic as fast as possible.
+
+Next we take a closer look at memory.
+Normally the memory of a von-Neumann machine contains both, the program and data (this is contrary Harvard architectures).
+The program here describes a list of instructions that are part of the instruction set.
+Each instruction itself is represented as a sequence of bits in memory that resemble the following.
+\add{graphic of opcode}
+The first part which is called an opcode is simply a number that stands for an operation performed by the ALU.
+The ALU reads this number and performs the necessary steps.
+Typically this part is about 8 bits long and has an alias string such as |add| that is called a mnemonic.
+The second part is the result which is of the same type as the third and forth part.
+These are the argument addresses or operands of an operation and can either be a memory address or a register number as both are valid operands.
+Many RISC architectures have an instruction set that consists exclusively of 3 operand instructions.
+Any instructions that seem to have less than three operands are normally mapped on instructions that have three operands.
+It is quite common to use more complex instructions for relatively simple instruction as this reduces the number of opcodes.
+An example would be moving the contents of register 1 to register 2.
+This usually maps to an or comparison between register 1 and a register that is all zeros where the result (the same as register 1) is saved in register 2.
+
+It is important to note that in most RISC architectures if we want a memory address as operand, this is done indirectly.
+A memory address can not be an operand on its own but is loaded into a different register and a different register gets to hold the data from the memory.
+This is called a load instruction and its counter part would be a store instruction.
+Architectures that work like that are called load/store architectures.
+
+This means also that the amount of accessible memory is typically limited by the width of a single register
+Memory is often seen as blocks and with addresses.
+Because the smallest amount of information which we are interested in is a byte, each address is equivalent to one byte in memory.
+Therefore the maximum amount of memory that can be used is:
+\begin{equation}
+    2^{n} byte \xrightarrow{\text{n = 32 bit}} 2^{32} byte \approx 4*10^{9} byte = 4 GB
+\end{equation}
+
+Normally though it is not the processor itself that keeps track of the memory.
+This is usually done by a memory management unit (MMU).
+It handles all memory access of the processor as it can provide a set of virtual memory addresses which itself then transforms into physical addresses.
+Most modern MMUs also incorporate a cache that stores memory operations while others are handled and detects dependencies within this cache which it can resolve.
+This results in faster transfer of data as two or more instructions access the same memory which then is handled in the cache.
+Not all MMUs support this though and this might lead to certain problems when handling memory.
+If instructions are reordered due to pipelining and dependencies on the same memory address are not detected, an instruction may write to the memory before a different one could load the previous value it needed.
+For this reason exist memory barriers.
+A memory barrier is an instruction that is equal to a guard in code that waits until all load and store instructions issued to the MMU are finished and then allows the code to proceed.
+It therefore splits the code into instructions issued before the memory barrier and issued after the memory barrier.
+Even with reordering this prohibits any instruction to be executed on the wrong side of the barrier and thereby ensures conflicting memory instructions to not interfere with one another.
+
+Memory can be split into two popular types which are static random access memory (SRAM) and dynamic random access memory (DRAM).
+The differ in how bits are set on each RAM.
+SRAM uses Flip Flops to switch transistors that indicate which bit is set, while DRAM uses capacities that are charged to do so.
+
+We already introduced many parts of a processor which need to be connected somehow.
+Connections between these parts are called buses and also have a width measured in bytes.
+Bus speeds are very high as they transport data in parallel such as the contents of a register.
+Thus most buses should be as wide as a register of the processor.
+But buses of such width need much space.
+Therefore some architectures use narrower buses with fewer bits than a register and use two instructions to transfer the contents of a full register.
+Systems of this sort are described as 32/16-bit architecture, which means that registers are 32 bit wide while buses are only 16 bit wide.
+As the higher order bits of registers are not as often used as the lower ones this results in less performance loss than initially expected.
+
+\subsection{Co-processors and  Extensions}
+
+RISC architectures sometimes need so called co-processors for instructions that are not included in the instruction set but are often enough needed.
+An example would be multiplication which would need many cycles when split in |add| instructions but as part a co-processor can be performed in just a few cycles.
+In such a case the control section recognizes the |mult| instruction and passes it to the co-processor and later on fetches the result.
+
+This can be extended to whole units such as the ALU existing in parallel.
+One example would be a floating point unit (FPU) which is nowadays standard for most processors and handles all instructions on floating point numbers.
+For this the FPU has its own floating point registers (FPRs) in a separate register file on which it performs instructions and which also have parallel access to the memory.
+
+Another kind of extensions are vector extensions that do the same as the FPU but for vectors instead of floats.
+This is mostly wanted for highly parallel processes such as graphic rendering or audio and video processing \todo{reference}.
+But also early supercomputers such as the Cray-1 \todo{reference} made use of vector processing to gain performance by operating on multiple values  simultaneously through a single register.
+This could either be realized through a parallel architecture or more easily through pipelining the instruction on one vector over its elements.
+The latter one makes sense since there are typically no dependencies between single elements in the same vector.
+Nowadays many of the common architectures support vector processing.
+A few examples of these are:
+\begin{itemize}
+    \item x86 with SSE-series and AVX
+    \item IA-32 with MMX
+    \item AMD K6-2 with 3DNow!
+    \item PowerPC with AltiVec and SPE
+\end{itemize}
+As mentioned these were mostly intended for speeding up tasks like adjusting the contrast of an image.
+There is also the possibility to vectorize loops in programming if there are no dependencies between loop cycles.
+    
+
+\subsubsection{AltiVec Vector Extension}
+In our case we take a special interest in the AltiVec vector extension which developed by Apple, IBM and Motorola in the mid 1990's and is also known as Vector Media Extension (VMX) and Velocity Engine for the POWER architecture. 
+The AltiVec extension provides the processor with a single-precision floating point and integer SIMD instruction set.
+The vector register file includes 32 vector registers are each 128-bit wide. \todo{http://www.nxp.com/assets/documents/data/en/reference-manuals/ALTIVECPEM.pdf}
+These vector registers can either hold sixteen 8-bit |char|s, eight 16-bit |short|s or four 32-bit |int|s or single precision |float|s, each signed and unsigned.
+Single elements of these vectors can only be accessed through memory because there is no instruction that combines scalar register with vector registers.
+Except for one type of instruction that ``splats'' the value of a scalar register into all elements of the vector register.
+The reason we take such an interest in this vector extension is that it resembles most characteristics of the PPU's vector extension and is already implemented in the PowerPC back-end of GCC.
+There a few differences though:
+\begin{addmargin}[2em]{0em}
+    First the PPU's VE uses a conditonal register (CR) to perform instructions only on those elements of a vector register, that meet the condition in the corresponding part of the CR, which is specified by the user, while the AltiVec VE utilizes the CR which included in the PowerPC architecture.
+    This results in not allowing selective operations on individual elements through the CR but allows for checking if all elements meet the condition in a single instruction.
+    If element-wise selection is needed AltiVec offers this through vector masks.
+    
+    The AltiVec VE has two register on its own though, which are the VCSR and VRSAVE registers.
+            The Vector Status and Control Register (VSCR) is responsible for detecting saturation in vector operations and decides which floating point mode is used.
+            The Vector Save/Restore Register (VRSAVE) assists applications and operation systems by indicating for each VR if it is currently used by a process and thus must be restored in case of an interrupt.
+    
+    Both of these register are not available in the PPU's VE but would likely not be needed for simple arithmetic tasks as the PPU is meant to perform.
+\end{addmargin}
+
+\section{The plasticity processing unit}
+As this thesis mainly focuses on a processor that is an essential part of the HICANN-DLS (high input count analogue neural network Digital Learning System) we will focus first on the Hicann-DLS as a whole and then look into the PPU in detail which includes many of the topics of the previous section.
+
+\subsection{Basics of Neural Networks}
+Neural networks build the main application of the Hicann DLS system. This short chapter is meant to give an overview over neural networks and synaptic weights.
+
+On a very abstract level neurons in the brain resemble nodes of a network.
+As in a network neurons are interconnected through dendrites, synapses and axons which can be of different strength. 
+Also we assume that a neuron is either spiking, meaning it is activated and sends this information to connected neurons or resting meaning it is not activated.
+In case a neuron is spiking, it send this information through its axon to other other neurons that are connected to the axon by synapses.
+These synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
+This is equal to a gain with which the signal is either amplified or attenuated.
+The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
+If the integrated signals reach a certain threshold the neuron spikes and then sends a signal itself to other neurons.
+
+\add{put the following part in the next section}
+With all these physiological parts there are only two important parts we need to take a look at in order to copy the function of a neural network: the neuron and the synapses.
+\add{add something here}
+If two neurons are actually not meant to be connected, the spike's address and the SRAM\unsure{explain this further} address of the synapse do not match an thus the spike is ignored by the synapse.
+Now if we display the all neurons inputs and outputs in a 2D plain we get an array of synapses, which is equivalent to a weight matrix.
+
+\subsection{Implementation in Hicann-DLS}
+The Hicann-DLS system tries to implement this structure as close to reality as possible in order to simulate physiological processes in such networks.
+At its core it therefore has a so called ``synaptic array" that connects 32 neurons which are located on a single ship to 64 different pre-synaptic inputs.
+Each neuron's post-synaptic input is aligned along one axis of an array while the 64 outputs of different neurons are on a rectangular axis.
+This gives a 2D array of 2048 synapses in total.
+An FPGA connects the 64 pre-synaptic inputs to various neurons in the system while it can also connect the neurons of the same chip to the pre-synaptic inputs.
+Along these input lines the signal reaches all synapses where it is processed individually.
+For this to be possible each pre-synaptic neuron has a 6 bit SRAM address while the synapse itself has a 6 bit SRAM address as well, which can be changes from outside.
+Each synapse then compares the addresses of the pre-synaptic neuron it is connected to to its own and if they match sends out a signal to other circuits that need this information.
+Also in this case each synapse multiplies the signal it receives with its weight and sends the result to the post-synaptic input of a neuron.
+All signals sent by synapses to an input are integrated along the line to a resulting input signal which finally reaches a neuron.
+Inside the neurons the individual input signal is evaluated in regard to a threshold and other parameters which decide whether the neuron is spiking or not.
+If the neuron is spiking it sends out an output signal to the FPGA which is responsible for spike routing.
+The output signal of each neuron is also sent to an analogue digital converter (ADC) in order to analyze the data in digital form.
+All of this is done continuously and may not follow discrete time steps.
+
+The Hicann-DLS system is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
+This is the plasticity processing unit (PPU) which is also connected to the synapse array and thus can read and write synaptic weights.
+
+The synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of information each.
+The weights themselves are 6 bit large and always right aligned.
+The most significant bit of each weight has a value of $2^{-1}$ with subsequent bits having half the value of the previous bit.
+The spare two bits at the beginning are used for calibration.
+The synapse array can also be used in 16 bit mode for higher accuracy.
+This combines two synapses to a single virtual synapse with 12 bit weights and 4 bits for calibration.
+
+The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
+
+\subsection{The plasticity processing unit}
+The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010 and runs at 100 MHz clock frequency.
+
+It was developed to handle plasticity and as such apply different learning rules to synapses during or in between experiments.
+This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{4}$ times faster than their biological counterparts.
+In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment and record data.
+
+The PPU is accompanied by 16 kiB of memory as well as 4 kiB of instruction cache which together is called the plasticity sub-system.
+The PPU's distinct feature is its special-function unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
+The VE is only weakly coupled to the general purpose part (GPP)of the PPU and mostly both parts can operate in parallel while interaction is highly limited.
+All vector instructions that are intended for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE as it is usual for most processor extensions.
+These instructions then go into a queue that holds all vector instructions where they are fetched from in order.
+Going from there the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out of order operation for instructions in these reservations stations.
+Therefore it is also possible during the process of accessing a vector on memory to perform some arithmetic operations on a different vector.
+This allows for faster processing speeds as pipelining for each instruction is also supported.
+The limiting factor for this though remains the vectors register file's single port for reading and writing.
+
+The main limiting factor in processing speed is the memory access.
+Both, the GPP and the VE, share the same MMU and thus any access of the GPP to vectors in memory must be handled with care as the GPP and VE are not synchronized.
+The MMU is very simple as it does not cache memory instructions and also has matching virtual and physical addresses.
+For this reason one must be aware of the |sync| instruction that is a memory barrier and stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
+This can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
+|sync| is a standard instruction of the PowerISA and further information can be found here \add{reference}.
+
+The PPU is also able to read out spiking times and additional information through a bus which is accessible through the memory interface.
+It uses the first bits of a memory address which are available because the memory is only 16 kiB large.
+Thus it only needs a pointer to such a memory address to read spiking rates during an experiment.
+Besides the VE and the GPP, the memory bus also provides access to the FPGA \todo{check this} in order to allow for external access to the system.
+This is needed for writing programs into the memory as well as getting results during or after experiments.
+This also allows for communication during runtime of the PPU.
+
+The VE was added due to the need for fast handling and writing of synaptic weights into the array of synaptic values on the HICANN.
+Parallelizing this gives up to an 16x increase in preformance.
+Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
+The synapse array though is also accessible through the main memory bus by setting the first bits similar to the spiking rate information.
+Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program,
+As mentioned before do GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to the delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
+
+Specifically the vector extension allows for either use of 8 element vectors with element being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
+Thus every vector is 16 bytes or 128 Bits long.
+This is also the size of each vector register that is available, which are 32 in total, in contrast to 32 general purpose registers with 32 bit each.
+The VE also features a vector accumulator of 128 bit which can be read and written by hand and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
+
+To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
+This is currently no problem since the nux does not recognize AltiVec opcodes.
+\add{applications of the PPU today like in-the-loop experiments and controlling}
+
+\section{Basic compiler structure}
+\label{section:compiler structure}
+
+As already hinted by the abstract, a compiler consists of a front-end, a back-end, but also a third part that is the middle-end.
+These three parts sit on top of each other with the front-end on the very top and the back-end at the bottom and pass down the program as it is translated and optimized or ``compiled''.
+
+The first part of the compilation process is the translation of code which is written in some programming language into a so called Immediate Representation (IR) that looks the same for every front-end language and usually is never seen by the user.
+Any supported programming language (C, C++, Java…) is implemented in its own front-end that defines how the language is translated into IR.
+After that the IR is send to the middle-end, which generally optimizes the IR and then passes the code to the back-end.
+The back-end first executes further optimizations that are target-specific followed by allocatiing registers and handling relative memory.
+Finally the code is translated into the assembly language that is supported by the target.
+
+After the code is compiled and emmited as an object file it is also linked, which means combining different objectfiles and and assigning absolute memory addresses to tehm.
+At last the binary file emmited by the linker is loaded into the memory of the processor and then can be executed.
+
+
+
+Most Compilers that are used nowadays are built of three basic components which handle different steps in the process of converting human-readable programming language to machine-readable machine code.
+As does the GNU Compiler collection (GCC) which also can be seen as made of three main parts.
+The so called front-end, middle-end and back-end.
+All three parts work more or less independently from each other and communicate over a compiler-specific „language“, which is described a the Intermediate Representation (IR).
+It is typically never seen by the user and exists for a fact in many different forms [reference] one of which is Register Transfer Language (RTL), which is the lowest-level IR used by GCC.
+It is the most interesting IR when working on a back-end and will get more attention later in this report.
+But in before that we need to understand the structure an functioning of a compiler in general.
+
+The first mentioned Front-end resembles the main interaction point between the human programmer and the machine.
+Front-ends are usually divided by their respective programming languages such as C, C++, Java…  and have the main task of converting any programming language into unified IR, that can be passed to the middle-end in GIMPLE or GENERIC language.
+Therefore no matter which language you prefer, in an ideal case code, that is syntactically identical, should not differ after it is processed by the front-end.
+This is due to the goal of compilers such as GCC and LLVM to support as many languages and machines as reasonably possible while offering the equally good optimization and saving themselves overall work.
+It is obvious that a single compiler for every combination of language and machine would simply not be practical, especially as the optimization taking place in the middle-end follows the same rules for pretty much any architecture.
+The middle-end main task is basically this sort of optimization, and makes for the main difference between compilers as most compilers offer the same range of front-ends and back-ends (Part about the optimizations taking place in the middle-end).
+After all optimizations are through, the middle-end passes IR in form of RTL to the back-end.
+As you can see the middle-end rarely needs to be modified except for fundamental changes in the compilers architecture such as new kinds of optimizations and „multiple memory handling“ (also Harvard-Architecture (vielleicht)).
+
+\subsection{back-end}
+The back-end is responsible for the final steps of the compilation process as it translates the general RTL IR into specific Assembly commands.
+It uses some sort of table of available assembly instructions, that is provided, and finds the best fitting instructions.
+GCC for example uses a Lisp-like language (is this RTL?) that uses something called insns.
+These combine different properties with the  Assembly commands like an equivalent set of actions that are executed, the  operands and the constraints it must satisfy.
+These will be further explained later.
+The back-end also contains the the code which implements processor-specific built-in functions.
+Depending on the Compiler architecture the back-end it finally emits IR to the assembler which emits the machine code in assembly or emits assembly itself.
+Then finally the linker links the assembly code of all program files together and substitutes the offset addresses with absolut addresses to generate the final machine code.
+
+
+
+\add{
+reload
+register spilling
+register handling
+endianess
+wordsize
+machine isntructions
+
+different parts of an instruction, mention: opcodes, asm instruction, operation, operand, insn, IR, builtin function/intrinsic
+}
+\subsection{instrinsics}
+\subsection{asm basics}
+light memeory barrier
+Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
+ 
+\section{current state of the system}

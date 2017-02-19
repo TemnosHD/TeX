@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  14 FEB 2017 19:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  17 FEB 2017 19:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1317,7 +1317,7 @@ converted-to.pdf fig/cover/Publ-Cover1.eps>
 (epstopdf)             \includegraphics on input line 14.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=78, 541.02126pt x 118.4425pt>
+<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=90, 541.02126pt x 118.4425pt>
 File: fig/cover/Publ-Cover1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover1-eps-converted-to.pdf>
@@ -1374,7 +1374,7 @@ converted-to.pdf fig/cover/Publ-Cover2.eps>
 (epstopdf)             \includegraphics on input line 29.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=79, 393.47pt x 6.0225pt>
+<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=91, 393.47pt x 6.0225pt>
 File: fig/cover/Publ-Cover2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover2-eps-converted-to.pdf>
@@ -1421,7 +1421,7 @@ Package epstopdf Info: Source file: <fig/cover/Publ-Cover3.eps>
 converted-to.pdf fig/cover/Publ-Cover3.eps>
 (epstopdf)             \includegraphics on input line 56.
 Package epstopdf Info: Output file is already uptodate.
-<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=80, 401.5pt x 31.11626pt>
+<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=92, 401.5pt x 31.11626pt>
 File: fig/cover/Publ-Cover3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover3-eps-converted-to.pdf>
@@ -1655,130 +1655,125 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface .
 
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 9.
-
-LaTeX Warning: Marginpar on page 1 moved.
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.35 \begin{equation}
-                      [1
+l.33 T
+      his thesis will focus on the way to achieve this and briefly explain t...
+[1
+
+]) (./tex/methods.texpdfTeX warning (ext4): destination with the same identifie
+r (name{page.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1 \chapter
+            {Methods} [2]
+Chapter 2.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 7.
+
+LaTeX Warning: Marginpar on page 3 moved.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.35 \end{equation}
+                    [3
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 42.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 40.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 42.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 51.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 40.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 49.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
+)pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.80 
+      [4]pdfTeX warning (ext4): destination with the same identifier (name{page
+.5}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.102 T
+       his means also that the amount of accessible memory is typically limi...
+[5]pdfTeX warning (ext4): destination with the same identifier (name{page.6}) h
+as been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.140 
+       [6]
+
+LaTeX Warning: Marginpar on page 7 moved.
+
+
+Overfull \hbox (110.60707pt too wide) in paragraph at lines 165--165
+[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
+ []
+
+
+Overfull \hbox (10.64273pt too wide) in paragraph at lines 165--165
+\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
+ []
+
+
+Overfull \hbox (110.60707pt too wide) in paragraph at lines 165--165
+[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
+ []
+
+
+Overfull \hbox (10.64273pt too wide) in paragraph at lines 165--165
+\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
+ []
+
+
+Overfull \hbox (110.60707pt too wide) in paragraph at lines 165--165
+[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
+ []
+
+
+Overfull \hbox (10.64273pt too wide) in paragraph at lines 165--165
+\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
+ []
+
+
+Overfull \hbox (110.60707pt too wide) in paragraph at lines 165--165
+[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
+ []
+
+
+Overfull \hbox (10.64273pt too wide) in paragraph at lines 165--165
+\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
+ []
+
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 53.
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.71 
-      [2]pdfTeX warning (ext4): destination with the same identifier (name{page
-.3}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.116 
-       [3]
-
-LaTeX Warning: Marginpar on page 4 moved.
-
-
-Overfull \hbox (110.60707pt too wide) in paragraph at lines 141--141
-[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
- []
-
-
-Overfull \hbox (10.64273pt too wide) in paragraph at lines 141--141
-\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
- []
-
-
-Overfull \hbox (110.60707pt too wide) in paragraph at lines 141--141
-[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
- []
-
-
-Overfull \hbox (10.64273pt too wide) in paragraph at lines 141--141
-\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
- []
-
-
-Overfull \hbox (110.60707pt too wide) in paragraph at lines 141--141
-[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
- []
-
-
-Overfull \hbox (10.64273pt too wide) in paragraph at lines 141--141
-\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
- []
-
-
-Overfull \hbox (110.60707pt too wide) in paragraph at lines 141--141
-[][][][]\T1/cmr/m/n/6 http://www.nxp.com/assets/documents/data/en/reference- 
- []
-
-
-Overfull \hbox (10.64273pt too wide) in paragraph at lines 141--141
-\T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
- []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.147 \begin{addmargin}[2em]{0em}
-                                  [4]pdfTeX warning (ext4): destination with th
-e same identifier (name{page.5}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.186 
-       [5]pdfTeX warning (ext4): destination with the same identifier (name{pag
-e.6}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.215 
-       [6] [7] [8]) (./tex/compiler.tex [9]
-Chapter 2.
-[10
-
-]) (./tex/extbackend.tex [11]
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 166.
+[7] [8] [9] [10] [11] [12]) (./tex/tests.tex [13]
 Chapter 3.
-[12
-
-]) (./tex/tests.tex [13]
-Chapter 4.
 ) (./tex/results.tex [14
 
 ]
+Chapter 4.
+[15
+
+]) (./tex/discussion.tex [16]
 Chapter 5.
-) (./tex/discussion.tex [15
+) (./tex/outlook.tex [17
 
 ]
 Chapter 6.
-) (./tex/outlook.tex [16
-
-]
-Chapter 7.
-) [17
+) [18
 
 ]
 \openout2 = `tex/appendix.aux'.
 
- (./tex/appendix.tex [18
+ (./tex/appendix.tex [19
 
 
 ] (./main.tdo
@@ -1788,49 +1783,26 @@ reference-manuals/ALTIVECPEM.pdf[][] [][]
  []
 
 Runaway argument?
-{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ CUR\ETC.
-! Paragraph ended before \contentsline was complete.
-<to be read again> 
-                   \par 
-l.22 ...st 64 outputs 32 inputs to 32 neurons \par
-                                                   }{8}{section*.27}
-? git
-Type <return> to proceed, S to scroll future error messages,
-R to run without stopping, Q to run quietly,
-I to insert something, E to edit your file,
-1 or ... or 9 to ignore the next 1 to 9 tokens of input,
-H for help, X to quit.
-? 
-! Extra }, or forgotten \endgroup.
-l.22 ... 64 outputs 32 inputs to 32 neurons \par }
-                                                  {8}{section*.27}
-? 
-Runaway argument?
 {\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ rel\ETC.
 ! Paragraph ended before \contentsline was complete.
 <to be read again> 
                    \par 
-l.23 ...dianess wordsize machine isntructions \par
+l.14 ...dianess wordsize machine isntructions \par
                                                    different parts of an ins...
 
 ? 
 ! Extra }, or forgotten \endgroup.
-l.23 ...nd, insn, IR, builtin function/intrinsic }
-                                                  {10}{section*.28}
+l.14 ...nd, insn, IR, builtin function/intrinsic }
+                                                  {12}{section*.19}
 ? 
 )
 \tf@tdo=\write9
 \openout9 = `main.tdo'.
 
-) [19
+) [20
 
 ]
 No file main.nls.
-[20
-
-
-
-]
 No file main.bbl.
 No file main.ind.
 \openout2 = `tex/acknowledgments.aux'.
@@ -1859,64 +1831,52 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 
 
 
+
+
+
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 308.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 308.
  (./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
 (./cover/cover_prof.aux) (./tex/abstract.aux) (./tex/appendix.aux)
 (./tex/acknowledgments.aux) (./cover/statement.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 82DEEC76DF5744ECE2AFAC6948CE0645;1056
-(rerunfilecheck)             After:  E408AE32335FCCF241E730A21176D3F0;996.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 310.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 308.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 308.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 65C3F029715A6FF9248CA1BB233842A3;1321.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 308.
  ) 
 Here is how much of TeX's memory you used:
- 25420 strings out of 493105
- 463941 string characters out of 6137072
- 624496 words of memory out of 5000000
- 28156 multiletter control sequences out of 15000+600000
+ 25387 strings out of 493105
+ 463001 string characters out of 6137072
+ 624988 words of memory out of 5000000
+ 28132 multiletter control sequences out of 15000+600000
  24315 words of font info for 56 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
- 55i,9n,80p,520b,1107s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{appendix*.31} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.1.1.2} has been referenced but does not 
-exist, replaced by a fixed one
-
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095
-.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/tex
-mf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/publi
-c/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2074.
-pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/share/texm
-f/fonts/type1/public/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public
-/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.p
-fb></usr/share/texmf/fonts/type1/public/cm-super/sfsl1095.pfb></usr/share/texmf
-/fonts/type1/public/cm-super/sfss1440.pfb></usr/share/texmf/fonts/type1/public/
-cm-super/sfsx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pf
-b></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf/
-fonts/type1/public/cm-super/sfsx2074.pfb></usr/share/texmf/fonts/type1/public/c
-m-super/sftt1095.pfb>
-Output written on main.pdf (31 pages, 423114 bytes).
+ 55i,11n,80p,520b,1108s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb>
+</usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fo
+nts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-
+super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2074.pfb><
+/usr/share/texmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/share/texmf/fon
+ts/type1/public/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-s
+uper/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></
+usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/font
+s/type1/public/cm-super/sfsl1095.pfb></usr/share/texmf/fonts/type1/public/cm-su
+per/sfss1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></u
+sr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts
+/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-sup
+er/sfsx2074.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on main.pdf (31 pages, 446868 bytes).
 PDF statistics:
- 416 PDF objects out of 1000 (max. 8388607)
- 352 compressed objects within 4 object streams
- 81 named destinations out of 1000 (max. 500000)
- 172 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 414 PDF objects out of 1000 (max. 8388607)
+ 348 compressed objects within 4 object streams
+ 75 named destinations out of 1000 (max. 500000)
+ 196 words of extra memory for PDF output out of 10000 (max. 10000000)
 
