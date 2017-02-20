@@ -9,12 +9,12 @@
 \contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ explain this further}{9}{section*.14}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ PPU paper}{10}{section*.15}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference}{10}{section*.16}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ check this}{10}{section*.17}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ check this}{11}{section*.17}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference to nux manual}{11}{section*.18}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ check with ahartel on this}{11}{section*.19}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ applications of the PPU today like in-the-loop experiments and controlling }{11}{section*.20}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ applications of the PPU today like in-the-loop experiments and controlling }{12}{section*.20}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 1st column: a graph from p. 5 of book "compilers" 2nd column: front-end, middle-end, back-end 3rd column: the different phases of a compiler}{12}{section*.21}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ s.o.}{12}{section*.22}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ s.o.}{13}{section*.23}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reload register spilling register handling endianess wordsize machine isntructions \par different parts of an instruction, mention: opcodes, asm instruction, operation, operand, insn, IR, builtin function/intrinsic }{14}{section*.24}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ asm tests user level tests compiler tests }{15}{section*.25}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ register handling \par different parts of an instruction, mention: opcodes, asm instruction, operation, operand, insn, IR, builtin function/intrinsic \par RISC System/6000 MMU ?= memory controller PPC must handle syncing in compiler when I/O is added }{16}{section*.25}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ asm tests user level tests compiler tests }{17}{section*.26}

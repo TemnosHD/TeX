@@ -180,6 +180,7 @@ There a few differences though:
     Both of these register are not available in the PPU's VE but would likely not be needed for simple arithmetic tasks as the PPU is meant to perform.
 \end{addmargin}
 
+
 \section{Hardware Implementation}
 As this thesis mainly focuses on a processor that is an essential part of the HICANN-DLS (high input count analogue neural network Digital Learning System) we will focus first on the Hicann-DLS as a whole and then look into the PPU in detail which includes many of the topics of the previous section.
 
@@ -290,10 +291,9 @@ When using these instruction one must always keep in mind that the weights of th
 As a user still wants the full functionality and also as much accuracy as possible, a vector is typically shifted left when reading from the synapse array to  align the MSB to the very left and thus right shifted when stored in the synapse array.
 We will keep this big-endian description throughout this thesis.
 
-
-
 \add{applications of the PPU today like in-the-loop experiments and controlling
 }
+
 
 \section{Basic Compiler Structure}
 \label{section:compiler structure}
@@ -343,30 +343,90 @@ A symbol table is as the name states an overview of all symbols that are used in
 A literal table in contrast holds constants and strings and makes them available globally by reference, as does the symbol table.
 This information is used by the code generator and various optimization processes.
 
-
 \subsection{Back-End and Code Generation}
 We now want to focus a little more on the last two phases of a compiler, which are also part of the back-end.
+We already stated that the back-end is responsible for code generation and target optimization and since we will keep focus on the back-end later on, we need to get used to a few other terms that are common when talking about compiler back-ends.
 
+Usually the processes of code generation and target optimization are entangled as optimization can take place at different phases of code generation.
+Thus we first take a look at code generation in the back-end.
 
+As we learned already, the source program reaches the back-end in form of IR.
+Often the IR is already linearized and thereby again in a form that can be seen as sequence of instructions.
+Because of this the IR may also be referred to as Intermediate Code.
+The process of generating actual machine code from this is again split into different phases:
+\begin{itemize}
+    \item instruction selection
+    \item instruction scheduling
+    \item register allocation
+\end{itemize}
 
-Intermediate code
-optimization
-register spilling
-unnecessary actions
-dead code
-costly operations
-peephole optimization
-pseudoregisters
+At first the back-end recognizes sets of instructions in intermediate code that can be expressed as an equivalent machine instruction.
+Depending on the complexity of the instruction set a single machine instruction can combine several IR instructions.
+This may involve additional information that the front-end aggregated and added to the IR as attributes single machine instruction can combine several IR instructions.
+At the end of this is a compiler typically emits a sequence of assembly instructions which we will explain later on.
+In order to fulfill this task the compiler needs the specifications of the target it compiles for.
+This is called a target description and can contain things like specifications of the register-set, restrictions and alignment in memory and availability of extensions and functionalities.
+The compiler also needs knowledge of the instruction set of a target sometimes referred to as the ISA which is in essence a list of instructions which are available and also their functionality.
+The compiler picks instructions according to their functionality from this list and substitutes the IR with this.
+Ideally a back-end thus could support different back-ends just by exchanging the machine description and the ISA as the basic methods of generating code are the same for most targets.
 
+After the IR is converted into machine instructions the back-end now rearranges the sequence of instruction.
+This needs to be done as different instructions take different amounts of time to be executed.
+If a subsequent instruction depends on the result of a previous instruction the compiler now has two alternative approaches to solve this.
+First it can simply stall the programs execution as long as the instruction is executed and feed the next instruction into the processor only when the dependency is solved.
+This means that the compiler adds |nop|s before every instruction that needs to wait for an operand as |nop| tells the processor to wait until the previous instruction has finished.
+For critical memory usage the compiler can also insert |sync|s as memory barriers before hazardous memory instructions.
+Alternatively it can stall only the instruction which depends on the result which is currently computed but perform instructions that do not depend on the result in the mean time.
+By doing so the scheduler increases performance noticeably and thus can partly be seen as part of the optimization process.
+On RISC architectures this is especially important as load and store instructions can take a few hundred times more clock cycles than normal register instructions and pipelining depends mainly on the instruction sequence.
+Thus the scheduler is also involved parallelization of code.
+As a result of this a compiler would usually accumulate all load instructions at he beginning of a procedure and start computing on registers that already have a value while the others are still loaded.
+This is done vice versa at the end of a procedure for storing the results in memory.
+This process of course needs the compiler to know the amount of time it takes for an instruction to be executed and works hand in hand with hazard detection on processor level.
 
-\subsection{RTL Basics}
+At last he compiler handles register allocation which also includes memory handling.
+Typically the previous processes expect an ideal target machine which provides and endless amount of registers.
+As in reality the processor only has $k$ registers the register allocator reduces the number of ``virtual registers'' or ``pseudoregisters'' that are requested to the available number of ``hard registers'' $k$.
+For this to be possible the compiler decides whether a value can live throughout a procedure in a register or must be placed into memory because there are not enough registers available.
+This results in the allocator adding load and store instructions to the machine code in order to temporarily save those registers in memory which is called ``spilling''.
+It is obvious that this can hurt performance and therefore the compiler tries to keep spilling of registers to a minimum and also insert spill code at places where it delays other instructions as little as possible.
+At he end of register allocation the compiler assigns hard registers to the virtual registers which are now only $k$ at a time.
+
+During and after code generation the compiler also applies optimizations to the machine code.
+Any optimization to the code though must take three things into consideration, which are safety, profitability and risk/effort.
+The first thing which always must be fulfilled, is safety.
+Only if the compiler can guarantee that an optimization does not change the result of the transformed code compared to the original code it may use this optimization!
+Only if this applies the compiler may check for the profit of an optimization which most often is a gain in performance but could also be the size of the program.
+At last the effort or time it takes for the compiler to perform this optimization and the risk of generating actually bad or ineffective code should be taken into account as well.
+If optimization passes these three aspects it may be applied to the code.
+In the end there exist some simple optimizations that always pass this test like the deletion of unnecessary actions or unreachable code, e.g. functions that are never called.
+Another example would be the reordering of code like the scheduler did before or the elimination of redundant code, which applies if the same value is computed at different points and thus the first result simply can be saved in a register.
+If a compiler knows the specific costs of instructions, it can also try to substitute general instruction with more specialized but faster instructions, like substituting a multiplication with 2 by shifting a value one position to the left.
+There exist many more ways of optimization but we only want to explain one more kind of optimization which is called peephole optimization.
+
+In peephole optimization the compiler only looks at a small amount of code through a ``peephole'' and tries to find a substitution for this specific sequence of instructions.
+These substitutions must be specified by hand and are highly target-dependent in contrast to the optimizations which were mentioned before that are target-independent.
+If the sequence can be substituted the peephole optimizer does so, otherwise the peephole is moved one step further and the new sequence is evaluated.
+
 \subsection{Assembly Basics}
+Assembly was mentioned a few times in this thesis already and we need to know at least a few basic assembly instructions that will help us later on to understand resulting machine code.
+On RISC machines the as 
+
+
+
+
+
 light memory barrier
 Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
 jumps -> jump optimization
+
+
+
+
 \subsection{Intrinsics}
 \subsection{GNU Compiler Collection}
 reload
+\subsubsection{RTL Basics}
 
 
 \add{
