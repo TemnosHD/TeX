@@ -5,7 +5,7 @@
 \label{section:processor}
 
 Next to all processors used these days are built upon the so called von-Neumann architecture \todo{add reference}.
-\todo{cite freidmann dissertation}Though the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which are needed at some point.
+\todo{cite friedmann dissertation}Though the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which are needed at some point.
 The main advantage of digital systems over analogue systems such as the human brain, is the ability to do calculations at much higher speeds.
 For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of the experiment.
 We now dive shortly into basics of such processors and explain common terms.
@@ -132,7 +132,7 @@ Therefore some architectures use narrower buses with fewer bits than a register 
 Systems of this sort are described as 32/16-bit architecture, which means that registers are 32 bit wide while buses are only 16 bit wide.
 As the higher order bits of registers are not as often used as the lower ones this results in less performance loss than initially expected.
 
-\subsection{Co-processors and  Extensions}
+\subsection{Co-processors and Extensions}
 
 RISC architectures sometimes need so called co-processors for instructions that are not included in the instruction set but are often enough needed.
 An example would be multiplication which would need many cycles when split in |add| instructions but as part a co-processor can be performed in just a few cycles.
@@ -180,7 +180,7 @@ There a few differences though:
     Both of these register are not available in the PPU's VE but would likely not be needed for simple arithmetic tasks as the PPU is meant to perform.
 \end{addmargin}
 
-\section{The plasticity processing unit}
+\section{Hardware Implementation}
 As this thesis mainly focuses on a processor that is an essential part of the HICANN-DLS (high input count analogue neural network Digital Learning System) we will focus first on the Hicann-DLS as a whole and then look into the PPU in detail which includes many of the topics of the previous section.
 
 \subsection{Basics of Neural Networks}
@@ -229,9 +229,10 @@ This combines two synapses to a single virtual synapse with 12 bit weights and 4
 
 The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
 
-\subsection{The plasticity processing unit}
+\subsection{The Plasticity Processing Unit}
 The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
 Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010 and runs at 100 MHz clock frequency.
+It is a 32-bit architecture therefore registers are 32 bit wide which is also the word size.
 
 It was developed to handle plasticity and as such apply different learning rules to synapses during or in between experiments.
 This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{4}$ times faster than their biological counterparts.
@@ -255,87 +256,128 @@ This can result in up to a few hundred cycles of waiting for memory access to be
 |sync| is a standard instruction of the PowerISA and further information can be found here \add{reference}.
 
 The PPU is also able to read out spiking times and additional information through a bus which is accessible through the memory interface.
-It uses the first bits of a memory address which are available because the memory is only 16 kiB large.
+It uses the first bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses and registers are 32-bit wide.
 Thus it only needs a pointer to such a memory address to read spiking rates during an experiment.
 Besides the VE and the GPP, the memory bus also provides access to the FPGA \todo{check this} in order to allow for external access to the system.
 This is needed for writing programs into the memory as well as getting results during or after experiments.
 This also allows for communication during runtime of the PPU.
 
 The VE was added due to the need for fast handling and writing of synaptic weights into the array of synaptic values on the HICANN.
-Parallelizing this gives up to an 16x increase in preformance.
+Parallelizing this gives up to an 16x increase in performance.
 Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
 The synapse array though is also accessible through the main memory bus by setting the first bits similar to the spiking rate information.
 Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program,
 As mentioned before do GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to the delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
 
-Specifically the vector extension allows for either use of 8 element vectors with element being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
+Specifically the vector extension allows for either use of 8 element vectors with elements being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
 Thus every vector is 16 bytes or 128 Bits long.
 This is also the size of each vector register that is available, which are 32 in total, in contrast to 32 general purpose registers with 32 bit each.
 The VE also features a vector accumulator of 128 bit which can be read and written by hand and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
 
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
-This is currently no problem since the nux does not recognize AltiVec opcodes.
-\add{applications of the PPU today like in-the-loop experiments and controlling}
+This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
+An overview of all opcodes is provided by ....\todo{reference to nux manual}, which is recommended as accompanying literature besides this thesis.
+In general these opcodes are divided into 6 groups of instructions:
+\begin{description}
+    \item[modulo halfword/byte instructions] apply a modulo operation after every instruction which causes wrap around in case of an overflow at the most significant bit position.
+        Each instruction is provided as halfword (modulo $2^{16}$) and as byte instruction (modulo $2^{8}$).
+    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range between a maximum that is equivalent to one when we see the MSB as $2^{-1}$ and the minimum is $2^{-15}$ for halfword and $2^{-7}$ for byte instructions. \todo{check with ahartel on this}
+    \item[permute instructions] perform operations on vectors that handle elements of vectors only as a series of bits.
+    \item[load/store instructions] move vectors between vector registers and memory or the synapse array.
+\end{description}
 
-\section{Basic compiler structure}
+When using these instruction one must always keep in mind that the weights of the synapses only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
+As a user still wants the full functionality and also as much accuracy as possible, a vector is typically shifted left when reading from the synapse array to  align the MSB to the very left and thus right shifted when stored in the synapse array.
+We will keep this big-endian description throughout this thesis.
+
+
+
+\add{applications of the PPU today like in-the-loop experiments and controlling
+}
+
+\section{Basic Compiler Structure}
 \label{section:compiler structure}
+At its core every compiler translates a source-language into a target-language, most often it translates a high-level, human readable programming language into a machine language that consists of basic instructions that build complicated structures.
+In doing so compilers may be the essential part in everyday lives of programmers everywhere.
+But compilers do not exist as long as computers do and their development played a big role in making computers such an important part of everyday life as they are today.
+What differs compilers from the competing concept of interpreters is the separation of compile-time and run-time.
+As interpreters combine these two and translate a program as it is run, a compiler takes the time to read the source-language file completely (often several times) and only then creates the executable files which are run after the process has finished.
+The advantages of this are simple:
+While a compiler takes some time at first until the program can be run, the resulting executable is next to always faster and more efficient.
+This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a ``pass'').
+Of course there do exist several compilers today and what matters to the user is typically the combination of the amount of time it takes to compile a program and the performance of that program.
+Though a compiler is not solely involved into the processing of a programming language towards an executable program.
+Figure ... illustrates the chain of tools that is involved into this process:
+\add{1st column: a graph from p. 5 of book "compilers" 2nd column: front-end, middle-end, back-end 3rd column: the different phases of a compiler}
+As one can see the \textbf{preprocessor} modifies the source before it is processed by the compiler and removes comments, substitutes macros and also includes other files into the source.
+After the compiler is finished with its job the \textbf{assembler} takes over and translates the output of the compiler which is written in a language called assembly into actual machine code by substituting the easy-to-read strings alternatives with actual opcodes.
+At last the \textbf{linker} combines the resulting ``object-files'' that the assembler emitted for different source files with standard library functions that are also already compiled and other resources. 
+The result is a single file that is directly executable.
+The only task which is left for the \textbf{loader} is assigning a base address to the relative memory references of the ``relocatable'' file which were used until now.
+The code is now fully written in machine language and ready for operation.
 
-As already hinted by the abstract, a compiler consists of a front-end, a back-end, but also a third part that is the middle-end.
-These three parts sit on top of each other with the front-end on the very top and the back-end at the bottom and pass down the program as it is translated and optimized or ``compiled''.
+But since we are more interested in compilers than other components, we will take a better look at the compiler itself.
+Figure ... \todo{s.o.} shows the common separation of a compiler into front-end, back-end and the optional middle-end.
+This is done to make a compiler portable, which means allowing the compiler to work for different source-languages which are implemented in the front-end and target-languages which must be specified in the back-end.
+Therefore if one wants to compile two different programs e.g. one in C the other in FORTRAN, it is necessary to change the front-end but not the back-end because the machine or ``target'' stays the same.
+The middle-end in this regard is not always needed but could be responsible for optimizations that are both source-independent and target-independent.
+Of course the different parts of the compiler have to communicate through a language that all parts can understand or speak.
+Such a language is called intermediate representation (IR) and also used during different phases of the compilation process.
+It may differ in its form but always stays a representation of the original program code.
 
-The first part of the compilation process is the translation of code which is written in some programming language into a so called Immediate Representation (IR) that looks the same for every front-end language and usually is never seen by the user.
-Any supported programming language (C, C++, Java…) is implemented in its own front-end that defines how the language is translated into IR.
-After that the IR is send to the middle-end, which generally optimizes the IR and then passes the code to the back-end.
-The back-end first executes further optimizations that are target-specific followed by allocatiing registers and handling relative memory.
-Finally the code is translated into the assembly language that is supported by the target.
+The different phases of a compilation process are illustrated to the far right of figure ... \todo{s.o.}.
+There is no middle-end included into this scheme as it is not a mandatory part of the compiler and would only be responsible for optimizations.
+But we will take a short look at the other phases:
+First the source code is fed into the \textbf{scanner} that performs lexical analysis, which is combining sequences of characters to symbols of something called tokens that get associated with an attribute such as ``number'' or ``plus-sign'' and the symbol.
+Next the \textbf{parser} takes the sequence of tokens and builds a syntax tree that represents the structure of a program and is extended by the \textbf{semantic analyzer} which adds known attributes at compile-time like ``integer'' or ``array of integers'' and checks if the resulting combinations of attributes are valid.
+This already is the first form of IR.
+The \textbf{source code optimizer} which is the last phase of the front-end takes the syntax tree and takes the first shoot at optimizing the code.
+Typically only light optimization is possible at this point such as pre-computing simple arithmetic instructions and different kinds of optimization exist.
+After the source code optimizer is done the syntax tree is converted to intermediate representation in order to be passed to the back-end.
 
-After the code is compiled and emmited as an object file it is also linked, which means combining different objectfiles and and assigning absolute memory addresses to tehm.
-At last the binary file emmited by the linker is loaded into the memory of the processor and then can be executed.
+The \textbf{code generator} takes this IR and translates it to machine code that fits the target - typically this is assembly.
+At last the \textbf{target code optimizer} tries to apply target-specific optimization until the target code can be emitted.
+
+During these phases the compiler also generates a symbol and literal table.
+A symbol table is as the name states an overview of all symbols that are used in the program, it contains the symbols name and the attribute of the semantic analyzer.
+A literal table in contrast holds constants and strings and makes them available globally by reference, as does the symbol table.
+This information is used by the code generator and various optimization processes.
+
+
+\subsection{Back-End and Code Generation}
+We now want to focus a little more on the last two phases of a compiler, which are also part of the back-end.
 
 
 
-Most Compilers that are used nowadays are built of three basic components which handle different steps in the process of converting human-readable programming language to machine-readable machine code.
-As does the GNU Compiler collection (GCC) which also can be seen as made of three main parts.
-The so called front-end, middle-end and back-end.
-All three parts work more or less independently from each other and communicate over a compiler-specific „language“, which is described a the Intermediate Representation (IR).
-It is typically never seen by the user and exists for a fact in many different forms [reference] one of which is Register Transfer Language (RTL), which is the lowest-level IR used by GCC.
-It is the most interesting IR when working on a back-end and will get more attention later in this report.
-But in before that we need to understand the structure an functioning of a compiler in general.
+Intermediate code
+optimization
+register spilling
+unnecessary actions
+dead code
+costly operations
+peephole optimization
+pseudoregisters
 
-The first mentioned Front-end resembles the main interaction point between the human programmer and the machine.
-Front-ends are usually divided by their respective programming languages such as C, C++, Java…  and have the main task of converting any programming language into unified IR, that can be passed to the middle-end in GIMPLE or GENERIC language.
-Therefore no matter which language you prefer, in an ideal case code, that is syntactically identical, should not differ after it is processed by the front-end.
-This is due to the goal of compilers such as GCC and LLVM to support as many languages and machines as reasonably possible while offering the equally good optimization and saving themselves overall work.
-It is obvious that a single compiler for every combination of language and machine would simply not be practical, especially as the optimization taking place in the middle-end follows the same rules for pretty much any architecture.
-The middle-end main task is basically this sort of optimization, and makes for the main difference between compilers as most compilers offer the same range of front-ends and back-ends (Part about the optimizations taking place in the middle-end).
-After all optimizations are through, the middle-end passes IR in form of RTL to the back-end.
-As you can see the middle-end rarely needs to be modified except for fundamental changes in the compilers architecture such as new kinds of optimizations and „multiple memory handling“ (also Harvard-Architecture (vielleicht)).
 
-\subsection{back-end}
-The back-end is responsible for the final steps of the compilation process as it translates the general RTL IR into specific Assembly commands.
-It uses some sort of table of available assembly instructions, that is provided, and finds the best fitting instructions.
-GCC for example uses a Lisp-like language (is this RTL?) that uses something called insns.
-These combine different properties with the  Assembly commands like an equivalent set of actions that are executed, the  operands and the constraints it must satisfy.
-These will be further explained later.
-The back-end also contains the the code which implements processor-specific built-in functions.
-Depending on the Compiler architecture the back-end it finally emits IR to the assembler which emits the machine code in assembly or emits assembly itself.
-Then finally the linker links the assembly code of all program files together and substitutes the offset addresses with absolut addresses to generate the final machine code.
-
+\subsection{RTL Basics}
+\subsection{Assembly Basics}
+light memory barrier
+Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
+jumps -> jump optimization
+\subsection{Intrinsics}
+\subsection{GNU Compiler Collection}
+reload
 
 
 \add{
-reload
-register spilling
 register handling
-endianess
-wordsize
-machine isntructions
 
 different parts of an instruction, mention: opcodes, asm instruction, operation, operand, insn, IR, builtin function/intrinsic
+
+RISC System/6000
+MMU ?= memory controller
+PPC must handle syncing in compiler when I/O is added
 }
-\subsection{instrinsics}
-\subsection{asm basics}
-light memeory barrier
-Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
  
-\section{current state of the system}
+\section{Current State of the System}
+This section is probably unnecessary

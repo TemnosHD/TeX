@@ -3,19 +3,20 @@
 \BOOKMARK [1][-]{section.2.1}{Basic Processor Architecture}{chapter.2}% 3
 \BOOKMARK [2][-]{subsection.2.1.1}{Co-processors and Extensions}{section.2.1}% 4
 \BOOKMARK [3][-]{section*.10}{AltiVec Vector Extension}{subsection.2.1.1}% 5
-\BOOKMARK [1][-]{section.2.2}{The plasticity processing unit}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.2}{Hardware Implementation}{chapter.2}% 6
 \BOOKMARK [2][-]{subsection.2.2.1}{Basics of Neural Networks}{section.2.2}% 7
 \BOOKMARK [2][-]{subsection.2.2.2}{Implementation in Hicann-DLS}{section.2.2}% 8
-\BOOKMARK [2][-]{subsection.2.2.3}{The plasticity processing unit}{section.2.2}% 9
-\BOOKMARK [1][-]{section.2.3}{Basic compiler structure}{chapter.2}% 10
-\BOOKMARK [2][-]{subsection.2.3.1}{back-end}{section.2.3}% 11
-\BOOKMARK [2][-]{subsection.2.3.2}{instrinsics}{section.2.3}% 12
-\BOOKMARK [2][-]{subsection.2.3.3}{asm basics}{section.2.3}% 13
-\BOOKMARK [1][-]{section.2.4}{current state of the system}{chapter.2}% 14
-\BOOKMARK [0][-]{chapter.3}{Test cases}{}% 15
-\BOOKMARK [0][-]{chapter.4}{Results}{}% 16
-\BOOKMARK [1][-]{section.4.1}{Extending the GCC Back-End}{chapter.4}% 17
-\BOOKMARK [0][-]{chapter.5}{Discussion}{}% 18
-\BOOKMARK [0][-]{chapter.6}{Outlook}{}% 19
-\BOOKMARK [0][-]{chapter.6}{Appendix}{}% 20
-\BOOKMARK [0][-]{appendix*.22}{Bibliography}{}% 21
+\BOOKMARK [2][-]{subsection.2.2.3}{The Plasticity Processing Unit}{section.2.2}% 9
+\BOOKMARK [1][-]{section.2.3}{Basic Compiler Structure}{chapter.2}% 10
+\BOOKMARK [2][-]{subsection.2.3.1}{Back-End and Code Generation}{section.2.3}% 11
+\BOOKMARK [2][-]{subsection.2.3.2}{Instrinsics}{section.2.3}% 12
+\BOOKMARK [2][-]{subsection.2.3.3}{Assembly Basics}{section.2.3}% 13
+\BOOKMARK [2][-]{subsection.2.3.4}{GNU Compiler Collection}{section.2.3}% 14
+\BOOKMARK [1][-]{section.2.4}{Current State of the System}{chapter.2}% 15
+\BOOKMARK [0][-]{chapter.3}{Test cases}{}% 16
+\BOOKMARK [0][-]{chapter.4}{Results}{}% 17
+\BOOKMARK [1][-]{section.4.1}{Extending the GCC Back-End}{chapter.4}% 18
+\BOOKMARK [0][-]{chapter.5}{Discussion}{}% 19
+\BOOKMARK [0][-]{chapter.6}{Outlook}{}% 20
+\BOOKMARK [0][-]{chapter.6}{Appendix}{}% 21
+\BOOKMARK [0][-]{appendix*.27}{Bibliography}{}% 22
