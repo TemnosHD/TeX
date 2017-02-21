@@ -1,0 +1,7 @@
+4-5 bulletpoints that decribe the current state of compiler support
+
+- establishing support of the vector extension of nux in GCC
+- support for C-style vector parallelization with common vector type and intrinsic functions
+- asm inline coding supports automatic variable handling
+- optimization is enabled for vector code
+- overall more user-friendly and easy to use state than before

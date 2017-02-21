@@ -43,6 +43,12 @@
     }
 \lstMakeShortInline[columns=fixed]|
 
+\newcommand*{\lstitem}[1]{
+    \setbox0\hbox{\lstinline{#1}}  
+    \item[\usebox0]  
+    % \item[\hbox{\lstinline{#1}}]
+    \hfill \\
+}
 
 % tables
 \usepackage{multirow}                             % col- and rowspan...

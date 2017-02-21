@@ -2,7 +2,7 @@
 \BOOKMARK [0][-]{chapter.2}{Methods}{}% 2
 \BOOKMARK [1][-]{section.2.1}{Basic Processor Architecture}{chapter.2}% 3
 \BOOKMARK [2][-]{subsection.2.1.1}{Co-processors and Extensions}{section.2.1}% 4
-\BOOKMARK [3][-]{section*.10}{AltiVec Vector Extension}{subsection.2.1.1}% 5
+\BOOKMARK [3][-]{section*.11}{AltiVec Vector Extension}{subsection.2.1.1}% 5
 \BOOKMARK [1][-]{section.2.2}{Hardware Implementation}{chapter.2}% 6
 \BOOKMARK [2][-]{subsection.2.2.1}{Basics of Neural Networks}{section.2.2}% 7
 \BOOKMARK [2][-]{subsection.2.2.2}{Implementation in Hicann-DLS}{section.2.2}% 8
@@ -12,12 +12,10 @@
 \BOOKMARK [2][-]{subsection.2.3.2}{Assembly Basics}{section.2.3}% 12
 \BOOKMARK [2][-]{subsection.2.3.3}{Intrinsics}{section.2.3}% 13
 \BOOKMARK [2][-]{subsection.2.3.4}{GNU Compiler Collection}{section.2.3}% 14
-\BOOKMARK [3][-]{section*.24}{RTL Basics}{subsection.2.3.4}% 15
-\BOOKMARK [1][-]{section.2.4}{Current State of the System}{chapter.2}% 16
-\BOOKMARK [0][-]{chapter.3}{Test cases}{}% 17
-\BOOKMARK [0][-]{chapter.4}{Results}{}% 18
-\BOOKMARK [1][-]{section.4.1}{Extending the GCC Back-End}{chapter.4}% 19
-\BOOKMARK [0][-]{chapter.5}{Discussion}{}% 20
-\BOOKMARK [0][-]{chapter.6}{Outlook}{}% 21
-\BOOKMARK [0][-]{chapter.6}{Appendix}{}% 22
-\BOOKMARK [0][-]{appendix*.28}{Bibliography}{}% 23
+\BOOKMARK [3][-]{section*.34}{Register Transfer Language Basics}{subsection.2.3.4}% 15
+\BOOKMARK [0][-]{chapter.3}{Test cases}{}% 16
+\BOOKMARK [0][-]{chapter.4}{Results}{}% 17
+\BOOKMARK [0][-]{chapter.5}{Discussion}{}% 18
+\BOOKMARK [0][-]{chapter.6}{Outlook}{}% 19
+\BOOKMARK [0][-]{chapter.6}{Appendix}{}% 20
+\BOOKMARK [0][-]{appendix*.51}{Bibliography}{}% 21

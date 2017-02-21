@@ -310,7 +310,7 @@ Though a compiler is not solely involved into the processing of a programming la
 Figure ... illustrates the chain of tools that is involved into this process:
 \add{1st column: a graph from p. 5 of book "compilers" 2nd column: front-end, middle-end, back-end 3rd column: the different phases of a compiler}
 As one can see the \textbf{preprocessor} modifies the source before it is processed by the compiler and removes comments, substitutes macros and also includes other files into the source.
-After the compiler is finished with its job the \textbf{assembler} takes over and translates the output of the compiler which is written in a language called assembly into actual machine code by substituting the easy-to-read strings alternatives with actual opcodes.
+After the compiler is finished with its job the \textbf{assembler} takes over and translates the output of the compiler which is written in a language called assembly into actual machine code by substituting the easy-to-read string alternatives with actual opcodes.
 At last the \textbf{linker} combines the resulting ``object-files'' that the assembler emitted for different source files with standard library functions that are also already compiled and other resources. 
 The result is a single file that is directly executable.
 The only task which is left for the \textbf{loader} is assigning a base address to the relative memory references of the ``relocatable'' file which were used until now.
@@ -409,35 +409,235 @@ These substitutions must be specified by hand and are highly target-dependent in
 If the sequence can be substituted the peephole optimizer does so, otherwise the peephole is moved one step further and the new sequence is evaluated.
 
 \subsection{Assembly Basics}
-Assembly was mentioned a few times in this thesis already and we need to know at least a few basic assembly instructions that will help us later on to understand resulting machine code.
-On RISC machines the as 
+Assembly (|asm|) was mentioned a few times in this thesis already and we need to know at least a few basic assembly instructions that will help us later on to understand resulting machine code.
+Assembly is usually the lowest level of representation of a program that still is human-readable.
+Assembly code is basically equivalent to machine code and therefore by many seen as such though assembly code needs to be assembled by the assembler first.
+Assembly instructions all follow a certain scheme which is:
+\begin{lstlisting}
+    add r1, 0x3000, 5
+    mnemonic operand/result operand operand
+\end{lstlisting}
+For RISC architectures instructions typically consist of 3 operands because operations are usually between registers only (except for load/store a.k.a. memory instructions).
+The mnemonic in most cases is a named after the first letters of the instructions full name, which is emphasized in the following table.
+The operand can be of three different types which are all shown above.
+They either represent a specific register (r1 = register 1), a memory address (0x3000 = the value at memory location 0x3000) or an immediate value (5 = the integer 5).
+Register operands can also have an indirect use, which means that that content of the register is taken into account.
+I.e. a memory address can be saved to the register and an operation uses the value at the memory location which the register refers to.
 
+\begin{tabular}{l l p{9cm}}
+    mnemonic & operands & description \\
+    \hline
+    |add| & |RT, RA, RB| & \textbf{add} |RB| to |RA| and store the result in |RT| \\
+    |addi| & |RT, RA, SI| & \textbf{add} |SI| to |RA| and store the result in |RT| \\
+    |addis| & |RT, RA, SI| & \textbf{add} |SI| \textbf{s}hifted left by 16 bit to |RA| and store the result in |RT| \\
+    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
+    |b| & |target_addr| & \textbf{b}ranch to the code at |target_addr|\\
+    |ble| & |BF, target_addr| & \textbf{b}ranch to the code at |target_addr| if |BF| is \textbf{l}ess or \textbf{e}qual \\
+    |blr| & & \textbf{b}ranch to the code at address in the \textbf{l}inker \textbf{r}egister \\
+    |cmp| & |BF, L, RA, RB| & |RA| and |RB| are \textbf{c}o\textbf{mp}ared and the result (|gt,lt,eq|) is stored in |BF|, |L| depicts if 32-bit or 64-bit are compared \\
+    |cmplwi| & |BF, RA, SI| & |RA| \textbf{c}o\textbf{mp}ared \textbf{l}ogically \textbf{w}ordwise with \textbf{i}mmediate |SI| and the result is stored in |BF|\\
+    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
+    |eieio| & & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \todo edit this\\
+    |isync| & & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \todo edit this\\
+    |la| & |RT, D(RA)| & \textbf{l}oad \textbf{a}ggregate |D + RA| into |RT|\\
+    |li| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| into |RT|\\
+    |lis| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| \textbf{s}hifted left by 16 bit into |RT|\\
+    |lbz| & |RT, D(RA)| & \textbf{l}oad \textbf{b}yte at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
+    |lwz| & |RT, D(RA)| & \textbf{l}oad \textbf{w}ord at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
+    |mflr| & |RT| & \textbf{m}ove \textbf{f}rom \textbf{l}inker \textbf{r}egister to |RT|\\
+    |mr| & |RT, RA| & \textbf{m}ove \textbf{r}egister |RA| to |RT| \\
+    |nop| & & halts execution until the previous instructions are finished \todo edit this\\
+    |rlwinm| & |RA, RS, SH, MB, ME| & \textbf{r}otate \textbf{l}eft \textbf{w}ord in |RS| by \textbf{i}mmediate |SH| bits then a\textbf{n}d with \textbf{m}ask which is 1 from |MB+32| to |ME+32| and 0 else, store to |RA|\\
+    |stw| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA|\\
+    |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\
+    |sync| & & halts execution until the memory controller is finished \todo edit this\\
+\end{tabular}
+\add{caption and reference to PPC book and asm website}
 
+Obviously the mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
+\begin{description}
+    \lstitem{i} indicates that the instructions uses an immediate value
+    \lstitem{b} stands for byte and references the size of the operand
+    \lstitem{h} stands for halfword and references the size of the operand
+    \lstitem{w} stands for word and references the size of the operand
+    \lstitem{s} indicates that one of the operands is shifted
+    \lstitem{g, ge, l, le, e} stand for greater, greater or equal, less, less or equal and equal which is the possible content of the conditional register
+\end{description}
 
+There are also special operands which might occur in |asm| which behave like pointers:
+\begin{description}
+    \lstitem{@l(C)} is equivalent to the lower order 16 bits of of |C| in the symbol table
+    \lstitem{@ha(C)} is equivalent to the higher order 16 bits of of |C| in the symbol table and minds the sign extension
+\end{description}
 
+Additionally there exist markers which are intended for debugging:
+\begin{description}
+        \lstitem{.loc # # #} marks a line of code (file, line, column) in the source file
+        \lstitem{.LVL} is a local label which can be discarded
+        \lstitem{.LFB} marks the begin of a function
+        \lstitem{.LFE} marks the end of a function
+        \lstitem{.LC0} is a constant of the literals table at position |0|
+\end{description}
 
-light memory barrier
-Typically such a memory barrier is called like |asm (:::memory)|, which the compiler recognizes as a memory barrier.
-jumps -> jump optimization
+We want to spend just a little more time on assembly as it is useful to know how to program in assembly while using C.
+This is done by the following scheme:
+\begin{lstlisting}
+asm volatile (  "add %0, %1, %2"
+                : "=r" (dst)
+                : "r" (src1), "r" (src2):);
+\end{lstlisting}
 
+The line of code above tells the compiler to generate the instruction |add| in assembly which is followed by three operands.
+The number |n| in |%n| indicates that the operand is specified by the |n+1|th description of an operand that follows.
+The description that follows after |:| describes the output operands.
+|"=r"| means that the output is to be stored in a register (letter |r| for register operand) and that the register is to be written (|=| this is called constraint).
+The variable in parentheses must be declared before its occurrence and of matching type (|float| would not be allowed in this case).
+The following description is that of the input operands and those must not be written!
+|r| again stands for a register operand and the variable is in parentheses, the arguments are separated by commas.
+After the third |:| follow clobbered (=temporarily used) registers which would also be in quotes, but these are optional arguments.
+|volatile| means that the compiler must not delete the following instructions due to optimization.
 
-
+As a special command |asm (:::memory);| would indicate a memory barrier to the compiler, ergo the machine instructions previous to this line and the one following may not be interchanged.
 
 \subsection{Intrinsics}
-\subsection{GNU Compiler Collection}
-reload
-\subsubsection{RTL Basics}
+Something that will also occur quite often later in this thesis are intrinsics.
+Intrinsics are sometimes also called built-in functions and resemble an intermediate form of |asm| and a high-level programming language.
+This means that by calling an intrinsic function, we tell the compiler to use a certain machine instruction that typically shares its name with the intrinsic.
+What differs an intrinsic from |asm()| is that we do not need to specify constraints or registers classes but only need to keep an eye on the type of arguments.
+One could easily mistake them for normal functions of library but they are directly integrated into the back-end of a compiler and thus independent of the programming language.
+In order to implement intrinsics into a back-end the compiler need a certain knowledge of what the |asm| instruction does and what kind of operands it needs.
 
+A typical field of application for intrinsics would be vectorization and parallelization of code through processor extensions.
+Sometimes this is the sole option of using the machine instructions associated with them.
+
+\subsection{GNU Compiler Collection}
+The GNU Compiler Collection (GCC) is a compiler suite that supports different programming languages and targets.
+Though normally it is seen as a build of GCC supports a variety of front-ends while it was built for a specific target.
+This target in most cases is the processor architecture on which the user runs the compiler.
+But GCC also supports the idea of a cross-compiler which is the concept of compiling code on one machine but running the code on a different machine that is also based on a different architecture.
+One must though build a version of GCC locally for every back-end one wants to compile code for.
+This is realized through a modular structure which follows the idea of a front-end, middle-end and back-end as it was described in section \reference{section:compiler} although some information that belongs to a back-end is also needed at the front-end, hence the compiler is built back-end specific but supports a wide variety of back-ends to choose from.
+
+GCC itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
+It is wide-spread and one of the most popular compilers especially among academic institutions and small scale developers.
+Every major UNIX distribution and many minor ones include GCC as a standard compiler\todo{reference the definitive guide to GCC introduction}.
+As an open source project there is a constant development to the compiler and there exist many threads that support known bugs.
+
+There is one major competitor though which stands besides GCC as an open source compiler suite which is Clang that is part of the LLVM (low level virtual machine).
+Both support running the same source code on multiple machines while LLVM actually runs intermediate code rather than actual machine code and uses GCC to generate this intermediate code for some front-ends.
+However while one can argue in favor for either one, GCC seems a little better suited for our application \todo{reference LLVM vs. GCC on ARM, LLVM vs. Gcc in EISC}.
+These results have to be viewed with care, as they are based on different processor architectures but it seems like both compilers provide similar performance.
+Ultimately it is the personal preference of the programmer that decides which compiler one is more comfortable with and often enough he chooses that compiler.
+In our case I have chosen GCC over LLVM for two main reasons.
+One is that after all GCC follows more the traditional concept of a compiler that generates machine code at the end and also I was far more familiar with GCC than with LLVM when this decision had to be made.
+The other is that GCC support existed to a minimum before I started this thesis and thus there was a point to start from.
+This topic will be referred to later on in the discussion but for now a short motivation seems to be sufficient.
+
+By now GCC is a stable release version of 6.3 with version 7 in the works but we will use an older version which is used internally at the BrainScaleS project which is version 4.9.2.
+Additionally we will use binutils 2.25 which was patched by Simon Friedmann and since includes the opcodes and mnemonics which are supported by the nux.
+A complete specification of the libraries used and a handy script that builds a cross-compiler for the nux on PowerPC systems can be found there as well.
+
+We take a special interest in the PowerPC back-end of GCC which is called rs/6000 for IBMs RISC system/6000 architecture that is equivalent to POWER.
+According to GCCs Internals manual \todo{reference}, which we will refer to as the sole source of information in this regard, the back-end of GCC has the following structure:
+
+Each architecture has a directory with its respective name in gcc/config e.g. gcc/config/rs6000 that contains a minimum amount of files.
+These are the machine description rs6000.md which is an overview of machine instructions with additional information to each instruction and the header files rs6000.h and rs6000-protos.h and source file rs6000.c that handle the target description through macros and functions.
+Every back-end needs these files in the GCC source and the final back-end is build from these files through the macros and functions just mentioned.
+To notice a back-end in the first place the back-ends directory -here "rs6000"- must be added to the file config.gcc which also includes a list of all files in the aforementioned directory.
+Most back-ends include additional files which makes a back-ends complex structure clearer but these are not mandatory and we will address these later.
+
+Instead we address one of the most important functions which unfortunately is also one of the least documented though most complicated ones.
+The function/process is called ``reload'' and is used as part of the register allocation process. \todo{reference to GCC wiki}
+Specifically reload is meant to do register spilling but over almost 25 years that GCC existed until 4.9.2 it became more and more complex and basically does everything associated with register allocation (mainly moving the contents of different registers and memory around, and finding the right registers in the first place).
+Over the years it thus became one of the main sources of errors when constructing a back-end and was meant to be replaced several times.
+As of now reload is being replaced by LRA (local register allocator) but GCC 4.9.2 is not impacted by this therefore we are stuck with reload indefinitely.
+
+To address possible errors in reload later on we now get to know one form of IR in GCC that is Register Transfer Language (RTL).
+
+\subsubsection{Register Transfer Language Basics}
+RTL, which is not to be mixed up with Register Transfer Level, is a form of IR the back-end uses to generate machine code.
+Usually GCC uses the IR GIMPLE which looks like stripped down C code with 3 argument expressions, temporary variables and |goto| control structures.
+The back-end transforms this into a less readable IR that inherits GIMPLEs structure but brings it to a machine instruction level.
+It is inspired by Lisp lists and thus we will need to take a look at those at last in before we take on the task of extending a GCC back-end.
+
+We do so in looking at one of the most fundamental RTL statements first while explaining the each part at a time.
+
+\begin{lstlisting}
+(define_insn "add<mode>3"
+  [(set (match_operand:VI2 0 "register_operand" "=v")
+        (plus:VI2 (match_operand:VI2 1 "register_operand" "v")
+		  (match_operand:VI2 2 "register_operand" "v")))]
+  "<VI_unit>"
+  "vaddu<VI_char>m %0,%1,%2"
+  [(set_attr "type" "vecsimple")])
+
+(define_insn "*altivec_addv4sf3"
+  [(set (match_operand:V4SF 0 "register_operand" "=v")
+        (plus:V4SF (match_operand:V4SF 1 "register_operand" "v")
+		   (match_operand:V4SF 2 "register_operand" "v")))]
+  "VECTOR_UNIT_ALTIVEC_P (V4SFmode)"
+  "vaddfp %0,%1,%2"
+  [(set_attr "type" "vecfloat")])
+\end{lstlisting}
+
+There exist manuals to basically everything which is written here and the more extensive manual will be referenced at he end of each paragraph.
+
+|define_insn| is an RTL expression that generates an RTL equivalent to a machine instruction.
+One such instruction is called an insn (short for instruction) hand has several properties like a name, an RTL template, a condition template, an output template and attributes. \todo{reference define\_insn}
+The name in this case is |add<mode>3| (|3| for three operands) where |<mode>| is to replaced by a set of values that describe a modes. \todo{reference standard names}
+A mode is the form of an operand and can be something like |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \todo{reference machine modes}
+There are many more modes that follow the same scheme.
+In this case we do not specify the mode explicitly but use an iterator that creates a |define_insn| for every valid mode we specify. \todo{reference mode iterator}
+The second |define_insn| shows this with a specific mode.
+
+Next follows the RTL template which is in square brackets.
+All RTL templates need a side effect expression as a base which describes what happens to the operands that follow.
+In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \todo{reference side effect expression}
+The first expression that follows is a specified operand.
+|match_operand| tells the compiler that what follows is a new operand.
+|VI2| belongs to the mode iterator we saw earlier and is to be substituted by the equivalent mode to <mode> in caps, which can be seen for the following |define_insn|.
+All modes |VI2| are to be substituted by the same real mode.
+After the mode comes the index of an operand which starts at 0 for every |define_insn|.
+The following string describes a predicate which tells the compiler more about the operand and which constraints it must fulfill.
+Operands typically end in |_operand| and a single predicate is meant to group several different operand types.
+In this case any register would be a valid operand. \todo{reference predicates}
+The next string specifies the operands further and is meant to fine tune the predicate.
+It is called a constraint and matches the description which was taken in section \reference{section:asm}.
+|=| again means that the register must be writable and |v| stands for an AltiVec vector register.\todo{reference constraints}
+This pattern is repeated for every operand and only changes slightly.
+Though the second expression of the |set| side effect has an additional pair of parentheses because of the |plus| statement.
+This is an arithmetic expression and tells the compiler that the following operands are part of an operation that results in a new value.
+It is also succeeded by a mode that specifies the mode of the result.\todo{ reference arithmetic expresssion}
+
+The RTL template is matched by the compiler against the RTL it generated from GIMPLE and if the template matches the RTL is substituted by the output template that follows.
+
+After the RTL template is finished, the condition specifies if the insn may be used.
+It is a C expression an must render |true| in order to allow the matching RTL pattern to be applied.
+In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \todo{reference condtion}
+
+The output template is usually is similar to the |asm| template from |asm|.
+The string contains the mnemonic of a machine instruction and the operands which are numbered according to the indexes of the RTL template.
+Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \todo{reference output template}
+
+At last the insn is completed by its attributes which hold further information about the insn that is used by the compiler internally like which effect an insn has on certain register etc..
+We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \todo{reference attributes}
+
+
+The attentive reader might have noticed that only RTL template is written in RTL.
+This is true but still do insn patterns belong into this section.
+The RTL not only is the most important part of an insn but we will hardly see RTL outside from RTL templates.
+Still should RTL be mentioned in its other form here as it is used for debugging purposes.
+
+RTL can be split into two phases which are non-strict RTL and strict RTL.
+Non-strict occurs only before |reload| and is very deliberate in specifying its operands.
+Operands usually are virtual registers that have a unique number.
+|match_operand| then is replaced by |(reg:SI 1)| which tells the compiler the type of operand, the mode and the register number.\todo{reference regs and memory}
+
+Strict RTL has passed |reload| and no longer contains virtual registers but only references existing hard registers or memory.
+
+An example of non-strict RTL and strict RTL of the same code can be seen in figure \add{examples of RTL code}
 
 \add{
-register handling
-
-different parts of an instruction, mention: opcodes, asm instruction, operation, operand, insn, IR, builtin function/intrinsic
-
-RISC System/6000
 MMU ?= memory controller
 PPC must handle syncing in compiler when I/O is added
 }
- 
-\section{Current State of the System}
-This section is probably unnecessary

@@ -1,5 +1,35 @@
 \chapter{Extending the GCC Back-End}
 \label{chapter:extbackend}
+Since we now are familiar with the basics of processors, the PPU, compilers and GCC we can put this knowledge to use and start extending the GCC back-end.
+There es a set of files we will systematically edit and keep referencing to as they are important parts of the rs6000 back-end and were changed in the process of extending the back-end. 
+\begin{description}
+    \item[rs6000.md] this is the machine description of the back-end in general and contains the insn definitions for all scalar functions
+    \item[rs6000.h] is a header file which contains all macros and declaration of registers
+    \item[rs6000.c] is the source file which implements all functions that are needed for generation of the back-end and other accompanying functions
+    \item[rs6000.opt] lists the options and flags which can be set for the target
+    \item[rs6000-builtins.def] contains the definitions of built-ins/intrinsics
+    \item[rs6000-cpus.def] lists subtargets that belong to the rs6000 family
+    \item[rs6000-c.c] links built-ins to overloaded built-ins
+    \item[rs6000-opts.h] 
+    \item[rs6000-protos.h] makes functions in |rs6000.c| globally available
+    \item[rs6000-tables.opt]
+    \item[driver-rs6000.c]
+    \item[ppc-asm.h]
+    \item[s2pp.md] is a new file that is the machine description of the nux' VE and contains insn definitions for the VE
+    \item[s2pp.h] is the header file that defines aliases for built-ins
+    \item[constraints.md] contains definitions of the constraints that are used
+    \item[predicates.md] contains definitions of the predicates that are used
+    \item[vector.md] declares insn definitions that apply to vector types in general
+    \item[sysv4.h]
+    \item[t-fprules]
+\end{description}
+
+We start with
+
+
+
+
+
 
 To allow the compiler to differ which insns we acutally want to use as a built-in, the rs/6000 back-end has a special file which contians macros for every builtin function that will be available.
 These  macros will be loadad in the rs6000.c file and also handled there.
@@ -34,27 +64,4 @@ then it is a good idea so offer all assembly macros with their already known nam
 fxvaddbm would become fxv\_ addbm.
 for more genral builtins that combine the halfword and byte macro it is recommended to leave out the letter h or b likewise.
 rendering fxv\_ addm the builtin function that works with both V8HI and V16QI vectors.
-
-important files:
-\begin{description}
-    \item[rs6000.md]
-    \item[rs6000.h]
-    \item[rs6000.c]
-    \item[rs6000.opt]
-    \item[rs6000-builtins.def]
-    \item[rs6000-cpus.def]
-    \item[rs6000-c.c]
-    \item[rs6000-opts.h]
-    \item[rs6000-protos.h]
-    \item[rs6000-tables.opt]
-    \item[driver-rs6000.c]
-    \item[ppc-asm.h]
-    \item[s2pp.md]
-    \item[s2pp.h]
-    \item[constraints.md]
-    \item[predicates.md]
-    \item[vector.md]
-    \item[sysv4.h]
-    \item[t-fprules] bla bla bla
-\end{description}
         
