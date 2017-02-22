@@ -17,13 +17,14 @@
 \contentsline {subsection}{\numberline {2.3.3}Intrinsics}{19}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{19}{subsection.2.3.4}
 \contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.34}
-\contentsline {chapter}{\numberline {3}Test cases}{24}{chapter.3}
-\contentsline {chapter}{\numberline {4}Results}{25}{chapter.4}
-\contentsline {chapter}{\numberline {5}Discussion}{26}{chapter.5}
-\contentsline {chapter}{\numberline {6}Outlook}{27}{chapter.6}
-\contentsline {chapter}{Appendix}{28}{chapter.6}
+\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}
+\contentsline {chapter}{\numberline {4}Test cases}{31}{chapter.4}
+\contentsline {chapter}{\numberline {5}Results}{32}{chapter.5}
+\contentsline {chapter}{\numberline {6}Discussion}{33}{chapter.6}
+\contentsline {chapter}{\numberline {7}Outlook}{34}{chapter.7}
+\contentsline {chapter}{Appendix}{35}{chapter.7}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}
 \select@language {english}
-\contentsline {chapter}{Bibliography}{31}{appendix*.51}
+\contentsline {chapter}{Bibliography}{39}{appendix*.59}

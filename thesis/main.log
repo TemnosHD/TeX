@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  21 FEB 2017 18:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  22 FEB 2017 21:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1160,30 +1160,46 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count174
 )
+(/usr/share/texlive/texmf-dist/tex/latex/acronym/acronym.sty
+Package: acronym 2014/09/29 v1.40 Support for acronyms (Tobias Oetiker)
+
+(/usr/share/texlive/texmf-dist/tex/latex/bigfoot/suffix.sty
+Package: suffix 2006/07/15 1.5 Variant command support
+)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
+\@xs@message=\write5
+\integerpart=\count175
+\decimalpart=\count176
+)
+Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
+)
+\AC@clearlist=\toks44
+)
 (/usr/share/texlive/texmf-dist/tex/latex/nomencl/nomencl.sty
 Package: nomencl 2005/09/22 v4.2 Nomenclature package (LN)
 \nomlabelwidth=\dimen207
 \nom@tempdim=\dimen208
 \nomitemsep=\skip72
 )
-\@nomenclaturefile=\write5
-\openout5 = `main.nlo'.
+\@nomenclaturefile=\write6
+\openout6 = `main.nlo'.
 
 
 Writing nomenclature file main.nlo
 (/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
 Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
 )
-\@indexfile=\write6
-\openout6 = `main.idx'.
+\@indexfile=\write7
+\openout7 = `main.idx'.
 
 
 Writing index file main.idx
 (/usr/share/texlive/texmf-dist/tex/latex/xargs/xargs.sty
 Package: xargs 2008/03/22 v1.1  extended macro definitions  (mpg)
-\xargs@max=\count175
-\xargs@toksa=\toks44
-\xargs@toksb=\toks45
+\xargs@max=\count177
+\xargs@toksa=\toks45
+\xargs@toksb=\toks46
 )
 (/usr/share/texlive/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2012/07/25 .dtx Todonotes source and documentation.
@@ -1195,18 +1211,18 @@ File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.0 (rcs-revision 1.7)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count176
-\calc@Bcount=\count177
+\calc@Acount=\count178
+\calc@Bcount=\count179
 \calc@Adimen=\dimen209
 \calc@Bdimen=\dimen210
 \calc@Askip=\skip73
 \calc@Bskip=\skip74
 LaTeX Info: Redefining \setlength on input line 75.
 LaTeX Info: Redefining \addtolength on input line 76.
-\calc@Ccount=\count178
+\calc@Ccount=\count180
 \calc@Cskip=\skip75
 )
-\c@@todonotes@numberoftodonotes=\count179
+\c@@todonotes@numberoftodonotes=\count181
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/fixltx2e.sty
 Package: fixltx2e 2014/09/29 v1.1s fixes to LaTeX
@@ -1221,35 +1237,35 @@ LaTeX Info: Redefining \textsubscript on input line 434.
 (./tex/appendix.aux) (./tex/acknowledgments.aux) (./cover/statement.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 158.
-LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
 
 ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count180
+\scratchcounter=\count182
 \scratchdimen=\dimen211
 \scratchbox=\box51
-\nofMPsegments=\count181
-\nofMParguments=\count182
-\everyMPshowfont=\toks46
-\MPscratchCnt=\count183
+\nofMPsegments=\count183
+\nofMParguments=\count184
+\everyMPshowfont=\toks47
+\MPscratchCnt=\count185
 \MPscratchDim=\dimen212
-\MPnumerator=\count184
-\makeMPintoPDFobject=\count185
-\everyMPtoPDFconversion=\toks47
+\MPnumerator=\count186
+\makeMPintoPDFobject=\count187
+\everyMPtoPDFconversion=\toks48
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
@@ -1282,9 +1298,9 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \RaggedRightParindent=\skip88
 \JustifyingParindent=\skip89
 )
-\c@lstlisting=\count186
+\c@lstlisting=\count188
 \AtBeginShipoutBox=\box52
-Package hyperref Info: Link coloring ON on input line 158.
+Package hyperref Info: Link coloring ON on input line 159.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1292,15 +1308,15 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count187
+\c@section@level=\count189
 )
-LaTeX Info: Redefining \ref on input line 158.
-LaTeX Info: Redefining \pageref on input line 158.
-LaTeX Info: Redefining \nameref on input line 158.
+LaTeX Info: Redefining \ref on input line 159.
+LaTeX Info: Redefining \pageref on input line 159.
+LaTeX Info: Redefining \nameref on input line 159.
 
 (./main.out) (./main.out)
-\@outlinefile=\write7
-\openout7 = `main.out'.
+\@outlinefile=\write8
+\openout8 = `main.out'.
 
 \openout2 = `cover/cover_kip.aux'.
 
@@ -1317,7 +1333,7 @@ converted-to.pdf fig/cover/Publ-Cover1.eps>
 (epstopdf)             \includegraphics on input line 14.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=90, 541.02126pt x 118.4425pt>
+<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=94, 541.02126pt x 118.4425pt>
 File: fig/cover/Publ-Cover1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover1-eps-converted-to.pdf>
@@ -1374,7 +1390,7 @@ converted-to.pdf fig/cover/Publ-Cover2.eps>
 (epstopdf)             \includegraphics on input line 29.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=91, 393.47pt x 6.0225pt>
+<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=95, 393.47pt x 6.0225pt>
 File: fig/cover/Publ-Cover2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover2-eps-converted-to.pdf>
@@ -1421,7 +1437,7 @@ Package epstopdf Info: Source file: <fig/cover/Publ-Cover3.eps>
 converted-to.pdf fig/cover/Publ-Cover3.eps>
 (epstopdf)             \includegraphics on input line 56.
 Package epstopdf Info: Output file is already uptodate.
-<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=92, 401.5pt x 31.11626pt>
+<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=96, 401.5pt x 31.11626pt>
 File: fig/cover/Publ-Cover3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover3-eps-converted-to.pdf>
@@ -1448,13 +1464,13 @@ Non-PDF special ignored!
 s-converted-to.pdf> <./fig/cover/Publ-Cover2-eps-converted-to.pdf> <./fig/cover
 /Publ-Cover3-eps-converted-to.pdf>])
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 164.
+(babel)             in language  on input line 165.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 164.
+(babel)             in language  on input line 165.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 164.
+(babel)             in language  on input line 165.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 164.
+(babel)             in language  on input line 165.
  [2
 
 
@@ -1520,13 +1536,13 @@ Package babel Info: Redefining ngerman shorthand "~
 
 ])
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 168.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 168.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 168.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 168.
+(babel)             in language  on input line 169.
  [4
 
 
@@ -1629,8 +1645,8 @@ Package babel Info: Redefining ngerman shorthand "~
 
 
 ] (./main.toc)
-\tf@toc=\write8
-\openout8 = `main.toc'.
+\tf@toc=\write9
+\openout9 = `main.toc'.
 
  [3
 
@@ -1753,34 +1769,18 @@ Overfull \hbox (10.64273pt too wide) in paragraph at lines 165--165
 \T1/cmr/m/n/6 manuals/ALTIVECPEM.pdf  
  []
 
-LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 166.
 [7] [8] [9] [10] [11] [12] [13] [14] [15]
-Overfull \hbox (55.31613pt too wide) in paragraph at lines 427--455
+Overfull \hbox (35.1304pt too wide) in paragraph at lines 428--456
 [][]
  []
 
-[16] [17] [18]
-! Undefined control sequence.
-l.519 ...as it was described in section \reference
-                                                  {section:compiler} althoug...
+[16] [17] [18] [19] [20]
 
-? 
-[19] [20] [21]
+LaTeX Warning: Marginpar on page 21 moved.
 
-LaTeX Warning: Marginpar on page 22 moved.
-
-
-LaTeX Warning: Marginpar on page 22 moved.
-
-
-LaTeX Warning: Marginpar on page 22 moved.
-
-! Undefined control sequence.
-l.605 ...ion which was taken in section \reference
-                                                  {section:asm}.
-? 
-[22]) (./tex/tests.tex [23]
+[21] [22]) (./tex/extbackend.tex [23]
 
 ! LaTeX Error: Float(s) lost.
 
@@ -1789,42 +1789,46 @@ Type  H <return>  for immediate help.
  ...                                              
                                                   
 l.1 \chapter
-            {Test cases}
+            {Extending the GCC Back-End}
 ? 
 Chapter 3.
-) (./tex/results.tex [24
+[24
 
-]
+] [25] [26] [27] [28] [29]) (./tex/tests.tex [30]
 Chapter 4.
-) (./tex/discussion.tex [25
+) (./tex/results.tex [31
 
 ]
 Chapter 5.
-) (./tex/outlook.tex [26
+) (./tex/discussion.tex [32
 
 ]
 Chapter 6.
-) [27
+) (./tex/outlook.tex [33
+
+]
+Chapter 7.
+) [34
 
 ]
 \openout2 = `tex/appendix.aux'.
 
- (./tex/appendix.tex [28
+ (./tex/appendix.tex [35
 
 
-] (./main.tdo
+] [36] (./main.tdo
 Overfull \hbox (34.86546pt too wide) in paragraph at lines 7--7
  [][] [][][][][] \T1/cmr/m/n/10.95 http://www.nxp.com/assets/documents/data/en/
 reference-manuals/ALTIVECPEM.pdf[][] [][]  
  []
 
-[29
+[37
 
 ])
-\tf@tdo=\write9
-\openout9 = `main.tdo'.
+\tf@tdo=\write10
+\openout10 = `main.tdo'.
 
-) [30]
+) [38]
 No file main.nls.
 No file main.bbl.
 No file main.ind.
@@ -1848,7 +1852,7 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
 (scrreprt)              by `\normalfont \bfseries ' on input line 6.
 
-) [31
+) [39
 
 
 
@@ -1858,25 +1862,25 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 314.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 314.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 317.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 317.
  (./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
 (./cover/cover_prof.aux) (./tex/abstract.aux) (./tex/appendix.aux)
 (./tex/acknowledgments.aux) (./cover/statement.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 314.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 314.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 317.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 317.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 13F6055C2CAC47AA8E95462931B45B20;1355.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 314.
+(rerunfilecheck)             Checksum: 9D74DC98746EFB6C89C4A17D575AAAC9;1417.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 317.
  ) 
 Here is how much of TeX's memory you used:
- 25722 strings out of 493105
- 468441 string characters out of 6137072
- 695187 words of memory out of 5000000
- 28406 multiletter control sequences out of 15000+600000
- 24315 words of font info for 56 fonts, out of 8000000 for 9000
+ 26595 strings out of 493105
+ 480520 string characters out of 6137072
+ 705733 words of memory out of 5000000
+ 29148 multiletter control sequences out of 15000+600000
+ 24943 words of font info for 58 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
- 55i,17n,80p,520b,1178s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,17n,80p,520b,1211s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
@@ -1888,18 +1892,19 @@ sfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb>
 nts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-
 super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2074.pfb><
 /usr/share/texmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/share/texmf/fon
-ts/type1/public/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-s
-uper/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></
-usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/font
-s/type1/public/cm-super/sfsl1095.pfb></usr/share/texmf/fonts/type1/public/cm-su
-per/sfss1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></u
-sr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts
-/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-sup
-er/sfsx2074.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on main.pdf (41 pages, 500691 bytes).
+ts/type1/public/cm-super/sfit0900.pfb></usr/share/texmf/fonts/type1/public/cm-s
+uper/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></
+usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/font
+s/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-su
+per/sfsl1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1440.pfb></u
+sr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts
+/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-sup
+er/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2074.pfb></us
+r/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
+Output written on main.pdf (49 pages, 555051 bytes).
 PDF statistics:
- 551 PDF objects out of 1000 (max. 8388607)
- 474 compressed objects within 5 object streams
- 136 named destinations out of 1000 (max. 500000)
- 196 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 737 PDF objects out of 1000 (max. 8388607)
+ 649 compressed objects within 7 object streams
+ 249 named destinations out of 1000 (max. 500000)
+ 204 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -296,7 +296,7 @@ We will keep this big-endian description throughout this thesis.
 
 
 \section{Basic Compiler Structure}
-\label{section:compiler structure}
+\label{section:compiler}
 At its core every compiler translates a source-language into a target-language, most often it translates a high-level, human readable programming language into a machine language that consists of basic instructions that build complicated structures.
 In doing so compilers may be the essential part in everyday lives of programmers everywhere.
 But compilers do not exist as long as computers do and their development played a big role in making computers such an important part of everyday life as they are today.
@@ -409,6 +409,7 @@ These substitutions must be specified by hand and are highly target-dependent in
 If the sequence can be substituted the peephole optimizer does so, otherwise the peephole is moved one step further and the new sequence is evaluated.
 
 \subsection{Assembly Basics}
+\label{section:asm}
 Assembly (|asm|) was mentioned a few times in this thesis already and we need to know at least a few basic assembly instructions that will help us later on to understand resulting machine code.
 Assembly is usually the lowest level of representation of a program that still is human-readable.
 Assembly code is basically equivalent to machine code and therefore by many seen as such though assembly code needs to be assembled by the assembler first.
@@ -516,7 +517,7 @@ Though normally it is seen as a build of GCC supports a variety of front-ends wh
 This target in most cases is the processor architecture on which the user runs the compiler.
 But GCC also supports the idea of a cross-compiler which is the concept of compiling code on one machine but running the code on a different machine that is also based on a different architecture.
 One must though build a version of GCC locally for every back-end one wants to compile code for.
-This is realized through a modular structure which follows the idea of a front-end, middle-end and back-end as it was described in section \reference{section:compiler} although some information that belongs to a back-end is also needed at the front-end, hence the compiler is built back-end specific but supports a wide variety of back-ends to choose from.
+This is realized through a modular structure which follows the idea of a front-end, middle-end and back-end as it was described in section \ref{section:compiler} although some information that belongs to a back-end is also needed at the front-end, hence the compiler is built back-end specific but supports a wide variety of back-ends to choose from.
 
 GCC itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
 It is wide-spread and one of the most popular compilers especially among academic institutions and small scale developers.
@@ -602,7 +603,7 @@ The following string describes a predicate which tells the compiler more about t
 Operands typically end in |_operand| and a single predicate is meant to group several different operand types.
 In this case any register would be a valid operand. \todo{reference predicates}
 The next string specifies the operands further and is meant to fine tune the predicate.
-It is called a constraint and matches the description which was taken in section \reference{section:asm}.
+It is called a constraint and matches the description which was taken in section \ref{section:asm}.
 |=| again means that the register must be writable and |v| stands for an AltiVec vector register.\todo{reference constraints}
 This pattern is repeated for every operand and only changes slightly.
 Though the second expression of the |set| side effect has an additional pair of parentheses because of the |plus| statement.
