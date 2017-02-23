@@ -96,12 +96,12 @@ This is done in |rs6000-c.c| in function |rs6000_target_modify_macros| where we 
 \begin{lstlisting}
   if ((flags & OPTION_MASK_S2PP) != 0)
     rs6000_define_or_undefine_macro (define_p, "__S2PP__");
-  if ((flags & OPTION_MASK_STRICT_ALIGN) != 0)
-    rs6000_define_or_undefine_macro (define_p, "_STRICT_ALIGN");
-  if ((flags & OPTION_MASK_RELOCATABLE) != 0)
-    rs6000_define_or_undefine_macro (define_p, "_RELOCATABLE");
-  if (rs6000_sdata != SDATA_NONE)
-    rs6000_define_or_undefine_macro (define_p, "_SDATA");
+  //if ((flags & OPTION_MASK_STRICT_ALIGN) != 0)
+    //rs6000_define_or_undefine_macro (define_p, "_STRICT_ALIGN");
+  //if ((flags & OPTION_MASK_RELOCATABLE) != 0)
+    //rs6000_define_or_undefine_macro (define_p, "_RELOCATABLE");
+  //if (rs6000_sdata != SDATA_NONE)
+    //rs6000_define_or_undefine_macro (define_p, "_SDATA");
 \end{lstlisting}
 
 If |flags| and the respective option mask are set, |rs6000_define_or_undefine_macro| will define a macro which is the second argument if a macro is defined or undefined depends on the boolean |define_p| but the back-end takes care of this on its own.
@@ -113,7 +113,7 @@ After we added the usual conditional header macro to the file we add the first l
 #if !defined(__S2PP__)
 #error Use the "-ms2pp" flag to enable s2pp support
 #endif
-\end{lstlisting}
+\end{lstlisting}\unsure{do more often like this: one example for repetitive use}
 Hence if |__S2PP__| was not defined because the target flag was not set, the compiler will emit an error that tells the user to set the target flag.
 This is done for all macros that we set above so to prohibit false use of nux.
 But we will also put in a second measure to prevent false use of |floats| by adding |nux| to the list of soft-float CPUs in |t-fprules|.
@@ -122,18 +122,15 @@ Since the preliminary requirements for the activation of the VE are now met, we 
 First we add a new Vector type which we will need from time to time.
 We call it |VECTOR_S2PP| and add it to the enumeration |rs6000_vector| in |rs6000-opts.h|.
 To put this to use we will create macros in |rs6000.h| which test vector modes if they correspond to the available modes in s2pp.
-Hence we add 
+Hence we add \todo{remove this}
 \begin{lstlisting}
 #define VECTOR_UNIT_S2PP_P(MODE)            \
     (rs6000_vector_unit[(MODE)] == VECTOR_S2PP)
-...
-#define VECTOR_MEM_S2PP_P(MODE)             \
-    (rs6000_vector_mem[(MODE)] == VECTOR_S2PP)
 \end{lstlisting}
 for vector units in general and vectors in memory (though the specific handling for vectors in memory is not needed). \todo{delete this then from backend?}
 We also add checking for specific vector modes which shall be chosen carefully.
 The hardware only supports two types of vectors which are vectors with byte elements and vectors with halfword elements.
-Thus the according modes are |V16QImode| and |V8HImode|:
+Thus the according modes are |V16QImode| and |V8HImode|:\todo{necessary?}
 \begin{lstlisting}
 #define S2PP_VECTOR_MODE(MODE)  \
      ((MODE) == V16QImode       \
@@ -146,6 +143,9 @@ As we are already in |rs6000.h| we also add the definition of an s2pp |word| whi
 #define UNITS_PER_S2PP_WORD 16
 \end{lstlisting}
 
+
+\section{Registers}
+\label{section:register}
 Now we start adding the registers of s2pp to the back-end.
 There are three types of registers we need to add:
 \begin{description}
@@ -161,7 +161,7 @@ Registers are declared in |rs6000.md| thus we will do so as well.
 (LAST_S2PP_REGNO     63)
 (S2PP_ACC_REGNO      64)
 ...
-\end{lstlisting}
+\end{lstlisting}\todo{necessary?}
 is added to the Definition of constants at the beginning of |rs6000.md|, where we give a range for the vector registers and after which we pick specific register numbers for the special vector registers.
 The number of these special vector registers does not matter though as we only need a number which no other registers that is used by nux refers to.
 There is a reason why we put the conditional register at 32 and only provide 31 vector registers:
@@ -187,7 +187,33 @@ Now since we declared the vector registers' indexes we will create fitting macro
 #define S2PP_ARG_MIN_REG (FIRST_S2PP_REGNO + 2)
 #define S2PP_ARG_MAX_REG (S2PP_ARG_MIN_REG + 12)
 #define S2PP_ARG_NUM_REG (S2PP_ARG_MAX_REG - S2PP_ARG_MIN_REG + 1)
-\end{lstlisting}
+...
+#define S2PP_ARG_RETURN S2PP_ARG_MIN_REG
+...
+#define S2PP_ARG_MAX_RETURN (DEFAULT_ABI != ABI_ELFv2 ? S2PP_ARG_RETURN \
+    : (S2PP_ARG_RETURN + AGGR_ARG_NUM_REG - 1))
+...
+#define FUNCTION_VALUE_REGNO_P(N)                   \
+    ((N) == GP_ARG_RETURN                         \
+    || ((N) >= FP_ARG_RETURN && (N) <= FP_ARG_MAX_RETURN         \
+        && TARGET_HARD_FLOAT && TARGET_FPRS)
+    || ((N) >= ALTIVEC_ARG_RETURN && (N) <= ALTIVEC_ARG_MAX_RETURN   \
+        && TARGET_ALTIVEC && TARGET_ALTIVEC_ABI)             \
+    || ((N) >= S2PP_ARG_RETURN && (N) <= S2PP_ARG_MAX_RETURN     \
+        && TARGET_S2PP)              \
+    )
+...
+#define FUNCTION_ARG_REGNO_P(N)                     \
+    ((unsigned) (N) - GP_ARG_MIN_REG < GP_ARG_NUM_REG         \
+    || ((unsigned) (N) - ALTIVEC_ARG_MIN_REG < ALTIVEC_ARG_NUM_REG   \
+        && TARGET_ALTIVEC && TARGET_ALTIVEC_ABI)             \
+    || ((unsigned) (N) - FP_ARG_MIN_REG < FP_ARG_NUM_REG         \
+        && TARGET_HARD_FLOAT && TARGET_FPRS)             \
+    || ((unsigned) (N) - S2PP_ARG_MIN_REG < S2PP_ARG_NUM_REG     \
+        && TARGET_S2PP)              \
+    )
+}
+\end{lstlisting} \todo{shorten this}
 tells us which register is the first one available for general register allocation.
 In this regard we shall emphasize a little on fixed, call-used and saved registers.
 Fixed registers serve purpose that does not allow them to hold any other values at any time at all.
@@ -200,7 +226,7 @@ The previous register indexes are referenced later as minimum register for funct
 #define S2PP_REGNO_P(N) ((N) >= FIRST_S2PP_REGNO && (N) <= LAST_S2PP_REGNO)
 #define S2PP_COND_REGNO_P(N) ((N) == S2PP_COND_REGNO)
 #define S2PP_ACC_REGNO_P(N) ((N) == S2PP_ACC_REGNO)
-\end{lstlisting}
+\end{lstlisting} \todo{unnecessary}
 will allow for checking if a register number is of the kind of register we want.
 
 Now we need to get even more specific on the way the registers are organized.
@@ -228,21 +254,79 @@ Now that we defined register classes we again add a macro to compare these:
 #define S2PP_REG_CLASS_P(CLASS)         \
     ((CLASS) == S2PP_REGS)
 \end{lstlisting}
+ \todo{unnecessary}
+Next we need to pick names for those new registers that we just defined.
+These were chosen according to the constraints we will define next which are |kv| for normal vector registers, |kc| for the conditional register, |ka| for the accumulator.
+Defining (in this case alternative) names for registers is done as follows.
+\begin{lstlisting}
+//#define ADDITIONAL_REGISTER_NAMES {\
+//...
+  {"kc", 32}, {"kv0",  33}, {"kv1",  34}, {"kv2",  35},   \
+  //...
+  //{"kv27", 60}, {"kv28", 61}, {"kv29", 62}, {"kv30", 63},   \
+  //{"ka", 64}               \
+\end{lstlisting}
+The strings are the names for the registers and the integers are their indexes.
+
+Now we also want to add the constraints which we just proposed.
+we therefore go to |constraints.md| and add the following code:
+\begin{lstlisting}
+(define_register_constraint "kv" "rs6000_constraints[RS6000_CONSTRAINT_kv]"
+    "s2pp vector register")
+//(define_register_constraint "kc" "rs6000_constraints[RS6000_CONSTRAINT_kc]"
+    //"s2pp conditional register")
+//(define_register_constraint "ka" "rs6000_constraints[RS6000_CONSTRAINT_ka]"
+    //"s2pp accumulator")
+\end{lstlisting}
+where the first string is the register constraint's name and |rs6000_constraints[RS6000_CONSTRAINT_kv]| will be assigned a register name later on.
+The last string is only for documentary purposes.
+We chose |k| as the first initial of s2pp registers because there are very few letters left which are not used as a constraint already and k is one of them which is at least somewhat associated with the processor (``nuks'').
+The second character was chosen from the initial of the respective register type.
+
+The next step which is necessary to make the register widely accessible is adding them to |rs6000.c|.
+For once we add the new registers to |rs6000_debug_reg_global| in order for them to be listed when printing out debug information.
+This is done the same way AltiVec registers are implemented and fairly easy.
+It is far more important to add the registers to |rs6000_init_hard_regno_mode_ok| which initializes global tables that are based on register size.
+Basically every index in |rs6000_regno_regclass[]| is given a register class which corresponds to the register of that index and afterwards each register class is assigned a register type in |reg_class_to_reg_type[]|.
+\begin{lstlisting}
+if (TARGET_S2PP){
+    for (r = 32+1; r < 64; ++r)
+    rs6000_regno_regclass[r] = S2PP_REGS;
+    rs6000_regno_regclass[32] = NO_REGS;
+}
+...
+if (TARGET_S2PP){
+    reg_class_to_reg_type[(int)FLOAT_REGS] = NO_REG_TYPE;
+    reg_class_to_reg_type[(int)S2PP_REGS] = S2PP_REG_TYPE;
+    rs6000_regno_regclass[S2PP_COND_REGNO] = S2PP_C_REG;
+    rs6000_regno_regclass[S2PP_ACC_REGNO] = S2PP_ACC_REG;
+    reg_class_to_reg_type[(int)S2PP_C_REG] = S2PP_C_REG_TYPE;
+    reg_class_to_reg_type[(int)S2PP_ACC_REG] = S2PP_ACC_REG_TYPE;
+}
+\end{lstlisting} \todo{get rid of this}
+
+In case |TARGET_S2PP| is true this substitutes the |FLOAT_REGS| at indexes 33 through 63 with |S2PP_REGS| and also adds the conditional and accumulator registers.
+To complete the process the register classes are assigned a respective register type which was added to the enumeration |rs6000_reg_type| before that.
+It is important to note that the s2pp normal register type was also added to the list of standard register types, as s2pp registers are meant to act like normal registers and also to the floating point/vector register types which is necessary as they are handled differently later in the source file.
 
 
 
+\add{
+-rs6000.c
+-predicates
+-ppc-asm.c
 
-registers
-constraints
+-builtins
 
-
-
+-helper functions
+}
 
 \add{rs6000.h}
 
 
 
 \add{
+    "//" means: remove this from listing
 VECTOR\_S2PP
 REGNOS
 VECTOR UNiT
