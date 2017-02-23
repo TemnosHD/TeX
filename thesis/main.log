@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  23 FEB 2017 13:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  23 FEB 2017 17:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1794,7 +1794,33 @@ l.1 \chapter
 Chapter 3.
 [24
 
-] [25] [26] [27] [28] [29] [30] [31]) (./tex/tests.tex [32]
+] [25] [26] [27]
+Overfull \hbox (74.02715pt too wide) in paragraph at lines 156--156
+[][][][]\T1/cmr/m/n/6 http://www.delorie.com/gnu/docs/gcc/gccint_- 
+ []
+
+
+Overfull \hbox (74.02715pt too wide) in paragraph at lines 156--156
+[][][][]\T1/cmr/m/n/6 http://www.delorie.com/gnu/docs/gcc/gccint_- 
+ []
+
+
+Overfull \hbox (74.02715pt too wide) in paragraph at lines 156--156
+[][][][]\T1/cmr/m/n/6 http://www.delorie.com/gnu/docs/gcc/gccint_- 
+ []
+
+
+Overfull \hbox (74.02715pt too wide) in paragraph at lines 156--156
+[][][][]\T1/cmr/m/n/6 http://www.delorie.com/gnu/docs/gcc/gccint_- 
+ []
+
+[28] [29] [30]
+Underfull \hbox (badness 1748) in paragraph at lines 279--283
+[]\T1/cmr/m/n/10.95 Register can also be fixed ([][][]) ac-cord-ing to com-pile
+r flags which is done in
+ []
+
+[31]) (./tex/tests.tex [32]
 Chapter 4.
 ) (./tex/results.tex [33
 
@@ -1826,17 +1852,17 @@ reference-manuals/ALTIVECPEM.pdf[][] [][]
 
 ]
 Runaway argument?
-{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ -rs\ETC.
+{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ -bu\ETC.
 ! Paragraph ended before \contentsline was complete.
 <to be read again> 
                    \par 
-l.56 ...o}}\ -rs6000.c -predicates -ppc-asm.c \par
-                                                   -builtins \par -helper fu...
+l.51 ...evmode {\color {orange}o}}\ -builtins \par
+                                                   -helper functions }{32}{s...
 
 ? 
 ! Extra }, or forgotten \endgroup.
-l.56 ....c \par -builtins \par -helper functions }
-                                                  {32}{section*.62}
+l.51 ...ge}o}}\ -builtins \par -helper functions }
+                                                  {32}{section*.57}
 ? 
 )
 \tf@tdo=\write10
@@ -1884,17 +1910,17 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 317.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 317.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 317.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E37A67058D032F6F04FC964774243E18;1473.
+(rerunfilecheck)             Checksum: E60D84E85CB7D3304AF2EEC797BD61CC;1473.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 317.
  ) 
 Here is how much of TeX's memory you used:
- 26799 strings out of 493105
- 484478 string characters out of 6137072
- 724432 words of memory out of 5000000
- 29277 multiletter control sequences out of 15000+600000
- 25708 words of font info for 59 fonts, out of 8000000 for 9000
+ 26680 strings out of 493105
+ 482342 string characters out of 6137072
+ 705965 words of memory out of 5000000
+ 29224 multiletter control sequences out of 15000+600000
+ 24943 words of font info for 58 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
- 55i,17n,80p,520b,1940s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,17n,80p,520b,1211s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
@@ -1915,10 +1941,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2074.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (51 pages, 576690 bytes).
+Output written on main.pdf (51 pages, 564206 bytes).
 PDF statistics:
- 845 PDF objects out of 1000 (max. 8388607)
- 754 compressed objects within 8 object streams
- 323 named destinations out of 1000 (max. 500000)
+ 758 PDF objects out of 1000 (max. 8388607)
+ 668 compressed objects within 7 object streams
+ 258 named destinations out of 1000 (max. 500000)
  212 words of extra memory for PDF output out of 10000 (max. 10000000)
 
