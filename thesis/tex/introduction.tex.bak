@@ -31,9 +31,10 @@ Not only would this permit full C-style programming when working on the PPU but 
 We therefore aim to achieve ``full'' compiler support of the PPU's hardware and make programming easy again. \todo{edit this sentence, loose the again or move somewhere else}
 
 This thesis will focus on the way to achieve compiler support and briefly explain the process itself.
-As fundamental knowledge of both processors and compilers is needed along the way we will start with a very basic introduction to both topics and go into detail for the processor and compiler we used later on.
-This may not render additional literature obsolete but should explain the basic concepts to an extend which is sufficient.
-Afterwards the process of extending the compiler is explained and the result as well as test cases of this presented.
-The thesis will conclude in a resume and give and outlook to the future applications and development of the compiler.
+As fundamental knowledge of both processors and compilers is needed along the way we will start with a very basic introduction to both topics and apply this to the specific processor and compiler we use.
+This may not make actual literature for both obsolete but should explain the basic concepts to an extend which is sufficient for our cause.
+The following chapter will then explain a few test scenarios that put the contests of the previous chapter to use and also make us more familiar with the PPU.
+Afterwards the process of extending the compiler is explained and the result of this presented.
+It follows a recap of what was done and an outlook to what might be done in the future.
 
 \add{mention ASIPs and the papers}

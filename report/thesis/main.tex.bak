@@ -28,27 +28,48 @@
 %\usepackage {wrapfig}                            % another one
 %\usepackage {picins}                             % another one
 %\usepackage{timing}                              % deprecated use, use below!
-\usepackage{tikz-timing}                          % timing diagrams
 \usepackage{sidecap}
 
+\usepackage[overlay]{textpos}
 \usepackage{listings}
 \lstset{
     frameround=fttt,
     language=C,
     %numbers=left,
     breaklines=true,
-    %keywordstyle=\color{red}\bfseries, 
-    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{red}\bfseries, 
+    basicstyle=\ttfamily\scriptsize,
     numberstyle=\color{black}
     }
 \lstMakeShortInline[columns=fixed]|
-
-\newcommand*{\lstitem}[1]{
-    \setbox0\hbox{\lstinline{#1}}  
-    \item[\usebox0]  
-    % \item[\hbox{\lstinline{#1}}]
-    \hfill \\
-}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{tikz}
+\usetikzlibrary{shadings,shadows}
+\newenvironment{myexampleblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,%
+    colbacklower=LimeGreen!75!LightGreen,%
+    title=#1]}%
+    {\endtcolorbox}
+%\newenvironment<>{varblock}[2][.9\textwidth]{%
+%  \setlength{\textwidth}{#1}
+%  \begin{actionenv}#3%
+%    \def\insertblocktitle{#2}%
+%    \par%    
+%    \usebeamertemplate{myexampleblock begin}%
+%  }
+%  {\par%
+%  \usebeamertemplate{myexampleblock end}%
+%  \end{actionenv}}
+%
+%\newenvironment{myblock}[1]{\begin{textblock*}{500pt}(#1)}{\end{textblock*}}
+%
+%% special way to reach the top of the block
+%\def\newabove(#1){
+%  ([yshift=1.5ex]#1.center)
+%}
 
 % tables
 \usepackage{multirow}                             % col- and rowspan...
@@ -82,7 +103,6 @@
 \usepackage{paralist}                            % inline Listen
 \usepackage{natbib}
 
-\usepackage{acronym}
 
 % list of abbreviations, index
 \usepackage{nomencl}
@@ -99,15 +119,7 @@
 
 
 % layout
-\usepackage{xargs}                      % Use more than one optional parameter in a new commands
-
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-\newcommandx{\add}[2][1=]{\todo[inline,#1]{#2}}
-\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
-\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
-\newcommandx{\reference}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
-\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
-\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+    \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 %\usepackage{stfloats}
 %\usepackage{dblfloatfix}
 \usepackage{fixltx2e}
@@ -141,7 +153,23 @@ neu-ron pre-synaptic post-synaptic}
 %\hfuzz 0.3pt
 %\vfuzz
 
+\newcommand{\tikzmark}[2][minimum width=6cm,minimum height=1.5cm]{
+	\tikz[remember picture,overlay]
+	\node[anchor=west,
+	      inner sep=0pt,
+	      outer sep=6pt,
+	      xshift=-0.5em,
+	      yshift=-3ex,
+	      #1](#2){};
+}
 
+\newcommand{\shownode}[1]{
+       \tikz[remember picture,overlay]\draw[red](#1.south east)rectangle(#1.north west);
+}
+
+\newcommand{\showanchor}[1]{
+       \tikz[remember picture,overlay]\draw[red,thick,mark=x] plot coordinates{(#1)};
+}
 %\renewcommand{\bottomfraction} {0.70} % max fraction of page for floats at bottom
 %\renewcommand{\textfraction} {0.20} % min fraction of page for text
 %\renewcommand{\floatpagefraction} {0.60} % min fraction of floatpage that should have floats
@@ -158,17 +186,11 @@ neu-ron pre-synaptic post-synaptic}
 
 \begin{document}
 
+\tikzstyle{every picture}+=[remember picture]
+
 % ------------- Cover Pages ----------------------
 
 \include{cover/cover_kip}
-
-\cleardoublepage
-\include{cover/cover_faculty}
-%\include{cover/cover_faculty_ger}
-
-\cleardoublepage
-\include{cover/cover_prof}
-%\include{cover/cover_prof_ger}
 
 %-------------------------------------------------
 
@@ -186,7 +208,6 @@ neu-ron pre-synaptic post-synaptic}
 
 % ------------- Abstract -------------------------
 
-\cleardoublepage
 
 \pagestyle{plain}
 
@@ -226,21 +247,11 @@ neu-ron pre-synaptic post-synaptic}
 
 %%% INCLUDES %%%%%%%%%%%%%%%%%%%%%%%%%%
 % introduction
-\input{tex/introduction}
+\input{tex/compiler_structure}
 
-\input{tex/methods}
-
-\input{tex/extbackend}
-
-\input{tex/tests}
-
-\input{tex/results}
-
-
-
-% chapter 2
+% chapter X
+\input{tex/builtins}
 % chapter Y
-%\input{tex/Y}
 
 % discussion
 \input{tex/discussion}
@@ -281,7 +292,8 @@ neu-ron pre-synaptic post-synaptic}
 % ------------- Bibliography ---------------------
 \cleardoublepage
 \bibliographystyle{bib/agu}
-\bibliography{bib/vision}
+%\bibliography{bib/vision}
+\bibliography{bib/myrefs}
 \addcontentsline{toc}{chapter}{Bibliography}
 % ------------------------------------------------
 

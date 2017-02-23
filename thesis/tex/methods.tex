@@ -4,15 +4,15 @@
 \section{Basic Processor Architecture}
 \label{section:processor}
 
-Next to all processors used these days are built upon the so called von-Neumann architecture \todo{add reference}.
-\todo{cite friedmann dissertation}Though the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which are needed at some point.
-The main advantage of digital systems over analogue systems such as the human brain, is the ability to do calculations at much higher speeds.
-For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of the experiment.
-We now dive shortly into basics of such processors and explain common terms.
+Almost all contemporary processors used are built using the so called von-Neumann architecture \todo{add reference}.
+\todo{cite friedmann dissertation}Although the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which come to use for some applications.
+The main advantage of digital systems over analogue, systems such as the human brain, is the ability to do arithmetic and logical operations at much higher speeds.
+For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of an experiment.
+We will now shortly touch the basics of such processors and explain common terms.
 
-In general a microprocessor can be seen as a combination of two units which are a operational section and a control section.
+In general a microprocessor can be seen as a combination of two units which are an operational section and a control section.
 The control logic section is responsible for fetching instructions and operands, interpreting them and controlling their execution as well as reading and writing to the main memory or other buses.
-The operational section on the other side saves operands and results as long as they are needed and performs any logic or arithmetic operation on these as told by the control logic section.
+The operational section on the other side saves operands and results as long as they are needed and performs any logic or arithmetic operation on these as instructed by the control logic section.
 Prominent parts of the operational section are the arithmetic logic unit (ALU) and the register file.
 
 The register file can be seen as short-term memory of the processor.
@@ -20,32 +20,33 @@ It consists of several elements, called registers, that have the same size which
 Typically the number of registers varies for different architectures and also their purpose.
 Common purposes of registers are:
 \begin{description}
-    \item[general-purpose GPR] These registers can be used for virtually anything and in most cases carry values that are soon to be used by the ALU. Few of these registers can be reserved as stack pointers. Most registers on a processor are typically GPRs.
-    \item[link register LR] This register marks the jump point function calls. This means that after a function completes the program jumps to the address in the link register.
-    \item[compare register CR] This register's value is set by an instruction that compares one or two values in registers. Its value can determine for some instructions if they are executed or not.
+    \item[general-purpose register GPR] These registers can be used for virtually anything and in most cases carry values that are soon to be used by the ALU. Few of these registers can be reserved as stack pointers. Most registers on a processor are typically GPRs.
+    \item[link register LR] This register marks the jump point of function calls. This means that after a function completes, the program jumps to the address in the link register.
+    \item[compare register CR] This register's value is set by an instruction that compares one or two values in GPRs. Its value can determine for some instructions if they are to be executed or not.
 \end{description}        
 Non-general-purpose registers are also called special-purpose registers SPRs.
 
-The ALU normally uses the values which are stored in the register file for perform the aforementioned logic or arithmetic operations and saves the result there as well.
-In case of more complicated arithmetics some architectures also have an accumulator that is part of the ALU or sits next to it.
+The ALU normally uses the values which are stored in the register file to perform the aforementioned logic or arithmetic operations and saves the result there as well.
+In case of more complex arithmetics some architectures also have an accumulator that is part of the ALU or sits next to it.
 Intermediate results then are stored there because access is faster for the accumulator compared to registers.
-In general it is good to know
+In general it is good to know:
 \begin{equation}
-    \text{speed(accumulator)} < \text{speed(register)} \ll \text{speed(memory)}
+    \text{speed(accumulator)} > \text{speed(register)} \gg \text{speed(memory)}
 \end{equation}
-As speed is always important in computing we therefore want to use registers as much as possible and only write results to the memory or save registers when there are not enough registers available for the current task.
+
+As speed is always important in computing we therefore want to use registers as much as possible and only write results to the memory when not enough registers are available for the current task orthe task has finished.
 Registers such as the accumulator can also either be accessible directly or are only accessible to subsections such as the ALU.
-This is different for every processor architecture and depends on things like:
+This is different for every processor architecture and depends on a multitude of factors:
 \begin{itemize}
-    \item space on the chip
+    \item available chip space
     \item maximum clock frequency
-    \item complexity of instruction set
+    \item instruction set complexity
     \item available time and money for the design
     \item energy consumption
 \end{itemize}
 
-These items always influence each other as a complex instruction set means that complicated arithmetic operations with many operands can be done in few clock cycles but this often also means that the maximum clock frequency must be lower as the circuit design has a longer time constant until the next instruction may follow.
-During a single clock cycle a chip usually does one so called micro instruction which is part of a machine instruction.
+These factors influence one another as a complex instruction set allows for complicated arithmetic operations with many operands to be performed in few clock cycles but this often results in the maximum clock frequency being lower.\reference{complexity > lower clock freq}
+During a single clock cycle a chip usually performs one so called micro instruction which is part of a machine instruction.
 An example for an add instruction (|result = add(a,b)|) would be:
 \begin{lstlisting}
     1. fetch the instruction from memory
@@ -54,25 +55,25 @@ An example for an add instruction (|result = add(a,b)|) would be:
     4. fetch second operand b
     5. perform operation on operands
     6. store result
-\end{lstlisting}
+\end{lstlisting}\todo{inhaltlicher zusammenhang}
 For different and more complex machine instructions the amount of micro instructions can be much higher, but this basically sets the minimum amount of micro instructions for any machine instruction.
-Now the faster the clock frequency the faster these micro instructions will have finished the faster the processor.
+Ergo the faster the clock frequency the faster micro instructions can be executed the faster the processor.
 But also the more complex the instruction set is the fewer machine instructions are needed overall the faster the processor.
 As mentioned above this results in a trade-off between clock frequency and instruction set complexity.
-The instruction set includes all available instructions for an ALU thus the ALU gets easily more complicated and needs more space as the instruction set gets more complicated.
+The instruction set includes all available instructions for an ALU thus the ALU gets more complex and needs more space as the instruction set gets more complicated.
 
-Because of this one usually differs between two kinds of processor:
+Because of this, one usually differs between two kinds of processors:
 \begin{itemize}
     \item Complex Instruction Set Computer CISC
     \item Reduced Instruction Set Computer RISC
 \end{itemize}
-The latter one usually is reduced to such simple instructions as |add| or |sub| and connects them to create more complex instructions overall.
-As the PPU is a RISC architecture we focus on its key values.
-This is similar to the micro instructions which were mentioned earlier, but now every instruction has the same set of microinstructions with a different operation at 5.
-RISC architectures therefore start ``pipelining'' their instructions which means stating the next machine instruction as the previous machine instruction finished the first micro instruction in a clock cycle.
-Ideally this will increase the performance by a factor that is equal to the number of micro instructions in a machine instruction as that many machine instructions can be initiated in the same time it would take to complete a single machine instruction.
-It must be noted though that the processor must detect hazards which are data dependencies between instructions where one instruction needs the result of another.
-Such instructions usually are postponed in a delay-slot and other instructions that do not cause hazards are executed instead.
+The latter usually is reduced to such simple instructions as |add| or |sub| and connects them to create more complex instructions.
+Since the PPU is a RISC architecture we focus on RISC's key values.
+Simple instructions are similar to micro instructions which were mentioned earlier, but every simple instruction has the same number of micro instructions.
+RISC architectures therefore start ``pipelining'' instructions, which means starting the next machine instruction as the previous machine instruction just performed the first micro instruction in a clock cycle.
+Ideally, this will increase the performance by a factor that is equal to the number of micro instructions in a machine instruction as that many machine instructions can be initiated in the same time it takes to complete a single machine instruction.
+It must be noted though that the processor has to detect hazards which are data dependencies between instructions where one instruction needs the result of another.
+Such instructions usually are postponed to a delay-slot and other instructions that do not cause hazards are executed instead.
 This results in reordering of instructions on a processor level.
 Also it takes several cycles for memory instructions to load or store data this effectively stalls the processor until the memory instruction has finished.
 Therefore RISCs try to avoid memory access as much as possible and use registers instead.
@@ -162,7 +163,7 @@ There is also the possibility to vectorize loops in programming if there are no 
 \subsubsection{AltiVec Vector Extension}
 In our case we take a special interest in the AltiVec vector extension which developed by Apple, IBM and Motorola in the mid 1990's and is also known as Vector Media Extension (VMX) and Velocity Engine for the POWER architecture. 
 The AltiVec extension provides the processor with a single-precision floating point and integer SIMD instruction set.
-The vector register file includes 32 vector registers are each 128-bit wide. \todo{http://www.nxp.com/assets/documents/data/en/reference-manuals/ALTIVECPEM.pdf}
+The vector register file includes 32 vector registers are each 128-bit wide. \cite{AV:registers}
 These vector registers can either hold sixteen 8-bit |char|s, eight 16-bit |short|s or four 32-bit |int|s or single precision |float|s, each signed and unsigned.
 Single elements of these vectors can only be accessed through memory because there is no instruction that combines scalar register with vector registers.
 Except for one type of instruction that ``splats'' the value of a scalar register into all elements of the vector register.
@@ -539,7 +540,7 @@ Additionally we will use binutils 2.25 which was patched by Simon Friedmann and 
 A complete specification of the libraries used and a handy script that builds a cross-compiler for the nux on PowerPC systems can be found there as well.
 
 We take a special interest in the PowerPC back-end of GCC which is called rs/6000 for IBMs RISC system/6000 architecture that is equivalent to POWER.
-According to GCCs Internals manual \todo{reference}, which we will refer to as the sole source of information in this regard, the back-end of GCC has the following structure:
+According to GCCs Internals manual \cite{GCCint}, which we will refer to as the sole source of information in this regard, the back-end of GCC has the following structure:
 
 Each architecture has a directory with its respective name in gcc/config e.g. gcc/config/rs6000 that contains a minimum amount of files.
 These are the machine description rs6000.md which is an overview of machine instructions with additional information to each instruction and the header files rs6000.h and rs6000-protos.h and source file rs6000.c that handle the target description through macros and functions.
@@ -584,8 +585,8 @@ We do so in looking at one of the most fundamental RTL statements first while ex
 There exist manuals to basically everything which is written here and the more extensive manual will be referenced at he end of each paragraph.
 
 |define_insn| is an RTL expression that generates an RTL equivalent to a machine instruction.
-One such instruction is called an insn (short for instruction) hand has several properties like a name, an RTL template, a condition template, an output template and attributes. \todo{reference define\_insn}
-The name in this case is |add<mode>3| (|3| for three operands) where |<mode>| is to replaced by a set of values that describe a modes. \todo{reference standard names}
+One such instruction is called an insn (short for instruction) hand has several properties like a name, an RTL template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
+The name in this case is |add<mode>3| (|3| for three operands) where |<mode>| is to replaced by a set of values that describe a modes. \cite{GCCint:stdnames}
 A mode is the form of an operand and can be something like |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \todo{reference machine modes}
 There are many more modes that follow the same scheme.
 In this case we do not specify the mode explicitly but use an iterator that creates a |define_insn| for every valid mode we specify. \todo{reference mode iterator}

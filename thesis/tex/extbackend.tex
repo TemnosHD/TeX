@@ -52,7 +52,7 @@ Use s2pp instructions
 \end{lstlisting}
 |ms2pp| is the name of the target flag and the next lines defines which macros shall be defined.
 |Target| means that the option is target specific, |Report| means that the option is to be printed when |-fverbose-asm| is activated.
-|Mask(S2PP)| initializes a bitmask that is available through |OPTION_MASK_S2PP| which is attached to |rs6000_isa_flags| specified by |Var| and in parallel specifies a macro |TARGET_S2PP| that is set to |1|. \reference{ gcc internals options}
+|Mask(S2PP)| initializes a bitmask that is available through |OPTION_MASK_S2PP| which is attached to |rs6000_isa_flags| specified by |Var| and in parallel specifies a macro |TARGET_S2PP| that is set to |1|. \cite{GCCint:options}
 When we are finished with this we need to specify |#define MASK_S2PP OPTION_MASK_S2PP| which is done in |rs6000.h| as |MASK_| is the standard.
 
 Now we add the processor type which uses this flag as a standard.
@@ -153,7 +153,7 @@ As we are already in |rs6000.h| we also add the definition of an s2pp |word| whi
 \begin{lstlisting}
 #define UNITS_PER_S2PP_WORD 16
 \end{lstlisting} 
-This is used in |rs6000.c| only when it is used to calculate the maximum amount of registers needed to hold a value of a certain mode. \reference{http://www.delorie.com/gnu/docs/gcc/gccint\_120.html} 
+This is used in |rs6000.c| only when it is used to calculate the maximum amount of registers needed to hold a value of a certain mode. \cite{GCCint:regclasses} 
 
 
 
@@ -250,7 +250,7 @@ we therefore go to |constraints.md| and add the following code for |kv|, |kc| an
     "s2pp vector register")
 \end{lstlisting}
 where the first string is the register constraint's name and |rs6000_constraints[RS6000_CONSTRAINT_kv]| will be assigned a register name later on in |rs6000.c|,where it is also declared, which in this case is |S2PP_REGS| though this is only done if the target flag |-ms2pp| was set.
-The last string is only for documentary purposes.\reference{GCC int define_constraint}
+The last string is only for documentary purposes.\cite{GCCint:constraints}
 We chose |k| as the first initial of s2pp registers because there are very few letters left which are not used as a constraint already and k is one of them which is at least somewhat associated with the processor (``nuks'').
 The second character was chosen from the initial of the respective register type.
 
@@ -294,7 +294,7 @@ The affected predicates are:
         \lstitem{indexed_or_indirect_operand} applies for indexed or indirect operands (e.g. memory addresses in registers) and now supports the case of a s2pp vector operand as for AltiVec vectors
         \lstitem{s2pp_indexed_or_indirect_operand} is the same but only for s2pp vectors, not AltiVec
 \end{description}
-If one wants to add own predicates, GCC offers a manuals entry \reference{GCC Internals Predicates}.
+If one wants to add own predicates, GCC offers a manuals entry \cite{GCCint:predicates}.
 
 The |easy_s2pp_constant| function checks if an operand is ``splittable'' which means that all elements are the same and thus can be generated through a split instruction.
 To check this the operand is analyzed sequentially if either of the two available splats can synthesize the same operand.

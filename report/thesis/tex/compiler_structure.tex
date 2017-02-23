@@ -4,18 +4,6 @@ Typically a compiler consists of a front-end, middle-end and back-end. These thr
 and changes that are made in the back-end affect the front-end as well!
 Such modular architecture  allows for a compiler to support many different front-ends and back-ends independently because all code needs to pass the same middle-end no matter which front-end or back-end is used. In normal cases a front-ends are associated with programming languages and back-ends with CPU architectures or ``targets'' while the middle-end is at the heart of the compiler and is usually what distinguishes between different compilers, as does the communication between the three parts.
 \smallskip
-%\noindent\begin{minipage}{\textwidth}
-%%\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
-%%    \begin{tikzpicture}[baseline=(current bounding box.south west)]
-%%    	\coordinate (anch) at (0,0);
-%%    	%%\coordinate (anch2) at (0,13);
-%%		\node (tl) at (2.8, 10) {\texttt{o}};
-%%		\node (ml) at (2.7, 6) {\texttt{o}};
-%%		\node (bl) at (2.7, 3) {\texttt{o}};
-%%		%%\draw[->] (anch) -- (tl);
-%%	\end{tikzpicture}
-%%\end{minipage}\hfill
-%%\begin{minipage}[c]{\dimexpr0.6\textwidth-0.5\Colsep\relax}
  \begin{myexampleblock}{front-end}
 	\begin{itemize}
 		\item recognizes programming language
