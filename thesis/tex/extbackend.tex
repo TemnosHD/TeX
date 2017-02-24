@@ -127,7 +127,19 @@ We also add checking for specific vector modes which shall be chosen carefully.
 The hardware only supports two types of vectors which are vectors with byte elements and vectors with halfword elements.
 Thus the respective modes are |V16QImode| and |V8HImode| which can be checked by |S2PP_VECTOR_MODE(MODE)|.
 
-Now that we added the s2pp vector we identify it with the available modes which is done in |rs6000.c|.
+We also need to find conditions which should apply to |TARGET_S2PP| as they already to for |TARGET_ALTIVEC|.
+Luckily there exist only two options which prohibit misalignment of vectors and control the right alignment.
+Besides that only a few functions which we will discuss later need |TARGET_S2PP| to be called.
+Other options such a permutation of vectors are not supported by s2pp or need a different implementation all together.
+The same procedure must be applied for checking vector modes by checking using |VECTOR_UNIT_S2PP_P| and similar macros.
+These are mainly used in |rs6000.c| when addressing vectors in memory through registers as operands.
+Similar but more complex implementations will build the rest of this chapter and therefore we will not go into detail for every macro like
+\begin{lstlisting}
+#define UNITS_PER_S2PP_WORD 16
+\end{lstlisting} 
+that is used.
+
+Now that we have added the s2pp vector we identify it with the available modes which is done in |rs6000.c|.
 In |rs6000_init_hard_regno_mode_ok| we check for the s2pp target flag and assign |VECTOR_S2PP| to the modes |V16QImode| and |V8HImode|.
 Also we add the modes for preferred modes when vectorizing a value in |rs6000_preferred_simd_mode| and decline the usage of offset addressing for these modes in |reg_offset_addressing_ok_p|.
 
@@ -141,21 +153,6 @@ builtin_define ("__vector=__attribute__((s2pp(vector__)))");
 \end{lstlisting}
 This is the same for AltiVec and copies the usage of vectors in AltiVec.
 As does our addition of an s2pp case in |rs6000_attribute_takes_identifier_p| to complete the attribute.
-
-
-
-
-
-
-
-
-As we are already in |rs6000.h| we also add the definition of an s2pp |word| which is 16 bits wide and declared in |UNITS_PER_S2PP_WORD|
-\begin{lstlisting}
-#define UNITS_PER_S2PP_WORD 16
-\end{lstlisting} 
-This is used in |rs6000.c| only when it is used to calculate the maximum amount of registers needed to hold a value of a certain mode. \cite{GCCint:regclasses} 
-
-
 
 \section{Registers}
 \label{section:register}
@@ -307,24 +304,170 @@ Mainly our problem is that we reused the floating point registers and did not ma
 For this reason we must scan the source files for |FP_REGNO_P(N)| and add an exception with |&& !TARGET_S2PP| when it is necessary.
 This is especially the case when dealing with hard registers and having the compiler emit register moves.
 
+\section{Prologue and Epilogue}
 Also we have a second problem that reusing FPR indexes causes.
-Since there is an ending number of registers the compiler can use for saving values, and this number is also reduced by the amount of fixed registers, the compiler occasionally stores values in memory before calling a function that needs some of the available registers by calling a so called ``prologue''.
+Since there is an ending number of registers the compiler can use for saving values, and this number is also reduced by the amount of fixed registers, the compiler occasionally stores values in memory before calling a function that needs some of the available registers by calling a so called ``prologue'' \citep{GCCint:funcentry}.
 The compiler then restores the registers after the function has finished through an ``epilogue''.
-Both functions are essential to ...
+To understand the principles of these we will take a look at how the back-end saves registers.
+Before the compiler saves the registers it must check which registers need to be saved.
+It then sets a variable for each register type accordingly.
+In |rs6000_emit_prologue| the compiler checks for these variables and starts saving the respective registers.
+Since the compilers looks for register numbers instead of types, we need to alter the case for FPRs and add a target flag, which activates these lines of code:
+\begin{lstlisting}
+for (i = 0; info->first_s2pp_reg_save + i <= LAST_S2PP_REGNO; i++)
+    if (save_reg_p (info->first_s2pp_reg_save + i)){
+
+        int offset = frame_off + 16 * i;
+        rtx savereg = gen_rtx_REG (V8HImode, i+info->first_s2pp_reg_save);
+        rtx areg = gen_rtx_REG (Pmode, 0);
+        emit_move_insn (areg, GEN_INT (offset));
+        rtx mem = gen_frame_mem (V8HImode,gen_rtx_PLUS (Pmode, frame_reg_rtx, areg));
+        insn = emit_move_insn (mem, savereg);
+        rs6000_frame_related (insn, frame_reg_rtx, sp_off-frame_off, areg,
+                                GEN_INT(offset), NULL_RTX);
+    }
+\end{lstlisting}
+The compiler first loops over every save vector register and checks if the register needs to be stored.
+Then an offset is computed that takes the current frame offset and adds 16 bytes(this is the register size) for every register of this type.
+|savereg| and |areg| are two kinds of register that will later serve as operands.
+|savereg| is the vector register we want to save and |areg| will we the GPR operand needed to use vector memory instructions\reference{fxvstax and fxvlax}
+Hence |areg| loads the offset just calculated through |emit_move_insn|.
+|emit_move_insn| will then insert an insn to the IR that moves the second argument to the first.
+Now we can create a complete memory operand |mem| that takes |offset| in |areg| and |frame_reg_rtx|, which is the register holding the frame pointer to wheres all registers are saved, and combines them to a single operand.
+As both register and memory are specified the compiler can emit a move insn that stores |savereg| to |mem|.
+Finally |rs6000_frame_related| handles the insn which was just created and performs additional customizations which are needed as the moves belong to a function call.
+After the functions code has been compiled the back-end invokes |rs6000_emit_epilogue| which uses the same functions as the prologue but restores the registers from memory.
+Of course this function can not work on its but needs other functions that set parameters and prepare statements as well.
+These functions were also extended by adding conditional cases for s2pp that mostly agree with the respective AltiVec cases.
+An |rtx|, which was a type often used in the previous listing, is short for RTL expression and can be used by |insn|s as an argument.
+RTL expressions can also contain information on how the operand is to be constructed as this allows chaining of operations.
+
+\section{Reload}
+As hinted in chapter \ref{chapter:methods} |reload| is a now deprecated process in GCC that mainly performs register allocation.
+Obviously we need to add special handling of vector registers to |reload| because the registers we just added to the back-end must be used somehow.
+We thus get back to |S2PP_REGS| which were the normal vector register form earlier.
+As |reload| is capable of moving the contents of registers, we must specify that s2pp's registers are not compatible with GPRs or any other registers and also that storing/loading registers takes two GPRs that hold the memory address.
+Because registers are quite different in their specifications and reload could possibly ask for any combination of source/destination register we declare only registers moves between s2pp registers only or between s2pp registers and memory valid.
+This also creates the need for checking the register class of an RTL expression and eventually correcting the register class.
+Additionally as |reload| does not support the addressing mode which AltiVec and s2pp both use, we must rearrange indirect addresses the same way AltiVec does.
+At last we also need to validate the mode which is used.
+All of this is done in a set of  |rs6000_secondary_reload_| functions which need to be modified.
+
+\section{Built-ins and Machine Instructions}
+Basically the back-end is now almost compatible with s2pp vector instructions.
+The only thing that is left is specifying the machine instructions which move registers or access memory.
+We therefore add a machine description file |s2pp.md| to the back-end which will contain all available vector instructions.
+On which is |*s2pp_mov<mode>|:
+\begin{lstlisting}
+(define_insn "*s2pp_mov<mode>"
+  [(set (match_operand:FXVI 0 "nonimmediate_operand" "=Z,kv,kv,*Y,*r,*r,kv,kv")
+   (match_operand:FXVI 1 "input_operand" "kv,Z,kv,r,Y,r,j,W"))]
+  "VECTOR_MEM_S2PP_P (<MODE>mode)
+   && (register_operand (operands[0], <MODE>mode) 
+   || register_operand (operands[1], <MODE>mode))"
+  { 
+   switch (which_alternative)
+    {
+    case 0: return "fxvstax %1,%y0";
+    case 1: return "fxvlax %0,%y1";
+    case 2: return "fxvsel %0,%1,%1";
+    case 3: return "#";
+    case 4: return "#";
+    case 5: return "#";
+    case 6: return "fxvsel %0,0,0";
+    case 7: return output_vec_const_move (operands);
+    default: gcc_unreachable ();
+    }
+  } 
+  [(set_attr "type" "vecstore,vecload,vecsimple,store,load,*,vecsimple,*")])
+\end{lstlisting}
+
+We explained the basics of insn definition earlier in section \ref{section:insn} thus we will only explain this shortly.
+The name is proceeded by an asterisk that renders the name not accessible directly because this insn shall only be referred to by the RTL sequence that follows.
+The sequence is fairly simple and states that operand |0| is set by operand |1|.
+It only gets interesting when taking a look at the constraints which build pairs for each operand and are separated by commas.
+The first pair for example (|=Z| and |kv|) tells the compiler that a memory which is accessed by an indirect operand will be set by the contents of a vector register (this is the first use of our new constraint.
+Which machine instruction is used for each pair of constraints is stated in the output template which may also be in C form.
+Each case is indexed according to the position in the list of constraints so we take a look at |case 0| where we see the matching machine instruction for storing a vector in memory |fxvstax|.
+The second operand contains also a character besides its number which is an operand modifier \cite{GCCint:extasm} that will cause the operand |0| to be split into two address operands.
+Besides the vector load instruction |fxvlax| we also note the |fxvsel| instruction which is used to move one vector register to another(pair |kv| and |kv|) and |case 6| which moves the contents of vector register |0| (this register is all |0|s) and thereby nulls that register.
+The constraint |j| is the respective constraint for a zero vector.
+
+But still there exist instruction which are not specified in detail but only by ``|#|''.
+A |#| is the equivalent to stating that there is no instruction which can perform the instruction which is described by the RTL above.
+This causes the compiler to look for different RTL that has the same effect but also has a machine instruction.
+
+This process is called ``insn splitting'' and can also be used for optimization.
+A developer may also define which RTL statements are equivalent by using |define_split| which is documented in \cite{GCCint:definesplit}.
+As there exist splits for cases 3 through 5 in AltiVec, we may not define splits ourself.
+
+Splitting insns is quite common for the GCC back-end because splitting insns with unspecific constraints allows for easier generation of code, since the back-end will search for code that fits the operands of the instruction which is called in the source files.
+Even |s2pp_mov| is mainly used by calling a general vector move insn in |vector.md| that has the same RTL code without any constraints and then is split.
+We only need to add the s2pp vector mode macro to the condition of the insn which is specified through |define_expand "mov<mode>|.
+Expanding an insn which is done for this code basically follows the principle of splitting and goes even further in not giving the option for a machine instruction at all but relies on matching RTL in some machine description of the back-end.
+Detailed information can be acquired in \cite{GCCint:defineexpand}.
+
+As this is done for register moves is general we will do the same for specific loads and stores, by adding mode checking in |vector.md| and adding a matching insn to |s2pp.md|.
+
+Beside adding the other insns we also need to add the function |rs6000_address_for_s2pp| which converts a standard address to an s2pp compatible form.
+This code could be taken from an AltiVec equivalent since both vector units share the same form of memory referencing.
+
+Now before we continue to other insns, we shall go back to |s2pp_mov| and take a look at |case 7| which applies for constant vectors.
+Constant vectors which have a constant value that does not depend on a register thus is known at compile time.
+GCC will look for such vectors and check if these vectors can be splatted (this means all vector elements have the same value).
+This is a relict of AltiVec which offers a special splat instruction that takes a constant immediate value as operand.
+We kept the function since we can achieve a similar effect for constant zero vectors by moving the zero register.
+To distinguish between cases where this applies, we use the function |output_vec_const_move()| which is also used by AltiVec and implemented similar code to the existing AltiVec code but reduced this to the null vector case and emit a |#| for splitting otherwise.
+
+Since we are now missing an instruction to use this split we will create a split ourselves which converts the immediate splat into a normal splat:
+\begin{lstlisting}
+(define_split
+  [(set (match_operand:FXVI 0 "s2pp_register_operand" "")
+   (match_operand:FXVI 1 "easy_vector_constant" ""))]
+  "TARGET_S2PP && can_create_pseudo_p()"
+  [(set (match_dup 2) (match_dup 3))
+   (set (match_dup 0) (unspec:FXVI [(match_dup 2)] UNSPEC_FXVSPLAT))]
+  "{
+   operands[2] = gen_reg_rtx (SImode);
+   operands[3] = CONST_VECTOR_ELT(operands[1], 1);
+   }")
+\end{lstlisting}
+
+We split the upper RTL sequence which moves a constant vector to a vector register onto the bottom sequence which inserts an intermediate step.
+|match_dup n| means that the operand should match the operand with the same index.
+The C code that follows specifies the newly added operands 2 and 3 further and converts operand |1| into a single integer element because all values are the same.
+The second RTL sequence uses the newly created integer and moves it to a GPR which then is splatted into a vector register.
+An |unspec| operator together with |UNSPEC_...| tells the compiler that the operation is not specified but has a name to distinguish is from other unspecified operations.
+
+\begin{lstlisting}
+(define_insn "*s2pp_fxvsplat<FXVI_char>"
+  [(set (match_operand:FXVI 0 "register_operand" "=kv")
+   (unspec:FXVI
+         [(match_operand:SI 1 "register_operand" "r")] UNSPEC_FXVSPLAT))]
+  "TARGET_S2PP"
+  "fxvsplat<FXVI_char> %0,%1"
+  [(set_attr "type" "vecperm")])
+\end{lstlisting}
+is the insn the split refers to.
+
+After we finally added memory instructions we can also implement them in |rs6000.c|.
+In |rs6000_init_hard_regno_mode_ok| we assign the code for store and load instructions to the two supported modes and do not specify any others in case the target flag is set.
 
 
-negated target flags add s2pp negation
-reload and stoer
-legitimize address
 
 
-copy helper direct move
-FPR regno conflict
+
+builtin amsk for load
+handle s2pp attribute
+
+
 
 \add{
 -builtins
 
+output vec const move
 -helper functions
+copy helper direct move
 }
 
 \add{
@@ -333,6 +476,4 @@ target pragmas compiler anweisung
 stack boundary -> put this together
 frame offsetr
 stackoffset
-reload
-rtx
 }

@@ -6,7 +6,7 @@
 \contentsline {chapter}{\numberline {2}Methods}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}Basic Processor Architecture}{3}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Co-processors and Extensions}{6}{subsection.2.1.1}
-\contentsline {subsubsection}{\nonumberline AltiVec Vector Extension}{7}{section*.11}
+\contentsline {subsubsection}{\nonumberline AltiVec Vector Extension}{7}{section*.16}
 \contentsline {section}{\numberline {2.2}Hardware Implementation}{8}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Basics of Neural Networks}{8}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Implementation in Hicann-DLS}{9}{subsection.2.2.2}
@@ -16,16 +16,19 @@
 \contentsline {subsection}{\numberline {2.3.2}Assembly Basics}{16}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}Intrinsics}{19}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{19}{subsection.2.3.4}
-\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.34}
+\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.37}
 \contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}
 \contentsline {section}{\numberline {3.1}Registers}{28}{section.3.1}
-\contentsline {chapter}{\numberline {4}Test cases}{33}{chapter.4}
-\contentsline {chapter}{\numberline {5}Results}{34}{chapter.5}
-\contentsline {chapter}{\numberline {6}Discussion}{35}{chapter.6}
-\contentsline {chapter}{\numberline {7}Outlook}{36}{chapter.7}
-\contentsline {chapter}{Appendix}{37}{chapter.7}
+\contentsline {section}{\numberline {3.2}Prologue and Epilogue}{32}{section.3.2}
+\contentsline {section}{\numberline {3.3}Reload}{33}{section.3.3}
+\contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{34}{section.3.4}
+\contentsline {chapter}{\numberline {4}Test cases}{37}{chapter.4}
+\contentsline {chapter}{\numberline {5}Results}{38}{chapter.5}
+\contentsline {chapter}{\numberline {6}Discussion}{39}{chapter.6}
+\contentsline {chapter}{\numberline {7}Outlook}{40}{chapter.7}
+\contentsline {chapter}{Appendix}{41}{chapter.7}
+\contentsline {chapter}{Bibliography}{45}{appendix*.63}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}
 \select@language {english}
-\contentsline {chapter}{Bibliography}{41}{appendix*.62}

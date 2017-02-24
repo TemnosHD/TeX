@@ -1,0 +1,43 @@
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{AV:()}]{AV:registers}
+Altivec manual, chapter.
+
+\bibitem[{GCC(2017{\natexlab{a}})}]{GCCint}
+\textit{GNU COmpiler Collectioin Internals Manual}, Free Software Foundation
+  Inc., https://gcc.gnu.org/onlinedocs/gccint/index.html, 2017{\natexlab{a}}.
+
+\bibitem[{GCC(2017{\natexlab{b}})}]{GCCint:constraints}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 16.8 Operand Constraints, 2017{\natexlab{b}}.
+
+\bibitem[{GCC(2017{\natexlab{c}})}]{GCCint:defineinsn}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 16.2 Everything about Instruction Patterns, 2017{\natexlab{c}}.
+
+\bibitem[{GCC(2017{\natexlab{d}})}]{GCCint:funcentry}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 17.9.11 Function Entry and Exit, 2017{\natexlab{d}}.
+
+\bibitem[{GCC(2017{\natexlab{e}})}]{GCCint:options}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 8 Option specification files, 2017{\natexlab{e}}.
+
+\bibitem[{GCC(2017{\natexlab{f}})}]{GCCint:predicates}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 16.7 Predicates, 2017{\natexlab{f}}.
+
+\bibitem[{GCC(2017{\natexlab{g}})}]{GCCint:regclasses}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 17.8 Register Classes, 2017{\natexlab{g}}.
+
+\bibitem[{GCC(2017{\natexlab{h}})}]{GCCint:stdnames}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 16.9 Standard Pattern Names For Generation, 2017{\natexlab{h}}.
+
+\end{thebibliography}
