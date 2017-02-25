@@ -602,27 +602,27 @@ All modes |VI2| are to be substituted by the same real mode.
 After the mode comes the index of an operand which starts at 0 for every |define_insn|.
 The following string describes a predicate which tells the compiler more about the operand and which constraints it must fulfill.
 Operands typically end in |_operand| and a single predicate is meant to group several different operand types.
-In this case any register would be a valid operand. \todo{reference predicates}
+In this case any register would be a valid operand. \cite{GCCint:predicates}
 The next string specifies the operands further and is meant to fine tune the predicate.
 It is called a constraint and matches the description which was taken in section \ref{section:asm}.
-|=| again means that the register must be writable and |v| stands for an AltiVec vector register.\todo{reference constraints}
+|=| again means that the register must be writable and |v| stands for an AltiVec vector register.\cite{GCCint:constraints}
 This pattern is repeated for every operand and only changes slightly.
 Though the second expression of the |set| side effect has an additional pair of parentheses because of the |plus| statement.
 This is an arithmetic expression and tells the compiler that the following operands are part of an operation that results in a new value.
-It is also succeeded by a mode that specifies the mode of the result.\todo{ reference arithmetic expresssion}
+It is also succeeded by a mode that specifies the mode of the result.\cite{GCCint:arith}
 
 The RTL template is matched by the compiler against the RTL it generated from GIMPLE and if the template matches the RTL is substituted by the output template that follows.
 
 After the RTL template is finished, the condition specifies if the insn may be used.
 It is a C expression an must render |true| in order to allow the matching RTL pattern to be applied.
-In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \todo{reference condtion}
+In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \cite{GCCint:defineinsn}
 
 The output template is usually is similar to the |asm| template from |asm|.
 The string contains the mnemonic of a machine instruction and the operands which are numbered according to the indexes of the RTL template.
-Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \todo{reference output template}
+Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \cite{GCCint:defineinsn}
 
 At last the insn is completed by its attributes which hold further information about the insn that is used by the compiler internally like which effect an insn has on certain register etc..
-We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \todo{reference attributes}
+We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \cite{GCCint:attributes}
 
 
 The attentive reader might have noticed that only RTL template is written in RTL.
@@ -643,4 +643,5 @@ An example of non-strict RTL and strict RTL of the same code can be seen in figu
 MMU ?= memory controller
 PPC must handle syncing in compiler when I/O is added
 explain stack and frame pointer
+PPU instruction set
 }

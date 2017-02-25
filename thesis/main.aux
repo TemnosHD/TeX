@@ -19,6 +19,7 @@
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \reset@newl@bel
 \@input{cover/cover_kip.aux}
+\providecommand \oddpage@label [2]{}
 \select@language{english}
 \@writefile{toc}{\select@language{english}}
 \@writefile{lof}{\select@language{english}}
@@ -170,6 +171,12 @@
 \pgfsyspdfmark {pgfid101}{35088600}{47586540}
 \pgfsyspdfmark {pgfid102}{38009087}{47339421}
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.37}}
+\citation{GCCint:predicates}
+\citation{GCCint:constraints}
+\citation{GCCint:arith}
+\citation{GCCint:defineinsn}
+\citation{GCCint:defineinsn}
+\citation{GCCint:attributes}
 \@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference machine modes}{22}{section*.38}}
 \pgfsyspdfmark {pgfid124}{26104889}{47571094}
 \pgfsyspdfmark {pgfid104}{4036912}{47586540}
@@ -182,38 +189,14 @@
 \pgfsyspdfmark {pgfid134}{23420684}{41332064}
 \pgfsyspdfmark {pgfid115}{4036912}{41347510}
 \pgfsyspdfmark {pgfid116}{6957399}{41100391}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference predicates}{22}{section*.41}}
-\pgfsyspdfmark {pgfid139}{7831656}{33310454}
-\pgfsyspdfmark {pgfid120}{4036912}{33325900}
-\pgfsyspdfmark {pgfid121}{6957399}{33078781}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference constraints}{22}{section*.42}}
-\pgfsyspdfmark {pgfid144}{10333533}{30636584}
-\pgfsyspdfmark {pgfid125}{4036912}{30652030}
-\pgfsyspdfmark {pgfid126}{6957399}{30404911}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  reference arithmetic expresssion}{22}{section*.43}}
-\pgfsyspdfmark {pgfid149}{26084308}{27071424}
-\pgfsyspdfmark {pgfid130}{4036912}{27086870}
-\pgfsyspdfmark {pgfid131}{6957399}{26839751}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference condtion}{22}{section*.44}}
-\pgfsyspdfmark {pgfid154}{10031720}{19941104}
-\pgfsyspdfmark {pgfid135}{4036912}{19956550}
-\pgfsyspdfmark {pgfid136}{6957399}{19709431}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference output template}{22}{section*.45}}
-\pgfsyspdfmark {pgfid159}{10031720}{15484654}
-\pgfsyspdfmark {pgfid140}{4036912}{15500100}
-\pgfsyspdfmark {pgfid141}{6957399}{15252981}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference attributes}{22}{section*.46}}
-\pgfsyspdfmark {pgfid164}{16518016}{11919494}
-\pgfsyspdfmark {pgfid145}{4036912}{11934940}
-\pgfsyspdfmark {pgfid146}{6957399}{11687821}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference regs and memory}{23}{section*.47}}
-\pgfsyspdfmark {pgfid169}{6472663}{43114644}
-\pgfsyspdfmark {pgfid152}{35088600}{43130090}
-\pgfsyspdfmark {pgfid153}{38009087}{42882971}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ examples of RTL code}{23}{section*.48}}
-\pgfsyspdfmark {pgfid174}{17604842}{39565840}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  MMU ?= memory controller PPC must handle syncing in compiler when I/O is added explain stack and frame pointer }{23}{section*.49}}
-\pgfsyspdfmark {pgfid175}{17604842}{38602018}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ reference regs and memory}{23}{section*.41}}
+\pgfsyspdfmark {pgfid139}{6472663}{43114644}
+\pgfsyspdfmark {pgfid122}{35088600}{43130090}
+\pgfsyspdfmark {pgfid123}{38009087}{42882971}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ examples of RTL code}{23}{section*.42}}
+\pgfsyspdfmark {pgfid144}{17604842}{39565840}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  MMU ?= memory controller PPC must handle syncing in compiler when I/O is added explain stack and frame pointer PPU instruction set }{23}{section*.43}}
+\pgfsyspdfmark {pgfid145}{17604842}{38421782}
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -221,87 +204,91 @@
 \@writefile{loa}{\addvspace {10\p@ }}
 \newlabel{chapter:extbackend}{{3}{24}{Extending the GCC Back-End}{chapter.3}{}}
 \citation{GCCint:options}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color  {red!25}o}}\ do more often like this: one example for repetitive use}{27}{section*.50}}
-\pgfsyspdfmark {pgfid176}{3915828}{30806980}
-\pgfsyspdfmark {pgfid179}{35088600}{30822426}
-\pgfsyspdfmark {pgfid180}{38009087}{30575307}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color  {red!25}o}}\ do more often like this: one example for repetitive use}{27}{section*.44}}
+\pgfsyspdfmark {pgfid146}{3915828}{30806980}
+\pgfsyspdfmark {pgfid149}{35088600}{30822426}
+\pgfsyspdfmark {pgfid150}{38009087}{30575307}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Registers}{28}{section.3.1}}
 \newlabel{section:register}{{3.1}{28}{Registers}{section.3.1}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ necessary?}{29}{section*.51}}
-\pgfsyspdfmark {pgfid181}{3915828}{49353674}
-\pgfsyspdfmark {pgfid184}{35088600}{49344848}
-\pgfsyspdfmark {pgfid185}{38009087}{49097729}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ check this refernce}{29}{section*.52}}
-\pgfsyspdfmark {pgfid186}{31128306}{38658194}
-\pgfsyspdfmark {pgfid189}{35088600}{38673640}
-\pgfsyspdfmark {pgfid190}{38009087}{38426521}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ explain this later}{29}{section*.53}}
-\pgfsyspdfmark {pgfid191}{20639100}{30636584}
-\pgfsyspdfmark {pgfid194}{35088600}{30652030}
-\pgfsyspdfmark {pgfid195}{38009087}{30404911}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ necessary?}{29}{section*.45}}
+\pgfsyspdfmark {pgfid151}{3915828}{49353674}
+\pgfsyspdfmark {pgfid154}{35088600}{49344848}
+\pgfsyspdfmark {pgfid155}{38009087}{49097729}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ check this refernce}{29}{section*.46}}
+\pgfsyspdfmark {pgfid156}{31128306}{38658194}
+\pgfsyspdfmark {pgfid159}{35088600}{38673640}
+\pgfsyspdfmark {pgfid160}{38009087}{38426521}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ explain this later}{29}{section*.47}}
+\pgfsyspdfmark {pgfid161}{20639100}{30636584}
+\pgfsyspdfmark {pgfid164}{35088600}{30652030}
+\pgfsyspdfmark {pgfid165}{38009087}{30404911}
 \citation{GCCint:constraints}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color  {green!25}o}}\ previous section}{31}{section*.54}}
-\pgfsyspdfmark {pgfid196}{14675234}{17621132}
-\pgfsyspdfmark {pgfid199}{35088600}{17636578}
-\pgfsyspdfmark {pgfid200}{38009087}{17389459}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color  {green!25}o}}\ previous section}{31}{section*.48}}
+\pgfsyspdfmark {pgfid166}{14675234}{17621132}
+\pgfsyspdfmark {pgfid169}{35088600}{17636578}
+\pgfsyspdfmark {pgfid170}{38009087}{17389459}
 \citation{GCCint:predicates}
 \citation{GCCint:funcentry}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color  {green!25}o}}\ earlier}{32}{section*.55}}
-\pgfsyspdfmark {pgfid201}{18626451}{23231014}
-\pgfsyspdfmark {pgfid202}{4036912}{23246460}
-\pgfsyspdfmark {pgfid203}{6957399}{22999341}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color  {green!25}o}}\ earlier}{32}{section*.49}}
+\pgfsyspdfmark {pgfid171}{18626451}{23231014}
+\pgfsyspdfmark {pgfid172}{4036912}{23246460}
+\pgfsyspdfmark {pgfid173}{6957399}{22999341}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Prologue and Epilogue}{32}{section.3.2}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color  {green!25}o}}\ fxvstax and fxvlax}{33}{section*.56}}
-\pgfsyspdfmark {pgfid206}{8913534}{29092175}
-\pgfsyspdfmark {pgfid209}{35088600}{29107621}
-\pgfsyspdfmark {pgfid210}{38009087}{28860502}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color  {green!25}o}}\ fxvstax and fxvlax}{33}{section*.50}}
+\pgfsyspdfmark {pgfid176}{8913534}{29092175}
+\pgfsyspdfmark {pgfid179}{35088600}{29107621}
+\pgfsyspdfmark {pgfid180}{38009087}{28860502}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Reload}{33}{section.3.3}}
-\citation{GCCint:extasm}
+\citation{GCCint:asm}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{34}{section.3.4}}
 \citation{GCCint:definesplit}
 \citation{GCCint:defineexpand}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  -builtins \par output vec const move -helper functions copy helper direct move }{36}{section*.57}}
-\pgfsyspdfmark {pgfid211}{21520670}{37889998}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  BTM bultin mask target pragmas compiler anweisung stack boundary -> put this together frame offsetr stackoffset }{36}{section*.58}}
-\pgfsyspdfmark {pgfid212}{21520670}{36769332}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Test cases}{37}{chapter.4}}
+\citation{heimbrecht}
+\citation{nuxmanual}
+\citation{heimbrecht}
+\citation{heimbrecht}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  ? target pragmas compiler anweisung stack boundary -> put this together frame offsetr stackoffset fix pck instructions }{38}{section*.51}}
+\pgfsyspdfmark {pgfid181}{21520670}{26196490}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Test cases}{39}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{chapter:tests}{{4}{37}{Test cases}{chapter.4}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  asm tests user level tests compiler tests }{37}{section*.59}}
-\pgfsyspdfmark {pgfid213}{17604842}{40579021}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results}{38}{chapter.5}}
+\newlabel{chapter:tests}{{4}{39}{Test cases}{chapter.4}{}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\  asm tests user level tests compiler tests }{39}{section*.52}}
+\pgfsyspdfmark {pgfid182}{17604842}{40579021}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results}{40}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{chapter:results}{{5}{38}{Results}{chapter.5}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Discussion}{39}{chapter.6}}
+\newlabel{chapter:results}{{5}{40}{Results}{chapter.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Discussion}{41}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{chapter:discussion}{{6}{39}{Discussion}{chapter.6}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Outlook}{40}{chapter.7}}
+\newlabel{chapter:discussion}{{6}{41}{Discussion}{chapter.6}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Outlook}{42}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{chapter:outlook}{{7}{40}{Outlook}{chapter.7}{}}
+\newlabel{chapter:outlook}{{7}{42}{Outlook}{chapter.7}{}}
 \@input{tex/appendix.aux}
 \bibstyle{bib/agu}
 \bibdata{bib/myrefs}
 \bibcite{AV:registers}{{1}{}{{AV:}}{{}}}
 \bibcite{GCCint}{{2}{2017{a}}{{GCC}}{{}}}
-\bibcite{GCCint:constraints}{{3}{2017{b}}{{GCC}}{{}}}
-\bibcite{GCCint:defineinsn}{{4}{2017{c}}{{GCC}}{{}}}
-\bibcite{GCCint:funcentry}{{5}{2017{d}}{{GCC}}{{}}}
-\bibcite{GCCint:options}{{6}{2017{e}}{{GCC}}{{}}}
-\bibcite{GCCint:predicates}{{7}{2017{f}}{{GCC}}{{}}}
-\bibcite{GCCint:regclasses}{{8}{2017{g}}{{GCC}}{{}}}
-\bibcite{GCCint:stdnames}{{9}{2017{h}}{{GCC}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{45}{appendix*.63}}
+\bibcite{GCCint:asm}{{3}{2017{b}}{{GCC}}{{}}}
+\bibcite{GCCint:constraints}{{4}{2017{c}}{{GCC}}{{}}}
+\bibcite{GCCint:defineexpand}{{5}{2017{d}}{{GCC}}{{}}}
+\bibcite{GCCint:defineinsn}{{6}{2017{e}}{{GCC}}{{}}}
+\bibcite{GCCint:definesplit}{{7}{2017{f}}{{GCC}}{{}}}
+\bibcite{GCCint:funcentry}{{8}{2017{g}}{{GCC}}{{}}}
+\bibcite{GCCint:options}{{9}{2017{h}}{{GCC}}{{}}}
+\bibcite{GCCint:predicates}{{10}{2017{i}}{{GCC}}{{}}}
+\bibcite{GCCint:stdnames}{{11}{2017{j}}{{GCC}}{{}}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{47}{appendix*.58}}
 \@input{tex/acknowledgments.aux}
 \@input{cover/statement.aux}

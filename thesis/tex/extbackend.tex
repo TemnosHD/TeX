@@ -389,7 +389,7 @@ It only gets interesting when taking a look at the constraints which build pairs
 The first pair for example (|=Z| and |kv|) tells the compiler that a memory which is accessed by an indirect operand will be set by the contents of a vector register (this is the first use of our new constraint.
 Which machine instruction is used for each pair of constraints is stated in the output template which may also be in C form.
 Each case is indexed according to the position in the list of constraints so we take a look at |case 0| where we see the matching machine instruction for storing a vector in memory |fxvstax|.
-The second operand contains also a character besides its number which is an operand modifier \cite{GCCint:extasm} that will cause the operand |0| to be split into two address operands.
+The second operand contains also a character besides its number which is an operand modifier \cite{GCCint:asm} that will cause the operand |0| to be split into two address operands.
 Besides the vector load instruction |fxvlax| we also note the |fxvsel| instruction which is used to move one vector register to another(pair |kv| and |kv|) and |case 6| which moves the contents of vector register |0| (this register is all |0|s) and thereby nulls that register.
 The constraint |j| is the respective constraint for a zero vector.
 
@@ -451,29 +451,75 @@ An |unspec| operator together with |UNSPEC_...| tells the compiler that the oper
 is the insn the split refers to.
 
 After we finally added memory instructions we can also implement them in |rs6000.c|.
-In |rs6000_init_hard_regno_mode_ok| we assign the code for store and load instructions to the two supported modes and do not specify any others in case the target flag is set.
+In |rs6000_init_hard_regno_mode_ok| we assign the code for store and load instructions to the two supported modes in case the target flag is set but do not specify any others.
 
+All that is left now are intrinsic functions that make use of the memory instructions.
+Although by now the compiler would already support |asm| usage as shown in \ref{section:asm} and which we will get back to later on.
+Still we do not want to stop there and also add intrinsic functions to the back-end.
+This is done through several steps that were also described in an internship report \cite{heimbrecht}.
+Therefore we will only describe this briefly and refer to the report at times.
 
+First we start defining insns for each vector instruction that is listed in \cite{nuxmanual}.
+In order to allow access to the synram we implement insns that work similar to |fxvstax| and |fxvlax| and are called |fxvoutx| and |fxvinx|.
+All of these insns exist with different conditionals and are named accordingly because load and store insns are hard to implement with an additional argument that is the conditional.
+Simple arithmetic instructions exist in multiple versions that either support conditional execution or do not.
+This is due to a problem that was discovered only recently with the PPU.
+As tests revealed the conditional execution of arithmetic instructions works improperly and in case a condition does not apply the result of a previous instruction is written to the first operand.
+Normally the operation should leave the contents of the operand untouched instead.
+For this reason we implement a workaround through insn splits that utilizes |fxvselect| and its conditional execution as this does work as intended.
+Though we still offer arithmetic operations without splits as this saves a clock cycle in comparison to having an additional |fxvselect| instruction.
+Besides those simple arithmetic operations, |fxvadd...|, |fxvsub...| and |fxvmul...|, there also exist more complex operations that make use of the accumulator.
+As of now these instructions should not be used with conditionals as further testing is imminent and it is not clear whether those conditionals would work.
+Besides that does an extra instruction render the advantages of an accumulator meaningless.
+Nonetheless do we implement those accumulator instructions together with a conditional argument which would allow for easier testing later on.
+Also does the additional operand not influence the performance of the instruction in a bad manner since for the conditional |0| the instruction works the same as if the conditional was true for all elements.
 
+We will refer back to this when discussing the results of extending the back-end.
 
+Since this completes the insns we can go on and create built-ins in |rs6000-builtins.def| from these insns.
+First though we must add macros that makes adding intrinsics easier.
+The exact definition of those macros is described for AltiVec built-ins in \cite{heimbrecht} but we can easily transfer those for s2pp by adding the |RS6000_BTM_S2PP| built-in mask which is identical with the target mask.
+We then use the s2pp built-in macros to create built-in definitions for each insn and also each mode (halfword or byte).
+Most built-ins follow the scheme of a normal function that has a result and a certain number of arguments.
+Btu there exists a number of insns that do not produce an output as they set the accumulator or the conditional register.
+These instructions need special handling and thus are defined as special built-ins.
 
-builtin amsk for load
-handle s2pp attribute
+Besides defining built-ins we also define overloads.
+These are used to differ intrinsics through the types of their arguments later on what makes using them easier and stops false usage.
+Overloads are also further explained in \cite{heimbrecht}
+As we are adding overloads we can put them to use in |rs6000-c.c| where overloads and built-ins are connected.
+This is done through structures that combine the built-in and overload names with a return type and up to three arguments.
 
+To actually make use of these structures, we will add a function to |rs6000-c.c| that resolves the overloaded built-ins and is again built upon an AltiVec function that does the very same.
+Therefore we must tell the back-end which functions to use by making a target dependent decision in |rs6000.h| which overload-resolving function is handling overloads in general.
+Also we need a functions in |rs6000.c| that handle built-ins in general.
+First we create a new function |s2pp_expand_builtin| which is invoked by |rs6000_expand_builtin|.
+This function handles all special built-ins that belong to s2pp and picks expander functions according to their name.
+We therefore must create those expander functions that take care of certain kinds of built-ins.
+One such group are memory intrinsics that handle explicit memory addressing and also apply to synram intrinsics.
+These expanders are needed because of the special way that memory is accessed through indirect register referencing.
+As for the operand modifiers we can use the same implementation that AltiVec uses but create a new function in case improvements may become necessary at some point in time.
 
+Besides these expander functions we additionally create a new kind of expander function that did not exist before s2pp.
+As there is a great number of instructions that do not return any values because they write the accumulator or the conditional registers, we create expander functions for various numbers of arguments that each do not handle a return operand.
+These functions which were called |s2pp_expand_unaryx_bultin|, |s2pp_expand_binaryx_bultin| and |s2pp_expand_ternaryx_bultin| otherwise behave quite similar.
+
+Now that we are already handling special built-ins we need to define those built-ins in |rs6000.c| as well.
+|s2pp_init_bultins| takes care of that as it is a series of |define_builtin| functions which must be written explicitly in contrast to normal built-in functions, where this is done automatically.
+
+We did not mention so far the special case of three other built-in function that belong to the group of special built-ins as well but differ in how the RTL code/machine instructions are generated.
+|vec_ext|, |vec_init| and |vec_promote| describe functions which do not belong to a specific vector instruction but are compiler-constructed sequences of machine instructions that correspond to a certain action on a vector which is mainly performed in memory.
+These functions are inspired by AltiVec's implementation which easily was transferable to s2pp.
+
+Finally we conclude on built-ins by defining alternative names for built-in functions in |s2pp.h|.
+
+A complete list of all intrinsic functions that the compiler supports at the time this thesis was written is available in the appendix \ref{appendix:builtinlist}.
 
 \add{
--builtins
-
-output vec const move
--helper functions
-copy helper direct move
-}
-
-\add{
-BTM bultin mask
+    ?
 target pragmas compiler anweisung
 stack boundary -> put this together
 frame offsetr
 stackoffset
+fix pck instructions 
 }

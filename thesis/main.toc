@@ -22,12 +22,12 @@
 \contentsline {section}{\numberline {3.2}Prologue and Epilogue}{32}{section.3.2}
 \contentsline {section}{\numberline {3.3}Reload}{33}{section.3.3}
 \contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{34}{section.3.4}
-\contentsline {chapter}{\numberline {4}Test cases}{37}{chapter.4}
-\contentsline {chapter}{\numberline {5}Results}{38}{chapter.5}
-\contentsline {chapter}{\numberline {6}Discussion}{39}{chapter.6}
-\contentsline {chapter}{\numberline {7}Outlook}{40}{chapter.7}
-\contentsline {chapter}{Appendix}{41}{chapter.7}
-\contentsline {chapter}{Bibliography}{45}{appendix*.63}
+\contentsline {chapter}{\numberline {4}Test cases}{39}{chapter.4}
+\contentsline {chapter}{\numberline {5}Results}{40}{chapter.5}
+\contentsline {chapter}{\numberline {6}Discussion}{41}{chapter.6}
+\contentsline {chapter}{\numberline {7}Outlook}{42}{chapter.7}
+\contentsline {chapter}{Appendix}{43}{chapter.7}
+\contentsline {chapter}{Bibliography}{47}{appendix*.58}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}

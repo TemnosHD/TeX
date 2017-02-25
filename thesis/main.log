@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  24 FEB 2017 22:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  25 FEB 2017 22:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -789,25 +789,75 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 \c@SC@C=\count127
 \SC@BOX=\box41
 )
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2012/05/21 v1.0 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/05/25 v2.7 package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks30
+\XKV@tempa@toks=\toks31
+)
+\XKV@depth=\count128
+File: xkeyval.tex 2014/05/25 v2.7 key=value parser (HA)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2012/05/16 v1.0 Trim and clip general TeX material
+
+(/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box42
+)
+\tc@llx=\dimen172
+\tc@lly=\dimen173
+\tc@urx=\dimen174
+\tc@ury=\dimen175
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2012/05/13 v1.0 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen176
+\adjbox@Height=\dimen177
+\adjbox@Depth=\dimen178
+\adjbox@Totalheight=\dimen179
+
+(/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2011/09/13 v1.0 Conditionals for odd/even page detection
+\c@checkoddpage=\count129
+)
+(/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box43
+\sift@deathcycles=\count130
+\@vwid@loff=\dimen180
+\@vwid@roff=\dimen181
+))
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count128
-\lst@gtempboxa=\box42
-\lst@token=\toks30
-\lst@length=\count129
-\lst@currlwidth=\dimen172
-\lst@column=\count130
-\lst@pos=\count131
-\lst@lostspace=\dimen173
-\lst@width=\dimen174
-\lst@newlines=\count132
-\lst@lineno=\count133
-\lst@maxwidth=\dimen175
+\lst@mode=\count131
+\lst@gtempboxa=\box44
+\lst@token=\toks32
+\lst@length=\count132
+\lst@currlwidth=\dimen182
+\lst@column=\count133
+\lst@pos=\count134
+\lst@lostspace=\dimen183
+\lst@width=\dimen184
+\lst@newlines=\count135
+\lst@lineno=\count136
+\lst@maxwidth=\dimen185
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
-\c@lstnumber=\count134
-\lst@skipnumbers=\count135
-\lst@framebox=\box43
+\c@lstnumber=\count137
+\lst@skipnumbers=\count138
+\lst@framebox=\box45
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2014/09/06 1.5e listings configuration
@@ -820,31 +870,31 @@ File: lstlang1.sty 2014/09/06 1.5e listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
 )
-Package Listings Info: Made | a short reference for \lstinline on input line 44
+Package Listings Info: Made | a short reference for \lstinline on input line 48
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
-\bigstrutjot=\dimen176
+\bigstrutjot=\dimen186
 )
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
-\heavyrulewidth=\dimen177
-\lightrulewidth=\dimen178
-\cmidrulewidth=\dimen179
-\belowrulesep=\dimen180
-\belowbottomsep=\dimen181
-\aboverulesep=\dimen182
-\abovetopsep=\dimen183
-\cmidrulesep=\dimen184
-\cmidrulekern=\dimen185
-\defaultaddspace=\dimen186
-\@cmidla=\count136
-\@cmidlb=\count137
-\@aboverulesep=\dimen187
-\@belowrulesep=\dimen188
-\@thisruleclass=\count138
-\@lastruleclass=\count139
-\@thisrulewidth=\dimen189
+\heavyrulewidth=\dimen187
+\lightrulewidth=\dimen188
+\cmidrulewidth=\dimen189
+\belowrulesep=\dimen190
+\belowbottomsep=\dimen191
+\aboverulesep=\dimen192
+\abovetopsep=\dimen193
+\cmidrulesep=\dimen194
+\cmidrulekern=\dimen195
+\defaultaddspace=\dimen196
+\@cmidla=\count139
+\@cmidlb=\count140
+\@aboverulesep=\dimen197
+\@belowrulesep=\dimen198
+\@thisruleclass=\count141
+\@lastruleclass=\count142
+\@thisrulewidth=\dimen199
 )
 (/usr/share/texlive/texmf-dist/tex/latex/bbm-macros/bbm.sty
 Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
@@ -858,7 +908,7 @@ Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks31
+\@emptytoks=\toks33
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
@@ -874,51 +924,51 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks32
-\ex@=\dimen190
+\@emptytoks=\toks34
+\ex@=\dimen200
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen191
+\pmbraise@=\dimen201
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count140
+\inf@bad=\count143
 LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count141
-\leftroot@=\count142
+\uproot@=\count144
+\leftroot@=\count145
 LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count143
-\DOTSCASE@=\count144
+\classnum@=\count146
+\DOTSCASE@=\count147
 LaTeX Info: Redefining \ldots on input line 378.
 LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box44
-\strutbox@=\box45
-\big@size=\dimen192
+\Mathstrutbox@=\box46
+\strutbox@=\box47
+\big@size=\dimen202
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count145
-\c@MaxMatrixCols=\count146
+\macc@depth=\count148
+\c@MaxMatrixCols=\count149
 \dotsspace@=\muskip10
-\c@parentequation=\count147
-\dspbrk@lvl=\count148
-\tag@help=\toks33
-\row@=\count149
-\column@=\count150
-\maxfields@=\count151
-\andhelp@=\toks34
-\eqnshift@=\dimen193
-\alignsep@=\dimen194
-\tagshift@=\dimen195
-\tagwidth@=\dimen196
-\totwidth@=\dimen197
-\lineht@=\dimen198
-\@envbody=\toks35
+\c@parentequation=\count150
+\dspbrk@lvl=\count151
+\tag@help=\toks35
+\row@=\count152
+\column@=\count153
+\maxfields@=\count154
+\andhelp@=\toks36
+\eqnshift@=\dimen203
+\alignsep@=\dimen204
+\tagshift@=\dimen205
+\tagwidth@=\dimen206
+\totwidth@=\dimen207
+\lineht@=\dimen208
+\@envbody=\toks37
 \multlinegap=\skip56
 \multlinetaggap=\skip57
-\mathdisplay@stack=\toks36
+\mathdisplay@stack=\toks38
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
@@ -949,8 +999,8 @@ Language: english 2012/08/20 v3.3p English support from the babel system
 
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2014/09/25 3.9l Babel common definitions
-\babel@savecnt=\count152
-\U@D=\dimen199
+\babel@savecnt=\count155
+\U@D=\dimen209
 )
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
@@ -1008,16 +1058,16 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 )
-\@linkdim=\dimen200
-\Hy@linkcounter=\count153
-\Hy@pagecounter=\count154
+\@linkdim=\dimen210
+\Hy@linkcounter=\count156
+\Hy@pagecounter=\count157
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count155
+\Hy@SavedSpaceFactor=\count158
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -1033,17 +1083,17 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count156
+\c@Hy@tempcnt=\count159
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
-\XeTeXLinkMargin=\dimen201
-\Fld@menulength=\count157
-\Field@Width=\dimen202
-\Fld@charsize=\dimen203
+\XeTeXLinkMargin=\dimen211
+\Fld@menulength=\count160
+\Field@Width=\dimen212
+\Fld@charsize=\dimen213
 Package hyperref Info: Hyper figures OFF on input line 6295.
 Package hyperref Info: Link nesting OFF on input line 6300.
 Package hyperref Info: Hyper index ON on input line 6303.
@@ -1053,17 +1103,17 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count158
-\c@Item=\count159
-\c@Hfootnote=\count160
+\Hy@abspage=\count161
+\c@Item=\count162
+\c@Hfootnote=\count163
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\Fld@listcount=\count161
-\c@bookmark@seq@number=\count162
+\Fld@listcount=\count164
+\c@bookmark@seq@number=\count165
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
@@ -1075,17 +1125,6 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 (/usr/share/texlive/texmf-dist/tex/latex/breakurl/breakurl.sty
 Package: breakurl 2013/04/10 v1.40 Breakable hyperref URLs
 
-(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2014/05/25 v2.7 package option processing (HA)
-
-(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks37
-\XKV@tempa@toks=\toks38
-)
-\XKV@depth=\count163
-File: xkeyval.tex 2014/05/25 v2.7 key=value parser (HA)
-))
 
 Package breakurl Warning: You are using breakurl while processing via pdflatex.
 
@@ -1098,16 +1137,16 @@ Package: hyphenat 2009/09/02 v2.3c hyphenation utilities
 LaTeX Info: Redefining \_ on input line 43.
 )
 (/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty
-\UL@box=\box46
-\UL@hyphenbox=\box47
+\UL@box=\box48
+\UL@hyphenbox=\box49
 \UL@skip=\skip62
 \UL@hook=\toks39
-\UL@height=\dimen204
-\UL@pe=\count164
-\UL@pixel=\dimen205
-\ULC@box=\box48
+\UL@height=\dimen214
+\UL@pe=\count166
+\UL@pixel=\dimen215
+\ULC@box=\box50
 Package: ulem 2012/05/18
-\ULdepth=\dimen206
+\ULdepth=\dimen216
 )
 (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
@@ -1115,28 +1154,28 @@ nment
 
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count165
+\c@float@type=\count167
 \float@exts=\toks40
-\float@box=\box49
+\float@box=\box51
 \@float@everytoks=\toks41
-\@floatcapt=\box50
+\@floatcapt=\box52
 )
 \@float@every@algorithm=\toks42
-\c@algorithm=\count166
+\c@algorithm=\count168
 )
 (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count167
-\c@ALG@rem=\count168
-\c@ALG@nested=\count169
+\c@ALG@line=\count169
+\c@ALG@rem=\count170
+\c@ALG@nested=\count171
 \ALG@tlm=\skip63
 \ALG@thistlm=\skip64
-\c@ALG@Lnr=\count170
-\c@ALG@blocknr=\count171
-\c@ALG@storecount=\count172
-\c@ALG@tmpcounter=\count173
+\c@ALG@Lnr=\count172
+\c@ALG@blocknr=\count173
+\c@ALG@storecount=\count174
+\c@ALG@tmpcounter=\count175
 \ALG@tmplength=\skip65
 ) (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
@@ -1158,7 +1197,7 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip70
 \bibsep=\skip71
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count174
+\c@NAT@ctr=\count176
 )
 (/usr/share/texlive/texmf-dist/tex/latex/acronym/acronym.sty
 Package: acronym 2014/09/29 v1.40 Support for acronyms (Tobias Oetiker)
@@ -1169,8 +1208,8 @@ Package: suffix 2006/07/15 1.5 Variant command support
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
 \@xs@message=\write5
-\integerpart=\count175
-\decimalpart=\count176
+\integerpart=\count177
+\decimalpart=\count178
 )
 Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 )
@@ -1178,8 +1217,8 @@ Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/nomencl/nomencl.sty
 Package: nomencl 2005/09/22 v4.2 Nomenclature package (LN)
-\nomlabelwidth=\dimen207
-\nom@tempdim=\dimen208
+\nomlabelwidth=\dimen217
+\nom@tempdim=\dimen218
 \nomitemsep=\skip72
 )
 \@nomenclaturefile=\write6
@@ -1197,7 +1236,7 @@ Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
 Writing index file main.idx
 (/usr/share/texlive/texmf-dist/tex/latex/xargs/xargs.sty
 Package: xargs 2008/03/22 v1.1  extended macro definitions  (mpg)
-\xargs@max=\count177
+\xargs@max=\count179
 \xargs@toksa=\toks45
 \xargs@toksb=\toks46
 )
@@ -1211,18 +1250,18 @@ File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.0 (rcs-revision 1.7)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count178
-\calc@Bcount=\count179
-\calc@Adimen=\dimen209
-\calc@Bdimen=\dimen210
+\calc@Acount=\count180
+\calc@Bcount=\count181
+\calc@Adimen=\dimen219
+\calc@Bdimen=\dimen220
 \calc@Askip=\skip73
 \calc@Bskip=\skip74
 LaTeX Info: Redefining \setlength on input line 75.
 LaTeX Info: Redefining \addtolength on input line 76.
-\calc@Ccount=\count180
+\calc@Ccount=\count182
 \calc@Cskip=\skip75
 )
-\c@@todonotes@numberoftodonotes=\count181
+\c@@todonotes@numberoftodonotes=\count183
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/fixltx2e.sty
 Package: fixltx2e 2014/09/29 v1.1s fixes to LaTeX
@@ -1237,34 +1276,34 @@ LaTeX Info: Redefining \textsubscript on input line 434.
 (./tex/appendix.aux) (./tex/acknowledgments.aux) (./cover/statement.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
 
 ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count182
-\scratchdimen=\dimen211
-\scratchbox=\box51
-\nofMPsegments=\count183
-\nofMParguments=\count184
+\scratchcounter=\count184
+\scratchdimen=\dimen221
+\scratchbox=\box53
+\nofMPsegments=\count185
+\nofMParguments=\count186
 \everyMPshowfont=\toks47
-\MPscratchCnt=\count185
-\MPscratchDim=\dimen212
-\MPnumerator=\count186
-\makeMPintoPDFobject=\count187
+\MPscratchCnt=\count187
+\MPscratchDim=\dimen222
+\MPnumerator=\count188
+\makeMPintoPDFobject=\count189
 \everyMPtoPDFconversion=\toks48
 )
 Package caption Info: Begin \AtBeginDocument code.
@@ -1298,9 +1337,9 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \RaggedRightParindent=\skip88
 \JustifyingParindent=\skip89
 )
-\c@lstlisting=\count188
-\AtBeginShipoutBox=\box52
-Package hyperref Info: Link coloring ON on input line 159.
+\c@lstlisting=\count190
+\AtBeginShipoutBox=\box54
+Package hyperref Info: Link coloring ON on input line 163.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1308,11 +1347,11 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count189
+\c@section@level=\count191
 )
-LaTeX Info: Redefining \ref on input line 159.
-LaTeX Info: Redefining \pageref on input line 159.
-LaTeX Info: Redefining \nameref on input line 159.
+LaTeX Info: Redefining \ref on input line 163.
+LaTeX Info: Redefining \pageref on input line 163.
+LaTeX Info: Redefining \nameref on input line 163.
 
 (./main.out) (./main.out)
 \@outlinefile=\write8
@@ -1464,13 +1503,13 @@ Non-PDF special ignored!
 s-converted-to.pdf> <./fig/cover/Publ-Cover2-eps-converted-to.pdf> <./fig/cover
 /Publ-Cover3-eps-converted-to.pdf>])
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 169.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 165.
+(babel)             in language  on input line 169.
  [2
 
 
@@ -1536,13 +1575,13 @@ Package babel Info: Redefining ngerman shorthand "~
 
 ])
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
+(babel)             in language  on input line 173.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
+(babel)             in language  on input line 173.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 169.
+(babel)             in language  on input line 173.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 169.
+(babel)             in language  on input line 173.
  [4
 
 
@@ -1740,7 +1779,16 @@ Overfull \hbox (35.1304pt too wide) in paragraph at lines 429--457
 [][]
  []
 
-[16] [17] [18] [19] [20] [21] [22]) (./tex/extbackend.tex [23]
+[16] [17] [18] [19] [20] [21]
+
+Package natbib Warning: Citation `GCCint:arith' on page 22 undefined on input l
+ine 612.
+
+
+Package natbib Warning: Citation `GCCint:attributes' on page 22 undefined on in
+put line 625.
+
+[22]) (./tex/extbackend.tex [23]
 
 ! LaTeX Error: Float(s) lost.
 
@@ -1750,12 +1798,6 @@ Type  H <return>  for immediate help.
                                                   
 l.1 \chapter
             {Extending the GCC Back-End}
-? ^^[[A
-Type <return> to proceed, S to scroll future error messages,
-R to run without stopping, Q to run quietly,
-I to insert something, E to edit your file,
-1 or ... or 9 to ignore the next 1 to 9 tokens of input,
-H for help, X to quit.
 ? 
 Chapter 3.
 [24
@@ -1781,62 +1823,64 @@ r flags which is done in
 LaTeX Warning: Reference `section:insn' on page 34 undefined on input line 385.
 
 
-
-Package natbib Warning: Citation `GCCint:extasm' on page 34 undefined on input 
-line 392.
-
 [34]
+Overfull \hbox (12.27164pt too wide) in paragraph at lines 412--414
+[]\T1/cmr/m/n/10.95 Beside adding the other in-sns we also need to add the func
+-tion []
+ []
 
-Package natbib Warning: Citation `GCCint:definesplit' on page 35 undefined on i
-nput line 401.
+[35]
+
+Package natbib Warning: Citation `heimbrecht' on page 36 undefined on input lin
+e 459.
 
 
-Package natbib Warning: Citation `GCCint:defineexpand' on page 35 undefined on 
-input line 408.
+Package natbib Warning: Citation `nuxmanual' on page 36 undefined on input line
+ 462.
 
-[35]) (./tex/tests.tex [36]
+[36]
+
+Package natbib Warning: Citation `heimbrecht' on page 37 undefined on input lin
+e 481.
+
+
+Package natbib Warning: Citation `heimbrecht' on page 37 undefined on input lin
+e 489.
+
+[37]
+
+LaTeX Warning: Reference `appendix:builtinlist' on page 38 undefined on input l
+ine 516.
+
+) (./tex/tests.tex [38]
 Chapter 4.
-) (./tex/results.tex [37
+) (./tex/results.tex [39
 
 ]
 Chapter 5.
-) (./tex/discussion.tex [38
+) (./tex/discussion.tex [40
 
 ]
 Chapter 6.
-) (./tex/outlook.tex [39
+) (./tex/outlook.tex [41
 
 ]
 Chapter 7.
-) [40
+) [42
 
 ]
 \openout2 = `tex/appendix.aux'.
 
- (./tex/appendix.tex [41
+ (./tex/appendix.tex [43
 
 
-] [42] (./main.tdo [43
+] [44] (./main.tdo [45
 
-]
-Runaway argument?
-{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ -bu\ETC.
-! Paragraph ended before \contentsline was complete.
-<to be read again> 
-                   \par 
-l.51 ...evmode {\color {orange}o}}\ -builtins \par
-                                                   output vec const move -he...
-
-? 
-! Extra }, or forgotten \endgroup.
-l.51 ...helper functions copy helper direct move }
-                                                  {36}{section*.57}
-? 
-)
+])
 \tf@tdo=\write10
 \openout10 = `main.tdo'.
 
-) [44]
+) [46]
 No file main.nls.
 (./main.bbl
 Underfull \hbox (badness 4168) in paragraph at lines 12--14
@@ -1846,7 +1890,7 @@ Underfull \hbox (badness 4168) in paragraph at lines 12--14
 
 )
 No file main.ind.
-[45
+[47
 
 
 
@@ -1856,7 +1900,7 @@ No file main.ind.
 
 
 No file tex/acknowledgments.tex.
-[46
+[48
 
 
 
@@ -1879,35 +1923,35 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
 (scrreprt)              by `\normalfont \bfseries ' on input line 6.
 
-) [47
+) [49
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 317.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 317.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 321.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 321.
 (./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
 (./cover/cover_prof.aux) (./tex/abstract.aux) (./tex/appendix.aux)
 (./tex/acknowledgments.aux) (./cover/statement.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 317.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 317.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 321.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 321.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C397F7C8CB893A738546007FC5F614F9;1675.
+(rerunfilecheck)             Checksum: 2D9D00FE9A5AEDEBD87F91B1297FCB4D;1675.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 317.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 321.
  ) 
 Here is how much of TeX's memory you used:
- 26871 strings out of 493105
- 485422 string characters out of 6137072
- 713366 words of memory out of 5000000
- 29346 multiletter control sequences out of 15000+600000
+ 27453 strings out of 493105
+ 495112 string characters out of 6137072
+ 720433 words of memory out of 5000000
+ 29897 multiletter control sequences out of 15000+600000
  25632 words of font info for 59 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
- 55i,17n,80p,520b,1211s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,22n,80p,520b,1486s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
@@ -1929,10 +1973,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts
 er/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2074.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/
 type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (57 pages, 606678 bytes).
+Output written on main.pdf (59 pages, 615217 bytes).
 PDF statistics:
- 888 PDF objects out of 1000 (max. 8388607)
- 790 compressed objects within 8 object streams
- 324 named destinations out of 1000 (max. 500000)
+ 912 PDF objects out of 1000 (max. 8388607)
+ 811 compressed objects within 9 object streams
+ 330 named destinations out of 1000 (max. 500000)
  236 words of extra memory for PDF output out of 10000 (max. 10000000)
 

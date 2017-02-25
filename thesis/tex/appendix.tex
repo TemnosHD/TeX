@@ -46,6 +46,29 @@
 
 \end{acronym}
 
+\section*{List of nux Intrinsics}
+
+\begin{table}
+    \adjustbox{max width=\textwidth}{%
+        \begin{tabular}{c c c p{5cm}}
+            intrinsic \\ name & use & data types & effect\\
+            \hline \hline
+            |fxvadd| & |d = fxvadd(a,b)| &
+            \begin{tabular}{¡@{}l@{}¡@{}l@{}¡@{}l@{}¡}
+                |d| & |a| & |b| \\
+                \hline
+                same as |a| & |vector signed char|    & same as |a| \\
+                            & |vector unsigned char|  & \\
+                            & |vector signed short|   & \\
+                            & |vector unsigned short| & \\
+            \end{tabular}%
+            & add |a| and |b| element-wise and write the result in |d|\\ 
+        \end{tabular}
+    }
+\end{table}
+
+
+
 \newpage
 \listoftodos[Notes]
 
