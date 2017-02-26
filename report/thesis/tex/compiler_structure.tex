@@ -1,66 +1,72 @@
 \chapter{Compiler Structure}
 \label{chapter:compiler structure}
-Typically a compiler consists of a front-end, middle-end and back-end. These three parts sit on top of each other with the front-end on top and the back-end at the bottom and pass down the programs code as it is translated and optimized or compiled. But communication between the parts does not go only one way (at least for GCC)\todo{add reference}
-and changes that are made in the back-end affect the front-end as well!
-Such modular architecture  allows for a compiler to support many different front-ends and back-ends independently because all code needs to pass the same middle-end no matter which front-end or back-end is used. In normal cases a front-ends are associated with programming languages and back-ends with CPU architectures or ``targets'' while the middle-end is at the heart of the compiler and is usually what distinguishes between different compilers, as does the communication between the three parts.
-\smallskip
- \begin{myexampleblock}{front-end}
+\newlength\Colsep
+\setlength\Colsep{10pt}
+Typically a compiler consists of a front-end, middle-end and back-end. These three parts
+sit on top of each other with the front-end at the very top and the back-end at the bottom
+and pass down the program’s code as it is translated and optimized or compiled. But
+communication is also possible between front-end and back-end directly (as we will see
+later on). Therefore changes that are made to the back-end affect the front-end as well!
+
+Such modular architecture allows for a compiler to support many different front-ends
+and back-ends independently and at the same time as all code needs to pass the same
+middle-end no matter which front-end or back-end is used. In normal cases front-ends
+are associated with programming languages and back-ends with CPU architectures or
+“targets” while the middle-end is at the heart of the compiler and is usually what distinguishes between different compilers, as does the communication between the three
+parts.
+
+\begin{figure}
+\noindent\centerline{\begin{minipage}{0.6\textwidth}
+\vspace{1cm}
+\begin{tcolorbox}[beamer,noparskip,breakable,colbacklower=LimeGreen!75!LightGreen,title=front-end,remember as=fe]
 	\begin{itemize}
-		\item recognizes programming language
+		\item recognizes programming language \tikz[baseline] \node[coordinate] (box1){}; 
 		\item pre-processing
 		\item type checking
 		\item generates IR
 	\end{itemize}
-\end{myexampleblock}
-\begin{myexampleblock}{middle-end}
+\end{tcolorbox}
+\begin{tcolorbox}[beamer,noparskip,breakable,colbacklower=LimeGreen!75!LightGreen,title=middle-end,remember as=me]
 	\begin{itemize}
-		\item general optimizations to IR
+		\item general optimizations to IR \tikz[baseline] \node[coordinate] (top2) {};
 		\item compiler specific actions
-		\item passes IR
+		\item passes IR \tikz[baseline] \node[coordinate] (bot2) {};
 	\end{itemize}
-\end{myexampleblock}
-\begin{myexampleblock}{back-end}
+\end{tcolorbox}
+\begin{tcolorbox}[beamer,noparskip,breakable,colbacklower=LimeGreen!75!LightGreen,title=back-end,remember as=be]
 	\begin{itemize}
-		\item target specific optimization
+		\item target specific optimization \tikz[baseline] \node[coordinate] (top3) {};
 		\item register allocation (spilling)
 		\item generation of assembly code
+        \item relative memory handling
 	\end{itemize}
-\end{myexampleblock}
-%%\end{minipage}
-%%\begin{minipage}[c]{\dimexpr0.2\textwidth-0.5\Colsep\relax}
-%%    \begin{tikzpicture}
-%%		\node at (0, 10.5) {\texttt{o}};
-%%		\node at (0, 6.5) {\texttt{o}};
-%%		\node at (0, 3) {\texttt{o}};
-%%	\end{tikzpicture}
-%\end{minipage}\hfill
-%\end{minipage}
-%%\begin{myblock}{}
-%%    \tikzmark{n1}
-%%    \shownode{n1}    
-%%   %remove the previous line: just used to see where the invisible node is placed
-%%    \begin{varblock}[0.5\textwidth]{front-end}
-%%	\begin{itemize}
-%%		\item recognizes programming language \tikz[baseline] \node[coordinate] (box1){}; 
-%%		\item pre-processing
-%%		\item type checking
-%%		\item generates IR
-%%	\end{itemize}
-%%    \end{varblock}
-%%    \showanchor{n1}
-%%   %remove also this: just used to see where n1 is positioned
-%%\end{myblock}
-%\begin{tikzpicture}[remember picture,overlay,-stealth]
-%	\path[line width=0.2cm](n2.east)edge[bend left](n1.west);
-%	\path[line width=0.2cm](n1.south)edge[bend left](n3.east);
-%	\path[line width=0.2cm](n3.west)edge[bend left](n2.south);
-%	% in case you need to connect some block from ``north''
-%	%\path[line width=0.2cm](n3.north)edge[bend left](n1.south west); % is wrong
-%	\path[line width=0.2cm]\newabove(n3) edge[bend left](n1.south west);
-%\end{tikzpicture}
-\vspace{\baselineskip}
-The first part of the compilation process is the translation of code which is written in some programming language by the front-end into a so called Intermediate Representation (IR) that looks the same for every front-end language and usually is never seen by the user. AS already described, any supported programming language (C, C++, Java…) is implemented in its own front-end that defines how the language is translated into IR. After that the IR is send to the middle-end where it is mainly optimized and then passed to the back-end. The back-end first performs further optimization that is target-specific followed by allocating registers and handling relative memory. Finally the code is translated into the assembly language that is supported by the target which the back-end belongs to.
+\end{tcolorbox}
+\vspace{1cm}
+\begin{tcolorbox}[beamer,noparskip,breakable,colbacklower=LimeGreen!75!LightGreen,title=linker,remember as=li]
+	\begin{itemize}
+		\item absolute memory handling
+		\item resolving references
+		\item generating object files
+	\end{itemize}
+\end{tcolorbox}
+\vspace{1cm}
+\begin{tikzpicture}[overlay,remember picture,line width=1mm]
+    \draw[->] (fe.east) -| ($(fe.east)+(1,0)$) -- node [right] {IR} ($(me.north east)!0.6!(me.east)+(1,0)$) |- ($(me.north east)!0.6!(me.east)$);
+    \draw[->] ($(me.south east)!0.6!(me.east)$) -| ($(me.south east)!0.6!(me.east)+(1,0)$) -- node [right] {IR} ($(be.east)+(1,0)$) |- (be.east);
+    \draw[->] (fe.west) -| ($(fe.west)+(-1,0)$) -- node [left] {intrinsic} ($(be.west)+(-1,0)$) |- (be.west);
+    \draw[->] (be.south) -- node [right] {assembly} (li.north);
+    \draw[->] (li.south) -- node [right] {machine files} ++(0,-1);
+    \draw[->] ($(fe.north)+(0,1)$) -- node [right] {program code} (fe.north);
+\end{tikzpicture}
+\end{minipage}}
+\caption{Schematic Compiler Structure}
+\label{fig:comp}
+\end{figure}
+
+The first part of the compilation process is the translation of code which is written in some programming language by the front-end into a so called Intermediate Representation (IR) that looks the same for every front-end language and usually is never seen by the user. AS already described, any supported programming language (C, C++, Java…) is implemented in its own front-end that defines how the language is translated into IR. After that the IR is send to the middle-end where it is mainly optimized and then passed to the back-end. The back-end first performs further optimization that is target-specific followed by allocating registers and handling relative memory. Finally the code is translated into the assembly language that is supported by the target which the back-end belongs to \citep{mogensen}.
+
 This last step executed by the back-end can seen as independent from the back-end as the translation into assembly is pretty straight forward, but the rs/6000 back-end for instance allows for direct assembly output that is not dependent on IR. Therefore we combine these the assembler and the back-end.
+
 After the code is compiled and emitted as an object file it is also linked, which means combining different object files and assigning absolute memory addresses to them and at last the symbols which are used in assembly are substituted by their respective opcodes. Opcodes are almost the lowest representation of machine code as the machine would not accept strings a input but rather bits that are represented as hex literals. These opcodes form pairs with assembly macros and can be found in binutils. Finally the resulting binary file is emitted by the linker and loaded into the memory of the processor to be executed.
 
 GCC generally obeys this scheme and therefore the PowerPC architecture (also called rs/6000) is a good example of a back-end that supports different extensions to the standard architecture such as the AltiVec vector extension. This makes is more complex than the Cell Synergistic Processor Units (SPU) back-end but all back-ends in GCC share the same functions defined by macros. Still besides those macros the back-ends obey only few restrictions by the middle-end and thus this guide will not easily be transferable to other GCC back-ends and especially not to other compilers back-ends!

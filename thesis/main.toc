@@ -6,27 +6,27 @@
 \contentsline {chapter}{\numberline {2}Methods}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}Basic Processor Architecture}{3}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Co-processors and Extensions}{6}{subsection.2.1.1}
-\contentsline {subsubsection}{\nonumberline AltiVec Vector Extension}{7}{section*.16}
+\contentsline {subsubsection}{\nonumberline AltiVec Vector Extension}{7}{section*.13}
 \contentsline {section}{\numberline {2.2}Hardware Implementation}{8}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Basics of Neural Networks}{8}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Implementation in Hicann-DLS}{9}{subsection.2.2.2}
 \contentsline {subsection}{\numberline {2.2.3}The Plasticity Processing Unit}{10}{subsection.2.2.3}
 \contentsline {section}{\numberline {2.3}Basic Compiler Structure}{12}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Back-End and Code Generation}{13}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Assembly Basics}{16}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}Intrinsics}{19}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{19}{subsection.2.3.4}
-\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.33}
-\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}
-\contentsline {section}{\numberline {3.1}Registers}{28}{section.3.1}
-\contentsline {section}{\numberline {3.2}Prologue and Epilogue}{32}{section.3.2}
-\contentsline {section}{\numberline {3.3}Reload}{33}{section.3.3}
-\contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{34}{section.3.4}
-\contentsline {chapter}{\numberline {4}Results and Applications}{39}{chapter.4}
-\contentsline {chapter}{\numberline {5}Discussion}{41}{chapter.5}
-\contentsline {chapter}{\numberline {6}Outlook}{42}{chapter.6}
-\contentsline {chapter}{Appendix}{43}{chapter.6}
-\contentsline {chapter}{Bibliography}{49}{appendix*.53}
+\contentsline {subsection}{\numberline {2.3.1}Back-End and Code Generation}{14}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Assembly Basics}{17}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Intrinsics}{20}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{20}{subsection.2.3.4}
+\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{22}{section*.32}
+\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{25}{chapter.3}
+\contentsline {section}{\numberline {3.1}Registers}{29}{section.3.1}
+\contentsline {section}{\numberline {3.2}Prologue and Epilogue}{33}{section.3.2}
+\contentsline {section}{\numberline {3.3}Reload}{34}{section.3.3}
+\contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{35}{section.3.4}
+\contentsline {chapter}{\numberline {4}Results and Applications}{40}{chapter.4}
+\contentsline {chapter}{\numberline {5}Discussion}{42}{chapter.5}
+\contentsline {chapter}{\numberline {6}Outlook}{43}{chapter.6}
+\contentsline {chapter}{Appendix}{44}{chapter.6}
+\contentsline {chapter}{Bibliography}{49}{appendix*.52}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}

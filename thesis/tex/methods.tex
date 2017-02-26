@@ -305,6 +305,113 @@ What differs compilers from the competing concept of interpreters is the separat
 As interpreters combine these two and translate a program as it is run, a compiler takes the time to read the source-language file completely (often several times) and only then creates the executable files which are run after the process has finished.
 The advantages of this are simple:
 While a compiler takes some time at first until the program can be run, the resulting executable is next to always faster and more efficient.
+
+\begin{figure}
+    \tcbset
+    {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+    fonttitle=\bfseries,nobeforeafter,center title, noparskip}
+    \noindent{\begin{minipage}{\textwidth}
+        \begin{minipage}[c][][c]{0.25\textwidth}
+            \begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0]
+            \end{tcolorbox}
+            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cp, enhanced, watermark text=Compiler]
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=2cm, width=\linewidth]
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=1cm, width=\linewidth]
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=1.5cm, width=\linewidth]
+                \end{tcolorbox}
+            \end{tcolorbox}
+            \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=as, opacityframe=0.0, opacityback=0.0]
+            \end{tcolorbox}
+            \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=lk, opacityframe=0.0, opacityback=0.0]
+            \end{tcolorbox}
+            \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=ld, opacityframe=0.0, opacityback=0.0]
+            \end{tcolorbox}
+            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+                \draw[->] ($(pp.north)+(0,1)$) -- node [left] {program code} (cp.north);
+                \draw[->] (cp.south) -- node [left] {machine files} ($(ld.south)+(0,-1)$);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}[c][][c]{0.25\textwidth}
+            \begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, watermark text=Preprocessor, remember as=pp]
+                \hfill
+            \end{tcolorbox}
+            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cp, enhanced jigsaw]
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=2cm, width=\linewidth, watermark text=Front-End, remember as=fe]
+                    \hfill
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1cm, width=\linewidth, watermark text=Middle-End, remember as=me]
+                    \hfill
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1.5cm, width=\linewidth, watermark text=Back-End, remember as=be]
+                    \hfill
+                \end{tcolorbox}
+            \end{tcolorbox}
+            \begin{tcolorbox}[height=1cm, width=\linewidth, watermark text=Assembler, remember as=as]
+                \hfill
+            \end{tcolorbox}
+            \begin{tcolorbox}[height=1cm, width=\linewidth, watermark text=Linker, remember as=lk]
+                \hfill
+            \end{tcolorbox}
+            \begin{tcolorbox}[height=1cm, width=\linewidth, watermark text=Loader, remember as=ld]
+                \hfill
+            \end{tcolorbox}
+            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+                \draw[->] ($(pp.north)+(0,1)$) -- node [left] {program code} (pp.north);
+                \draw[->] (pp.south) -- (fe.north);
+                \draw[->] (fe.south) -- (me.north);
+                \draw[->] (me.south) -- (be.north);
+                \draw[->] (be.south) -- (as.north);
+                \draw[->] (as.south) -- (lk.north);
+                \draw[->] (lk.south) -- (ld.north);
+                \draw[->] (ld.south) -- node [left] {machine files} ++(0,-1);
+            \end{tikzpicture}
+        \end{minipage}
+        \hspace{\fill}
+        \begin{minipage}[c][][c]{0.4\textwidth}
+            \flushright
+            \begin{tcolorbox}[tcbox raise base, width=\linewidth, enhanced jigsaw, remember as=cp]
+                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth]
+                    \begin{tcolorbox}[enhanced,center title,width=\linewidth, remember as=sc]
+                        \begin{center}Scanner\end{center}
+                    \end{tcolorbox}
+                    \begin{tcolorbox}[enhanced,width=\linewidth, remember as=ps]
+                        \begin{center}Parser\end{center}  
+                    \end{tcolorbox}
+                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=sa]
+                        \begin{center}Semantic \\ Analyzer \end{center} 
+                    \end{tcolorbox}
+                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=sco]
+                        \begin{center}Source Code \\ optimizer \end{center}
+                    \end{tcolorbox}
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1cm, width=\linewidth, remember as=me, watermark text=Middle-End]
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth]
+                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=cg]
+                        \begin{center}Code Generator  \end{center}
+                    \end{tcolorbox}
+                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=tco]
+                        \begin{center}Target Code \\ Optimizer \end{center}
+                    \end{tcolorbox}
+                \end{tcolorbox}
+            \end{tcolorbox}
+            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+                \draw[->] ($(cp.north)+(0,1)$) -- (sc.north);
+                \draw[->] (sc.south) -- (ps.north);
+                \draw[->] (ps.south) -- (sa.north);
+                \draw[->] (sa.south) -- (sco.north);
+                \draw[->] (sco.south) -- (me.north);
+                \draw[->] (me.south) -- (cg.north);
+                \draw[->] (cg.south) -- (tco.north);
+                \draw[->] (tco.south) -- ($(cp.south)+(0,-1)$);
+            \end{tikzpicture}
+        \end{minipage}
+\end{minipage}}
+\end{figure}
+
+
 This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a ``pass'').
 Of course there do exist several compilers today and what matters to the user is typically the combination of the amount of time it takes to compile a program and the performance of that program.
 Though a compiler is not solely involved into the processing of a programming language towards an executable program.
