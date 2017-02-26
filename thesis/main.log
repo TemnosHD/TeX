@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  25 FEB 2017 22:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  26 FEB 2017 01:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1372,7 +1372,7 @@ converted-to.pdf fig/cover/Publ-Cover1.eps>
 (epstopdf)             \includegraphics on input line 14.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=110, 541.02126pt x 118.4425pt>
+<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=106, 541.02126pt x 118.4425pt>
 File: fig/cover/Publ-Cover1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover1-eps-converted-to.pdf>
@@ -1429,7 +1429,7 @@ converted-to.pdf fig/cover/Publ-Cover2.eps>
 (epstopdf)             \includegraphics on input line 29.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=111, 393.47pt x 6.0225pt>
+<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=107, 393.47pt x 6.0225pt>
 File: fig/cover/Publ-Cover2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover2-eps-converted-to.pdf>
@@ -1476,7 +1476,7 @@ Package epstopdf Info: Source file: <fig/cover/Publ-Cover3.eps>
 converted-to.pdf fig/cover/Publ-Cover3.eps>
 (epstopdf)             \includegraphics on input line 56.
 Package epstopdf Info: Output file is already uptodate.
-<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=112, 401.5pt x 31.11626pt>
+<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=108, 401.5pt x 31.11626pt>
 File: fig/cover/Publ-Cover3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover3-eps-converted-to.pdf>
@@ -1774,7 +1774,11 @@ LaTeX Warning: Marginpar on page 7 moved.
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 167.
-[7] [8] [9] [10] [11] [12] [13] [14] [15]
+[7] [8] [9] [10]
+
+LaTeX Warning: Marginpar on page 11 moved.
+
+[11] [12] [13] [14] [15]
 Overfull \hbox (35.1304pt too wide) in paragraph at lines 429--457
 [][]
  []
@@ -1789,16 +1793,6 @@ Package natbib Warning: Citation `GCCint:attributes' on page 22 undefined on in
 put line 625.
 
 [22]) (./tex/extbackend.tex [23]
-
-! LaTeX Error: Float(s) lost.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1 \chapter
-            {Extending the GCC Back-End}
-? 
 Chapter 3.
 [24
 
@@ -1852,20 +1846,20 @@ e 489.
 LaTeX Warning: Reference `appendix:builtinlist' on page 38 undefined on input l
 ine 516.
 
-) (./tex/tests.tex [38]
+) (./tex/results.tex [38]
 Chapter 4.
-) (./tex/results.tex [39
+[39
 
 ]
+
+LaTeX Warning: Reference `fig:1stex' on page 40 undefined on input line 38.
+
+) (./tex/discussion.tex [40]
 Chapter 5.
-) (./tex/discussion.tex [40
-
-]
-Chapter 6.
 ) (./tex/outlook.tex [41
 
 ]
-Chapter 7.
+Chapter 6.
 ) [42
 
 ]
@@ -1874,15 +1868,34 @@ Chapter 7.
  (./tex/appendix.tex [43
 
 
-] [44] (./main.tdo [45
+]
+Underfull \hbox (badness 1953) in paragraph at lines 70--71
+[]\T1/cmr/m/n/10.95 subtract [][][][] from [][][][] mod-ulo
+ []
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 77--78
+[]\T1/cmr/m/n/10.95 multiply [][][][] and [][][][] mod-ulo
+ []
+
+
+Underfull \hbox (badness 3792) in paragraph at lines 84--85
+[]\T1/cmr/m/n/10.95 add [][][][] and [][][][] sat-u-ra-tional
+ []
+
+[44] [45] (./main.tdo [46
 
 ])
 \tf@tdo=\write10
 \openout10 = `main.tdo'.
 
-) [46]
+) [47]
 No file main.nls.
-(./main.bbl
+[48
+
+
+
+] (./main.bbl
 Underfull \hbox (badness 4168) in paragraph at lines 12--14
 []\T1/cmr/m/it/10.95 GNU COm-piler Col-lec-tioin In-ter-nals Man-ual\T1/cmr/m/n
 /10.95 , Free Soft-ware Foun-da-tion Inc.,
@@ -1890,17 +1903,14 @@ Underfull \hbox (badness 4168) in paragraph at lines 12--14
 
 )
 No file main.ind.
-[47
-
-
-
+[49
 
 ]
 \openout2 = `tex/acknowledgments.aux'.
 
 
 No file tex/acknowledgments.tex.
-[48
+[50
 
 
 
@@ -1923,7 +1933,7 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
 (scrreprt)              by `\normalfont \bfseries ' on input line 6.
 
-) [49
+) [51
 
 ]
 
@@ -1937,7 +1947,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 321.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 321.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 321.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 2D9D00FE9A5AEDEBD87F91B1297FCB4D;1675.
+(rerunfilecheck)             Checksum: BE66ED753A8C352152CEC004372D0882;1646.
 
 
 LaTeX Warning: There were undefined references.
@@ -1945,13 +1955,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 321.
  ) 
 Here is how much of TeX's memory you used:
- 27453 strings out of 493105
- 495112 string characters out of 6137072
- 720433 words of memory out of 5000000
- 29897 multiletter control sequences out of 15000+600000
+ 27463 strings out of 493105
+ 494856 string characters out of 6137072
+ 1290828 words of memory out of 5000000
+ 29914 multiletter control sequences out of 15000+600000
  25632 words of font info for 59 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
- 55i,22n,80p,520b,1486s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,22n,80p,512b,1484s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
@@ -1973,10 +1983,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts
 er/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2074.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/
 type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (59 pages, 615217 bytes).
+Output written on main.pdf (61 pages, 619786 bytes).
 PDF statistics:
- 912 PDF objects out of 1000 (max. 8388607)
- 811 compressed objects within 9 object streams
- 330 named destinations out of 1000 (max. 500000)
- 236 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 907 PDF objects out of 1000 (max. 8388607)
+ 804 compressed objects within 9 object streams
+ 326 named destinations out of 1000 (max. 500000)
+ 228 words of extra memory for PDF output out of 10000 (max. 10000000)
 

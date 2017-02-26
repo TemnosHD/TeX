@@ -1,11 +1,48 @@
-\chapter{Results}
+\chapter{Results and Applications}
 \label{chapter:results}
 
 Now that the extension of the back-end is finished we want to emphasize on the positive effects of this.
 
+As of now the compiler back-end works and can be built to a working compiler.
+This new compiler supports the use of target flags which are |-mcpu=nux| and |-ms2pp|.
+Also a new header file named |s2pp.h| exists and can be included the same way GCC standard header files are included.
+Only together will this allow for using the |vector| attribute which creates vector variables of different types.
+
+These vector variables specifically serve as arguments for newly implemented intrinsic functions that exist for every vector instruction which is available on nux.
+Additionally the new intrinsics support type detection and map automatically to the according machine instruction for each vector type.
+
+Assigning registers as well as memory works as expected and does not need for user interaction.
+Despite the different bus, the back-end rightfully accesses the synapse array when told to.
+Specifically the user must use the intrinsics |fxv_inx| and |fxv_outx| to access the synapse array and load/store variable from/to there.
+
+As many intrinsics as possible were designed according to existing intrinsics for AltiVec and use the |vec_| prefix as well a |fxv_| prefix.
+For every previously available nux macro now exists an intrinsic function with the same name and the same arguments.
+
+The compiler also supports coding in assembly using vector instructions without choosing hard registers but again loads and stores variables automatically and supports the constraints we implemented.
+This will make it easier to combine low-level coding in high-level programs if this is ever needed.
+One problem that was detect in this regard is choosing hard vector registers with |asm| which then are used in the output template.
+
+First tests which used intrinsics exclusively instead of macros working code as well as correct results.
+Through these these first tests David Stökel was able to find a nux bug which previously was not known but was already referred to in this thesis as a bug with conditional usage of arithmetic instructions.
+This also lead to the first in a newly proposed series of tests for nux which should check for more bugs like this.
+Thanks to the |asm| support that nux gained these tests may not completely be written by hand but could be computer generated.
+
+The compiler should also support different optimization stages but tests for this are yet to come as checking for bugs caused by optimization is quite difficult.
+Still early stages of the build optimization reliably lead to internal compiler errors.
+
+This is maybe the biggest question yet to answer as only correct code will be of any value.
+Therefore this thesis highly encourages the implementation of automated tests and a simulation platform as currently tests can only be conducted on hardware which is not fully tested either.
+This causes a conundrum where locating an error automatically is impossible.
+
+Still there are ways of checking the correctness of code, mainly by reading the assembly output.
+To illustrate this figure \ref{fig:1stex} shows the comparison of newly written code that uses intrinsics, the assembly code that results from this for with and without optimization and equivalent code that is written using the old |fxv.h| header file.
+
+write an analysis.
 
 
-still compiles old code
-optimizes
-runs on PPU
 
+
+still compiles old code -> check this
+works with libnux
+is available in waf
+some users are interested -> this will be a challenge

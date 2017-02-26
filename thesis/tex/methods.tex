@@ -6,7 +6,7 @@
 
 Almost all contemporary processors used are built using the so called von-Neumann architecture \todo{add reference}.
 \todo{cite friedmann dissertation}Although the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which come to use for some applications.
-The main advantage of digital systems over analogue, systems such as the human brain, is the ability to do arithmetic and logical operations at much higher speeds.
+The main advantage of digital systems over analogue, systems such as the human brain, is the ability to do numeric and logical operations at much higher speeds and precision as well as the availability of existing digital interfaces.
 For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of an experiment.
 We will now shortly touch the basics of such processors and explain common terms.
 
@@ -255,7 +255,7 @@ Both, the GPP and the VE, share the same MMU and thus any access of the GPP to v
 The MMU is very simple as it does not cache memory instructions and also has matching virtual and physical addresses.
 For this reason one must be aware of the |sync| instruction that is a memory barrier and stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
 This can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
-|sync| is a standard instruction of the PowerISA and further information can be found here \add{reference}.
+|sync| is a standard instruction of the PowerISA and further information can be found here. \add{reference}
 
 The PPU is also able to read out spiking times and additional information through a bus which is accessible through the memory interface.
 It uses the first bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses and registers are 32-bit wide.
@@ -439,8 +439,8 @@ I.e. a memory address can be saved to the register and an operation uses the val
     |cmp| & |BF, L, RA, RB| & |RA| and |RB| are \textbf{c}o\textbf{mp}ared and the result (|gt,lt,eq|) is stored in |BF|, |L| depicts if 32-bit or 64-bit are compared \\
     |cmplwi| & |BF, RA, SI| & |RA| \textbf{c}o\textbf{mp}ared \textbf{l}ogically \textbf{w}ordwise with \textbf{i}mmediate |SI| and the result is stored in |BF|\\
     |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
-    |eieio| & & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \todo edit this\\
-    |isync| & & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \todo edit this\\
+    |eieio| & & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| EDITTHIS\\
+    |isync| & & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| EDITTHIS\\
     |la| & |RT, D(RA)| & \textbf{l}oad \textbf{a}ggregate |D + RA| into |RT|\\
     |li| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| into |RT|\\
     |lis| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| \textbf{s}hifted left by 16 bit into |RT|\\
@@ -448,13 +448,13 @@ I.e. a memory address can be saved to the register and an operation uses the val
     |lwz| & |RT, D(RA)| & \textbf{l}oad \textbf{w}ord at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
     |mflr| & |RT| & \textbf{m}ove \textbf{f}rom \textbf{l}inker \textbf{r}egister to |RT|\\
     |mr| & |RT, RA| & \textbf{m}ove \textbf{r}egister |RA| to |RT| \\
-    |nop| & & halts execution until the previous instructions are finished \todo edit this\\
+    |nop| & & halts execution until the previous instructions are finished EDITHIS\\
     |rlwinm| & |RA, RS, SH, MB, ME| & \textbf{r}otate \textbf{l}eft \textbf{w}ord in |RS| by \textbf{i}mmediate |SH| bits then a\textbf{n}d with \textbf{m}ask which is 1 from |MB+32| to |ME+32| and 0 else, store to |RA|\\
     |stw| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA|\\
     |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\
-    |sync| & & halts execution until the memory controller is finished \todo edit this\\
+    |sync| & & halts execution until the memory controller is finished EDITTHIS\\
 \end{tabular}
-\add{caption and reference to PPC book and asm website}
+\add{caption and reference to PPC book and asm website correct the table}
 
 Obviously the mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
 \begin{description}
@@ -480,6 +480,8 @@ Additionally there exist markers which are intended for debugging:
         \lstitem{.LFE} marks the end of a function
         \lstitem{.LC0} is a constant of the literals table at position |0|
 \end{description}
+
+\add{all these tables in the appendix}
 
 We want to spend just a little more time on assembly as it is useful to know how to program in assembly while using C.
 This is done by the following scheme:
@@ -522,12 +524,12 @@ This is realized through a modular structure which follows the idea of a front-e
 
 GCC itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
 It is wide-spread and one of the most popular compilers especially among academic institutions and small scale developers.
-Every major UNIX distribution and many minor ones include GCC as a standard compiler\todo{reference the definitive guide to GCC introduction}.
+Every major UNIX distribution and many minor ones include GCC as a standard compiler.\todo{reference the definitive guide to GCC introduction}
 As an open source project there is a constant development to the compiler and there exist many threads that support known bugs.
 
 There is one major competitor though which stands besides GCC as an open source compiler suite which is Clang that is part of the LLVM (low level virtual machine).
 Both support running the same source code on multiple machines while LLVM actually runs intermediate code rather than actual machine code and uses GCC to generate this intermediate code for some front-ends.
-However while one can argue in favor for either one, GCC seems a little better suited for our application \todo{reference LLVM vs. GCC on ARM, LLVM vs. Gcc in EISC}.
+However while one can argue in favor for either one, GCC seems a little better suited for our application. \todo{reference LLVM vs. GCC on ARM, LLVM vs. Gcc in EISC}
 These results have to be viewed with care, as they are based on different processor architectures but it seems like both compilers provide similar performance.
 Ultimately it is the personal preference of the programmer that decides which compiler one is more comfortable with and often enough he chooses that compiler.
 In our case I have chosen GCC over LLVM for two main reasons.

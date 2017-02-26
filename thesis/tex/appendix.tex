@@ -50,19 +50,138 @@
 
 \begin{table}
     \adjustbox{max width=\textwidth}{%
-        \begin{tabular}{c c c p{5cm}}
-            intrinsic \\ name & use & data types & effect\\
+        \begin{tabular}{c c¡c¡c¡c¡c¡p{5cm}}
+            \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
+            \cline{3-6}
+             & & d & a & b & c & \\
             \hline \hline
-            |fxvadd| & |d = fxvadd(a,b)| &
-            \begin{tabular}{¡@{}l@{}¡@{}l@{}¡@{}l@{}¡}
-                |d| & |a| & |b| \\
-                \hline
-                same as |a| & |vector signed char|    & same as |a| \\
-                            & |vector unsigned char|  & \\
-                            & |vector signed short|   & \\
-                            & |vector unsigned short| & \\
-            \end{tabular}%
-            & add |a| and |b| element-wise and write the result in |d|\\ 
+                \begin{tabular}[x]{@{}c@{}}|fxv_add|\\|vec_add|\end{tabular} & |d = fxv_add(a,b)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & &  add |a| and |b| modulo element-wise and write the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_sub|\\|vec_sub|\end{tabular} & |d = fxv_sub(a,b)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & &  subtract |b| from |a| modulo element-wise and write the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_mul|\\|vec_mul|\end{tabular} & |d = fxv_mul(a,b)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & &  multiply |a| and |b| modulo element-wise and write the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_addfs|\end{tabular} & |d = fxv_addfs(a,b)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & &  add |a| and |b| saturational element-wise and write the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_subfs|\end{tabular} & |d = fxv_subfs(a,b)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & &  subtract |b| from |a| saturational element-wise and write the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_mulfs|\end{tabular} & |d = fxv_mulfs(a,b)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & &  multiply |a| and |b| saturational element-wise and write the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_stax|\\|vec_st|\end{tabular} & |fxv_stax(a,b,c)| & & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\\\
+                                            |vector unsigned char|\\\\
+                                            |vector signed short|\\\\
+                                            |vector unsigned short|\\\end{tabular}
+                                            & |int| &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char*|\\
+                                            |signed char*|\\
+                                            |vector unsigned char*|\\
+                                            |unsigned char*|\\
+                                            |vector signed short*|\\
+                                            |signed short*|\\
+                                            |vector unsigned short*|\\
+                                            |unsigned short|\end{tabular}
+                                            &  |a| is stored to memory address |c + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_outx|\end{tabular} & |fxv_outx(a,b,c)| & & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\\\
+                                            |vector unsigned char|\\\\
+                                            |vector signed short|\\\\
+                                            |vector unsigned short|\\\end{tabular}
+                                            & |int| &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char*|\\
+                                            |signed char*|\\
+                                            |vector unsigned char*|\\
+                                            |unsigned char*|\\
+                                            |vector signed short*|\\
+                                            |signed short*|\\
+                                            |vector unsigned short*|\\
+                                            |unsigned short|\end{tabular}
+                                            &  |a| is stored to synaptic address |c + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_lax|\\|vec_ld|\end{tabular} & |d = fxv_lax(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\\\
+                                            |vector unsigned char|\\\\
+                                            |vector signed short|\\\\
+                                            |vector unsigned short|\\\end{tabular}
+                                            & |int| &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char*|\\
+                                            |signed char*|\\
+                                            |vector unsigned char*|\\
+                                            |unsigned char*|\\
+                                            |vector signed short*|\\
+                                            |signed short*|\\
+                                            |vector unsigned short*|\\
+                                            |unsigned short|\end{tabular}
+                                            & & |d| is read from memory address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_inx|\end{tabular} & |d = fxv_inx(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\\\
+                                            |vector unsigned char|\\\\
+                                            |vector signed short|\\\\
+                                            |vector unsigned short|\\\end{tabular}
+                                            & |int| &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char*|\\
+                                            |signed char*|\\
+                                            |vector unsigned char*|\\
+                                            |unsigned char*|\\
+                                            |vector signed short*|\\
+                                            |signed short*|\\
+                                            |vector unsigned short*|\\
+                                            |unsigned short|\end{tabular}
+                                            & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_sel|\end{tabular} & |d = fxv_sel(a,b,c)| & same as |a| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & same as |a| & |2-bit int| & select element from |a| if |c| applies for that index otherwise select |b|, store the result in |d|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|vec_extract|\end{tabular} & |d = vec_exctract(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                 vecextract \\ vecinsert \\ vecpromote \\ vecsh fxvsh \\ fxvpcku \\ fxvpckl \\ fxvupckl \\fxvupckr \\ vecsplats16 fxvsplatb \\ fxvsplath vecsplats8 \\ fxvcmp \\ fxvmtac \\fxvmtacf \\fxvaddactacm \\fxvaddactacf\\fxvaddacm\\fxvaddacfs\\fxvmam\\fxvmafs\\fxvmatacm\\fxvmatacfs\\fxvmultacm\\fxvmultacfs\\fxvaddtac
+
+
         \end{tabular}
     }
 \end{table}

@@ -16,18 +16,17 @@
 \contentsline {subsection}{\numberline {2.3.2}Assembly Basics}{16}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}Intrinsics}{19}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{19}{subsection.2.3.4}
-\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.37}
+\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{21}{section*.33}
 \contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}
 \contentsline {section}{\numberline {3.1}Registers}{28}{section.3.1}
 \contentsline {section}{\numberline {3.2}Prologue and Epilogue}{32}{section.3.2}
 \contentsline {section}{\numberline {3.3}Reload}{33}{section.3.3}
 \contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{34}{section.3.4}
-\contentsline {chapter}{\numberline {4}Test cases}{39}{chapter.4}
-\contentsline {chapter}{\numberline {5}Results}{40}{chapter.5}
-\contentsline {chapter}{\numberline {6}Discussion}{41}{chapter.6}
-\contentsline {chapter}{\numberline {7}Outlook}{42}{chapter.7}
-\contentsline {chapter}{Appendix}{43}{chapter.7}
-\contentsline {chapter}{Bibliography}{47}{appendix*.58}
+\contentsline {chapter}{\numberline {4}Results and Applications}{39}{chapter.4}
+\contentsline {chapter}{\numberline {5}Discussion}{41}{chapter.5}
+\contentsline {chapter}{\numberline {6}Outlook}{42}{chapter.6}
+\contentsline {chapter}{Appendix}{43}{chapter.6}
+\contentsline {chapter}{Bibliography}{49}{appendix*.53}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}
