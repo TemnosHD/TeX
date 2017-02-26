@@ -329,7 +329,7 @@ While a compiler takes some time at first until the program can be run, the resu
             \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=ld, opacityframe=0.0, opacityback=0.0]
             \end{tcolorbox}
             \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->] ($(pp.north)+(0,1)$) -- node [left] {program code} (cp.north);
+                \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1)$) -- node [left] {program code} (cp.north);
                 \draw[->] (cp.south) -- node [left] {machine files} ($(ld.south)+(0,-1)$);
             \end{tikzpicture}
         \end{minipage}
@@ -337,7 +337,7 @@ While a compiler takes some time at first until the program can be run, the resu
             \begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, watermark text=Preprocessor, remember as=pp]
                 \hfill
             \end{tcolorbox}
-            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cp, enhanced jigsaw]
+            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cmp, enhanced jigsaw]
                 \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=2cm, width=\linewidth, watermark text=Front-End, remember as=fe]
                     \hfill
                 \end{tcolorbox}
@@ -358,13 +358,13 @@ While a compiler takes some time at first until the program can be run, the resu
                 \hfill
             \end{tcolorbox}
             \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->] ($(pp.north)+(0,1)$) -- node [left] {program code} (pp.north);
-                \draw[->] (pp.south) -- (fe.north);
-                \draw[->] (fe.south) -- (me.north);
-                \draw[->] (me.south) -- (be.north);
-                \draw[->] (be.south) -- (as.north);
-                \draw[->] (as.south) -- (lk.north);
-                \draw[->] (lk.south) -- (ld.north);
+                \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1)$) -- node [left] {program code} (pp.north);
+                \draw[->, shorten >=-1.5mm] (pp.south) -- (fe.north);
+                \draw[->, shorten >=-1.5mm] (fe.south) -- (me.north);
+                \draw[->, shorten >=-1.5mm] (me.south) -- (be.north);
+                \draw[->, shorten >=-1.5mm] (be.south) -- (as.north);
+                \draw[->, shorten >=-1.5mm] (as.south) -- (lk.north);
+                \draw[->, shorten >=-1.5mm] (lk.south) -- (ld.north);
                 \draw[->] (ld.south) -- node [left] {machine files} ++(0,-1);
             \end{tikzpicture}
         \end{minipage}
@@ -398,16 +398,20 @@ While a compiler takes some time at first until the program can be run, the resu
                 \end{tcolorbox}
             \end{tcolorbox}
             \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->] ($(cp.north)+(0,1)$) -- (sc.north);
-                \draw[->] (sc.south) -- (ps.north);
-                \draw[->] (ps.south) -- (sa.north);
-                \draw[->] (sa.south) -- (sco.north);
-                \draw[->] (sco.south) -- (me.north);
-                \draw[->] (me.south) -- (cg.north);
-                \draw[->] (cg.south) -- (tco.north);
+                \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- (sc.north);
+                \draw[->, shorten >=-1.5mm] (sc.south) -- (ps.north);
+                \draw[->, shorten >=-1.5mm] (ps.south) -- (sa.north);
+                \draw[->, shorten >=-1.5mm] (sa.south) -- (sco.north);
+                \draw[-] (sco.south) -- (me.north);
+                \draw[->, shorten >=-1.5mm] (me.south) -- (cg.north);
+                \draw[->, shorten >=-1.5mm] (cg.south) -- (tco.north);
                 \draw[->] (tco.south) -- ($(cp.south)+(0,-1)$);
             \end{tikzpicture}
         \end{minipage}
+            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+                \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.north east) -- (cp.north west);
+                \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.south east) -- (cp.south west);
+            \end{tikzpicture}
 \end{minipage}}
 \caption{\label{fig:compiler} Schematic overview of different compiler stages.}
 \end{figure}
