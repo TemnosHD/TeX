@@ -456,7 +456,7 @@ In |rs6000_init_hard_regno_mode_ok| we assign the code for store and load instru
 All that is left now are intrinsic functions that make use of the memory instructions.
 Although by now the compiler would already support |asm| usage as shown in \ref{section:asm} and which we will get back to later on.
 Still we do not want to stop there and also add intrinsic functions to the back-end.
-This is done through several steps that were also described in an internship report \cite{heimbrecht}.
+This is done through several steps that were also described in an internship report \cite{heimbrecht_2017internship}.
 Therefore we will only describe this briefly and refer to the report at times.
 
 First we start defining insns for each vector instruction that is listed in \cite{nuxmanual}.
@@ -478,7 +478,7 @@ We will refer back to this when discussing the results of extending the back-end
 
 Since this completes the insns we can go on and create built-ins in |rs6000-builtins.def| from these insns.
 First though we must add macros that makes adding intrinsics easier.
-The exact definition of those macros is described for AltiVec built-ins in \cite{heimbrecht} but we can easily transfer those for s2pp by adding the |RS6000_BTM_S2PP| built-in mask which is identical with the target mask.
+The exact definition of those macros is described for AltiVec built-ins in \cite{heimbrecht_2017internship} but we can easily transfer those for s2pp by adding the |RS6000_BTM_S2PP| built-in mask which is identical with the target mask.
 We then use the s2pp built-in macros to create built-in definitions for each insn and also each mode (halfword or byte).
 Most built-ins follow the scheme of a normal function that has a result and a certain number of arguments.
 Btu there exists a number of insns that do not produce an output as they set the accumulator or the conditional register.
@@ -486,7 +486,7 @@ These instructions need special handling and thus are defined as special built-i
 
 Besides defining built-ins we also define overloads.
 These are used to differ intrinsics through the types of their arguments later on what makes using them easier and stops false usage.
-Overloads are also further explained in \cite{heimbrecht}
+Overloads are also further explained in \cite{heimbrecht_2017internship}
 As we are adding overloads we can put them to use in |rs6000-c.c| where overloads and built-ins are connected.
 This is done through structures that combine the built-in and overload names with a return type and up to three arguments.
 

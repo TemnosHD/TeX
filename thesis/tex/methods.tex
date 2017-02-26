@@ -232,7 +232,7 @@ This combines two synapses to a single virtual synapse with 12 bit weights and 4
 The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
 
 \subsection{The Plasticity Processing Unit}
-The PPU, which was designed by Simon Friedmann \todo{PPU paper}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+The PPU, which was designed by Simon Friedmann \cite{PPU}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
 Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010 and runs at 100 MHz clock frequency.
 It is a 32-bit architecture therefore registers are 32 bit wide which is also the word size.
 
@@ -278,7 +278,7 @@ The VE also features a vector accumulator of 128 bit which can be read and writt
 
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
 This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
-An overview of all opcodes is provided by ....\todo{reference to nux manual}, which is recommended as accompanying literature besides this thesis.
+An overview of all opcodes is provided by \cite{nuxmanual}, which is recommended as accompanying literature besides this thesis.
 In general these opcodes are divided into 6 groups of instructions:
 \begin{description}
     \item[modulo halfword/byte instructions] apply a modulo operation after every instruction which causes wrap around in case of an overflow at the most significant bit position.
@@ -409,14 +409,14 @@ While a compiler takes some time at first until the program can be run, the resu
             \end{tikzpicture}
         \end{minipage}
 \end{minipage}}
+\caption{\label{fig:compiler} Schematic overview of different compiler stages.}
 \end{figure}
 
 
 This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a ``pass'').
 Of course there do exist several compilers today and what matters to the user is typically the combination of the amount of time it takes to compile a program and the performance of that program.
 Though a compiler is not solely involved into the processing of a programming language towards an executable program.
-Figure ... illustrates the chain of tools that is involved into this process:
-\add{1st column: a graph from p. 5 of book "compilers" 2nd column: front-end, middle-end, back-end 3rd column: the different phases of a compiler}
+Figure~\ref{fig:compiler} illustrates the chain of tools that is involved into this process:
 As one can see the \textbf{preprocessor} modifies the source before it is processed by the compiler and removes comments, substitutes macros and also includes other files into the source.
 After the compiler is finished with its job the \textbf{assembler} takes over and translates the output of the compiler which is written in a language called assembly into actual machine code by substituting the easy-to-read string alternatives with actual opcodes.
 At last the \textbf{linker} combines the resulting ``object-files'' that the assembler emitted for different source files with standard library functions that are also already compiled and other resources. 
@@ -425,7 +425,7 @@ The only task which is left for the \textbf{loader} is assigning a base address 
 The code is now fully written in machine language and ready for operation.
 
 But since we are more interested in compilers than other components, we will take a better look at the compiler itself.
-Figure ... \todo{s.o.} shows the common separation of a compiler into front-end, back-end and the optional middle-end.
+Figure~\ref{fig:compiler} shows the common separation of a compiler into front-end, back-end and the optional middle-end.
 This is done to make a compiler portable, which means allowing the compiler to work for different source-languages which are implemented in the front-end and target-languages which must be specified in the back-end.
 Therefore if one wants to compile two different programs e.g. one in C the other in FORTRAN, it is necessary to change the front-end but not the back-end because the machine or ``target'' stays the same.
 The middle-end in this regard is not always needed but could be responsible for optimizations that are both source-independent and target-independent.
@@ -433,7 +433,7 @@ Of course the different parts of the compiler have to communicate through a lang
 Such a language is called intermediate representation (IR) and also used during different phases of the compilation process.
 It may differ in its form but always stays a representation of the original program code.
 
-The different phases of a compilation process are illustrated to the far right of figure ... \todo{s.o.}.
+The different phases of a compilation process are illustrated to the far right of figure~\ref{fig:compiler}.
 There is no middle-end included into this scheme as it is not a mandatory part of the compiler and would only be responsible for optimizations.
 But we will take a short look at the other phases:
 First the source code is fed into the \textbf{scanner} that performs lexical analysis, which is combining sequences of characters to symbols of something called tokens that get associated with an attribute such as ``number'' or ``plus-sign'' and the symbol.
@@ -631,7 +631,7 @@ This is realized through a modular structure which follows the idea of a front-e
 
 GCC itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
 It is wide-spread and one of the most popular compilers especially among academic institutions and small scale developers.
-Every major UNIX distribution and many minor ones include GCC as a standard compiler.\todo{reference the definitive guide to GCC introduction}
+Every major UNIX distribution and many minor ones include GCC as a standard compiler.\cite{definitveGCCGuide:introduction}
 As an open source project there is a constant development to the compiler and there exist many threads that support known bugs.
 
 There is one major competitor though which stands besides GCC as an open source compiler suite which is Clang that is part of the LLVM (low level virtual machine).
@@ -658,7 +658,7 @@ To notice a back-end in the first place the back-ends directory -here "rs6000"- 
 Most back-ends include additional files which makes a back-ends complex structure clearer but these are not mandatory and we will address these later.
 
 Instead we address one of the most important functions which unfortunately is also one of the least documented though most complicated ones.
-The function/process is called ``reload'' and is used as part of the register allocation process. \todo{reference to GCC wiki}
+The function/process is called ``reload'' and is used as part of the register allocation process. \cite{GCCwiki:reload}
 Specifically reload is meant to do register spilling but over almost 25 years that GCC existed until 4.9.2 it became more and more complex and basically does everything associated with register allocation (mainly moving the contents of different registers and memory around, and finding the right registers in the first place).
 Over the years it thus became one of the main sources of errors when constructing a back-end and was meant to be replaced several times.
 As of now reload is being replaced by LRA (local register allocator) but GCC 4.9.2 is not impacted by this therefore we are stuck with reload indefinitely.
@@ -696,14 +696,14 @@ There exist manuals to basically everything which is written here and the more e
 |define_insn| is an RTL expression that generates an RTL equivalent to a machine instruction.
 One such instruction is called an insn (short for instruction) hand has several properties like a name, an RTL template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
 The name in this case is |add<mode>3| (|3| for three operands) where |<mode>| is to replaced by a set of values that describe a modes. \cite{GCCint:stdnames}
-A mode is the form of an operand and can be something like |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \todo{reference machine modes}
+A mode is the form of an operand and can be something like |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \cite{GCCint:modes}
 There are many more modes that follow the same scheme.
-In this case we do not specify the mode explicitly but use an iterator that creates a |define_insn| for every valid mode we specify. \todo{reference mode iterator}
+In this case we do not specify the mode explicitly but use an iterator that creates a |define_insn| for every valid mode we specify. \cite{GCCint:iterator}
 The second |define_insn| shows this with a specific mode.
 
 Next follows the RTL template which is in square brackets.
 All RTL templates need a side effect expression as a base which describes what happens to the operands that follow.
-In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \todo{reference side effect expression}
+In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \cite{GCCint:sideeffect}
 The first expression that follows is a specified operand.
 |match_operand| tells the compiler that what follows is a new operand.
 |VI2| belongs to the mode iterator we saw earlier and is to be substituted by the equivalent mode to <mode> in caps, which can be seen for the following |define_insn|.
@@ -742,7 +742,7 @@ Still should RTL be mentioned in its other form here as it is used for debugging
 RTL can be split into two phases which are non-strict RTL and strict RTL.
 Non-strict occurs only before |reload| and is very deliberate in specifying its operands.
 Operands usually are virtual registers that have a unique number.
-|match_operand| then is replaced by |(reg:SI 1)| which tells the compiler the type of operand, the mode and the register number.\todo{reference regs and memory}
+|match_operand| then is replaced by |(reg:SI 1)| which tells the compiler the type of operand, the mode and the register number.\cite{GCCint:regsnmem}
 
 Strict RTL has passed |reload| and no longer contains virtual registers but only references existing hard registers or memory.
 

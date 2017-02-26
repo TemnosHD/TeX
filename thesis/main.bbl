@@ -1,4 +1,4 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
@@ -8,45 +8,88 @@
 \bibitem[{AV:()}]{AV:registers}
 Altivec manual, chapter.
 
+\bibitem[{GCC(2013)}]{GCCwiki:reload}
+Gcc wiki, accessed 2017.03.26, 2013.
+
 \bibitem[{GCC(2017{\natexlab{a}})}]{GCCint}
-\textit{GNU COmpiler Collectioin Internals Manual}, Free Software Foundation
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
   Inc., https://gcc.gnu.org/onlinedocs/gccint/index.html, 2017{\natexlab{a}}.
 
-\bibitem[{GCC(2017{\natexlab{b}})}]{GCCint:asm}
+\bibitem[{GCC(2017{\natexlab{b}})}]{GCCint:arith}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 13.9 RTL Expressions for Arithmetic, 2017{\natexlab{b}}.
+
+\bibitem[{GCC(2017{\natexlab{c}})}]{GCCint:asm}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
   Inc., 6.45.2 Extended Asm - Assembler Instructions with C Expression
-  Operands, 2017{\natexlab{b}}.
+  Operands, 2017{\natexlab{c}}.
 
-\bibitem[{GCC(2017{\natexlab{c}})}]{GCCint:constraints}
+\bibitem[{GCC(2017{\natexlab{d}})}]{GCCint:attributes}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.8 Operand Constraints, 2017{\natexlab{c}}.
+  Inc., 16.19 Instruction Attributes, 2017{\natexlab{d}}.
 
-\bibitem[{GCC(2017{\natexlab{d}})}]{GCCint:defineexpand}
+\bibitem[{GCC(2017{\natexlab{e}})}]{GCCint:constraints}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.15 Defining RTL Sequences for Code Generation, 2017{\natexlab{d}}.
+  Inc., 16.8 Operand Constraints, 2017{\natexlab{e}}.
 
-\bibitem[{GCC(2017{\natexlab{e}})}]{GCCint:defineinsn}
+\bibitem[{GCC(2017{\natexlab{f}})}]{GCCint:defineexpand}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.2 Everything about Instruction Patterns, 2017{\natexlab{e}}.
+  Inc., 16.15 Defining RTL Sequences for Code Generation, 2017{\natexlab{f}}.
 
-\bibitem[{GCC(2017{\natexlab{f}})}]{GCCint:definesplit}
+\bibitem[{GCC(2017{\natexlab{g}})}]{GCCint:defineinsn}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.16 Defining How to Split Instructions, 2017{\natexlab{f}}.
+  Inc., 16.2 Everything about Instruction Patterns, 2017{\natexlab{g}}.
 
-\bibitem[{GCC(2017{\natexlab{g}})}]{GCCint:funcentry}
+\bibitem[{GCC(2017{\natexlab{h}})}]{GCCint:definesplit}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 17.9.11 Function Entry and Exit, 2017{\natexlab{g}}.
+  Inc., 16.16 Defining How to Split Instructions, 2017{\natexlab{h}}.
 
-\bibitem[{GCC(2017{\natexlab{h}})}]{GCCint:options}
+\bibitem[{GCC(2017{\natexlab{i}})}]{GCCint:funcentry}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 8 Option specification files, 2017{\natexlab{h}}.
+  Inc., 17.9.11 Function Entry and Exit, 2017{\natexlab{i}}.
 
-\bibitem[{GCC(2017{\natexlab{i}})}]{GCCint:predicates}
+\bibitem[{GCC(2017{\natexlab{j}})}]{GCCint:iterator}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.7 Predicates, 2017{\natexlab{i}}.
+  Inc., 16.23 Iterators, 2017{\natexlab{j}}.
 
-\bibitem[{GCC(2017{\natexlab{j}})}]{GCCint:stdnames}
+\bibitem[{GCC(2017{\natexlab{k}})}]{GCCint:modes}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.9 Standard Pattern Names For Generation, 2017{\natexlab{j}}.
+  Inc., 13.6 Machine Modes, 2017{\natexlab{k}}.
+
+\bibitem[{GCC(2017{\natexlab{l}})}]{GCCint:options}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 8 Option specification files, 2017{\natexlab{l}}.
+
+\bibitem[{GCC(2017{\natexlab{m}})}]{GCCint:predicates}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 16.7 Predicates, 2017{\natexlab{m}}.
+
+\bibitem[{GCC(2017{\natexlab{n}})}]{GCCint:regsnmem}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 13.8 Registers and Memory, 2017{\natexlab{n}}.
+
+\bibitem[{GCC(2017{\natexlab{o}})}]{GCCint:sideeffect}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 13.15 Side Effect Expressions, 2017{\natexlab{o}}.
+
+\bibitem[{GCC(2017{\natexlab{p}})}]{GCCint:stdnames}
+\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
+  Inc., 16.9 Standard Pattern Names For Generation, 2017{\natexlab{p}}.
+
+\bibitem[{\textit{Friedmann}(2016)}]{nuxmanual}
+Friedmann, S., \textit{nux Manual}, 2016.
+
+\bibitem[{\textit{Friedmann et~al.}(2016)\textit{Friedmann, Schemmel, Grübl,
+  Hartel, Hock, and Meier}}]{PPU}
+Friedmann, S., J.~Schemmel, A.~Grübl, A.~Hartel, M.~Hock, and K.~Meier,
+  Demonstrating hybrid learning in a flexible neuromorphic hardware system,
+  2016.
+
+\bibitem[{\textit{Heimbrecht}(2017)}]{heimbrecht_2017internship}
+Heimbrecht, A., Internship report --- altivec intrinsics, 2017.
+
+\bibitem[{\textit{von Hagen}(2006)}]{definitveGCCGuide:introduction}
+von Hagen, W., \textit{The Definitive Guide to GCC}, section Introduction, pp.
+  xxiii--xxix, second ed., Apress, 2006.
 
 \end{thebibliography}

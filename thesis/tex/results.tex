@@ -12,37 +12,43 @@ These vector variables specifically serve as arguments for newly implemented int
 Additionally the new intrinsics support type detection and map automatically to the according machine instruction for each vector type.
 
 Assigning registers as well as memory works as expected and does not need for user interaction.
-Despite the different bus, the back-end rightfully accesses the synapse array when told to.
-Specifically the user must use the intrinsics |fxv_inx| and |fxv_outx| to access the synapse array and load/store variable from/to there.
+Despite the different bus, the back-end also rightfully accesses the synapse array when told to.
+Specifically the user must use the intrinsics |fxv_inx| and |fxv_outx| to access the synapse array and load/store variables from/to there.
 
 As many intrinsics as possible were designed according to existing intrinsics for AltiVec and use the |vec_| prefix as well a |fxv_| prefix.
 For every previously available nux macro now exists an intrinsic function with the same name and the same arguments.
 
 The compiler also supports coding in assembly using vector instructions without choosing hard registers but again loads and stores variables automatically and supports the constraints we implemented.
 This will make it easier to combine low-level coding in high-level programs if this is ever needed.
-One problem that was detect in this regard is choosing hard vector registers with |asm| which then are used in the output template.
+One problem that was detected in this regard appears when choosing hard vector registers with |asm| which then are used in the output template.
+It causes a replicable compiler error which should be addressed soon.
+Besides that the compiler encountered various errors during development that had different origins.
+One such error which often emerged was due to the overlapping register numbers with FPRs but could be fixed by adding a target dependency to register dependent actions and also adding prologue and epilogue functions which became necessary when compiling with optimization.
+Other errors included non-matching RTL code and the compiler trying to move registers between GPRs and vector registers.
+Many errors shaped the back-ends code but of course further testing could reveal unknown insufficiencies as bugs are constantly appearing for GCC as well.
 
-First tests which used intrinsics exclusively instead of macros working code as well as correct results.
-Through these these first tests David Stökel was able to find a nux bug which previously was not known but was already referred to in this thesis as a bug with conditional usage of arithmetic instructions.
-This also lead to the first in a newly proposed series of tests for nux which should check for more bugs like this.
+Nonetheless, first tests which used intrinsics exclusively instead of macros produced working machine code as well as correct results.
+Through these these early testing stages David Stökel was able to find a nux bug which previously was not known.
+This thesis already referred to that bug which affects conditional usage of arithmetic instructions.
+It also lead to the first in a newly proposed series of tests for nux which should check for more bugs like this in the near future.
 Thanks to the |asm| support that nux gained these tests may not completely be written by hand but could be computer generated.
 
-The compiler should also support different optimization stages but tests for this are yet to come as checking for bugs caused by optimization is quite difficult.
-Still early stages of the build optimization reliably lead to internal compiler errors.
+The compiler also supports different levels of optimization but tests for this are yet to come as checking for bugs caused by optimization is quite difficult.
 
-This is maybe the biggest question yet to answer as only correct code will be of any value.
+Maybe the biggest question yet to answer is the reliability of the back-end as only correct code will be of any value.
 Therefore this thesis highly encourages the implementation of automated tests and a simulation platform as currently tests can only be conducted on hardware which is not fully tested either.
 This causes a conundrum where locating an error automatically is impossible.
 
 Still there are ways of checking the correctness of code, mainly by reading the assembly output.
-To illustrate this figure \ref{fig:1stex} shows the comparison of newly written code that uses intrinsics, the assembly code that results from this for with and without optimization and equivalent code that is written using the old |fxv.h| header file.
+To illustrate this, listing \ref{fig:1stex} shows the comparison of newly written code that uses intrinsics, the assembly code that results from this with and without optimization and equivalent code that is written using the old |fxv.h| header file.
 
-write an analysis.
-
-
+write an analysis of this
 
 
+
+\add{
 still compiles old code -> check this
 works with libnux
 is available in waf
 some users are interested -> this will be a challenge
+}

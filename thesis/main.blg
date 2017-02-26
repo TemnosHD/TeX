@@ -10,62 +10,66 @@ The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
 A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
-Warning--I didn't find a database entry for "GCCint:arith"
-Warning--I didn't find a database entry for "GCCint:attributes"
-Warning--I didn't find a database entry for "heimbrecht"
-Warning--I didn't find a database entry for "nuxmanual"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--to sort, need author or key in AV:registers
 Warning--to sort, need author or key in GCCint
+Warning--to sort, need author or key in GCCwiki:reload
 Warning--to sort, need author or key in GCCint:defineinsn
 Warning--to sort, need author or key in GCCint:stdnames
+Warning--to sort, need author or key in GCCint:modes
+Warning--to sort, need author or key in GCCint:iterator
+Warning--to sort, need author or key in GCCint:sideeffect
 Warning--to sort, need author or key in GCCint:predicates
 Warning--to sort, need author or key in GCCint:constraints
+Warning--to sort, need author or key in GCCint:arith
+Warning--to sort, need author or key in GCCint:attributes
+Warning--to sort, need author or key in GCCint:regsnmem
 Warning--to sort, need author or key in GCCint:options
 Warning--to sort, need author or key in GCCint:funcentry
 Warning--to sort, need author or key in GCCint:asm
 Warning--to sort, need author or key in GCCint:definesplit
 Warning--to sort, need author or key in GCCint:defineexpand
 Warning--empty year in AV:registers
-You've used 11 entries,
+Warning--empty journal in PPU
+You've used 22 entries,
             3160 wiz_defined-function locations,
-            1136 strings with 10998 characters,
-and the built_in function-call counts, 3040 in all, are:
-= -- 229
-> -- 0
-< -- 0
-+ -- 20
-- -- 0
-* -- 241
-:= -- 228
-add.period$ -- 11
-call.type$ -- 11
-change.case$ -- 34
-chr.to.int$ -- 2
-cite$ -- 67
-duplicate$ -- 345
-empty$ -- 347
-format.name$ -- 0
-if$ -- 641
-int.to.chr$ -- 10
+            1185 strings with 12184 characters,
+and the built_in function-call counts, 7606 in all, are:
+= -- 629
+> -- 110
+< -- 5
++ -- 79
+- -- 27
+* -- 552
+:= -- 640
+add.period$ -- 22
+call.type$ -- 22
+change.case$ -- 77
+chr.to.int$ -- 7
+cite$ -- 122
+duplicate$ -- 827
+empty$ -- 736
+format.name$ -- 33
+if$ -- 1597
+int.to.chr$ -- 16
 int.to.str$ -- 1
-missing$ -- 65
-newline$ -- 40
-num.names$ -- 0
-pop$ -- 178
+missing$ -- 140
+newline$ -- 73
+num.names$ -- 16
+pop$ -- 390
 preamble$ -- 1
-purify$ -- 22
+purify$ -- 53
 quote$ -- 0
-skip$ -- 118
+skip$ -- 380
 stack$ -- 0
-substring$ -- 77
-swap$ -- 127
-text.length$ -- 0
+substring$ -- 209
+swap$ -- 388
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 99
-warning$ -- 12
-while$ -- 0
+type$ -- 195
+warning$ -- 20
+while$ -- 15
 width$ -- 0
-write$ -- 114
-(There were 16 warnings)
+write$ -- 222
+(There were 20 warnings)

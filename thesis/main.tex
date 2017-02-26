@@ -36,14 +36,17 @@
 \usepackage{adjustbox}
 \usepackage{wrapfig}
 
+\definecolor{darkblue}{HTML}{000033}
+
 \usepackage{listings}
 \lstset{
     frameround=fttt,
     language=C,
     %numbers=left,
     breaklines=true,
-    %keywordstyle=\color{red}\bfseries, 
-    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{black}\bfseries, 
+    basicstyle=\ttfamily\footnotesize\color{darkblue},
+    showstringspaces=false,
     numberstyle=\color{black}
     }
 \lstMakeShortInline[columns=fixed]|
@@ -257,17 +260,9 @@ neu-ron pre-synaptic post-synaptic}
 
 \input{tex/results}
 
-
-
-% chapter 2
-% chapter Y
-%\input{tex/Y}
-
 % discussion
 \input{tex/discussion}
 
-% outlook
-\input{tex/outlook}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  26 FEB 2017 17:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  26 FEB 2017 19:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -878,7 +878,7 @@ File: lstlang1.sty 2014/09/06 1.5e listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
 )
-Package Listings Info: Made | a short reference for \lstinline on input line 49
+Package Listings Info: Made | a short reference for \lstinline on input line 52
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
@@ -1392,20 +1392,20 @@ LaTeX Info: Redefining \textsubscript on input line 434.
 (./tex/appendix.aux) (./tex/acknowledgments.aux) (./cover/statement.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 180.
-LaTeX Font Info:    ... okay on input line 180.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
 
 ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
@@ -1456,7 +1456,7 @@ LaTeX Info: Redefining \selectfont on input line 126.
 )
 \c@lstlisting=\count204
 \AtBeginShipoutBox=\box93
-Package hyperref Info: Link coloring ON on input line 180.
+Package hyperref Info: Link coloring ON on input line 183.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1466,9 +1466,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count205
 )
-LaTeX Info: Redefining \ref on input line 180.
-LaTeX Info: Redefining \pageref on input line 180.
-LaTeX Info: Redefining \nameref on input line 180.
+LaTeX Info: Redefining \ref on input line 183.
+LaTeX Info: Redefining \pageref on input line 183.
+LaTeX Info: Redefining \nameref on input line 183.
 
 (./main.out) (./main.out)
 \@outlinefile=\write9
@@ -1489,7 +1489,7 @@ converted-to.pdf fig/cover/Publ-Cover1.eps>
 (epstopdf)             \includegraphics on input line 14.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=138, 541.02126pt x 118.4425pt>
+<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=134, 541.02126pt x 118.4425pt>
 File: fig/cover/Publ-Cover1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover1-eps-converted-to.pdf>
@@ -1546,7 +1546,7 @@ converted-to.pdf fig/cover/Publ-Cover2.eps>
 (epstopdf)             \includegraphics on input line 29.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=139, 393.47pt x 6.0225pt>
+<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=135, 393.47pt x 6.0225pt>
 File: fig/cover/Publ-Cover2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover2-eps-converted-to.pdf>
@@ -1593,7 +1593,7 @@ Package epstopdf Info: Source file: <fig/cover/Publ-Cover3.eps>
 converted-to.pdf fig/cover/Publ-Cover3.eps>
 (epstopdf)             \includegraphics on input line 56.
 Package epstopdf Info: Output file is already uptodate.
-<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=140, 401.5pt x 31.11626pt>
+<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=136, 401.5pt x 31.11626pt>
 File: fig/cover/Publ-Cover3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover3-eps-converted-to.pdf>
@@ -1620,13 +1620,13 @@ Non-PDF special ignored!
 s-converted-to.pdf> <./fig/cover/Publ-Cover2-eps-converted-to.pdf> <./fig/cover
 /Publ-Cover3-eps-converted-to.pdf>])
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 186.
+(babel)             in language  on input line 189.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 186.
+(babel)             in language  on input line 189.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 186.
+(babel)             in language  on input line 189.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 186.
+(babel)             in language  on input line 189.
  [2
 
 
@@ -1692,13 +1692,13 @@ Package babel Info: Redefining ngerman shorthand "~
 
 ])
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 190.
+(babel)             in language  on input line 193.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 190.
+(babel)             in language  on input line 193.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 190.
+(babel)             in language  on input line 193.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 190.
+(babel)             in language  on input line 193.
  [4
 
 
@@ -1827,7 +1827,7 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface .
 
-<pictures/Fig1.png, id=238, 241.74315pt x 241.74315pt>
+<pictures/Fig1.png, id=233, 241.74315pt x 241.74315pt>
 File: pictures/Fig1.png Graphic file (type png)
  <use pictures/Fig1.png>
 Package pdftex.def Info: pictures/Fig1.png used on input line 30.
@@ -1902,16 +1902,7 @@ Overfull \hbox (35.1304pt too wide) in paragraph at lines 536--564
 [][]
  []
 
-[17] [18] [19] [20] [21] [22]
-
-Package natbib Warning: Citation `GCCint:arith' on page 23 undefined on input l
-ine 721.
-
-
-Package natbib Warning: Citation `GCCint:attributes' on page 23 undefined on in
-put line 734.
-
-[23]) (./tex/extbackend.tex [24]
+[17] [18] [19] [20] [21] [22] [23]) (./tex/extbackend.tex [24]
 Chapter 3.
 [25
 
@@ -1939,28 +1930,10 @@ LaTeX Warning: Reference `section:insn' on page 35 undefined on input line 385.
 [35]
 Overfull \hbox (12.27164pt too wide) in paragraph at lines 412--414
 []\T1/cmr/m/n/10.95 Beside adding the other in-sns we also need to add the func
--tion []
+-tion [][]
  []
 
-[36]
-
-Package natbib Warning: Citation `heimbrecht' on page 37 undefined on input lin
-e 459.
-
-
-Package natbib Warning: Citation `nuxmanual' on page 37 undefined on input line
- 462.
-
-[37]
-
-Package natbib Warning: Citation `heimbrecht' on page 38 undefined on input lin
-e 481.
-
-
-Package natbib Warning: Citation `heimbrecht' on page 38 undefined on input lin
-e 489.
-
-[38]
+[36] [37] [38]
 
 LaTeX Warning: Reference `appendix:builtinlist' on page 39 undefined on input l
 ine 516.
@@ -1971,72 +1944,62 @@ Chapter 4.
 
 ]
 
-LaTeX Warning: Reference `fig:1stex' on page 41 undefined on input line 38.
+LaTeX Warning: Reference `fig:1stex' on page 41 undefined on input line 43.
 
 ) (./tex/discussion.tex [41]
 Chapter 5.
-) (./tex/outlook.tex [42
-
-]
-Chapter 6.
-) [43
+) [42
 
 ]
 \openout2 = `tex/appendix.aux'.
 
- (./tex/appendix.tex [44
+ (./tex/appendix.tex [43
 
 
 ]
 Underfull \hbox (badness 1953) in paragraph at lines 70--71
-[]\T1/cmr/m/n/10.95 subtract [][][][] from [][][][] mod-ulo
+[]\T1/cmr/m/n/10.95 subtract [][][][][][] from [][][][][][] mod-ulo
  []
 
 
 Underfull \hbox (badness 3417) in paragraph at lines 77--78
-[]\T1/cmr/m/n/10.95 multiply [][][][] and [][][][] mod-ulo
+[]\T1/cmr/m/n/10.95 multiply [][][][][][] and [][][][][][] mod-ulo
  []
 
 
 Underfull \hbox (badness 3792) in paragraph at lines 84--85
-[]\T1/cmr/m/n/10.95 add [][][][] and [][][][] sat-u-ra-tional
+[]\T1/cmr/m/n/10.95 add [][][][][][] and [][][][][][] sat-u-ra-tional
  []
 
-[45] [46] (./main.tdo [47
-
-])
+[44] [45] (./main.tdo)
 \tf@tdo=\write11
 \openout11 = `main.tdo'.
 
-) [48]
-No file main.nls.
-(./main.bbl
-Underfull \hbox (badness 4168) in paragraph at lines 12--14
-[]\T1/cmr/m/it/10.95 GNU COm-piler Col-lec-tioin In-ter-nals Man-ual\T1/cmr/m/n
-/10.95 , Free Soft-ware Foun-da-tion Inc.,
- []
-
-)
-No file main.ind.
-[49
-
-
-
+) [46
 
 ]
+No file main.nls.
+(./main.bbl
+Underfull \hbox (badness 5908) in paragraph at lines 15--17
+[]\T1/cmr/m/it/10.95 GNU Com-piler Col-lec-tion In-ter-nals Man-ual\T1/cmr/m/n/
+10.95 , Free Soft-ware Foun-da-tion Inc.,
+ []
+
+[47
+
+
+
+
+])
+No file main.ind.
+[48]
 \openout2 = `tex/acknowledgments.aux'.
 
 
 No file tex/acknowledgments.tex.
-[50
-
-
-
-
-]
 \openout2 = `cover/statement.aux'.
 
- (./cover/statement.tex
+(./cover/statement.tex
 
 Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              You should note, that in 1994 font command `\bf' has
@@ -2051,31 +2014,32 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
 (scrreprt)              by `\normalfont \bfseries ' on input line 6.
 
-) [51
+) [49
+
+
+
+
 
 ]
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 338.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 338.
-(./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 333.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 333.
+ (./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
 (./cover/cover_prof.aux) (./tex/abstract.aux) (./tex/appendix.aux)
 (./tex/acknowledgments.aux) (./cover/statement.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 338.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 338.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 333.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 333.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 48C5E0A69CB73EC29CC4D9A657FF499B;1646.
+(rerunfilecheck)             Checksum: E6AE7EE8475D161590B3EBFA68836BB9;1615.
 
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 30498 strings out of 493105
- 568840 string characters out of 6137072
- 1427992 words of memory out of 5000000
- 32902 multiletter control sequences out of 15000+600000
+ 30469 strings out of 493105
+ 568100 string characters out of 6137072
+ 1433134 words of memory out of 5000000
+ 32878 multiletter control sequences out of 15000+600000
  25632 words of font info for 59 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
  55i,22n,84p,834b,1914s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2100,10 +2064,10 @@ sr/share/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts
 er/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2074.pfb></us
 r/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/
 type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (61 pages, 1553496 bytes).
+Output written on main.pdf (59 pages, 1556679 bytes).
 PDF statistics:
- 937 PDF objects out of 1000 (max. 8388607)
- 808 compressed objects within 9 object streams
- 325 named destinations out of 1000 (max. 500000)
- 369 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 944 PDF objects out of 1000 (max. 8388607)
+ 817 compressed objects within 9 object streams
+ 323 named destinations out of 1000 (max. 500000)
+ 361 words of extra memory for PDF output out of 10000 (max. 10000000)
 
