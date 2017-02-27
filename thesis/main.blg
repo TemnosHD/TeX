@@ -10,6 +10,8 @@ The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
 A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
+Warning--I didn't find a database entry for "https://gcc.gnu.org/gcc-4.9/"
+Warning--I didn't find a database entry for "heimbrecht"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--to sort, need author or key in AV:registers
 Warning--to sort, need author or key in GCCint
@@ -33,7 +35,7 @@ Warning--empty year in AV:registers
 Warning--empty journal in PPU
 You've used 22 entries,
             3160 wiz_defined-function locations,
-            1185 strings with 12184 characters,
+            1187 strings with 12222 characters,
 and the built_in function-call counts, 7606 in all, are:
 = -- 629
 > -- 110
@@ -72,4 +74,4 @@ warning$ -- 20
 while$ -- 15
 width$ -- 0
 write$ -- 222
-(There were 20 warnings)
+(There were 22 warnings)

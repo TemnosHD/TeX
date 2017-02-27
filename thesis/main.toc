@@ -24,8 +24,8 @@
 \contentsline {section}{\numberline {3.4}Built-ins and Machine Instructions}{35}{section.3.4}
 \contentsline {chapter}{\numberline {4}Results and Applications}{40}{chapter.4}
 \contentsline {chapter}{\numberline {5}Discussion and Outlook}{42}{chapter.5}
-\contentsline {chapter}{Appendix}{43}{chapter.5}
-\contentsline {chapter}{Bibliography}{48}{appendix*.42}
+\contentsline {chapter}{Appendix}{45}{chapter.5}
+\contentsline {chapter}{Bibliography}{50}{appendix*.44}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}
