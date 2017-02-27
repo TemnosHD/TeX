@@ -53,53 +53,57 @@ The will use the following naming convention throughout this thesis:
 
 Synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of accessible information each although only 6 bits are used as weights and the spare two upper bits are used for calibration.
 The synapse array can also be used in 16-bit mode for higher accuracy that combines the weights of two synapses to a 12-bit weight.
+\add{figure synapse}
 
-The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
+Digital configuration of the synapses and writing PPU programs to the memory is handled by an FPGA that has access to every interface of a HICANN-DLS chip.
 
 \subsection{The Plasticity Processing Unit}
-The PPU, which was designed by Simon Friedmann \cite{PPU}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+The PPU, which was designed by \citep{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
 Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010 and runs at 100 MHz clock frequency.
-It is a 32-bit architecture therefore registers are 32 bit wide which is also the word size.
+It is a 32-bit architecture therefore registers are 32 bit wide.
 
-It was developed to handle plasticity and as such apply different learning rules to synapses during or in between experiments.
-This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{4}$ times faster than their biological counterparts.
-In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment and record data.
+It was developed to handle plasticity and as such applies different plasticity rules to synapses during or in between experiments.
+This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{3}$ times faster than their biological counterparts.
+In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment, manage spike input and record data 
 
 The PPU is accompanied by 16 kiB of memory as well as 4 kiB of instruction cache which together is called the plasticity sub-system.
-The PPU's distinct feature is its special-function unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
-The VE is only weakly coupled to the general purpose part (GPP)of the PPU and mostly both parts can operate in parallel while interaction is highly limited.
-All vector instructions that are intended for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE as it is usual for most processor extensions.
+The PPU's distinct feature is its special-function unit, the s2pp vector extension (VE), that allows for Single Input Multiple Data (SIMD) operations.
+The VE is only weakly coupled to the general purpose processor (GPP) of the PPU.
+Both parts can operate in parallel while interaction is highly limited.
+
+All instructions for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE as it is usual for most processor extensions.
 These instructions then go into a queue that holds all vector instructions where they are fetched from in order.
-Going from there the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out of order operation for instructions in these reservations stations.
-Therefore it is also possible during the process of accessing a vector on memory to perform some arithmetic operations on a different vector.
-This allows for faster processing speeds as pipelining for each instruction is also supported.
+Going from there, the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out of order operation for instructions in these reservations stations.\add{figure vector extension}
+This allows for performing some arithmetic operations on a vector during the process of accessing a different vector in memory.
+The result is faster processing speed as pipelining for each instruction is also supported.
 The limiting factor for this though remains the vectors register file's single port for reading and writing.
 
-The main limiting factor in processing speed is the memory access.
-Both, the GPP and the VE, share the same MMU and thus any access of the GPP to vectors in memory must be handled with care as the GPP and VE are not synchronized.
+Although the main limiting factor in processing speed is the memory access, both, the GPP and the VE, share the same MMU and thus any access of the GPP to vectors in memory must be handled with care as, the GPP and VE are not synchronized.
 The MMU is very simple as it does not cache memory instructions and also has matching virtual and physical addresses.
+
 For this reason one must be aware of the |sync| instruction that is a memory barrier and stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
+\add{code example}
 This can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
 |sync| is a standard instruction of the PowerISA and further information can be found here. \add{reference}
 
-The PPU is also able to read out spiking times and additional information through a bus which is accessible through the memory interface.
-It uses the first bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses and registers are 32-bit wide.
-Thus it only needs a pointer to such a memory address to read spiking rates during an experiment.
-Besides the VE and the GPP, the memory bus also provides access to the FPGA \todo{check this} in order to allow for external access to the system.
-This is needed for writing programs into the memory as well as getting results during or after experiments.
-This also allows for communication during runtime of the PPU.
+The PPU is also able to read out spike counts and additional information through a bus which is accessible through the memory interface.
+It uses the upper 16 bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses.
+The lower 16 bits are used since the system uses big-endian numbers.\unsure{maybe different}
+A pointer to such a virtual memory address allows to read for example spike counts during an experiment.
+This is done the same way for the whole chip configuration such as analog neuron parameters.
 
-The VE was added due to the need for fast handling and writing of synaptic weights into the array of synaptic values on the HICANN.
-Parallelizing this gives up to an 16x increase in performance.
+Besides the VE and the GPP, the memory bus also accessible by the FPGA .
+This is needed for writing programs into the memory as well as getting results during or after experiments also allows for communication between a ``master'' FPGA and a ``slave'' PPU.
+
 Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
-The synapse array though is also accessible through the main memory bus by setting the first bits similar to the spiking rate information.
-Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program,
-As mentioned before do GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to the delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
+The synapse array though is alternatively accessible through the main memory bus by setting the first bits similar to the spiking rate information.
+Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program but does not increase performance of memory access.
+As mentioned before, the GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
 
 Specifically the vector extension allows for either use of 8 element vectors with elements being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
-Thus every vector is 16 bytes or 128 Bits long.
+Thus every vector is 16 bytes or 128 bits long.\add{figure of vector size}
 This is also the size of each vector register that is available, which are 32 in total, in contrast to 32 general purpose registers with 32 bit each.
-The VE also features a vector accumulator of 128 bit which can be read and written by hand and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
+The VE also features a vector accumulator of 128 bits width and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
 
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
 This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
@@ -115,7 +119,6 @@ In general these opcodes are divided into 6 groups of instructions:
 
 When using these instruction one must always keep in mind that the weights of the synapses only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
 As a user still wants the full functionality and also as much accuracy as possible, a vector is typically shifted left when reading from the synapse array to  align the MSB to the very left and thus right shifted when stored in the synapse array.
-We will keep this big-endian description throughout this thesis.
 
 \add{applications of the PPU today like in-the-loop experiments and controlling
 }
@@ -123,51 +126,67 @@ We will keep this big-endian description throughout this thesis.
 \section{Basics of Processor Architecture}
 \label{section:processor}
 
-Almost all contemporary processors used are built using the so called von-Neumann architecture \todo{add reference}.
-\todo{cite friedmann dissertation}Although the main goal of this group is to provide an alternative analogue architecture that is inspired by nature, there are advantages to the classic model of processors which come to use for some applications.
-The main advantage of digital systems over analogue, systems such as the human brain, is the ability to do numeric and logical operations at much higher speeds and precision as well as the availability of existing digital interfaces.
-For this reason ``normal" processors are responsible for handling experiment data as well as setting up different parts of an experiment.
-We will now shortly touch the basics of such processors and explain common terms.
+Almost all contemporary processors are built using the so called von-Neumann architecture \todo{add reference}.
+\todo{cite friedmann dissertation}Although the main goal of this project is to provide an alternative analogue architecture that is inspired by nature, there are advantages to classic computing which are needed for some applications.
 
+The main advantage of digital systems over analogue, systems such as the human brain, is the ability to do numeric and logical operations at much higher speeds and precision as well as the availability of existing digital interfaces.
+For this reason ``normal'' processors are responsible for handling experiment data as well as configuration of an experiment.
+We will now shortly touch the basics of such processors and explain common terms.
+\\
+\\
+\add{figure classic architecture}
 In general a microprocessor can be seen as a combination of two units which are an operational section and a control section.
-The control logic section is responsible for fetching instructions and operands, interpreting them and controlling their execution as well as reading and writing to the main memory or other buses.
-The operational section on the other side saves operands and results as long as they are needed and performs any logic or arithmetic operation on these as instructed by the control logic section.
-Prominent parts of the operational section are the arithmetic logic unit (ALU) and the register file.
+The control section is responsible for fetching instructions and operands, interpreting them, controlling their execution as well as reading and writing to the main memory or other buses.
+The operational section on the other hand saves operands and results only as long as they are needed and performs logic or arithmetic operation on these as instructed by the control section.
+Prominent parts of the operational section are the \textbf{arithmetic logic unit} (ALU) and the \textbf{register file} (RF).
 
 The register file can be seen as short-term memory of the processor.
-It consists of several elements, called registers, that have the same size which is determined by the architecture; a 32-bit architecture has 32-bit wide registers.
-Typically the number of registers varies for different architectures and also their purpose.
+It consists of several repeated elements, called \textbf{registers}, that save data and have a same size which is determined by the architecture; a 32-bit architecture has 32-bit wide registers.
+
+Typically the number and purpose of registers varies for different architectures.
 Common purposes of registers are:
 \begin{description}
-    \item[general-purpose register GPR] These registers can be used for virtually anything and in most cases carry values that are soon to be used by the ALU. Few of these registers can be reserved as stack pointers. Most registers on a processor are typically GPRs.
+    \item[general-purpose register GPR] These registers can be used for virtually anything and in most cases carry values that are soon to be used by the ALU. Most registers on a processor are typically GPRs.
+        Any register that is not a GPR is called a \textbf{special purpose register SPR}
     \item[link register LR] This register marks the jump point of function calls. This means that after a function completes, the program jumps to the address in the link register.
-    \item[compare register CR] This register's value is set by an instruction that compares one or two values in GPRs. Its value can determine for some instructions if they are to be executed or not.
+    \item[condition register CR] This register's value is set by an instruction that compares one or two values in GPRs. Its value can determine a condition for some instructions if they are to be executed or not.
 \end{description}        
-Non-general-purpose registers are also called special-purpose registers SPRs.
 
-The ALU normally uses the values which are stored in the register file to perform the aforementioned logic or arithmetic operations and saves the result there as well.
-In case of more complex arithmetics some architectures also have an accumulator that is part of the ALU or sits next to it.
-Intermediate results then are stored there because access is faster for the accumulator compared to registers.
-In general it is good to know:
-\begin{equation}
+The ALU uses values which are stored in the register file to perform the aforementioned logic or arithmetic operations and saves the results there as well.
+
+Some architectures also have an accumulator that is often part of the ALU.
+Intermediate results can be stored there because access to the accumulator is the fastest possible but holds only a single value.
+
+It is important to note:
+\begin{equation*}
     \text{speed(accumulator)} > \text{speed(register)} \gg \text{speed(memory)}
-\end{equation}
+\end{equation*}
+As speed is always important in computing we therefore want to rather use registers than memory and only write to memory when not enough registers are available or a task has finished.
 
-As speed is always important in computing we therefore want to use registers as much as possible and only write results to the memory when not enough registers are available for the current task orthe task has finished.
-Registers such as the accumulator can also either be accessible directly or are only accessible to subsections such as the ALU.
+Registers such as the accumulator can also either be accessible to a user or only accessible to subsections such as the ALU.
 This is different for every processor architecture and depends on a multitude of factors:
+\noindent\begin{minipage}{\textwidth}
+    \vspace{1em}
+    \begin{minipage}{0.4\textwidth}
 \begin{itemize}
     \item available chip space
     \item maximum clock frequency
     \item instruction set complexity
+\end{itemize}
+\end{minipage}
+    \begin{minipage}{0.6\textwidth}
+\begin{itemize}
     \item available time and money for the design
     \item energy consumption
 \end{itemize}
+\end{minipage}
+    \vspace{1em}
+\end{minipage}
 
-These factors influence one another as a complex instruction set allows for complicated arithmetic operations with many operands to be performed in few clock cycles but this often results in the maximum clock frequency being lower.\reference{complexity > lower clock freq}
-During a single clock cycle a chip usually performs one so called micro instruction which is part of a machine instruction.
-An example for an add instruction (|result = add(a,b)|) would be:
-\begin{lstlisting}
+These factors influence one another as a complex instruction set allows for complicated arithmetic operations to be performed with a single instruction but this often results in the effective clock frequency being lower due to many micro instructions.\reference{complexity > lower clock freq}
+During a single clock cycle a chip usually performs one so called \textbf{micro instruction} which is part of a \textbf{machine instruction}.
+An example for an add instruction (|d = add(a,b)|) would be:
+\begin{lstlisting}[caption=example of micro instructions, label=lst:microinstruction]
     1. fetch the instruction from memory
     2. decode instruction
     3. fetch first operand a
@@ -175,17 +194,17 @@ An example for an add instruction (|result = add(a,b)|) would be:
     5. perform operation on operands
     6. store result
 \end{lstlisting}\todo{inhaltlicher zusammenhang}
-For different and more complex machine instructions the amount of micro instructions can be much higher, but this basically sets the minimum amount of micro instructions for any machine instruction.
-Ergo the faster the clock frequency the faster micro instructions can be executed the faster the processor.
-But also the more complex the instruction set is the fewer machine instructions are needed overall the faster the processor.
-As mentioned above this results in a trade-off between clock frequency and instruction set complexity.
-The instruction set includes all available instructions for an ALU thus the ALU gets more complex and needs more space as the instruction set gets more complicated.
+For more complex machine instructions the amount of micro instructions can be much higher, but such simple machine instructions basically set the minimum amount of micro instructions for any machine instruction.
+It is obvious that the faster the clock frequency the faster micro instructions can be executed the faster the processor.
+But at the same time the more complex the instruction set is the fewer machine instructions are needed overall the faster the processor.
+As mentioned above this results in a trade-off between clock frequency and instruction set complexity.\reference{book}
 
+The instruction set includes all available instructions for an ALU thus the ALU gets more complicated to design and needs more space as the instruction set gets more complex.
 Because of this, one usually differs between two kinds of processors:
-\begin{itemize}
-    \item Complex Instruction Set Computer CISC
-    \item Reduced Instruction Set Computer RISC
-\end{itemize}
+\begin{description}
+    \item[CISC] Complex Instruction Set Computer
+    \item[RISC] Reduced Instruction Set Computer
+\end{description}
 The latter usually is reduced to such simple instructions as |add| or |sub| and connects them to create more complex instructions.
 Since the PPU is a RISC architecture we focus on RISC's key values.
 Simple instructions are similar to micro instructions which were mentioned earlier, but every simple instruction has the same number of micro instructions.

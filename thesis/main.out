@@ -5,13 +5,13 @@
 \BOOKMARK [2][-]{subsection.2.1.2}{The Plasticity Processing Unit}{section.2.1}% 5
 \BOOKMARK [1][-]{section.2.2}{Basics of Processor Architecture}{chapter.2}% 6
 \BOOKMARK [2][-]{subsection.2.2.1}{Co-processors and Extensions}{section.2.2}% 7
-\BOOKMARK [3][-]{section*.20}{AltiVec Vector Extension}{subsection.2.2.1}% 8
+\BOOKMARK [3][-]{section*.26}{AltiVec Vector Extension}{subsection.2.2.1}% 8
 \BOOKMARK [1][-]{section.2.3}{Basic Compiler Structure}{chapter.2}% 9
 \BOOKMARK [2][-]{subsection.2.3.1}{Back-End and Code Generation}{section.2.3}% 10
 \BOOKMARK [2][-]{subsection.2.3.2}{Assembly Basics}{section.2.3}% 11
 \BOOKMARK [2][-]{subsection.2.3.3}{Intrinsics}{section.2.3}% 12
 \BOOKMARK [2][-]{subsection.2.3.4}{GNU Compiler Collection}{section.2.3}% 13
-\BOOKMARK [3][-]{section*.25}{Register Transfer Language Basics}{subsection.2.3.4}% 14
+\BOOKMARK [3][-]{section*.31}{Register Transfer Language Basics}{subsection.2.3.4}% 14
 \BOOKMARK [0][-]{chapter.3}{Extending the GCC Back-End}{}% 15
 \BOOKMARK [1][-]{section.3.1}{Registers}{chapter.3}% 16
 \BOOKMARK [1][-]{section.3.2}{Prologue and Epilogue}{chapter.3}% 17
@@ -20,4 +20,4 @@
 \BOOKMARK [0][-]{chapter.4}{Results and Applications}{}% 20
 \BOOKMARK [0][-]{chapter.5}{Discussion and Outlook}{}% 21
 \BOOKMARK [0][-]{chapter.5}{Appendix}{}% 22
-\BOOKMARK [0][-]{appendix*.44}{Bibliography}{}% 23
+\BOOKMARK [0][-]{appendix*.50}{Bibliography}{}% 23
