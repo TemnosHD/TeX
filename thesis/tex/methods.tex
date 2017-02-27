@@ -1,7 +1,126 @@
-\chapter{Methods}
+\chapter{Fundamentals and Applications of Computer Architectures and Compiler Design}
 \label{chapter:methods}
 
-\section{Basic Processor Architecture}
+\section{Hardware Implementation of Neural Networks}
+As this thesis mainly focuses on a processor that is an essential part of the \textbf{HICANN-DLS} (High Input Count Analogue Neural Network-Digital Learning System) we will focus first on the HICANN-DLS as a whole and then look into the \textbf{PPU} (Plasticity Processing Unit) in detail while also addressing processor architecture in general.
+
+The HICANN-DLS was built to emulate neural networks at high speeds with low power consumption.
+
+On a very abstract level neurons in the brain resemble nodes in a network.
+Neurons are interconnected through dendrites, synapses and axons which can be of different coupling strength. 
+In contrast to many other systems \reference{other systems} we use neuron model that is \textbf{spike based}.
+This means that a neuron is activated only for a short continuous time, called a spike, and sends out this spike through its axon to neurons that are connected via synapses.
+Between those spikes the neuron is resting and not sending any signals.
+Synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
+This is equal to a gain with which the pre-synaptic signal is either amplified or attenuated.
+The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
+If the integrated signals reach a certain threshold the neuron spikes and sends this signal to other neurons~\citep{silbernagl2009color}.
+
+\add{bild synaptic array}
+
+\subsection{Implementation in HICANN-DLSv2}
+The HICANN-DLS system implements a simplified neural network model in analogue electronics in order to emulate neuronal networks in a biologically plausible parameter range.
+
+At its core it has a so called \textbf{synaptic array} that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs.
+Pre-synaptic inputs are arranged along one side of the chip which is orthogonal to the arrangement of the neurons.
+They enclose a 2D field which will be our synaptic array as it mainly consists of synapse circuits.
+All neurons reach into the array through conductors that are organized in columns.
+The pre-synaptic inputs respectively have conductors that resemble rows in the array.
+At each intersection of of those conducting lines, a synapse is placed that thereby connects a neuron and a pre-synaptic input.
+Overall this gives 1024 synapses that interconnect every neuron and every synapse.
+
+A \textbf{field programmable gate array} (FPGA) is connected to all pre-synaptic inputs and feeds external spikes into the ship which can either be computed by the FPGA or routed spikes from another ship.
+Along an input row the signal of one pre-synaptic input reaches all synapses that connected and is processed individually.
+Each synapse holds a 6-bit wide \textbf{synaptic weight} and an internal decoder address, which both can be changed from outside.
+
+The FPGA sends a 6-bit address whenever it sends a spike to a pre-synaptic input which then is compared by each synapse to the addresses they hold themselves.
+In case the addresses match, each synapse multiplies an output signal with the weight it stores and sends the result along a column where is reaches a neuron.
+All signals that are sent, are collected along a column and reach the neuron.
+Inside the neurons the resulting current input is evaluated in regard to a threshold and other parameters which decide on whether the neuron is spiking or not.
+If the neuron is spiking it sends an output signal to the FPGA which is responsible for spike routing in the first place.
+All of this is done continuously and may not follow discrete time steps.
+Along each column sits a \textbf{correlation ADC} (CADC) that converts the signal one neuron receives into digital data for analysis but can also be accessed by the PPU similar to the synaptic array.
+
+The HICANN-DLS is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
+This is the plasticity processing unit (PPU) which is also connected to the synapse array for it to read and write synaptic weights.
+
+The will use the following naming convention throughout this thesis:
+\begin{description}
+    \item[Plasticity Processing Unit PPU] is the processor which is part of HICANN-DLS and mainly responsible for plasticity of synapses.
+    \item[nux] refers to the complete architecture of the PPU together with its vector extension.
+    \item[s2pp] is short for synaptic plasticity processor but we will use this as name of the vector extension.
+\end{description}
+
+Synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of accessible information each although only 6 bits are used as weights and the spare two upper bits are used for calibration.
+The synapse array can also be used in 16-bit mode for higher accuracy that combines the weights of two synapses to a 12-bit weight.
+
+The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
+
+\subsection{The Plasticity Processing Unit}
+The PPU, which was designed by Simon Friedmann \cite{PPU}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010 and runs at 100 MHz clock frequency.
+It is a 32-bit architecture therefore registers are 32 bit wide which is also the word size.
+
+It was developed to handle plasticity and as such apply different learning rules to synapses during or in between experiments.
+This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{4}$ times faster than their biological counterparts.
+In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment and record data.
+
+The PPU is accompanied by 16 kiB of memory as well as 4 kiB of instruction cache which together is called the plasticity sub-system.
+The PPU's distinct feature is its special-function unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
+The VE is only weakly coupled to the general purpose part (GPP)of the PPU and mostly both parts can operate in parallel while interaction is highly limited.
+All vector instructions that are intended for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE as it is usual for most processor extensions.
+These instructions then go into a queue that holds all vector instructions where they are fetched from in order.
+Going from there the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out of order operation for instructions in these reservations stations.
+Therefore it is also possible during the process of accessing a vector on memory to perform some arithmetic operations on a different vector.
+This allows for faster processing speeds as pipelining for each instruction is also supported.
+The limiting factor for this though remains the vectors register file's single port for reading and writing.
+
+The main limiting factor in processing speed is the memory access.
+Both, the GPP and the VE, share the same MMU and thus any access of the GPP to vectors in memory must be handled with care as the GPP and VE are not synchronized.
+The MMU is very simple as it does not cache memory instructions and also has matching virtual and physical addresses.
+For this reason one must be aware of the |sync| instruction that is a memory barrier and stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
+This can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
+|sync| is a standard instruction of the PowerISA and further information can be found here. \add{reference}
+
+The PPU is also able to read out spiking times and additional information through a bus which is accessible through the memory interface.
+It uses the first bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses and registers are 32-bit wide.
+Thus it only needs a pointer to such a memory address to read spiking rates during an experiment.
+Besides the VE and the GPP, the memory bus also provides access to the FPGA \todo{check this} in order to allow for external access to the system.
+This is needed for writing programs into the memory as well as getting results during or after experiments.
+This also allows for communication during runtime of the PPU.
+
+The VE was added due to the need for fast handling and writing of synaptic weights into the array of synaptic values on the HICANN.
+Parallelizing this gives up to an 16x increase in performance.
+Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
+The synapse array though is also accessible through the main memory bus by setting the first bits similar to the spiking rate information.
+Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program,
+As mentioned before do GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to the delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
+
+Specifically the vector extension allows for either use of 8 element vectors with elements being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
+Thus every vector is 16 bytes or 128 Bits long.
+This is also the size of each vector register that is available, which are 32 in total, in contrast to 32 general purpose registers with 32 bit each.
+The VE also features a vector accumulator of 128 bit which can be read and written by hand and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
+
+To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
+This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
+An overview of all opcodes is provided by \cite{nuxmanual}, which is recommended as accompanying literature besides this thesis.
+In general these opcodes are divided into 6 groups of instructions:
+\begin{description}
+    \item[modulo halfword/byte instructions] apply a modulo operation after every instruction which causes wrap around in case of an overflow at the most significant bit position.
+        Each instruction is provided as halfword (modulo $2^{16}$) and as byte instruction (modulo $2^{8}$).
+    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range between a maximum that is equivalent to one when we see the MSB as $2^{-1}$ and the minimum is $2^{-15}$ for halfword and $2^{-7}$ for byte instructions. \todo{check with ahartel on this}
+    \item[permute instructions] perform operations on vectors that handle elements of vectors only as a series of bits.
+    \item[load/store instructions] move vectors between vector registers and memory or the synapse array.
+\end{description}
+
+When using these instruction one must always keep in mind that the weights of the synapses only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
+As a user still wants the full functionality and also as much accuracy as possible, a vector is typically shifted left when reading from the synapse array to  align the MSB to the very left and thus right shifted when stored in the synapse array.
+We will keep this big-endian description throughout this thesis.
+
+\add{applications of the PPU today like in-the-loop experiments and controlling
+}
+
+\section{Basics of Processor Architecture}
 \label{section:processor}
 
 Almost all contemporary processors used are built using the so called von-Neumann architecture \todo{add reference}.
@@ -182,119 +301,6 @@ There a few differences though:
 \end{addmargin}
 
 
-\section{Hardware Implementation}
-As this thesis mainly focuses on a processor that is an essential part of the HICANN-DLS (high input count analogue neural network Digital Learning System) we will focus first on the Hicann-DLS as a whole and then look into the PPU in detail which includes many of the topics of the previous section.
-
-\subsection{Basics of Neural Networks}
-Neural networks build the main application of the Hicann DLS system. This short chapter is meant to give an overview over neural networks and synaptic weights.
-
-On a very abstract level neurons in the brain resemble nodes of a network.
-As in a network neurons are interconnected through dendrites, synapses and axons which can be of different strength. 
-Also we assume that a neuron is either spiking, meaning it is activated and sends this information to connected neurons or resting meaning it is not activated.
-In case a neuron is spiking, it send this information through its axon to other other neurons that are connected to the axon by synapses.
-These synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
-This is equal to a gain with which the signal is either amplified or attenuated.
-The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
-If the integrated signals reach a certain threshold the neuron spikes and then sends a signal itself to other neurons.
-
-\add{put the following part in the next section}
-With all these physiological parts there are only two important parts we need to take a look at in order to copy the function of a neural network: the neuron and the synapses.
-\add{add something here}
-If two neurons are actually not meant to be connected, the spike's address and the SRAM\unsure{explain this further} address of the synapse do not match an thus the spike is ignored by the synapse.
-Now if we display the all neurons inputs and outputs in a 2D plain we get an array of synapses, which is equivalent to a weight matrix.
-
-\subsection{Implementation in Hicann-DLS}
-The Hicann-DLS system tries to implement this structure as close to reality as possible in order to simulate physiological processes in such networks.
-At its core it therefore has a so called ``synaptic array" that connects 32 neurons which are located on a single ship to 64 different pre-synaptic inputs.
-Each neuron's post-synaptic input is aligned along one axis of an array while the 64 outputs of different neurons are on a rectangular axis.
-This gives a 2D array of 2048 synapses in total.
-An FPGA connects the 64 pre-synaptic inputs to various neurons in the system while it can also connect the neurons of the same chip to the pre-synaptic inputs.
-Along these input lines the signal reaches all synapses where it is processed individually.
-For this to be possible each pre-synaptic neuron has a 6 bit SRAM address while the synapse itself has a 6 bit SRAM address as well, which can be changes from outside.
-Each synapse then compares the addresses of the pre-synaptic neuron it is connected to to its own and if they match sends out a signal to other circuits that need this information.
-Also in this case each synapse multiplies the signal it receives with its weight and sends the result to the post-synaptic input of a neuron.
-All signals sent by synapses to an input are integrated along the line to a resulting input signal which finally reaches a neuron.
-Inside the neurons the individual input signal is evaluated in regard to a threshold and other parameters which decide whether the neuron is spiking or not.
-If the neuron is spiking it sends out an output signal to the FPGA which is responsible for spike routing.
-The output signal of each neuron is also sent to an analogue digital converter (ADC) in order to analyze the data in digital form.
-All of this is done continuously and may not follow discrete time steps.
-
-The Hicann-DLS system is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
-This is the plasticity processing unit (PPU) which is also connected to the synapse array and thus can read and write synaptic weights.
-
-The synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of information each.
-The weights themselves are 6 bit large and always right aligned.
-The most significant bit of each weight has a value of $2^{-1}$ with subsequent bits having half the value of the previous bit.
-The spare two bits at the beginning are used for calibration.
-The synapse array can also be used in 16 bit mode for higher accuracy.
-This combines two synapses to a single virtual synapse with 12 bit weights and 4 bits for calibration.
-
-The whole chip itself is also connected to a field programmable gate array (FPGA) that is able to read and write to the synaptic values as well as the memory of the PPU.
-
-\subsection{The Plasticity Processing Unit}
-The PPU, which was designed by Simon Friedmann \cite{PPU}, is a custom processor in this system, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
-Specifically the PPU uses POWER7 which is a successor of the original POWER architecture and was released in 2010 and runs at 100 MHz clock frequency.
-It is a 32-bit architecture therefore registers are 32 bit wide which is also the word size.
-
-It was developed to handle plasticity and as such apply different learning rules to synapses during or in between experiments.
-This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{4}$ times faster than their biological counterparts.
-In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment and record data.
-
-The PPU is accompanied by 16 kiB of memory as well as 4 kiB of instruction cache which together is called the plasticity sub-system.
-The PPU's distinct feature is its special-function unit or vector extension (VE) that allows for Single Input Multiple Data (SIMD) operations.
-The VE is only weakly coupled to the general purpose part (GPP)of the PPU and mostly both parts can operate in parallel while interaction is highly limited.
-All vector instructions that are intended for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE as it is usual for most processor extensions.
-These instructions then go into a queue that holds all vector instructions where they are fetched from in order.
-Going from there the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out of order operation for instructions in these reservations stations.
-Therefore it is also possible during the process of accessing a vector on memory to perform some arithmetic operations on a different vector.
-This allows for faster processing speeds as pipelining for each instruction is also supported.
-The limiting factor for this though remains the vectors register file's single port for reading and writing.
-
-The main limiting factor in processing speed is the memory access.
-Both, the GPP and the VE, share the same MMU and thus any access of the GPP to vectors in memory must be handled with care as the GPP and VE are not synchronized.
-The MMU is very simple as it does not cache memory instructions and also has matching virtual and physical addresses.
-For this reason one must be aware of the |sync| instruction that is a memory barrier and stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
-This can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
-|sync| is a standard instruction of the PowerISA and further information can be found here. \add{reference}
-
-The PPU is also able to read out spiking times and additional information through a bus which is accessible through the memory interface.
-It uses the first bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses and registers are 32-bit wide.
-Thus it only needs a pointer to such a memory address to read spiking rates during an experiment.
-Besides the VE and the GPP, the memory bus also provides access to the FPGA \todo{check this} in order to allow for external access to the system.
-This is needed for writing programs into the memory as well as getting results during or after experiments.
-This also allows for communication during runtime of the PPU.
-
-The VE was added due to the need for fast handling and writing of synaptic weights into the array of synaptic values on the HICANN.
-Parallelizing this gives up to an 16x increase in performance.
-Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
-The synapse array though is also accessible through the main memory bus by setting the first bits similar to the spiking rate information.
-Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program,
-As mentioned before do GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to the delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
-
-Specifically the vector extension allows for either use of 8 element vectors with elements being halfword (1 halfword = 2 bytes) sized or 16 element vectors with each element byte sized
-Thus every vector is 16 bytes or 128 Bits long.
-This is also the size of each vector register that is available, which are 32 in total, in contrast to 32 general purpose registers with 32 bit each.
-The VE also features a vector accumulator of 128 bit which can be read and written by hand and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
-
-To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
-This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
-An overview of all opcodes is provided by \cite{nuxmanual}, which is recommended as accompanying literature besides this thesis.
-In general these opcodes are divided into 6 groups of instructions:
-\begin{description}
-    \item[modulo halfword/byte instructions] apply a modulo operation after every instruction which causes wrap around in case of an overflow at the most significant bit position.
-        Each instruction is provided as halfword (modulo $2^{16}$) and as byte instruction (modulo $2^{8}$).
-    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range between a maximum that is equivalent to one when we see the MSB as $2^{-1}$ and the minimum is $2^{-15}$ for halfword and $2^{-7}$ for byte instructions. \todo{check with ahartel on this}
-    \item[permute instructions] perform operations on vectors that handle elements of vectors only as a series of bits.
-    \item[load/store instructions] move vectors between vector registers and memory or the synapse array.
-\end{description}
-
-When using these instruction one must always keep in mind that the weights of the synapses only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
-As a user still wants the full functionality and also as much accuracy as possible, a vector is typically shifted left when reading from the synapse array to  align the MSB to the very left and thus right shifted when stored in the synapse array.
-We will keep this big-endian description throughout this thesis.
-
-\add{applications of the PPU today like in-the-loop experiments and controlling
-}
-
 
 \section{Basic Compiler Structure}
 \label{section:compiler}
@@ -307,113 +313,8 @@ The advantages of this are simple:
 While a compiler takes some time at first until the program can be run, the resulting executable is next to always faster and more efficient.
 
 \begin{figure}
-    \tcbset
-    {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
-    fonttitle=\bfseries,nobeforeafter,center title, noparskip}
-    \noindent{\begin{minipage}{\textwidth}
-        \begin{minipage}[c][][c]{0.25\textwidth}
-            \begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0]
-            \end{tcolorbox}
-            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cp, enhanced, watermark text=Compiler]
-                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=2cm, width=\linewidth]
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=1cm, width=\linewidth]
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=1.5cm, width=\linewidth]
-                \end{tcolorbox}
-            \end{tcolorbox}
-            \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=as, opacityframe=0.0, opacityback=0.0]
-            \end{tcolorbox}
-            \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=lk, opacityframe=0.0, opacityback=0.0]
-            \end{tcolorbox}
-            \begin{tcolorbox}[height=1cm, width=\linewidth, remember as=ld, opacityframe=0.0, opacityback=0.0]
-            \end{tcolorbox}
-            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1)$) -- node [left] {program code} (cp.north);
-                \draw[->] (cp.south) -- node [left] {machine files} ($(ld.south)+(0,-1)$);
-            \end{tikzpicture}
-        \end{minipage}
-        \begin{minipage}[c][][c]{0.25\textwidth}
-            \begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, watermark text=Preprocessor, remember as=pp]
-                \hfill
-            \end{tcolorbox}
-            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cmp, enhanced jigsaw]
-                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=2cm, width=\linewidth, watermark text=Front-End, remember as=fe]
-                    \hfill
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1cm, width=\linewidth, watermark text=Middle-End, remember as=me]
-                    \hfill
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1.5cm, width=\linewidth, watermark text=Back-End, remember as=be]
-                    \hfill
-                \end{tcolorbox}
-            \end{tcolorbox}
-            \begin{tcolorbox}[height=1cm, width=\linewidth, watermark text=Assembler, remember as=as]
-                \hfill
-            \end{tcolorbox}
-            \begin{tcolorbox}[height=1cm, width=\linewidth, watermark text=Linker, remember as=lk]
-                \hfill
-            \end{tcolorbox}
-            \begin{tcolorbox}[height=1cm, width=\linewidth, watermark text=Loader, remember as=ld]
-                \hfill
-            \end{tcolorbox}
-            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1)$) -- node [left] {program code} (pp.north);
-                \draw[->, shorten >=-1.5mm] (pp.south) -- (fe.north);
-                \draw[->, shorten >=-1.5mm] (fe.south) -- (me.north);
-                \draw[->, shorten >=-1.5mm] (me.south) -- (be.north);
-                \draw[->, shorten >=-1.5mm] (be.south) -- (as.north);
-                \draw[->, shorten >=-1.5mm] (as.south) -- (lk.north);
-                \draw[->, shorten >=-1.5mm] (lk.south) -- (ld.north);
-                \draw[->] (ld.south) -- node [left] {machine files} ++(0,-1);
-            \end{tikzpicture}
-        \end{minipage}
-        \hspace{\fill}
-        \begin{minipage}[c][][c]{0.4\textwidth}
-            \flushright
-            \begin{tcolorbox}[tcbox raise base, width=\linewidth, enhanced jigsaw, remember as=cp]
-                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth]
-                    \begin{tcolorbox}[enhanced,center title,width=\linewidth, remember as=sc]
-                        \begin{center}Scanner\end{center}
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced,width=\linewidth, remember as=ps]
-                        \begin{center}Parser\end{center}  
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=sa]
-                        \begin{center}Semantic \\ Analyzer \end{center} 
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=sco]
-                        \begin{center}Source Code \\ optimizer \end{center}
-                    \end{tcolorbox}
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1cm, width=\linewidth, remember as=me, watermark text=Middle-End]
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth]
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=cg]
-                        \begin{center}Code Generator  \end{center}
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=tco]
-                        \begin{center}Target Code \\ Optimizer \end{center}
-                    \end{tcolorbox}
-                \end{tcolorbox}
-            \end{tcolorbox}
-            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- (sc.north);
-                \draw[->, shorten >=-1.5mm] (sc.south) -- (ps.north);
-                \draw[->, shorten >=-1.5mm] (ps.south) -- (sa.north);
-                \draw[->, shorten >=-1.5mm] (sa.south) -- (sco.north);
-                \draw[-] (sco.south) -- (me.north);
-                \draw[->, shorten >=-1.5mm] (me.south) -- (cg.north);
-                \draw[->, shorten >=-1.5mm] (cg.south) -- (tco.north);
-                \draw[->] (tco.south) -- ($(cp.south)+(0,-1)$);
-            \end{tikzpicture}
-        \end{minipage}
-            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.north east) -- (cp.north west);
-                \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.south east) -- (cp.south west);
-            \end{tikzpicture}
-\end{minipage}}
-\caption{\label{fig:compiler} Schematic overview of different compiler stages.}
+    \include{fig/compiler}
+    \caption{\label{fig:compiler} Schematic overview of different compiler stages.}
 \end{figure}
 
 

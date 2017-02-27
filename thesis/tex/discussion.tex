@@ -45,11 +45,12 @@ The planned nux simulation on a FPGA would accelerate this development and also 
 
 Creating such a comprehensive testing environment would allow to constantly test the reliability of generated code and different optimizations and thereby help establishing GCC with an extended back-end as the preferred compiler for nux.
 \\
+\\
 Another feature that might help push the general usage of a patched cross-compiler is the availability of |gdb| for nux.
 As debugging PPU software right now is not possible with |gdb| it might be possible in the future but it is likely that more work on the back-end is necessary for this.
 Right now there have been no tests of |gdb| with the new back-end and other features such as optimization and testing are more important at the moment.
-\\
-At most only time will tell if the extended-GCC build will be used regularly and become the standard tool for nux development.
+
+At most, only time will tell if the extended-GCC build will be used regularly and become the standard tool for nux development.
 
 This depends on various factors besides what we already mention.
 GCC support for the POWER architecture, reimplementation of the GCC back-end and the future development of the nux architecture are also important.
@@ -76,11 +77,3 @@ Over all the PPU should get ever more capable over time and take care of differe
 
 Ultimately PPUs might be running independently on multiple systems, realizing experiments with large simulated networks or running standalone experiments for users in parallel.
 Still, the future of the PPU is welded by users, developers and the applications they for this innovative system, and giving them a functional compiler for this system is the tool that might come in handy at times.
-
-
-
-
-future of PPU
-additonal intrinsics on request
-FPGA speicher
-code generierung
