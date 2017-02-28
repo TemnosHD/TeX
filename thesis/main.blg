@@ -6,6 +6,7 @@ A level-1 auxiliary file: cover/cover_faculty.aux
 A level-1 auxiliary file: cover/cover_prof.aux
 A level-1 auxiliary file: tex/abstract.aux
 A level-1 auxiliary file: fig/compiler.aux
+A level-1 auxiliary file: fig/cmpstruct.aux
 A level-1 auxiliary file: tex/appendix.aux
 The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
@@ -36,7 +37,7 @@ Warning--empty year in AV:registers
 Warning--empty journal in PPU
 You've used 23 entries,
             3160 wiz_defined-function locations,
-            1195 strings with 12385 characters,
+            1196 strings with 12402 characters,
 and the built_in function-call counts, 8080 in all, are:
 = -- 659
 > -- 135

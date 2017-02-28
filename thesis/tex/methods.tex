@@ -18,7 +18,7 @@ If the integrated signals reach a certain threshold the neuron spikes and sends 
 
 \add{bild synaptic array}
 \begin{figure}
-    \include{fig/array}
+    %\include{fig/array}
     \caption{\label{fig:array} structure of the synaptic array}
 \end{figure}
 
@@ -251,31 +251,108 @@ A few examples are:
 The s2pp \textbf{vector extension} (VE) of nux is the PPU's distinct feature that allows for Single Input Multiple Data (SIMD) operations on synaptic weights.
 The VE is only weakly coupled to the general purpose processor (GPP) of the PPU nand both parts can operate in parallel while interaction is highly limited.
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
+This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
 The vector register file includes (VRF) 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
 This allows for either use of vectors with 8 halfword sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorsize}.
 
 But we take also a special interest in the AltiVec vector extension itself which was developed by Apple, IBM and Motorola in the mid 1990's and is also known as Vector Media Extension (VMX) and Velocity Engine for the POWER architecture. 
 The AltiVec extension provides a similar single-precision floating point and integer SIMD instruction set.
+Its vector registers can either hold sixteen 8-bit |char|s (V16QI), eight 16-bit |short|s (V8HI), four 32-bit |int|s (V4SI) or single precision |float|s (V4SF), each signed and unsigned.
+\begin{figure}
+    \begin{bytefield}[endianness=little, bitwidth=\widthof{\tiny Integer~}/8]{128}
+        \bitheader{0,7,15,31,63,127}\\
+    \begin{rightwordgroup}{V16QI}\bitboxes{8}{{QI}{\tiny Quarter \\ Integer}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}\end{rightwordgroup}\\
+        \bitheader{0,7,15,31,63,127}\\
+        \begin{rightwordgroup}{V8HI}\bitboxes{16}{{HI}{\tiny Half \\ Integer}{}{}{}{}{}{}}\end{rightwordgroup}\\
+        \bitheader{0,7,15,31,63,127}\\
+        \begin{rightwordgroup}{V4SI}\bitboxes{32}{{SI}{\tiny Single \\ Integer}{}{}}\end{rightwordgroup}\\
+        \bitheader{0,7,15,31,63,127}\\
+        \begin{rightwordgroup}{V4SF}\bitboxes{32}{{SF}{\tiny Single \\ Float}{}{}}\end{rightwordgroup}\\
+    \end{bytefield}
+    \caption{\label{fig:vectorlength} different vector structures}
+\end{figure}
 
 It resembles most characteristics of the s2pp vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of GCC.
 There are a few differences though:
 \begin{addmargin}[2em]{0em}
-    The s2pp VE uses an extra vector conditional register to perform instructions only on those elements of a vector register, that meet the condition in the corresponding scalar part of the CR, which is specified by the user, while the AltiVec VE utilizes the CR of the PowerPC architecture.
-    This results in not allowing selective operations on individual elements through the CR, but allows for checking if all elements meet the condition in a single instruction.
-    If element-wise selection is needed AltiVec offers this through vector masks.
+    The s2pp VE features a vector accumulator of 128 bits width and a vector condition register (VCR) which holds 3 bits for each half byte of the vector, making 96 bit in total.
+    Instructions on the s2pp VE can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the VCR, while the AltiVec VE utilizes the CR of the PowerPC architecture.
+    This does not allow for selective operations on individual elements through the CR, but allows for checking if all elements meet the condition in a single instruction.
+    If element-wise selection is needed, AltiVec offers this through vector masks.
     
     The AltiVec VE has two register on its own though, which are the VCSR and VRSAVE registers.
             The Vector Status and Control Register (VSCR) is responsible for detecting saturation in vector operations and decides which floating point mode is used.
             The Vector Save/Restore Register (VRSAVE) assists applications and operation systems by indicating for each VR if it is currently used by a process and thus must be restored in case of an interrupt.
     
-    Both of these registers are not available in the PPU's VE but would likely not be needed for simple such arithmetic tasks which the PPU is meant to perform.
+    Both of these registers are not available in the s2pp VE but would likely not be needed for simple such arithmetic tasks which the PPU is meant to perform.
 \end{addmargin}
 
+We already stated that all instructions of VEs must first pass the control unit, which detects vector instructions and then passes them to the VE.
+These instructions then go into an instruction cache for vector instructions where they are fetched from in-order.
+On nux the instructions then shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out-of-order operation for instructions in these reservations stations.\add{figure vector extension}
+This allows for performing some arithmetic operations on a vector during the process of accessing a different vector in memory.
+The result is faster processing speed as pipelining for each instruction is also supported.
+The limiting factor for this though remains the VRF's single port for reading and writing.
+A more limiting factor in comparison is the shared memory interface of s2pp and GPP.
 
-The VE also features a vector accumulator of 128 bits width and a vector condition register which holds 3 bits for each half byte of the vector, making 96 bit in total, that determine which condition applies.
+Normally processors themself do not keep track of memory directly.
+This is usually done by a \textbf{memory management unit} (MMU) or a \textbf{memory controller} (MC).
+It handles memory access by the processor and can provide a set of virtual memory addresses which it translates into physical addresses.
+Most modern MMUs also incorporate a cache that stores memory instructions while another memory instruciton is performed.
+It also detects dependencies within this cache, which can be resolved there.
+Ultimately this results in faster transfer of data as two or more instructions do not need to access the same memory to fetch a value.
 
-This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
-Also the user is advised to use fractional representation of weights as this is important for usage of saturation arithmetic.
+Not all MMUs support this though, which might lead to certain problems when handling memory.
+If instructions are reordered due to pipelining while dependencies on the same memory address are not detected correctly, an instruction may write to memory before a different one could load the previous value it needed from there.
+Another reason could be delayed isntructions as it was mentioned above.
+For this reason exist memory barriers.
+
+A \textbf{memory barrier} is an instruction that is equal to a guard, placed in code, that waits until all load and store instructions issued to the MMU are finished.
+It therefore splits the code into instructions issued before the memory barrier and issued after the memory barrier.
+This prohibits any instruction form being executed on the wrong side of the barrier due to reordering and thereby generally prevents conflicting memory instructions.
+
+One kind of memory barrier is |sync| which does exactly what we just described.
+This and other memory barriers are also described in the appendix (\ref{table:asm}).
+
+\begin{lstlisting}[caption=The memory barrier ensures that the first store was performed before the second store is issued., label=lst:sync]
+stw     r7,data1(r9)#store shared data (last)
+sync    export barrier
+stw     r4,lock(r3)#release lock
+\end{lstlisting}
+
+Using |sync| can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
+
+The PPU's memory is 16 kiB which is accompanied by 4 kiB of instruction cache.\todo{add description to instruciton cache}
+Together iwth the PPU this is called the plasticity sub-system.
+The MMU of this system is very simple as it does not cache memory instructions and also has matching virtual and physical addresses thus memroy barriers can become necessary at times.
+\\
+\\
+Another feature of the PPU is the ability to read out spike counts and additional information through a bus which is accessible through the memory interface of the MMU.
+It uses the upper 16 bits of a memory address for routing
+These are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses.
+A pointer to a virtual memory address allows to read for example spike counts during an experiment.
+This is done the same way for the whole chip configuration such as analog neuron parameters.
+
+The fact, that the system views the highest as the greatest values, makes this a \textbf{big-endian} system.
+\\
+\\
+The memory bus is also accessible by the FPGA .
+This is needed for writing programs into the memory as well as getting results during or after experiments also allows for communication between a ``master'' FPGA and a ``slave'' PPU.
+
+A \textbf{bus} is the conneciton between parts of a processor and used for data transfer.
+Bus speeds are very high as they transport data in parallel such as the contents of a register.
+Thus most buses should be as wide as a register of the processor.
+But as buses of such width need much space, some architectures use narrower buses with fewer bits than a register and instead use two instructions to transfer the contents of a full register.
+The upper half of the width is called \textbf{high order bits} and the bottom half is called \textbf{low order bits} for big-endian architectures.
+Systems of this sort are described as 32/16-bit architecture, which means that registers are 32 bit wide while buses are only 16 bit wide.
+As the higher order bits of registers are not as often used as the lower ones this results in less performance loss than one would initially expected.
+
+The main feature of the PPU though is access to the synaptic array which is offerd through an extra bus.\unsure{maybe rather an isntruction not a whole bus}
+Still the synapse array is mainly accessible through the main memory bus by setting the first bits similar to the spiking rate information.
+Using this extra bus or the instructions associated with it is nonetheless more comfortable and gives more structure to the program but does not increase performance.
+\\
+\\
+When using vector instruction for nux, one must always keep in mind that the weights in the synaptic array only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
 \begin{figure}
     \begin{bytefield}[bitwidth=0.11111111\textwidth]{8}
         \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
@@ -286,93 +363,11 @@ Also the user is advised to use fractional representation of weights as this is 
     \caption{\label{fig:fractional} fractional representation of weights in synapse and in vector unit}
 \end{figure}
 
-These vector registers can either hold sixteen 8-bit |char|s (V16QI), eight 16-bit |short|s (V8HI), four 32-bit |int|s (V4SI) or single precision |float|s (V4SF), each signed and unsigned.
-\begin{figure}
-    \begin{bytefield}[endianness=little, bitwidth=0.0069444\linewidth]{128}
-        \bitheader{0,7,15,31,63,127}\\
-        \begin{rightwordgroup}{V16QI}\bitboxes{8}{{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}\end{rightwordgroup}\\
-        \bitheader{0,7,15,31,63,127}\\
-        \begin{rightwordgroup}{V8HI}\bitboxes{16}{{}{}{}{}{}{}{}{}}\end{rightwordgroup}\\
-        \bitheader{0,7,15,31,63,127}\\
-        \begin{rightwordgroup}{V4SI}\bitboxes{32}{{}{}{}{}}\end{rightwordgroup}\\
-        \bitheader{0,7,15,31,63,127}\\
-        \begin{rightwordgroup}{V4SF}\bitboxes{32}{{}{}{}{}}\end{rightwordgroup}\\
-    \end{bytefield}
-    \caption{\label{fig:vectorlength} different vector structures}
-\end{figure}
-
-
-
-
-
-All instructions for the VE must first pass the GPP though, which detects vector instructions and passes them to the VE as it is usual for most processor extensions.
-These instructions then go into a queue that holds all vector instructions where they are fetched from in order.
-Going from there, the instructions shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out of order operation for instructions in these reservations stations.\add{figure vector extension}
-This allows for performing some arithmetic operations on a vector during the process of accessing a different vector in memory.
-The result is faster processing speed as pipelining for each instruction is also supported.
-The limiting factor for this though remains the vectors register file's single port for reading and writing.
-
-Although the main limiting factor in processing speed is the memory access, both, the GPP and the VE, share the same MMU and thus any access of the GPP to vectors in memory must be handled with care as, the GPP and VE are not synchronized.
-The MMU is very simple as it does not cache memory instructions and also has matching virtual and physical addresses.
-
-For this reason one must be aware of the |sync| instruction that is a memory barrier and stops the GPP from executing instruction until all memory requests of GPP and VE are handled.
-\add{code example}
-This can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
-|sync| is a standard instruction of the PowerISA and further information can be found here. \add{reference}
-
-
-Normally though, it is not the processor itself that keeps track of the memory directly.
-This is usually done by a \textbf{memory management unit} (MMU) or a \textbf{memory controller} (MC).
-It handles memory access by the processor and can provide a set of virtual memory addresses, it then transforms into physical addresses.
-Most modern MMUs also incorporate a cache that stores memory instructions while others are performed.
-It may also detect dependencies within this cache which can be resolved there.
-ultimately this results in faster transfer of data as two or more instructions do not need to access the same memory.
-.
-Not all MMUs support this though which might lead to certain problems when handling memory.
-If instructions are reordered due to pipelining while dependencies on the same memory address are not detected correctly, an instruction may write to memory before a different one could load the previous value it needed from there.
-For this reason exist memory barriers.
-
-A \textbf{memory barrier} is an instruction that is equal to a guard, placed in code, that waits until all load and store instructions issued to the MMU are finished.
-et therefore splits the code into instructions issued before the memory barrier and issued after the memory barrier.
-Even with reordering ans pipelining this prohibits any instruction form being executed on the wrong side of the barrier and thereby generally prevents conflicting memory instructions.
-
-The PPU is accompanied by 16 kiB of memory as well as 4 kiB of instruction cache which together is called the plasticity sub-system.
-
-
-
-
-
-
-The PPU is also able to read out spike counts and additional information through a bus which is accessible through the memory interface.
-It uses the upper 16 bits of a memory address which are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses.
-The lower 16 bits are used since the system uses big-endian numbers.\unsure{maybe different}
-A pointer to such a virtual memory address allows to read for example spike counts during an experiment.
-This is done the same way for the whole chip configuration such as analog neuron parameters.
-
-Besides the VE and the GPP, the memory bus also accessible by the FPGA .
-This is needed for writing programs into the memory as well as getting results during or after experiments also allows for communication between a ``master'' FPGA and a ``slave'' PPU.
-
-Hence the vector unit was equipped with an extra bus that connects to the mentioned synapse array.
-\\
-We already introduced many parts of a processor which need to be connected somehow.
-A connection between these parts is called a \textbf{bus} and has a width measured in bits.
-Bus speeds are very high as they transport data in parallel such as the contents of a register.
-Thus most buses should be as wide as a register of the processor.
-But as buses of such width need much space, some architectures use narrower buses with fewer bits than a register and use two instructions to transfer the contents of a full register.
-The upper half of the width are called \textbf{high order bits} and the bottom half is called \textbf{low order bits} for \textbf{big-endian} architectures.
-Systems of this sort are described as 32/16-bit architecture, which means that registers are 32 bit wide while buses are only 16 bit wide.
-As the higher order bits of registers are not as often used as the lower ones this results in less performance loss than one would initially expected.
-
-
-The synapse array though is alternatively accessible through the main memory bus by setting the first bits similar to the spiking rate information.
-Using this extra bus or the instructions associated with it is more comfortable and gives more structure to the program but does not increase performance of memory access.
-As mentioned before, the GPP and VE share a memory bus but vector memory instructions need to pass the VE first which leads to delay that makes inserting a heavy weight memory barrier or ``syncing'' necessary at times.
-
-
-Figure~\ref{fig:fractional} displays synaptic weights as a fractional number between $-1$ and $1-2^{-5}$ as the weight is the sum of the values where the bits are set to one.
+Figure~\ref{fig:fractional} displays synaptic weights as a fractional number between $-1$ and $1-2^{-5}$.
+The weight is the sum of the values where the bits are set to one.
 In contrast to this, the sign-bit changes its meaning when used in the vector unit and becomes a factor instead of a summand.
 This is the reason why a user must shift the vector's elements when reading/writing to the synapse array, as only then do special attributes of instructions work properly.
-An example would be \textbf{saturation} which predefines a minimum and maximum value and in case, the result is out-of-range sets the value tho the closest limit.
+An example would be \textbf{saturation} which predefines a minimum and maximum value and in case, the result is out-of-range, sets the value to the closest limit.
 For this to work properly the bit representation must match the intended one, which is the above mentioned fractional representation, and the values must also be correctly aligned.
 
 An overview of all opcodes is provided by \cite{nuxmanual}, which is recommended as accompanying literature besides this thesis.
@@ -385,8 +380,6 @@ In general these opcodes are divided into 6 groups of instructions:
     \item[load/store instructions] move vectors between vector registers and memory or the synapse array.
 \end{description}
 
-When using these instruction one must always keep in mind that the weights of the synapses only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
-As a user still wants the full functionality and also as much accuracy as possible, a vector is typically shifted left when reading from the synapse array to  align the MSB to the very left and thus right shifted when stored in the synapse array.
 
 
 \section{Basic Compiler Structure}
@@ -397,7 +390,12 @@ And since the point in time when the first compilers emerged, their development 
 
 \begin{figure}
     \include{fig/compiler}
-    \caption{\label{fig:compiler} Schematic overview of different compiler stages.}
+    \caption{\label{fig:compiler} Representation of a compiler.}
+\end{figure}
+
+\begin{figure}
+    \include{fig/cmpstruct}
+    \caption{\label{fig:cmpstruct} Schematic overview of different compiler stages.}
 \end{figure}
 
 What differs compilers from the competing concept of interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.
@@ -512,17 +510,15 @@ If the sequence can be substituted the peephole optimizer does so, otherwise the
 
 \subsection{Assembly Basics}
 \label{section:asm}
-
-
-We want to spend just a little more time on assembly as it is useful to know how to program in assembly while using C.
-This is done by the following scheme:
-\begin{lstlisting}
+Following a short introduction in the previous section, we want to spend a little time on assembly as it is useful to know how to program in assembly while using C.
+This is done as follows:
+\begin{lstlisting}[caption= Exemplatory Assembly invkation, label=lst:asm]
 asm volatile (  "add %0, %1, %2"
                 : "=r" (dst)
                 : "r" (src1), "r" (src2):);
 \end{lstlisting}
 
-The line of code above tells the compiler to generate the instruction |add| in assembly which is followed by three operands.
+The code above tells the compiler to generate the instruction |add| in assembly which is followed by three operands.
 The number |n| in |%n| indicates that the operand is specified by the |n+1|th description of an operand that follows.
 The description that follows after |:| describes the output operands.
 |"=r"| means that the output is to be stored in a register (letter |r| for register operand) and that the register is to be written (|=| this is called constraint).
@@ -532,7 +528,7 @@ The following description is that of the input operands and those must not be wr
 After the third |:| follow clobbered (=temporarily used) registers which would also be in quotes, but these are optional arguments.
 |volatile| means that the compiler must not delete the following instructions due to optimization.
 
-As a special command |asm (:::memory);| would indicate a memory barrier to the compiler, ergo the machine instructions previous to this line and the one following may not be interchanged.
+As a special command |asm (:::memory);| would indicate a memory barrier to the compiler, ergo the machine instructions previous to this line and the one following may not be interchanged.\unsure{keep this?}
 
 \subsection{Intrinsics}
 Something that will also occur quite often later in this thesis are intrinsics.

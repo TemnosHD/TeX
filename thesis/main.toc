@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {2.3.2}Assembly Basics}{19}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}Intrinsics}{20}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{20}{subsection.2.3.4}
-\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{22}{section*.29}
+\contentsline {subsubsection}{\nonumberline Register Transfer Language Basics}{22}{section*.30}
 \contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{25}{chapter.3}
 \contentsline {section}{\numberline {3.1}Registers}{29}{section.3.1}
 \contentsline {section}{\numberline {3.2}Prologue and Epilogue}{33}{section.3.2}
@@ -20,7 +20,7 @@
 \contentsline {chapter}{\numberline {4}Results and Applications}{40}{chapter.4}
 \contentsline {chapter}{\numberline {5}Discussion and Outlook}{42}{chapter.5}
 \contentsline {chapter}{Appendix}{45}{chapter.5}
-\contentsline {chapter}{Bibliography}{52}{appendix*.50}
+\contentsline {chapter}{Bibliography}{52}{appendix*.51}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}

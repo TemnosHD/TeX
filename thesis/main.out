@@ -7,7 +7,7 @@
 \BOOKMARK [2][-]{subsection.2.3.2}{Assembly Basics}{section.2.3}% 7
 \BOOKMARK [2][-]{subsection.2.3.3}{Intrinsics}{section.2.3}% 8
 \BOOKMARK [2][-]{subsection.2.3.4}{GNU Compiler Collection}{section.2.3}% 9
-\BOOKMARK [3][-]{section*.29}{Register Transfer Language Basics}{subsection.2.3.4}% 10
+\BOOKMARK [3][-]{section*.30}{Register Transfer Language Basics}{subsection.2.3.4}% 10
 \BOOKMARK [0][-]{chapter.3}{Extending the GCC Back-End}{}% 11
 \BOOKMARK [1][-]{section.3.1}{Registers}{chapter.3}% 12
 \BOOKMARK [1][-]{section.3.2}{Prologue and Epilogue}{chapter.3}% 13
@@ -16,4 +16,4 @@
 \BOOKMARK [0][-]{chapter.4}{Results and Applications}{}% 16
 \BOOKMARK [0][-]{chapter.5}{Discussion and Outlook}{}% 17
 \BOOKMARK [0][-]{chapter.5}{Appendix}{}% 18
-\BOOKMARK [0][-]{appendix*.50}{Bibliography}{}% 19
+\BOOKMARK [0][-]{appendix*.51}{Bibliography}{}% 19
