@@ -1,9 +1,39 @@
 
 \noindent{\begin{minipage}{\textwidth}
-   \begin{tikzpicture}[style={circle,draw,fill=black,minimum size=15}, line width=.5mm]
-       \foreach \x in {0,...,31}
+   \begin{tikzpicture}[style={circle,draw,fill=black,minimum size=15}, line width=.2mm,
+            vblock/.style={
+            draw,
+            fill=white,
+            rectangle,
+            minimum width=1.0cm,
+            minimum height=0.3,
+            font=\tiny},
+            hblock/.style={
+            draw,
+            fill=white,
+            rectangle,
+            minimum width=.3,
+            minimum height=1.0cm,
+            font=\tiny}]
+
            \foreach \y in {0,...,31} 
-                  {\pgfmathtruncatemacro{\label}{\x - 5 *  \y +21}
-                  \node [circle,draw,fill=black,minimum size=0.1, inner sep = 0pt]  (\x\y) at (0.3*\x,0.3*\y) {};}
+           {
+                      \node(domain)[vblock] (inrec\y) at (0, 0.3*\y + 1) {}; 
+                      \draw[-] (inrec\y.north east) -- ($(inrec\y.north east)!.5!(inrec\y.south east)+(0.3,0)$) -- (inrec\y.south east);
+                      \node (in\y) at (0, 0.3*\y + 1) {\tiny \y}; 
+                      \draw[-, red] ($(inrec\y.north east)!.5!(inrec\y.south east)+(0.3,0)$) -- (0.3*31 + 1,0.3*\y + 1);
+                  }
+       \foreach \x in {0,...,31}
+       { 
+           \node(domain)[hblock] (neurec\x) at (0.3*\x + 1, 0) {}; 
+           \node[rotate=90,] (neu\x) at (0.3*\x + 1, 0) {\tiny \x}; 
+           \draw[-, blue] (neurec\x.north) -- (0.3*\x + 1,0.3*31 + 1);
+           \foreach \y in {0,...,31} 
+                  {\pgfmathtruncatemacro{\vlabel}{\y}
+                  \draw [black,fill=black,radius=0.5mm, minimum size=0]  (0.3*\x + 1,0.3*\y + 1) circle;}
+              }
+
+              \node[rotate=90] (input) at (-1, 0.3*31/2 + 1) {synaptic input};
+              \node[] (input) at (0.3*31/2 + 1, -1) {neurons};
    \end{tikzpicture}
 \end{minipage}}
