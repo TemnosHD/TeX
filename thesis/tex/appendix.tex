@@ -187,7 +187,62 @@
 \end{table}
 
 
+\begin{tabular}{l l p{9cm}}
+    mnemonic & operands & description \\
+    \hline
+    |add| & |RT, RA, RB| & \textbf{add} |RB| to |RA| and store the result in |RT| \\
+    |addi| & |RT, RA, SI| & \textbf{add} |SI| to |RA| and store the result in |RT| \\
+    |addis| & |RT, RA, SI| & \textbf{add} |SI| \textbf{s}hifted left by 16 bit to |RA| and store the result in |RT| \\
+    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
+    |b| & |target_addr| & \textbf{b}ranch to the code at |target_addr|\\
+    |ble| & |BF, target_addr| & \textbf{b}ranch to the code at |target_addr| if |BF| is \textbf{l}ess or \textbf{e}qual \\
+    |blr| & & \textbf{b}ranch to the code at address in the \textbf{l}inker \textbf{r}egister \\
+    |cmp| & |BF, L, RA, RB| & |RA| and |RB| are \textbf{c}o\textbf{mp}ared and the result (|gt,lt,eq|) is stored in |BF|, |L| depicts if 32-bit or 64-bit are compared \\
+    |cmplwi| & |BF, RA, SI| & |RA| \textbf{c}o\textbf{mp}ared \textbf{l}ogically \textbf{w}ordwise with \textbf{i}mmediate |SI| and the result is stored in |BF|\\
+    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
+    |eieio| & & enforce in-order execution of I/O\\
+    |isync| & & instruction cache synchronize\\
+    |la| & |RT, D(RA)| & \textbf{l}oad \textbf{a}ggregate |D + RA| into |RT|\\
+    |li| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| into |RT|\\
+    |lis| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| \textbf{s}hifted left by 16 bit into |RT|\\
+    |lbz| & |RT, D(RA)| & \textbf{l}oad \textbf{b}yte at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
+    |lwz| & |RT, D(RA)| & \textbf{l}oad \textbf{w}ord at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
+    |mflr| & |RT| & \textbf{m}ove \textbf{f}rom \textbf{l}inker \textbf{r}egister to |RT|\\
+    |mr| & |RT, RA| & \textbf{m}ove \textbf{r}egister |RA| to |RT| \\
+    |nop| & & halts execution until the previous instructions are finished EDITHIS\\
+    |rlwinm| & |RA, RS, SH, MB, ME| & \textbf{r}otate \textbf{l}eft \textbf{w}ord in |RS| by \textbf{i}mmediate |SH| bits then a\textbf{n}d with \textbf{m}ask which is 1 from |MB+32| to |ME+32| and 0 else, store to |RA|\\
+    |stw| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA|\\
+    |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\
+    |sync| & & synchronize data cache\\
+\end{tabular}
+\add{caption and reference to PPC book and asm website correct the table}
 
+Obviously the mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
+\begin{description}
+    \lstitem{i} indicates that the instructions uses an immediate value
+    \lstitem{b} stands for byte and references the size of the operand
+    \lstitem{h} stands for halfword and references the size of the operand
+    \lstitem{w} stands for word and references the size of the operand
+    \lstitem{s} indicates that one of the operands is shifted
+    \lstitem{g, ge, l, le, e} stand for greater, greater or equal, less, less or equal and equal which is the possible content of the conditional register
+\end{description}
+
+There are also special operands which might occur in |asm| which behave like pointers:
+\begin{description}
+    \lstitem{@l(C)} is equivalent to the lower order 16 bits of of |C| in the symbol table
+    \lstitem{@ha(C)} is equivalent to the higher order 16 bits of of |C| in the symbol table and minds the sign extension
+\end{description}
+
+Additionally there exist markers which are intended for debugging:
+\begin{description}
+        \lstitem{.loc # # #} marks a line of code (file, line, column) in the source file
+        \lstitem{.LVL} is a local label which can be discarded
+        \lstitem{.LFB} marks the begin of a function
+        \lstitem{.LFE} marks the end of a function
+        \lstitem{.LC0} is a constant of the literals table at position |0|
+\end{description}
+
+\add{all these tables in the appendix}
 \newpage
 \listoftodos[Notes]
 

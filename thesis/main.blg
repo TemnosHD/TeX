@@ -5,6 +5,7 @@ A level-1 auxiliary file: cover/cover_kip.aux
 A level-1 auxiliary file: cover/cover_faculty.aux
 A level-1 auxiliary file: cover/cover_prof.aux
 A level-1 auxiliary file: tex/abstract.aux
+A level-1 auxiliary file: fig/compiler.aux
 A level-1 auxiliary file: tex/appendix.aux
 The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
@@ -33,45 +34,45 @@ Warning--to sort, need author or key in GCCint:definesplit
 Warning--to sort, need author or key in GCCint:defineexpand
 Warning--empty year in AV:registers
 Warning--empty journal in PPU
-You've used 22 entries,
+You've used 23 entries,
             3160 wiz_defined-function locations,
-            1187 strings with 12222 characters,
-and the built_in function-call counts, 7606 in all, are:
-= -- 629
-> -- 110
-< -- 5
-+ -- 79
-- -- 27
-* -- 552
-:= -- 640
-add.period$ -- 22
-call.type$ -- 22
-change.case$ -- 77
-chr.to.int$ -- 7
-cite$ -- 122
-duplicate$ -- 827
-empty$ -- 736
-format.name$ -- 33
-if$ -- 1597
+            1195 strings with 12385 characters,
+and the built_in function-call counts, 8080 in all, are:
+= -- 659
+> -- 135
+< -- 6
++ -- 89
+- -- 33
+* -- 592
+:= -- 697
+add.period$ -- 23
+call.type$ -- 23
+change.case$ -- 81
+chr.to.int$ -- 8
+cite$ -- 125
+duplicate$ -- 868
+empty$ -- 777
+format.name$ -- 44
+if$ -- 1694
 int.to.chr$ -- 16
 int.to.str$ -- 1
-missing$ -- 140
-newline$ -- 73
-num.names$ -- 16
-pop$ -- 390
+missing$ -- 149
+newline$ -- 76
+num.names$ -- 20
+pop$ -- 414
 preamble$ -- 1
-purify$ -- 53
+purify$ -- 57
 quote$ -- 0
-skip$ -- 380
+skip$ -- 400
 stack$ -- 0
-substring$ -- 209
-swap$ -- 388
+substring$ -- 212
+swap$ -- 406
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 195
+type$ -- 201
 warning$ -- 20
-while$ -- 15
+while$ -- 18
 width$ -- 0
-write$ -- 222
+write$ -- 233
 (There were 22 warnings)

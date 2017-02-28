@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{23}
 \providecommand{\natexlab}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
@@ -87,6 +87,10 @@ Friedmann, S., J.~Schemmel, A.~Grübl, A.~Hartel, M.~Hock, and K.~Meier,
 
 \bibitem[{\textit{Heimbrecht}(2017)}]{heimbrecht_2017internship}
 Heimbrecht, A., Internship report --- altivec intrinsics, 2017.
+
+\bibitem[{\textit{Silbernagl and Despopoulos}(2009)}]{silbernagl2009color}
+Silbernagl, S., and A.~Despopoulos, \textit{Color Atlas of Physiology}, Basic
+  sciences, Thieme, 2009.
 
 \bibitem[{\textit{von Hagen}(2006)}]{definitveGCCGuide:introduction}
 von Hagen, W., \textit{The Definitive Guide to GCC}, section Introduction, pp.

@@ -1,36 +1,31 @@
 \contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ paper on future of neuromorphic computing}{1}{section*.5}
 \contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ other systems}{4}{section*.7}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ bild synaptic array}{4}{section*.8}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure synapse}{5}{section*.9}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure vector extension}{6}{section*.10}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ code example}{6}{section*.11}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference}{6}{section*.12}
-\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ maybe different}{7}{section*.13}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure of vector size}{7}{section*.14}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ check with ahartel on this}{7}{section*.15}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ applications of the PPU today like in-the-loop experiments and controlling }{8}{section*.16}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add reference}{8}{section*.17}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite friedmann dissertation}{8}{section*.18}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure classic architecture}{8}{section*.19}
-\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ complexity > lower clock freq}{9}{section*.20}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inhaltlicher zusammenhang}{9}{section*.21}
-\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ book}{9}{section*.22}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ graphic of opcode}{10}{section*.23}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference}{12}{section*.24}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure synapse}{6}{section*.10}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add reference}{6}{section*.11}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure classic architecture}{6}{section*.12}
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ should I keep this}{8}{section*.14}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inhaltlicher zusammenhang}{8}{section*.16}
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ keep this?}{10}{section*.18}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference}{10}{section*.19}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference}{10}{section*.20}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ figure vector extension}{12}{section*.23}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ code example}{12}{section*.24}
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference}{12}{section*.25}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ caption and reference to PPC book and asm website correct the table}{19}{section*.28}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ all these tables in the appendix}{20}{section*.29}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference LLVM vs. GCC on ARM, LLVM vs. Gcc in EISC}{22}{section*.30}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ examples of RTL code}{25}{section*.32}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ MMU ?= memory controller PPC must handle syncing in compiler when I/O is added explain stack and frame pointer PPU instruction set }{25}{section*.33}
-\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ do more often like this: one example for repetitive use}{29}{section*.34}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ necessary?}{31}{section*.35}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ check this refernce}{31}{section*.36}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain this later}{31}{section*.37}
-\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ previous section}{33}{section*.38}
-\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ earlier}{34}{section*.39}
-\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ fxvstax and fxvlax}{35}{section*.40}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ? target pragmas compiler anweisung stack boundary -> put this together frame offsetr stackoffset fix pck instructions }{40}{section*.41}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ !listing!}{41}{section*.42}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ write an analysis of this}{42}{section*.43}
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ supports functions }{42}{section*.44}
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ maybe different}{13}{section*.26}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference LLVM vs. GCC on ARM, LLVM vs. Gcc in EISC}{21}{section*.28}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ examples of RTL code}{24}{section*.30}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ MMU ?= memory controller PPC must handle syncing in compiler when I/O is added explain stack and frame pointer PPU instruction set }{24}{section*.31}
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ do more often like this: one example for repetitive use}{28}{section*.32}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ necessary?}{30}{section*.33}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ check this refernce}{30}{section*.34}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain this later}{30}{section*.35}
+\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ previous section}{32}{section*.36}
+\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ earlier}{33}{section*.37}
+\contentsline {todo}{\color@fb@x {}{green}{}{green!25}{\leavevmode {\color {green!25}o}}\ fxvstax and fxvlax}{34}{section*.38}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ? target pragmas compiler anweisung stack boundary -> put this together frame offsetr stackoffset fix pck instructions }{39}{section*.39}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ !listing!}{40}{section*.40}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ write an analysis of this}{41}{section*.41}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ supports functions }{41}{section*.42}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ caption and reference to PPC book and asm website correct the table}{48}{section*.47}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ all these tables in the appendix}{49}{section*.48}

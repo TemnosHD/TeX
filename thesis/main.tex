@@ -61,7 +61,6 @@
 \usepackage{tikz}
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,breakable}
-\usepackage{tikz}
 \usetikzlibrary{shadings,shadows,calc}
 %\tikzset{%
 %   >={Latex[width=2mm,length=2mm]},
@@ -73,6 +72,21 @@
 %   process/.style = {base, minimum width=2.5cm, fill=orange!15,
 %   font=\ttfamily},
 %                                                                                                                             }
+\usepackage{bytefield}
+\newcommand{\colorbitbox}[3]{%
+    \rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}%
+    \bitbox{#2}{#3}}
+
+%\usepackage[detect-all]{siunitx} % IEEEtrans uses different font settings for math, siunitx can detect it
+%\sisetup{
+%    binary-units=true,
+%    separate-uncertainty=true,
+%    group-digits=true,
+%    group-minimum-digits=5,
+%    group-separator={\,},
+%    per-mode=symbol,
+%    }
+%\DeclareSIUnit\event{Event}
 
 % tables
 \usepackage{multirow}                             % col- and rowspan...
