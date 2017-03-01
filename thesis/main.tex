@@ -23,7 +23,7 @@
   %  \usepackage {graphicx}
 %\fi
 
-\usepackage {subfig}                              % subfigures a) b)...
+%\usepackage {subfig}                              % subfigures a) b)...
 %\usepackage {floatflt}                           % packages supporting in-text floats
 %\usepackage {wrapfig}                            % another one
 %\usepackage {picins}                             % another one
@@ -55,7 +55,6 @@
     \setbox0\hbox{\lstinline{#1}}  
     \item[\usebox0]  
     % \item[\hbox{\lstinline{#1}}]
-    \hfill \\
 }
 \usepackage{multicol}
 \usepackage{tikz}
@@ -76,6 +75,13 @@
 \newcommand{\colorbitbox}[3]{%
     \rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}%
     \bitbox{#2}{#3}}
+
+\usepackage{subcaption}
+\usepackage{parcolumns}
+\captionsetup[subfigure]{list=true, font=large, labelfont=bf, 
+labelformat=brace, position=top}
+
+%\usepackage{subcaption}
 
 %\usepackage[detect-all]{siunitx} % IEEEtrans uses different font settings for math, siunitx can detect it
 %\sisetup{
@@ -285,6 +291,7 @@ neu-ron pre-synaptic post-synaptic}
 
 \appendix
 
+\clearpage
 \include{tex/appendix}
 
 \pagestyle{plain}       % ab hier werden nur noch seitenzahlen angezeigt

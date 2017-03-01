@@ -179,8 +179,191 @@
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
                                             & |int| & & |d| is read from synaptic address |a + b|\\ 
-                 \\ vecinsert \\ vecpromote \\ vecsh fxvsh \\ fxvpcku \\ fxvpckl \\ fxvupckl \\fxvupckr \\ vecsplats16 fxvsplatb \\ fxvsplath vecsplats8 \\ fxvcmp \\ fxvmtac \\fxvmtacf \\fxvaddactacm \\fxvaddactacf\\fxvaddacm\\fxvaddacfs\\fxvmam\\fxvmafs\\fxvmatacm\\fxvmatacfs\\fxvmultacm\\fxvmultacfs\\fxvaddtac
 
+
+
+
+
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|vec_insert|\end{tabular} & |d = vec_insert(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|vec_promote|\end{tabular} & |d = vec_exctract(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|vec_sh| \\ |fxv_sh|\end{tabular} & |d = fxv_sh(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|vec_splat_s16| \\ |vec_splat_u16 \\ fxv_splatb|\end{tabular} & |d = fxv_splatb(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|vec_splat_s8| \\ |vec_splat_u8 \\ fxv_splath|\end{tabular} & |d = fxv_splath(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_cmp|\end{tabular} & |fxv_cmp(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_mtac| \\ |fxv_mtacfs|\end{tabular} & |fxv_mtac(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_addactacm| \\ |fxv_addactacf|\end{tabular} & |fxv_addactac(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_addacm| \\ |fxv_addacfs|\end{tabular} & |fxv_addac(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_mam| \\ |fxv_mafs|\end{tabular} & |fxv_ma(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_matacm| \\ |fxv_matacfs|\end{tabular} & |fxv_matac(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_multacm| \\ |fxv_multacfs|\end{tabular} & |fxv_multac(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_addtac|\end{tabular} & |fxv_addtac(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_pckbu| \\ |fxv_pckbl|\end{tabular} & |d = fxv_pckbu(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+            \cline{3-6}
+                \begin{tabular}[x]{@{}c@{}}|fxv_upckbl| \\ |fxv_upckbr|\end{tabular} & |d = fxv_upckbl(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
 
         \end{tabular}
     }

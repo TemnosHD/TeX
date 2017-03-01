@@ -2,8 +2,6 @@
     \tcbset
     {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
     fonttitle=\bfseries,nobeforeafter,center title, noparskip}
-    \noindent{\begin{minipage}{\textwidth}
-        \begin{minipage}[c][][c]{0.25\textwidth}
             \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cp, enhanced, watermark text=Compiler]
                 \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=2cm, width=\linewidth]
                 \end{tcolorbox}
@@ -16,5 +14,3 @@
                 \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- node [left] {program code} (cp.north);
                 \draw[->] (cp.south) -- node [left] {machine files} ($(cp.south)+(0,-1)$);
             \end{tikzpicture}
-        \end{minipage}
-\end{minipage}}

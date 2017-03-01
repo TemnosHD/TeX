@@ -2,7 +2,7 @@
 \label{chapter:methods}
 
 \section{Hardware Implementation of Neural Networks}
-As this thesis mainly focuses on a processor that is an essential part of the \textbf{HICANN-DLS} (High Input Count Analogue Neural Network-Digital Learning System) we will focus first on the HICANN-DLS as a whole and then look into the \textbf{PPU} (Plasticity Processing Unit) in detail while also addressing processor architecture in general.
+As this thesis mainly focuses on a processor that is an essential part of the \textbf{HICANN-DLS} (High Input Count Analogue Neural Network-Digital Learning System) we will first talk about the HICANN-DLS as a whole and then look into the \textbf{PPU} (Plasticity Processing Unit) in detail while also addressing processor architecture in general.
 
 The HICANN-DLS was built to emulate neural networks at high speeds with low power consumption.
 
@@ -17,8 +17,9 @@ The signal is then passed through the dendrite of the post-synaptic neuron to th
 If the integrated signals reach a certain threshold the neuron spikes and sends this signal to other neurons~\citep{silbernagl2009color}.
 
 \add{bild synaptic array}
-\begin{figure}
-    \include{fig/array}
+\begin{figure}[htpb]
+    \centering
+    %\include{fig/array}
     \caption{\label{fig:array} structure of the synaptic array}
 \end{figure}
 
@@ -99,7 +100,8 @@ Some architectures also have an accumulator that is often part of the ALU.
 Intermediate results can be stored there because access to the accumulator is the fastest possible but it can only holds a single value at a time.
 \\
 \\
-\begin{figure}
+\begin{figure}[htpb]
+    \centering
     \begin{bytefield}[endianness=little]{32}
         \bitheader{0,1,7,15,31}\\
         \colorbitbox{lightgray}{1}{\tiny bit} && \bitbox{31}{}\\
@@ -118,7 +120,8 @@ Memory of a von-Neumann machine contains both, the program and data and is often
 Because the smallest amount of information which we are interested in is usually a byte, each address is equivalent to one byte in memory.
 A program is simply a list of instructions in memory that belong to the \textbf{instruction set}.
 Each instruction thereby is a specific sequence of bits. 
-\begin{figure}
+\begin{figure}[htpb]
+    \centering
     \begin{bytefield}[endianness=big, bitwidth=0.027777\linewidth]{32}
         \bitheader{0,7,15,23,31}\\
         \bitboxes{8}{{opcode}{operand 0}{operand 1}{operand 2}}
@@ -172,10 +175,11 @@ The PPU is a RISC architecture so we will focus more on RISC's key features thro
 The complexity of an instruction set also affects developers directly, if they are working on low-level code.
 Programs that only consist of machine instructions a called \textbf{assembly} which is the lowest level of representation of a program that is still is human-readable.
 Assembly instructions follow the same scheme as machine instructions do:
-\begin{figure}
+\begin{figure}[htpb]
+    \centering
     \begin{bytefield}[endianness=big, bitwidth=0.027777\linewidth]{32}
         \bitheader{0,7,15,23,31}\\
-        \bitboxes{8}{{mnemonic}{operand}{operand}{operand}}
+        \bitboxes{8}{{mnemonic}{operand}{operand}{operand}}\\
         \bitheader{0,7,15,23,31}\\
         \bitboxes{8}{{add}{r1 \\ \tiny register address}{0x3000 \\ \tiny memory address}{5 \\ \tiny immediate operand}}
     \end{bytefield}
@@ -258,10 +262,11 @@ This allows for either use of vectors with 8 halfword sized elements or 16 byte 
 But we take also a special interest in the AltiVec vector extension itself which was developed by Apple, IBM and Motorola in the mid 1990's and is also known as Vector Media Extension (VMX) and Velocity Engine for the POWER architecture. 
 The AltiVec extension provides a similar single-precision floating point and integer SIMD instruction set.
 Its vector registers can either hold sixteen 8-bit |char|s (V16QI), eight 16-bit |short|s (V8HI), four 32-bit |int|s (V4SI) or single precision |float|s (V4SF), each signed and unsigned.
-\begin{figure}
+\begin{figure}[htpb]
+    \centering
     \begin{bytefield}[endianness=little, bitwidth=\widthof{\tiny Integer~}/8]{128}
         \bitheader{0,7,15,31,63,127}\\
-    \begin{rightwordgroup}{V16QI}\bitboxes{8}{{QI}{\tiny Quarter \\ Integer}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}\end{rightwordgroup}\\
+        \begin{rightwordgroup}{V16QI}\bitboxes{8}{{QI}{\tiny Quarter \\ Integer}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}\end{rightwordgroup}\\
         \bitheader{0,7,15,31,63,127}\\
         \begin{rightwordgroup}{V8HI}\bitboxes{16}{{HI}{\tiny Half \\ Integer}{}{}{}{}{}{}}\end{rightwordgroup}\\
         \bitheader{0,7,15,31,63,127}\\
@@ -353,13 +358,24 @@ Using this extra bus or the instructions associated with it is nonetheless more 
 \\
 \\
 When using vector instruction for nux, one must always keep in mind that the weights in the synaptic array only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
-\begin{figure}
+\begin{figure}[htpb]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
     \begin{bytefield}[bitwidth=0.11111111\textwidth]{8}
         \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
         \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{$-1$} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$}\\
+    \end{bytefield}
+    \caption{\label{subfig:synapse} fractional representation of weights in synapse and in vector unit}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+    \begin{bytefield}[bitwidth=0.11111111\textwidth]{8}
         \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
         \bitbox{1}{sign} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-7}$}\\
     \end{bytefield}
+    \caption{\label{subfig:fracVE} fractional representation of weights in synapse and in vector unit}
+    \end{subfigure}
     \caption{\label{fig:fractional} fractional representation of weights in synapse and in vector unit}
 \end{figure}
 
@@ -388,14 +404,19 @@ At its core every compiler translates a source-language into a target-language~\
 In doing so, compilers may be the essential part in everyday lives of programmers everywhere.
 And since the point in time when the first compilers emerged, their development played a big role in making computers such an important part of everyday life as they are today.
 
-\begin{figure}
-    \include{fig/compiler}
-    \caption{\label{fig:compiler} Representation of a compiler.}
-\end{figure}
-
-\begin{figure}
-    \include{fig/cmpstruct}
-    \caption{\label{fig:cmpstruct} Schematic overview of different compiler stages.}
+\begin{figure}[htpb]
+    \begin{subfigure}[c]{0.25\textwidth}
+        \include{fig/compiler}
+        \caption{\label{fig:compiler} Representation of a compiler.}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.3\textwidth}
+        \include{fig/cmpstruct}
+        \caption{\label{fig:cmpstruct} Schematic overview of different compiler stages.}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.4\textwidth}
+        \include{fig/cmpintstruct}
+        \caption{\label{fig:cmpintstruct} Schematic overview of different compiler stages.}
+    \end{subfigure}
 \end{figure}
 
 What differs compilers from the competing concept of interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.

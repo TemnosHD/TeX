@@ -1,94 +1,156 @@
 \chapter{Extending the GCC Back-End}
 \label{chapter:extbackend}
 Since we now are familiar with the basics of processors, the PPU, compilers and GCC we can put this knowledge to use and start extending the GCC back-end.
-There es a set of files we will systematically edit and keep referencing to as they are important parts of the rs6000 back-end and were changed in the process of extending the back-end. 
+There is a number of files we will systematically edit and keep referencing to as they are important parts of the rs6000 back-end and were changed in the process of extending the back-end. 
 \begin{description}
-    \item[rs6000.md] this is the machine description of the back-end in general and contains the insn definitions for all scalar functions
-    \item[rs6000.h] is a header file which contains all macros and declaration of registers
-    \item[rs6000.c] is the source file which implements all functions that are needed for generation of the back-end and other accompanying functions
-    \item[rs6000.opt] lists the options and flags which can be set for the target
-    \item[rs6000-builtins.def] contains the definitions of built-ins/intrinsics
-    \item[rs6000-cpus.def] lists subtargets that belong to the rs6000 family
-    \item[rs6000-c.c] links built-ins to overloaded built-ins
+    \item[rs6000.md] is the machine description of the back-end in general and contains insn definitions for all scalar functions
+    \item[rs6000.h] is a header file which contains macros and declaration for registers
+    \item[rs6000.c] is the source file which implements the back-end's functions
+    \item[rs6000.opt] lists the options and flags for the target
+    \item[rs6000-builtins.def] contains the definitions of intrinsics
+    \item[rs6000-cpus.def] lists sub-targets that belong to the rs6000 family
+    \item[rs6000-c.c] links built-ins and overloaded built-ins
     \item[rs6000-opts.h] contains a set of enumerations that represent option values for the back-end
     \item[rs6000-protos.h] makes functions in |rs6000.c| globally available
-    \item[rs6000-tables.opt] lists string/int equivalent to an enumeration which lists CPU types
-    \item[driver-rs6000.c] mostly a collection of driver details for different targets
+    \item[rs6000-tables.opt] lists values to a CPU enumeration
+    \item[driver-rs6000.c] a collection of driver details for different targets
     \item[ppc-asm.h] sets macros for the use of |asm|
-    \item[s2pp.md] is a new file that is the machine description of the nux' VE and contains insn definitions for the VE
+    \item[s2pp.md] is a new machine description of s2pp and contains insn definitions
     \item[s2pp.h] is the header file that defines aliases for built-ins
-    \item[constraints.md] contains definitions of the constraints that are used
-    \item[predicates.md] contains definitions of the predicates that are used
-    \item[vector.md] declares insn definitions that apply to vector types in general
-    \item[sysv4.h] initializes a variety of option flags an sets default values
+    \item[constraints.md] contains definitions of constraints
+    \item[predicates.md] contains definitions of predicates
+    \item[vector.md] defines general vector insns
+    \item[sysv4.h] initializes a variety of option flags and sets default values
     \item[t-fprules] sets soft-float as default for certain targets
 \end{description}
 
-Before we start it should be emphasized where inspiration was taken from in order to take the right steps when extending the back-end.
-There exists no specific documentation on the rs6000 back-end whatsoever and most information on the ways it works is available through comments in code only.
-There is however an existing vector extension which is included in the back-end and is quite similar to the vector extension we want to add.
-The existing vector extension is the AltiVec Vector extension, we described earlier in this thesis.
-The source code thus often shows strong similarities between AltiVec and s2pp functions.
-Still handling AltiVec and s2pp vectors is separated throughout the back-end since mixing these and reusing function can both get messy and dangerous since at times one vector extension must be distinguished from another.
-Also there do exist enough differences between these two VEs that combining functions and having separate ones would not make a big difference in the end.
+It is recommended to have chapter 5 of \citep{nux} at hand, as it contains an overview of existing s2pp vector instructions.
 
-We will start with adding the |nux| processor to the list of targets and also want to include mandatory flags with this.
+During the course of extending the GCC back-end a few things became clear:
+
+Due to the limited documentation of the back-end itself, one must rely on comments in code and the GCC internals manual~\citep{GCCint} 
+As a full implementation for a vector extension already exists, the AltiVec extension should be used as a guideline for a new extension. 
+Still, it should be avoided to change exiting code as much as possible.
+Code is often referred to from different places in the back-end and modifying existing code can therefore easily lead to compiler errors.
+Especially since the back-end is not extended completely right away but rather step by step.
+This applies particularly to functions that are implemented for AltiVec only.
+It is recommended to rather duplicate functions and distinguish them before they are called, than doing so inside a function call.
+This will make it to find bugs as usually the function that generates an error is indicated.
+Also there do exist enough differences between these two vector extensions, that combining functions would not save work in the end.
+
+Therefore we will occasionally point out when functions or other code can be inherited from AltiVec and which modifications are needed.
+\\
+\\
+Extending the rs6000 back-end starts by adding the |nux| processor to the list of targets and also want to include mandatory flags with this.
 Ideally the user only has to add the option flag |-mcpu=nux| when compiling in order to produce machine code for the nux.
-the flags which have to be set when using the nux are:
+The flags which have to be set when using the nux are:
 \begin{description}
-        \lstitem{-msdata=none} disables the use of a "small data section" which is like a data section but has a register constantly referring to it and thus has faster access than the normal data section. Globals, statics and small variables that are often used are preferably stored there.
-        \lstitem{-mstrict-align} aligns all variable in memory which means that a variable always starts at a memory address without offset. Every variable requests at least 1 byte of memory when strictly aligned
-        \lstitem{-msoft-float} tells the compiler that there is no FPU and all floating point operations have to simulated by software.
-        \lstitem{-mno-relocatable} states that the program code has a fixed memory address that may not be altered.
+        \lstitem{-msdata=none}
+        disables the use of a "small data section" which is like a data section but has a register constantly referring to it and thus has faster access than the normal data section. Globals, statics and small variables that are often used are preferably stored there.
+        \lstitem{-mstrict-align}
+        aligns all variables in memory which means that a variable always starts at a memory address without offset. Every variable requests at least 1 byte of memory when strictly aligned
+        \lstitem{-msoft-float}
+        tells the compiler that there is no FPU and all floating point operations have to simulated by software.
+        \lstitem{-mno-relocatable}
+        states that the program code has a fixed memory address that may not be altered.
 \end{description}
 
-To do so we first create the flag |-ms2pp| along with an option mask.
-This should activate the vector extension and everything associated with it.
-In rs6000.opt and we simply need to add the lines:
+But first there should be an option flag that activates nux' VE like |-maltivec| does for the AltiVec VE.
+We chose the name |-ms2pp| for this new option flag and will define an option mask along with it.
+In |rs6000.opt| and we simply need to add:
 \begin{lstlisting}
 ms2pp
 Target Report Mask(S2PP) Var(rs6000_isa_flags)
 Use s2pp instructions
 \end{lstlisting}
-|ms2pp| is the name of the target flag and the next lines defines which macros shall be defined.
-|Target| means that the option is target specific, |Report| means that the option is to be printed when |-fverbose-asm| is activated.
-|Mask(S2PP)| initializes a bitmask that is available through |OPTION_MASK_S2PP| which is attached to |rs6000_isa_flags| specified by |Var| and in parallel specifies a macro |TARGET_S2PP| that is set to |1|. \cite{GCCint:options}
-When we are finished with this we need to specify |#define MASK_S2PP OPTION_MASK_S2PP| which is done in |rs6000.h| as |MASK_| is the standard.
+This adds |ms2pp| to the list of option flags and the next lines defines a macro, that is associated with it.
+|Target| means that the option is target specific, therefore only certain architectures support the option flag.
+|Report| means that the option is to be printed when |-fverbose-asm| is is set.
+|Mask(S2PP)| initializes a bitmask that is available through |OPTION_MASK_S2PP|.
+That macro is attached to |rs6000_isa_flags|, which specified by |Var|.
+It simultaneously specifies a macro |TARGET_S2PP| that is set to |1|. \cite{GCCint:options}
 
-Now we add the processor type which uses this flag as a standard.
-There exist several lists that contain available targets and we need to add the nux to these.
-First we add the |asm| flag that tells the assembler which system architecture is used.
-As the nux is based on Power7 and the VE does not influence |asm| for the GPP we want nux to behave like Power7.
-To do so we add |%{mcpu=nux: %(asm_cpu_power7)}| to |ASM_CPU_SPEC| and simultaneously add |{ "nux",  "%(asm_cpu_power7)" }| to |static const struct asm_name asm_names[]| as these arrays must be kept identical.
-This will induce the assembler flag to be set to |-mpower7|.
-
-Now we want to achieve something similar for the preceding phases of the back-end as as the description of flags above is mandatory to running nux.
-First we will create an entry in |rs6000-cpus.def| which sets the flags accordingly:
+When this is done we need to specify 
 \begin{lstlisting}
+#define MASK_S2PP OPTION_MASK_S2PP
+\end{lstlisting}
+in |rs6000.h| as macros with |MASK_| are a standard from earlier versions of GCC.
+
+Although this option flag shall later enable s2pp support, we need the aforementioned flags as well to compiler nux programs.
+For this reason we add a processor type which combines those flags.
+There exist several lists that contain available targets and we need to add nux to these.
+First we create the |asm|~\ref{dection:asm} flag which tells the assembler which system architecture is used.
+As nux is based on POWER7 we copy the flag |-mpower7| in |driver-rs6000.def|:
+
+    \begin{lstlisting}[caption=rs6000.h]{Name}
+    #define ASM_CPU_SPEC \
+        ...
+        %{mcpu=power7: %(asm_cpu_power7)} \
+        ...
+        %{mcpu=nux: %(asm_cpu_power7)} \
+        ...
+    \end{lstlisting}
+    \begin{lstlisting}[caption=driver-rs6000.c]
+    static const struct asm_name asm_names[] = {
+        ...
+        { "power7",   "%(asm_cpu_power7)" },
+        ...
+        { "nux",  "%(asm_cpu_power7)" },
+        ...
+    \end{lstlisting}
+
+This will set the assembler |-mpower7| when using |-mcpu=nux|.
+
+The nux target should also be recognized by preceding phases of the compiler and set option flags accordingly.
+These options flags can be set in |rs6000-cpus.def|.
+
+\begin{lstlisting}
+...
 RS6000_CPU ("nux", PROCESSOR_POWER7, MASK_SOFT_FLOAT | MASK_S2PP | MASK_STRICT_ALIGN | !MASK_RELOCATABLE)
 \end{lstlisting}
-will define the processor as a Power7 type and add the masks for soft-float, strict-align and no-relocatable(negative of relocatable) as well as the new s2pp mask.
-Setting a mask is the low-level equivalent to adding a flag as every flag induces a mask, which we saw earlier, and thus this will fit our cause.
-Calling |RS6000_CPU| will basically generate an entry to the enumeration |rs6000_cpu_opt_value| which must be linked to a string following |-mcpu=|.
-This is done in |rs6000-tables.opt| where a string, in our case |nux|, is associated with the |n|-1-th call of |RS6000_CPU| through:
+
+This uses the macro |RS6000_CPU (NAME, CPU, FLAGS)| and adds |nux| to the |processor_target_table[]|.
+Since we saw earlier that option flags usually set masks, we set the respective masks directly.
+The masks we chose will tell the compiler that the processor is a POWER7 architecture and uses |soft-float|, |strict-align| and |no-relocatable|(negated relocatable) as well as the new s2pp mask.
+
+Unfortunately we could not set the |-msdata=none| flag before since the |-msdata| flag is initialized differently.
+Also since it is not simply set ``on'' or ``off'' but accepts several values, it is handled in |sysv4.h|.
+|rs6000_sdata| will be set according to the string that follows |-msdata=|.
 \begin{lstlisting}
-EnumValue
-Enum(rs6000_cpu_opt_value) String(nux) Value(n)
+#define SUBTARGET_OVERRIDE_OPTIONS                  \
+...
+ if (rs6000_sdata_name)                        \
+     {                                   \
+       if (!strcmp (rs6000_sdata_name, "none"))              \
+     rs6000_sdata = SDATA_NONE;                  \
+     ...
+       else                              \
+     error ("bad value for -msdata=%s", rs6000_sdata_name);      \
+     }                                   \
+ else if (OPTION_MASK_S2PP \
+          && OPTION_MASK_SOFT_FLOAT \
+          && OPTION_MASK_STRICT_ALIGN \
+          && !OPTION_MASK_RELOCATABLE)                 \
+     {                                   \
+     rs6000_sdata = SDATA_NONE;                    \
+     rs6000_sdata_name = "none";                   \
+     }                                   \
+else if (DEFAULT_ABI == ABI_V4)                   \
+...
 \end{lstlisting}
-One must basically count the calls of |RS6000_CPU| to get n.
 
-As we are still missing the |-msdata=none| flag, we will take care of this now.
-Because |-msdata| is not an ordinary target flag, we need to initialize it differently.
-Depending on the string following |-msdata=| the back-end decides which mask is referred to when calling |rs6000_sdata|.
-This is decided in |sysv4.h| through comparing with different valid strings.
-Since we were only able to set option masks before we need a little work-around here that helps us setting the value of |rs6000_sdata|.
-If |-msdata| was not defined as it is the case with |-mcpu=nux| the compiler will check through |else if|s what to do for |rs6000_sdata|.
-We simply add one such check in front of all other |else if|s and check for all the target flags that |-mcpu=nux| sets.
+It is not possible to detect in this file, if the nux flag is set.
+We therefore need a little work-around that helps setting the value of |rs6000_sdata|.
+If |-msdata| is not set, i.e. only |-mcpu=nux| is set, the compiler will use |if|-clauses that determine which value is assigned to |rs6000_sdata|.
+We add a case that checks for all flags, that are set by |-mcpu=nux| and set |rs6000_sdata| to |SDATA_NONE| if this applies.
 Hence the target options will also set |rs6000_sdata| as we wish which is to |SDATA_NONE|.
-Although there exists a case for which this condition applies even if |nux| is not set as target and that is when all target flags are set by hand.
-Still if one chooses an explicit value for |-msdata| the option does not apply and the explicit value is taken into account.
-This is somewhat not the ideal way of solving this problem but fulfills its purpose with as few side effects as possible.
 
+There exists a case for which this condition applies even when |nux| is not set as target but all flags are set by hand.
+If one chooses an explicit value for |-msdata| this case does not apply though and the value of |-msdata| is set accordingly.
+
+This is somewhat not the ideal but a trade-off with as few side effects as possible.
+\\
+\\
 Already this would allow us to use |-mcpu=nux| as target flag and |-ms2pp| as option flag.
 But since the flags we used are mandatory to the s2pp extension we also want to check these flags before starting compilation.
 First though we must create macros for each flag which the back-end notices.

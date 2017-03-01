@@ -2,8 +2,6 @@
     \tcbset
     {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
     fonttitle=\bfseries,nobeforeafter,center title, noparskip}
-    \noindent{\begin{minipage}{\textwidth}
-        \begin{minipage}[c][][c]{0.25\textwidth}
             \begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, watermark text=Preprocessor, remember as=pp]
                 \hfill
             \end{tcolorbox}
@@ -37,49 +35,3 @@
                 \draw[->, shorten >=-1.5mm] (lk.south) -- (ld.north);
                 \draw[->] (ld.south) -- node [left] {machine files} ++(0,-1);
             \end{tikzpicture}
-        \end{minipage}
-        \hspace{\fill}
-        \begin{minipage}[c][][c]{0.4\textwidth}
-            \flushright
-            \begin{tcolorbox}[tcbox raise base, width=\linewidth, enhanced jigsaw, remember as=cp]
-                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth]
-                    \begin{tcolorbox}[enhanced,center title,width=\linewidth, remember as=sc]
-                        \begin{center}Scanner\end{center}
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced,width=\linewidth, remember as=ps]
-                        \begin{center}Parser\end{center}  
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=sa]
-                        \begin{center}Semantic \\ Analyzer \end{center} 
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=sco]
-                        \begin{center}Source Code \\ optimizer \end{center}
-                    \end{tcolorbox}
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1cm, width=\linewidth, remember as=me, watermark text=Middle-End]
-                \end{tcolorbox}
-                \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth]
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=cg]
-                        \begin{center}Code Generator  \end{center}
-                    \end{tcolorbox}
-                    \begin{tcolorbox}[enhanced, width=\linewidth, remember as=tco]
-                        \begin{center}Target Code \\ Optimizer \end{center}
-                    \end{tcolorbox}
-                \end{tcolorbox}
-            \end{tcolorbox}
-            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- (sc.north);
-                \draw[->, shorten >=-1.5mm] (sc.south) -- (ps.north);
-                \draw[->, shorten >=-1.5mm] (ps.south) -- (sa.north);
-                \draw[->, shorten >=-1.5mm] (sa.south) -- (sco.north);
-                \draw[-] (sco.south) -- (me.north);
-                \draw[->, shorten >=-1.5mm] (me.south) -- (cg.north);
-                \draw[->, shorten >=-1.5mm] (cg.south) -- (tco.north);
-                \draw[->] (tco.south) -- ($(cp.south)+(0,-1)$);
-            \end{tikzpicture}
-        \end{minipage}
-            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-                \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.north east) -- (cp.north west);
-                \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.south east) -- (cp.south west);
-            \end{tikzpicture}
-\end{minipage}}
