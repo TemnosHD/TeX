@@ -42,7 +42,9 @@
 \lstset{
     frameround=fttt,
     language=C,
-    %numbers=left,
+    numbers=left,
+    %stepnumber=5,               % Abstand zwischen den Zeilennummern       
+    %numberfirstline=false
     breaklines=true,
     keywordstyle=\color{black}\bfseries, 
     basicstyle=\ttfamily\footnotesize\color{darkblue},
@@ -56,6 +58,7 @@
     \item[\usebox0]  
     % \item[\hbox{\lstinline{#1}}]
 }
+\usepackage{morefloats}
 \usepackage{multicol}
 \usepackage{tikz}
 \usepackage{tcolorbox}
@@ -124,7 +127,7 @@ labelformat=brace, position=top}
 \usepackage{units}                               % \unit[123]{U}
 \usepackage{mdwlist}                             % dichtere itemize* etc.
 \usepackage{paralist}                            % inline Listen
-\usepackage{natbib}
+\usepackage[numbers]{natbib}
 
 \usepackage{acronym}
 

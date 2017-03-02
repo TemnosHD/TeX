@@ -1,31 +1,30 @@
 \chapter{Fundamentals and Applications of Computer Architectures and Compiler Design}
-\label{chapter:methods}
+\label{ch:methods}
 
 \section{Hardware Implementation of Neural Networks}
-As this thesis mainly focuses on a processor that is an essential part of the \textbf{HICANN-DLS} (High Input Count Analogue Neural Network-Digital Learning System) we will first talk about the HICANN-DLS as a whole and then look into the \textbf{PPU} (Plasticity Processing Unit) in detail while also addressing processor architecture in general.
+This thesis mainly focuses on a processor that is an essential part of the \acfi{HICANN-DLS}.
+The following chapter will deal with the \ac{HICANN-DLS} as a whole and then look into the \acfi{PPU} in detail while also addressing processor architecture in general.
 
-The HICANN-DLS was built to emulate neural networks at high speeds with low power consumption.
+The \ac{HICANN-DLS} was built to emulate neural networks at high speeds with low power consumption.
+In contrast to many other systems \reference{other systems} it is a \textbf{spike based} system.
+This means that neuronal activities do not follow discrete time steps and neurons send out spikes when activated.
 
-On a very abstract level neurons in the brain resemble nodes in a network.
 Neurons are interconnected through dendrites, synapses and axons which can be of different coupling strength. 
-In contrast to many other systems \reference{other systems} we use neuron model that is \textbf{spike based}.
-This means that a neuron is activated only for a short continuous time, called a spike, and sends out this spike through its axon to neurons that are connected via synapses.
+This means that a neuron is activated only for a short time, called a spike, and sends out this spike through its axon to neurons that are connected via synapses.
 Between those spikes the neuron is resting and not sending any signals.
 Synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
-This is equal to a gain with which the pre-synaptic signal is either amplified or attenuated.
+The synaptic weight either amplifies or attenuates the pre-synaptic signal.
 The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
 If the integrated signals reach a certain threshold the neuron spikes and sends this signal to other neurons~\citep{silbernagl2009color}.
 
-\add{bild synaptic array}
-\begin{figure}[htpb]
+The \ac{HICANN-DLS} system implements a simplified neural model in analogue electronics in order to emulate neuronal networks in a biologically plausible parameter range.
+
+\begin{figure}[h!]
     \centering
-    %\include{fig/array}
-    \caption{\label{fig:array} structure of the synaptic array}
+    \include{fig/array}
+    \caption{\label{fig:array} The synaptic array consists of pre-synaptic inputs (left), neurons (bottom) and 1024 synapses. All synapses along a column are connected to the respective neuron. Pre-synaptic inputs send their signal to all synapses along their respective row.}
 \end{figure}
-
-The HICANN-DLS system implements a simplified neural network model in analogue electronics in order to emulate neuronal networks in a biologically plausible parameter range.
-
-At its core it has a so called \textbf{synaptic array} that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs.
+At its core it has a so called \textbf{synaptic array} (see figure~\ref{fig:array} that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs).
 Pre-synaptic inputs are arranged along one side of the chip which is orthogonal to the arrangement of the neurons.
 They enclose a 2D field which will be our synaptic array as it mainly consists of synapse circuits.
 All neurons reach into the array through conductors that are organized in columns.
@@ -33,70 +32,88 @@ The pre-synaptic inputs respectively have conductors that resemble rows in the a
 At each intersection of of those conducting lines, a synapse is placed that thereby connects a neuron and a pre-synaptic input.
 Overall this gives 1024 synapses that interconnect every neuron and every synapse.
 
-A \textbf{field programmable gate array} (FPGA) is connected to all pre-synaptic inputs and feeds external spikes into the ship which can either be computed by the FPGA or routed spikes from another ship.
+A \acfi{FPGA} is connected to all pre-synaptic inputs and routes external spikes to these inputs.
 Along an input row the signal of one pre-synaptic input reaches all synapses that connected and is processed individually.
-Each synapse holds a 6-bit wide \textbf{synaptic weight} and an internal decoder address, which both can be changed from outside.
+Synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of accessible information.
+The lower 6 bits are \textbf{synaptic weight} and the spare two upper bits are used for calibration.
+Each synapse also holds a 6-bit wide internal decoder address.
+Decoder Address and synaptic weight can both be changed from outside.
 
-The FPGA sends a 6-bit address whenever it sends a spike to a pre-synaptic input which then is compared by each synapse to the addresses they hold themselves.
-In case the addresses match, each synapse multiplies an output signal with the weight it stores and sends the result along a column where is reaches a neuron.
-All signals that are sent, are collected along a column and reach the neuron.
-Inside the neurons the resulting current input is evaluated in regard to a threshold and other parameters which decide on whether the neuron is spiking or not.
+The synapse array can also be used in 16-bit mode for higher accuracy that combines the weights of two synapses to a 12-bit weight.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{pictures/syncircuit.png}
+    \caption{\label{fig:circuit} Block diagram of a synapse circuit (taken from \cite{PPU}).}
+\end{figure}
+
+The \ac{FPGA} sends a 6-bit address whenever it sends a spike to a pre-synaptic input which then is compared by each synapse to the addresses they hold themselves.
+In case the addresses match, each synapse multiplies an output signal with the weight it stores and sends the result along a column where it reaches a neuron.
+Along those columns signals from different synapses are collected.
+Inside the neurons the resulting current input is integrated and if it exceeds a certain threshold the neuron spikes.
 If the neuron is spiking it sends an output signal to the FPGA which is responsible for spike routing in the first place.
-All of this is done continuously and may not follow discrete time steps.
-Along each column sits a \textbf{correlation ADC} (CADC) that converts the signal one neuron receives into digital data for analysis but can also be accessed by the PPU similar to the synaptic array.
+All of this is done continuously and does not follow discrete time steps, as mentioned earlier.
+Along each column sits a \acfi{CADC} that converts the signal one neuron receives into digital data for analysis but can also be accessed by the \ac{PPU} similar to the synaptic array.
 
-The HICANN-DLS is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
-This is the plasticity processing unit (PPU) which is also connected to the synapse array for it to read and write synaptic weights.
+The \ac{HICANN-DLS} is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
+This is the plasticity processing unit \ac{PPU} which is also connected to the synapse array for it to read and write synaptic weights.
 
-The will use the following naming convention throughout this thesis:
+The following naming convention will be used throughout this thesis:
 \begin{description}
-    \item[Plasticity Processing Unit PPU] is the processor which is part of HICANN-DLS and mainly responsible for plasticity of synapses.
-    \item[nux] refers to the complete architecture of the PPU together with its vector extension.
-    \item[s2pp] is short for synaptic plasticity processor but we will use this as name of the vector extension.
+    \item[\ac{PPU}] is the processor which is part of \ac{HICANN-DLS} and mainly responsible for plasticity of synapses.
+    \item[nux] refers to the architecture of the \ac{PPU}.
+    \item[s2pp] describes the \ac{PPU}'s vector extension and is part of the nux architecture.
 \end{description}
 
-Synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of accessible information each although only 6 bits are used as weights and the spare two upper bits are used for calibration.
-The synapse array can also be used in 16-bit mode for higher accuracy that combines the weights of two synapses to a 12-bit weight.
-\add{figure synapse}
+Digital configuration of the synapses and writing \ac{PPU} programs to the memory is handled by an \ac{FPGA} that has access to every interface of a \ac{HICANN-DLS} chip.
 
-Digital configuration of the synapses and writing PPU programs to the memory is handled by an FPGA that has access to every interface of a HICANN-DLS chip.
-
+\begin{wrapfigure}{l}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{pictures/nux.png}
+    \caption{\label{fig:nux} Block diagram of the nux architecture (taken from \cite{PPU}).}
+\end{wrapfigure}
 It was developed to handle plasticity and as such applies different plasticity rules to synapses during or in between experiments.
-This is done much faster by the PPU than by the FPGA which is important for achieving experimental speeds that are $10^{3}$ times faster than their biological counterparts.
-In general the PPU is meant to handle plasticity of the synapses during experiments while the FPGA should be used to initially set up an experiment, manage spike input and record data 
-
+This is done much faster by the \ac{PPU} than by the \ac{FPGA} which is important for achieving experimental speeds that are $10^{3}$ times faster than their biological counterparts.
+In general the \ac{PPU} is meant to handle plasticity of the synapses during experiments while the \ac{FPGA} should be used to initially set up an experiment, manage spike input and record data 
+\\
+\\
 \section{Processor Architectures and the Plasticity Processing Unit}
-Although the main goal of this project is to provide an alternative analogue architecture like the HICANN-DLS does, there are advantages to classic computing which are needed for some applications and almost all contemporary processors are built using the so called von-Neumann architecture \todo{add reference}.
+Although the main goal of this project is to provide an alternative analogue architecture like the \ac{HICANN-DLS} does, there are advantages to classic computing which are needed for some applications and almost all contemporary processors are built using the so called von-Neumann architecture \todo{add reference}.
 
 The main advantage of digital systems over analogue systems, such as the human brain, is the ability to do numeric and logical operations at much higher speeds and precision as well as the availability of existing digital interfaces.
-For this reason ``normal'' processors are responsible for handling experiment data as well as configuration of an experiment in the HICANN-DLS.
-We will now shortly get in touch with basics of such processors and explain common terms while referring to the PPU at times when it is convenient.
+For this reason ``normal'' processors are responsible for handling experiment data as well as configuration of an experiment in the \ac{HICANN-DLS}.
+We will now shortly get in touch with basics of such processors and explain common terms while referring to the \ac{PPU} at times when it is convenient.
 \\
-The PPU, which was designed by \citep{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
-Specifically the PPU uses POWER7 which was released in 2010 as a successor of the original POWER architecture and runs at 100 MHz clock frequency.
+The \ac{PPU}, which was designed by \citep{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+Specifically the \ac{PPU} uses POWER7 which was released in 2010 as a successor of the original POWER architecture and runs at 100 MHz clock frequency.
 \\
 \add{figure classic architecture}
+\begin{wrapfigure}[18]{r}{0.5\textwidth}
+    \centering
+        \include{fig/processor}
+        \caption{\label{fig:processor} Compiler Representation}
+\end{wrapfigure}
+
 %general stuff
 In general a microprocessor can be seen as a combination of two units which are an operational section and a control section.
 The control section is responsible for fetching instructions and operands, interpreting them, controlling their execution as well as reading and writing to the main memory or other buses.
 The operational section on the other hand saves operands and results only as long as they are needed and performs logic or arithmetic operation on these as instructed by the control section.
-Prominent parts of the operational section are the \textbf{arithmetic logic unit} (ALU) and the \textbf{register file} (RF).
+Prominent parts of the operational section are the \acfi{ALU} and the \acfi{RF}.
 
 %register
-The register file can be seen as short-term memory of the processor.
+The \ac{RF} can be seen as short-term memory of the processor.
 It consists of several repeated elements, called \textbf{registers}, that save data and have share the same size which is determined by the architecture; the 32-bit architecture of nux for instance has 32-bit wide registers.
 
 Typically the number and purpose of registers varies for different architectures.
 Common purposes of registers are:
 \begin{description}
-    \item[general-purpose register GPR] These registers can store values for various causes but in most cases are soon to be used by the ALU. Most registers on a processor are typically GPRs.
+    \item[\acfi{GPR}] These registers can store values for various causes but in most cases are soon to be used by the ALU. Most registers on a processor are typically GPRs.
         Any register that is not a GPR is called a \textbf{special purpose register SPR}
-    \item[link register LR] This register marks the jump point of function calls. After a function completes, the program jumps to the address in the link register.
-    \item[condition register CR] This register's value is set by an instruction that compares one or two values in GPRs. Its value can be a condition for some instructions if they are to be executed or not.
+    \item[\acfi{LR}] This register marks the jump point of function calls. After a function completes, the program jumps to the address in the link register.
+    \item[\acfi{CR}] This register's value is set by an instruction that compares one or two values in GPRs. Its value can be a condition for some instructions if they are to be executed or not.
 \end{description}        
-The ALU uses values which are stored in the register file to perform the aforementioned logic or arithmetic operations and saves the results there as well.
+The \ac{ALU} uses values which are stored in the \ac{RF} to perform the aforementioned logic or arithmetic operations and saves the results there as well.
 
-Some architectures also have an accumulator that is often part of the ALU.
+Some architectures also have an accumulator that is often part of the \ac{ALU}.
 Intermediate results can be stored there because access to the accumulator is the fastest possible but it can only holds a single value at a time.
 \\
 \\
@@ -109,13 +126,16 @@ Intermediate results can be stored there because access to the accumulator is th
         \colorbitbox{lightgray}{16}{half-word} && \bitbox{16}{}\\
         \colorbitbox{lightgray}{32}{word}\\
     \end{bytefield}
-    \caption{\label{fig:bitlength} illustration of word sizes for 32-bit words}
+    \caption{\label{fig:bitlength} Illustration of Word Sizes for 32-bit Words}
 \end{figure}
 
 %memory
-Memory is often implemented as \textbf{random access memory} which is both readable and writable it can be split into two popular types which are \textbf{static random access memory} (SRAM) and \textbf{dynamic random access memory} (DRAM).
+Memory is often implemented as \acfi{RAM} which is both readable and writable.
+It can be split into two popular types which are \acfi{SRAM} and \acfi{DRAM}.
 They differ in how bits are set in RAM.
 SRAM uses Flip Flops to switch transistors that indicate which bit is set, while DRAM uses capacities that are charged to do so.\unsure{should I keep this}
+Flip Flops allow for short access time, but can only be realized in small scales and are also expensive.
+\ac{DRAM} on the other side is cheaper and usually offers more memory, but also has a longer access time.\cite{microprocessor}
 Memory of a von-Neumann machine contains both, the program and data and is often seen as blocks with addresses.
 Because the smallest amount of information which we are interested in is usually a byte, each address is equivalent to one byte in memory.
 A program is simply a list of instructions in memory that belong to the \textbf{instruction set}.
@@ -124,13 +144,13 @@ Each instruction thereby is a specific sequence of bits.
     \centering
     \begin{bytefield}[endianness=big, bitwidth=0.027777\linewidth]{32}
         \bitheader{0,7,15,23,31}\\
-        \bitboxes{8}{{opcode}{operand 0}{operand 1}{operand 2}}
+        \bitboxes{8}{{opcode}{operand 0 \\ \tiny{return operand}}{operand 1}{operand 2}}
     \end{bytefield}
     \caption{\label{fig:opcode} representation of machine instruction in memory}
 \end{figure}
 
 %instructions
-An instruction such as \ref{fig:opcode} is called a \textbf{machine isntruction} and combines several elements.
+An instruction like in figure~\ref{fig:opcode} is called a \textbf{machine isntruction} and combines several elements.
 The first part is called an \textbf{opcode} and is typically an 8-bit number that identifies an operation.
 The ALU reads this number and performs a set of so called \textbf{micro instructions} accordingly.
 
@@ -145,7 +165,7 @@ An example for micro instructions in an add instruction (|d = add(a,b)|) would b
     6. store result
 \end{lstlisting}\todo{inhaltlicher zusammenhang}
 
-Opcodes are often represented by an alias string such as |add| that is called a \textbf{mnemonic}.
+Opcodes are often represented by an alias string like |add| that is called a \textbf{mnemonic}.
 The opcode is followed by several addresses that refer to the location a value can be taken from or where it should be stored.
 These addresses are called \textbf{operands} and can either be a memory address or a register number.
 
@@ -159,17 +179,17 @@ Therefore a user should try to avoid memory access as much as possible and use r
 %instruction set
 As we mentioned the instruction set before, the complexity of an instruction set is also very important for performance. 
 A complex instruction set might seem favorable to increase performance at first but a smaller instruction set also bears some advantages.
-Because every instruction has to be represented by a circuit in the ALU, a smaller instruction set safes space and is easier to design.
+Because every instruction has to be represented by a circuit in the \ac{ALU}, a smaller instruction set safes space and is easier to design.
 In general developing a processor architecture is always a trade-off between factors like: available chip space, instruction set and design complexity, energy consumption and maximum clock frequency.
 Because of this, processors can be classified in two main groups:
 \begin{description}
-    \item[CISC] Complex Instruction Set Computer
-    \item[RISC] Reduced Instruction Set Computer
+    \item[\acs{CISC}] Complex Instruction Set Computer
+    \item[\acs{RISC}] Reduced Instruction Set Computer
 \end{description}
 The latter usually has an instruction set that is reduced to simple instructions as |add| or |sub| and connects these to create more complex instructions.
 It also can be operated at higher clock frequencies, therefore it is the perfect architecture for applications that need to do simple arithmetic as fast as possible.
 
-The PPU is a RISC architecture so we will focus more on RISC's key features throughout this chapter.
+The \ac{PPU} is a RISC architecture so we will focus more on \ac{RISC}'s key features throughout this chapter.
 
 %assembly
 The complexity of an instruction set also affects developers directly, if they are working on low-level code.
@@ -183,20 +203,20 @@ Assembly instructions follow the same scheme as machine instructions do:
         \bitheader{0,7,15,23,31}\\
         \bitboxes{8}{{add}{r1 \\ \tiny register address}{0x3000 \\ \tiny memory address}{5 \\ \tiny immediate operand}}
     \end{bytefield}
-    \caption{\label{fig:opcode} representation of machine instruction in memory}
+    \caption{\label{fig:opcode} Representation of a Machine Instruction in Memory}
 \end{figure}
 \begin{lstlisting}
     add r1, 0x3000, 5
     mnemonic operand/result operand operand
 \end{lstlisting}
-In RISC architectures instructions typically consist of 3 operands because operations are usually between registers only (except for load/store memory instructions).
+In \acfi{RISC} architectures instructions typically consist of 3 operands and are usually between registers only (except for load/store memory instructions).
 The mnemonic in most cases is a named after the first letters of the instructions full name, which is emphasized in the following table.
 The operand can be of three different types which are all shown above.
 They either represent a specific register (r1 = register 1), a memory address (0x3000 = the value at memory location 0x3000) or an immediate value (5 = the integer 5).
 Register operands can also have an indirect use, which means that that content of the register is taken into account.
-I.e. a memory address can be saved to the register and an operation uses the value at the memory location which the register refers to.
-This is often the case for RISC architectures as they support only one \textbf{load} and one \textbf{store} instruction, that either loads a value from memory into a register, or stores a register's value in memory.
-Therefore RISC architectures often qualify as load/store architectures as the memory address is first stored in a register that afterwards is an operand of a memory instruction.
+E.g. a memory address can be saved to the register and an operation uses the value at the memory location which the register refers to.
+This is often the case for \ac{RISC} architectures as they support only one \textbf{load} and one \textbf{store} instruction, that either loads a value from memory into a register, or stores a register's value in memory.
+Therefore \ac{RISC} architectures often qualify as load/store architectures as the memory address is first stored in a register that afterwards is an operand of a memory instruction.
 This is called an indirect operand.
 
 As address size is limited by the register, the maximum amount of memory that can be used is:
@@ -226,7 +246,7 @@ This can be extended to whole units similar to the ALU existing in parallel.
 One example would be a \textbf{floating point unit} (FPU) which is nowadays standard for most processors and handles all instructions on floating point numbers.
 For this the FPU has its own \textbf{floating point registers} (FPRs) in a separate register file on which it performs instructions and which also has access to the memory.\unsure{keep this?}
 
-An different kind of extension are vector extensions that do the same as the FPU but for vectors instead of floats.
+A different kind of extension are vector extensions that do the same as the FPU but for vectors instead of floats.
 This is mostly wanted for highly parallel processes such as graphic rendering or audio and video processing \todo{reference}.
 Early supercomputers such as the Cray-1 \todo{reference} also made use of vector processing to gain performance by operating on multiple values  simultaneously through a single register.
 This could either be realized through a fully parallel architecture or more easily through pipelining instructions for vector elements.
@@ -234,16 +254,16 @@ The latter one is possible since there are typically no dependencies, hence no h
 Nowadays basically all common architectures support vector processing.
 A few examples are:
 
-\noindent\begin{minipage}{\textwidth}
+\noindent\begin{minipage}[t]{\textwidth}
     \vspace{1em}
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}[t]{0.4\textwidth}
 \begin{itemize}
     \item x86 with SSE-series and AVX
     \item IA-32 with MMX
     \item AMD K6-2 with 3DNow!
 \end{itemize}
 \end{minipage}
-    \begin{minipage}{0.6\textwidth}
+\begin{minipage}[t]{0.6\textwidth}
 \begin{itemize}
     \item PowerPC with AltiVec and SPE
     \item ARM with NEON
@@ -252,16 +272,16 @@ A few examples are:
     \vspace{1em}
 \end{minipage}
 
-The s2pp \textbf{vector extension} (VE) of nux is the PPU's distinct feature that allows for Single Input Multiple Data (SIMD) operations on synaptic weights.
-The VE is only weakly coupled to the general purpose processor (GPP) of the PPU nand both parts can operate in parallel while interaction is highly limited.
+The s2pp \acfi{VE} of nux is the \ac{PPU}'s distinct feature that allows for \acfi{SIMD} operations on synaptic weights.
+The \ac{VE} is only weakly coupled to the \acfi{GPP} of the \ac{PPU} nand both parts can operate in parallel while interaction is highly limited.
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
-This renders no problem since the nux does not recognize AltiVec opcodes and most like is not going to in the future.
-The vector register file includes (VRF) 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
-This allows for either use of vectors with 8 halfword sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorsize}.
+This renders no problem since the nux does not recognize AltiVec opcodes and most likely is not going to in the future.
+The \acfi{VRF} 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
+This allows for either use of vectors with 8 halfword sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
 
-But we take also a special interest in the AltiVec vector extension itself which was developed by Apple, IBM and Motorola in the mid 1990's and is also known as Vector Media Extension (VMX) and Velocity Engine for the POWER architecture. 
+But we take also a special interest in the AltiVec vector extension itself which was developed by Apple, IBM and Motorola in the mid 1990's and is also known as \ac{VMX} and Velocity Engine for the POWER architecture. 
 The AltiVec extension provides a similar single-precision floating point and integer SIMD instruction set.
-Its vector registers can either hold sixteen 8-bit |char|s (V16QI), eight 16-bit |short|s (V8HI), four 32-bit |int|s (V4SI) or single precision |float|s (V4SF), each signed and unsigned.
+Its vector registers can either hold sixteen 8-bit |char| (V16QI), eight 16-bit |short| (V8HI), four 32-bit |int| (V4SI) or single precision |float| (V4SF), each signed and unsigned.
 \begin{figure}[htpb]
     \centering
     \begin{bytefield}[endianness=little, bitwidth=\widthof{\tiny Integer~}/8]{128}
@@ -274,47 +294,49 @@ Its vector registers can either hold sixteen 8-bit |char|s (V16QI), eight 16-bit
         \bitheader{0,7,15,31,63,127}\\
         \begin{rightwordgroup}{V4SF}\bitboxes{32}{{SF}{\tiny Single \\ Float}{}{}}\end{rightwordgroup}\\
     \end{bytefield}
-    \caption{\label{fig:vectorlength} different vector structures}
+    \caption{\label{fig:vectorlength} Vector structures are mostly 128 bits wide and split into common word sizes that are always powers of two.}
 \end{figure}
 
-It resembles most characteristics of the s2pp vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of GCC.
-There are a few differences though:
-\begin{addmargin}[2em]{0em}
-    The s2pp VE features a vector accumulator of 128 bits width and a vector condition register (VCR) which holds 3 bits for each half byte of the vector, making 96 bit in total.
-    Instructions on the s2pp VE can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the VCR, while the AltiVec VE utilizes the CR of the PowerPC architecture.
-    This does not allow for selective operations on individual elements through the CR, but allows for checking if all elements meet the condition in a single instruction.
-    If element-wise selection is needed, AltiVec offers this through vector masks.
-    
-    The AltiVec VE has two register on its own though, which are the VCSR and VRSAVE registers.
-            The Vector Status and Control Register (VSCR) is responsible for detecting saturation in vector operations and decides which floating point mode is used.
-            The Vector Save/Restore Register (VRSAVE) assists applications and operation systems by indicating for each VR if it is currently used by a process and thus must be restored in case of an interrupt.
-    
-    Both of these registers are not available in the s2pp VE but would likely not be needed for simple such arithmetic tasks which the PPU is meant to perform.
-\end{addmargin}
+It resembles most characteristics of the s2pp vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of GCC, but both \ac{VE}s also feature differences.
 
-We already stated that all instructions of VEs must first pass the control unit, which detects vector instructions and then passes them to the VE.
-These instructions then go into an instruction cache for vector instructions where they are fetched from in-order.
-On nux the instructions then shortly stay in a reservation station that is specific for each kind of operation an thus allows for little out-of-order operation for instructions in these reservations stations.\add{figure vector extension}
+The s2pp \ac{VE} features a vector accumulator of 128 bits width and a \ac{VCR} which holds 3 bits for each half byte of the vector, making 96 bit in total.
+Instructions on the s2pp \ac{VE} can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the \ac{VCR}, while the AltiVec \ac{VE} utilizes the \ac{CR} of the PowerPC architecture.
+This does not allow for selective operations on individual elements through the \ac{CR}, but allows for checking if all elements meet the condition in a single instruction.
+If element-wise selection is needed, AltiVec offers this through vector masks.
+    
+The AltiVec \ac{VE} has two register that are not featured on s2p.
+The \ac{VSCR} is responsible for detecting saturation in vector operations and decides which floating point mode is used.
+The \ac{VRSAVE} assists applications and operation systems by indicating for each \ac{VR} if it is currently used by a process and thus must be restored in case of an interrupt.
+Both of these registers are not available in the s2pp \ac{VE} but would likely not be needed for simple arithmetic tasks which the \ac{PPU} is meant to perform.
+
+We already stated that all instructions of \ac{VE}s must first pass the control unit, which detects vector instructions and then passes them to the \ac{VE}.
+These instructions then go into an instruction cache for vector instructions. \unsure{add instruciton cache?}
+On nux the instructions then shortly stay in a reservation station that is specific for each kind of operation and thus allows for little out-of-order operation for instructions in these reservation stations which is illustrated in figure~\ref{fig:s2pp}.
 This allows for performing some arithmetic operations on a vector during the process of accessing a different vector in memory.
 The result is faster processing speed as pipelining for each instruction is also supported.
-The limiting factor for this though remains the VRF's single port for reading and writing.
-A more limiting factor in comparison is the shared memory interface of s2pp and GPP.
+Though the limiting factor for this remains the \ac{VRF}'s single port for reading and writing.
+A more limiting factor in comparison is the shared memory interface of s2pp and \ac{GPP}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{pictures/s2pp.png}
+    \caption{\label{fig:s2pp} Detailed structure of the s2pp vector extension (taken from \cite{PPU}).}
+\end{figure}
 
-Normally processors themself do not keep track of memory directly.
-This is usually done by a \textbf{memory management unit} (MMU) or a \textbf{memory controller} (MC).
+Normally processors themselves do not keep track of memory directly.
+This is usually done by a \acfi{MMU} or a \acfi{MC}.
 It handles memory access by the processor and can provide a set of virtual memory addresses which it translates into physical addresses.
-Most modern MMUs also incorporate a cache that stores memory instructions while another memory instruciton is performed.
+Most modern \ac{MMU}s also incorporate a cache that stores memory instructions while another memory instruction is performed.
 It also detects dependencies within this cache, which can be resolved there.
 Ultimately this results in faster transfer of data as two or more instructions do not need to access the same memory to fetch a value.
 
-Not all MMUs support this though, which might lead to certain problems when handling memory.
+Not all \ac{MMU}s support this though, which might lead to certain problems when handling memory.
 If instructions are reordered due to pipelining while dependencies on the same memory address are not detected correctly, an instruction may write to memory before a different one could load the previous value it needed from there.
-Another reason could be delayed isntructions as it was mentioned above.
-For this reason exist memory barriers.
+Another reason could be delayed instructions as it was mentioned above.
+For this reason memory barriers exist.
 
-A \textbf{memory barrier} is an instruction that is equal to a guard, placed in code, that waits until all load and store instructions issued to the MMU are finished.
+A \textbf{memory barrier} is an instruction that is equal to a guard, placed in code, that waits until all load and store instructions issued to the \ac{MMU} are finished.
 It therefore splits the code into instructions issued before the memory barrier and issued after the memory barrier.
-This prohibits any instruction form being executed on the wrong side of the barrier due to reordering and thereby generally prevents conflicting memory instructions.
+This prohibits any instruction from being executed on the wrong side of the barrier due to reordering and thereby generally prevents conflicting memory instructions.
 
 One kind of memory barrier is |sync| which does exactly what we just described.
 This and other memory barriers are also described in the appendix (\ref{table:asm}).
@@ -327,12 +349,12 @@ stw     r4,lock(r3)#release lock
 
 Using |sync| can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
 
-The PPU's memory is 16 kiB which is accompanied by 4 kiB of instruction cache.\todo{add description to instruciton cache}
-Together iwth the PPU this is called the plasticity sub-system.
-The MMU of this system is very simple as it does not cache memory instructions and also has matching virtual and physical addresses thus memroy barriers can become necessary at times.
+The \ac{PPU}'s memory is 16 kiB which is accompanied by 4 kiB of instruction cache.\todo{add description to instruction cache}
+Together with the \ac{PPU} this is called the plasticity sub-system.
+The \ac{MMU} of this system is very simple as it does not cache memory instructions and also has matching virtual and physical addresses thus memory barriers can become necessary at times.
 \\
 \\
-Another feature of the PPU is the ability to read out spike counts and additional information through a bus which is accessible through the memory interface of the MMU.
+Another feature of the \ac{PPU} is the ability to read out spike counts and similar information through a bus which is accessible through the memory interface of the \ac{MMU}.
 It uses the upper 16 bits of a memory address for routing
 These are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses.
 A pointer to a virtual memory address allows to read for example spike counts during an experiment.
@@ -341,18 +363,20 @@ This is done the same way for the whole chip configuration such as analog neuron
 The fact, that the system views the highest as the greatest values, makes this a \textbf{big-endian} system.
 \\
 \\
-The memory bus is also accessible by the FPGA .
-This is needed for writing programs into the memory as well as getting results during or after experiments also allows for communication between a ``master'' FPGA and a ``slave'' PPU.
+The memory bus is also accessible by the \ac{FPGA}.
+This is needed for writing programs into the memory as well as getting results during or after experiments.
+It also allows for communication between a ``master'' \ac{FPGA} and a ``slave'' \ac{PPU}.
 
-A \textbf{bus} is the conneciton between parts of a processor and used for data transfer.
+A \textbf{bus} is the connection between parts of a processor and used for data transfer.
 Bus speeds are very high as they transport data in parallel such as the contents of a register.
 Thus most buses should be as wide as a register of the processor.
 But as buses of such width need much space, some architectures use narrower buses with fewer bits than a register and instead use two instructions to transfer the contents of a full register.
 The upper half of the width is called \textbf{high order bits} and the bottom half is called \textbf{low order bits} for big-endian architectures.
 Systems of this sort are described as 32/16-bit architecture, which means that registers are 32 bit wide while buses are only 16 bit wide.
-As the higher order bits of registers are not as often used as the lower ones this results in less performance loss than one would initially expected.
+As the higher order bits of registers are not as often used as the lower order ones, it is often enough to move the lower 16 bits.
+This results in less performance loss than one would initially expected.
 
-The main feature of the PPU though is access to the synaptic array which is offerd through an extra bus.\unsure{maybe rather an isntruction not a whole bus}
+The main feature of the \ac{PPU} though is access to the synaptic array which is offered through an extra bus.
 Still the synapse array is mainly accessible through the main memory bus by setting the first bits similar to the spiking rate information.
 Using this extra bus or the instructions associated with it is nonetheless more comfortable and gives more structure to the program but does not increase performance.
 \\
@@ -383,7 +407,9 @@ Figure~\ref{fig:fractional} displays synaptic weights as a fractional number bet
 The weight is the sum of the values where the bits are set to one.
 In contrast to this, the sign-bit changes its meaning when used in the vector unit and becomes a factor instead of a summand.
 This is the reason why a user must shift the vector's elements when reading/writing to the synapse array, as only then do special attributes of instructions work properly.
-An example would be \textbf{saturation} which predefines a minimum and maximum value and in case, the result is out-of-range, sets the value to the closest limit.
+
+An example would be instructions that rely on \textbf{saturation} which predefines a minimum and maximum value.
+In case, the result is out-of-range, the instruction will return either the minimum or the maximum (whichever is closer).
 For this to work properly the bit representation must match the intended one, which is the above mentioned fractional representation, and the values must also be correctly aligned.
 
 An overview of all opcodes is provided by \cite{nuxmanual}, which is recommended as accompanying literature besides this thesis.
@@ -397,27 +423,18 @@ In general these opcodes are divided into 6 groups of instructions:
 \end{description}
 
 
-
 \section{Basic Compiler Structure}
 \label{section:compiler}
-At its core every compiler translates a source-language into a target-language~\ref{fig:compiler}, most often it translates a high-level, human readable programming language into a machine language that consists of basic instructions that build complicated structures.
+
+\begin{wrapfigure}[18]{r}{0.35\textwidth}
+    \centering
+        \include{fig/compiler}
+        \caption{\label{fig:compiler} Compiler Representation}
+\end{wrapfigure}
+At its core every compiler translates a source-language into a target-language as figure~\ref{fig:compiler} illustrates.
+Most often it translates a high-level, human readable programming language into a machine language that consists of basic instructions that build complicated structures.
 In doing so, compilers may be the essential part in everyday lives of programmers everywhere.
 And since the point in time when the first compilers emerged, their development played a big role in making computers such an important part of everyday life as they are today.
-
-\begin{figure}[htpb]
-    \begin{subfigure}[c]{0.25\textwidth}
-        \include{fig/compiler}
-        \caption{\label{fig:compiler} Representation of a compiler.}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.3\textwidth}
-        \include{fig/cmpstruct}
-        \caption{\label{fig:cmpstruct} Schematic overview of different compiler stages.}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.4\textwidth}
-        \include{fig/cmpintstruct}
-        \caption{\label{fig:cmpintstruct} Schematic overview of different compiler stages.}
-    \end{subfigure}
-\end{figure}
 
 What differs compilers from the competing concept of interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.
 As interpreters combine these two and translate a program at run-time, a compiler takes the time to read the source-language file completely (often several times) and only then creates the executable files which are executed after the process has finished.
@@ -425,6 +442,18 @@ The advantages of this are simple:
 While a compiler takes some time at first until the program can be started, the resulting executable is next to always faster and more efficient.
 This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a \textbf{pass}).
 Of course there do exist many different compilers today and what matters to the user is typically the combination of the amount of time it takes to compile a program and the performance of that program.
+\begin{figure}[htb]
+    \centering
+    \begin{subfigure}[t]{0.25\textwidth}
+        \include{fig/cmpstruct}
+        \caption{\label{fig:cmpstruct} The compilation tree has different contributors besides the compiler.}
+    \end{subfigure} \hspace{2cm}
+    \begin{subfigure}[t]{0.37\textwidth}
+        \include{fig/cmpintstruct}
+        \caption{\label{fig:cmpintstruct} The compiler goes through different phases, that belong to the front- or back-end.}
+    \end{subfigure}
+    \caption{\label{fig:cmp} Overviews of compilation stages.}
+\end{figure}
 
 A compiler is not the only contributor to translation of a program into an executable program although it is the most prominent one.
 Figure~\ref{fig:compiler} illustrates the chain of tools that is involved into this process:
@@ -518,7 +547,7 @@ Any optimization to the code though must take three things into consideration, w
 The first thing which always must be fulfilled, is safety.
 Only if the compiler can guarantee that an optimization does not change the result of the transformed code compared to the original code it may use this optimization!
 Only if this applies the compiler may check for the profit of an optimization which most often is a gain in performance but could also be the size of the program.
-At last the effort or time it takes for the compiler to perform this optimization and the risk of generating actually bad or ineffective code should be taken into account as well.
+At last the effort or time it takes for the compiler to perform this optimization and the risk of generating actually bad or inefficient code should be taken into account as well.
 If optimization passes these three aspects it may be applied to the code.
 In the end there exist some simple optimizations that always pass this test like the deletion of unnecessary actions or unreachable code, e.g. functions that are never called.
 Another example would be the reordering of code like the scheduler did before or the elimination of redundant code, which applies if the same value is computed at different points and thus the first result simply can be saved in a register.

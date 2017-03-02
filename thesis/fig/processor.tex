@@ -1,0 +1,51 @@
+\tcbset
+{enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+fonttitle=\bfseries,center title, size=small}
+\centering
+\begin{tcolorbox}[enhanced jigsaw, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0, nobeforeafter]
+\tcbset
+{enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+fonttitle=\bfseries,nobeforeafter,center title, noparskip, size=small}
+
+\begin{tcolorbox}[enhanced jigsaw, breakable,opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=in, watermark text=Input, nobeforeafter]
+\end{tcolorbox}
+
+\begin{tcolorbox}[breakable, width=.6\linewidth, enhanced jigsaw, remember as=cpu, nobeforeafter]
+    \centering
+    Processor
+    \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small, fontupper=\small]
+        \centering
+        Operational \\ Section
+        \begin{tcolorbox}[enhanced, width=\linewidth, remember as=alu, nobeforeafter]
+            \centering
+            ALU
+        \end{tcolorbox}
+        \begin{tcolorbox}[enhanced, width=\linewidth, remember as=rf, nobeforeafter]
+            \centering
+            Register File
+        \end{tcolorbox}
+    \end{tcolorbox}
+
+    \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small]
+    \centering
+    Control Section
+    \end{tcolorbox}
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, breakable,opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=out, watermark text=Output, nobeforeafter]
+\end{tcolorbox}
+\end{tcolorbox}
+% \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+%     \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- (sc.north);
+%     \draw[->, shorten >=-1.5mm] (sc.south) -- (ps.north);
+%     \draw[->, shorten >=-1.5mm] (ps.south) -- (sa.north);
+%     \draw[->, shorten >=-1.5mm] (sa.south) -- (sco.north);
+%     \draw[-] (sco.south) -- (me.north);
+%     \draw[->, shorten >=-1.5mm] (me.south) -- (cg.north);
+%     \draw[->, shorten >=-1.5mm] (cg.south) -- (tco.north);
+%     \draw[->] (tco.south) -- ($(cp.south)+(0,-1)$);
+% \end{tikzpicture}
+% \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+%     \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.north east) -- (cp.north west);
+%     \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.south east) -- (cp.south west);
+% \end{tikzpicture}
