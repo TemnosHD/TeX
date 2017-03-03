@@ -1,40 +1,68 @@
 \tcbset
 {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
 fonttitle=\bfseries,center title, size=small}
+
 \centering
-\begin{tcolorbox}[enhanced jigsaw, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0, nobeforeafter]
+
+%\begin{tcolorbox}[enhanced jigsaw, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0, nobeforeafter]
 \tcbset
 {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
 fonttitle=\bfseries,nobeforeafter,center title, noparskip, size=small}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable,opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=in, watermark text=Input, nobeforeafter]
-\end{tcolorbox}
-
-\begin{tcolorbox}[breakable, width=.6\linewidth, enhanced jigsaw, remember as=cpu, nobeforeafter]
-    \centering
-    Processor
-    \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small, fontupper=\small]
+\begin{tikzpicture}[line width=1mm]
+    
+    \node[] (c) at (0,0) {
+    \begin{tcolorbox}[width=.65\linewidth, enhanced jigsaw, remember as=cpu, size=normal]
         \centering
-        Operational \\ Section
-        \begin{tcolorbox}[enhanced, width=\linewidth, remember as=alu, nobeforeafter]
-            \centering
-            ALU
+        Processor
+    
+        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, height=.7cm, size=small, remember as=cs]
+        \centering
+        Control Section
         \end{tcolorbox}
-        \begin{tcolorbox}[enhanced, width=\linewidth, remember as=rf, nobeforeafter]
+    
+        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small, fontupper=\footnotesize]
             \centering
-            Register File
+    
+            \begin{tcolorbox}[enhanced, width=\linewidth, remember as=alu]
+                \centering
+                ALU
+            \end{tcolorbox}
+            \begin{tcolorbox}[enhanced, width=\linewidth, remember as=rf]
+                \centering
+                Register File
+            \end{tcolorbox}
+    
+            Operational Section
         \end{tcolorbox}
+    
     \end{tcolorbox}
-
-    \begin{tcolorbox}[enhanced jigsaw, breakable, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small]
-    \centering
-    Control Section
+    };
+    \end{tikzpicture}
+    
+\begin{tikzpicture}[overlay,remember picture,line width=0.5mm]
+    
+    \node[] (a) at ($(cs.west)!.0!(cs.north west)-(1.5,0)$) {
+        \begin{tcolorbox}[enhanced jigsaw, opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=in, watermark text=Input, nobeforeafter]
+        \end{tcolorbox}
+    };
+    
+    \node[] (b) at ($(cs.east)!.0!(cs.north east)+(1.5,0)$) {
+    \begin{tcolorbox}[enhanced jigsaw, opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=out, watermark text=Output, nobeforeafter]
     \end{tcolorbox}
-\end{tcolorbox}
+    };
+    
+    \draw[->, shorten >=-1.0mm] (in.east) -- ($(cs.west)!.0!(cs.north west)$);
+    \draw[->, shorten >=-1.0mm] ($(cs.east)!.0!(cs.north east)$) -- (out.west);
 
-\begin{tcolorbox}[enhanced jigsaw, breakable,opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=out, watermark text=Output, nobeforeafter]
-\end{tcolorbox}
-\end{tcolorbox}
+    \draw[->, shorten >=-1.0mm] ($(cs.west)!.5!(cs.south west)$) to [out=225, in=180] (alu.west);
+    \draw[->, shorten >=-1.0mm] (alu.east) to [out=20, in=315] ($(cs.east)!.5!(cs.south east)$);
+    
+    \draw[->, shorten >=-1.0mm] ($(alu.south)!.5!(alu.south east)$) -- ($(rf.north)!.5!(rf.north east)$);
+    \draw[->, shorten >=-1.0mm] ($(rf.north)!.5!(rf.north west)$) -- ($(alu.south)!.5!(alu.south west)$);
+\end{tikzpicture}
+
+
 % \begin{tikzpicture}[overlay,remember picture,line width=1mm]
 %     \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- (sc.north);
 %     \draw[->, shorten >=-1.5mm] (sc.south) -- (ps.north);

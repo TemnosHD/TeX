@@ -63,14 +63,14 @@ The following naming convention will be used throughout this thesis:
     \item[nux] refers to the architecture of the \ac{PPU}.
     \item[s2pp] describes the \ac{PPU}'s vector extension and is part of the nux architecture.
 \end{description}
+\begin{wrapfigure}{l}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{pictures/nux.png}
+    \caption{\label{fig:nux} Block diagram of the nux architecture (taken from \cite{PPU}).}
+\end{wrapfigure}
 
 Digital configuration of the synapses and writing \ac{PPU} programs to the memory is handled by an \ac{FPGA} that has access to every interface of a \ac{HICANN-DLS} chip.
 
-\begin{wrapfigure}{l}{0.6\textwidth}
-    \centering
-    \includegraphics[width=0.6\textwidth]{pictures/nux.png}
-    \caption{\label{fig:nux} Block diagram of the nux architecture (taken from \cite{PPU}).}
-\end{wrapfigure}
 It was developed to handle plasticity and as such applies different plasticity rules to synapses during or in between experiments.
 This is done much faster by the \ac{PPU} than by the \ac{FPGA} which is important for achieving experimental speeds that are $10^{3}$ times faster than their biological counterparts.
 In general the \ac{PPU} is meant to handle plasticity of the synapses during experiments while the \ac{FPGA} should be used to initially set up an experiment, manage spike input and record data 
@@ -85,11 +85,12 @@ We will now shortly get in touch with basics of such processors and explain comm
 \\
 The \ac{PPU}, which was designed by \citep{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
 Specifically the \ac{PPU} uses POWER7 which was released in 2010 as a successor of the original POWER architecture and runs at 100 MHz clock frequency.
-\begin{wrapfigure}[15]{r}{0.5\textwidth}
+\\
+\add{figure classic architecture}
+\begin{wrapfigure}[18]{r}{0.5\textwidth}
     \centering
         \include{fig/processor}
-        \vspace*{-10mm}
-        \caption{\label{fig:processor} Structure of von-Neumann Architecture}
+        \caption{\label{fig:processor} Compiler Representation}
 \end{wrapfigure}
 
 %general stuff

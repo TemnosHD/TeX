@@ -7,7 +7,7 @@
 \BOOKMARK [2][-]{subsection.2.3.2}{Assembly Basics}{section.2.3}% 7
 \BOOKMARK [2][-]{subsection.2.3.3}{Intrinsics}{section.2.3}% 8
 \BOOKMARK [2][-]{subsection.2.3.4}{GNU Compiler Collection}{section.2.3}% 9
-\BOOKMARK [3][-]{section*.48}{Register Transfer Language Basics}{subsection.2.3.4}% 10
+\BOOKMARK [3][-]{section*.47}{Register Transfer Language Basics}{subsection.2.3.4}% 10
 \BOOKMARK [0][-]{chapter.3}{Extending the GCC Back-End}{}% 11
 \BOOKMARK [1][-]{section.3.1}{Adding Option Flag and nux Target}{chapter.3}% 12
 \BOOKMARK [1][-]{section.3.2}{Creating Macros}{chapter.3}% 13
@@ -17,5 +17,5 @@
 \BOOKMARK [1][-]{section.3.6}{Prologue and Epilogue}{chapter.3}% 17
 \BOOKMARK [0][-]{chapter.4}{Results and Applications}{}% 18
 \BOOKMARK [0][-]{chapter.5}{Discussion and Outlook}{}% 19
-\BOOKMARK [0][-]{chapter.5}{Appendix}{}% 20
-\BOOKMARK [0][-]{appendix*.66}{Bibliography}{}% 21
+\BOOKMARK [0][-]{section*.62}{Appendix}{}% 20
+\BOOKMARK [0][-]{appendix*.72}{Bibliography}{}% 21
