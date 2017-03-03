@@ -1,7 +1,8 @@
 \addcontentsline{toc}{chapter}{Appendix}
-\chapter*{Appendix}
+\chapter{Appendix}
+\label{ch:appendix}
 
-\section*{Acronyms}
+\section{Acronyms}
 \begin{acronym}
     \acro{ADC}{Analogue Digital Converter}
     \acro{ALU}{Arithmetic Logic Unit}
@@ -19,6 +20,7 @@
     \acro{FPR}{Floating Point Register}
     \acro{FPU}{Ploating Point Unit}
     \acro{GCC}{GNU Compiler Collection}
+    \acro{GDB}{GNU Project Debugger}
     \acro{GPP}{General Purpose Processor}
     \acro{GPR}{General Purpose Register}
     \acro{HICANN}{High Input Count Neural Network}
@@ -50,9 +52,9 @@
 
 \end{acronym}
 
-\section*{List of nux Intrinsics}
-
-\begin{table}
+\section{List of nux Intrinsics}
+\label{sec:nuxintrinsics}
+\begin{table}[htbp]
     \adjustbox{max width=\textwidth}{%
         \begin{tabular}{c c¡c¡c¡c¡c¡p{5cm}}
             \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
@@ -374,7 +376,9 @@
     \caption{\label{appendix:builtinlist} List of all implemented built-ins and how they are used.}
 \end{table}
 
-
+\section{Assembly Mnemonics}
+\label{sec:inlineasm}
+\begin{table}[htbp]
 \begin{tabular}{l l p{9cm}}
     mnemonic & operands & description \\
     \hline
@@ -403,9 +407,11 @@
     |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\
     |sync| & & synchronize data cache\\
 \end{tabular}
+\caption {\label{tab:asm} Overview of Common Assembly Mnemonics}
+\end{table}
 \add{caption and reference to PPC book and asm website correct the table}
 
-Obviously the mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
+Mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
 \begin{description}
     \lstitem{i} indicates that the instructions uses an immediate value
     \lstitem{b} stands for byte and references the size of the operand
@@ -415,19 +421,15 @@ Obviously the mnemonics follow a certain pattern that has letters which can be i
     \lstitem{g, ge, l, le, e} stand for greater, greater or equal, less, less or equal and equal which is the possible content of the conditional register
 \end{description}
 
-There are also special operands which might occur in |asm| which behave like pointers:
+There are also special operands which might occur in inline assembly, which behave like pointers, while others contain debugginf information.
 \begin{description}
     \lstitem{@l(C)} is equivalent to the lower order 16 bits of of |C| in the symbol table
     \lstitem{@ha(C)} is equivalent to the higher order 16 bits of of |C| in the symbol table and minds the sign extension
-\end{description}
-
-Additionally there exist markers which are intended for debugging:
-\begin{description}
-        \lstitem{.loc # # #} marks a line of code (file, line, column) in the source file
-        \lstitem{.LVL} is a local label which can be discarded
-        \lstitem{.LFB} marks the begin of a function
-        \lstitem{.LFE} marks the end of a function
-        \lstitem{.LC0} is a constant of the literals table at position |0|
+    \lstitem{.loc # # #} marks a line of code (file, line, column) in the source file
+    \lstitem{.LVL} is a local label which can be discarded
+    \lstitem{.LFB} marks the begin of a function
+    \lstitem{.LFE} marks the end of a function
+    \lstitem{.LC0} is a constant of the literals table at position |0|
 \end{description}
 
 \add{all these tables in the appendix}

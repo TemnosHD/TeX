@@ -21,7 +21,7 @@ The \ac{HICANN-DLS} system implements a simplified neural model in analogue elec
 
 \begin{figure}[h!]
     \centering
-    %\include{fig/array}
+    \include{fig/array}
     \caption{\label{fig:array} The synaptic array consists of pre-synaptic inputs (left), neurons (bottom) and 1024 synapses. All synapses along a column are connected to the respective neuron. Pre-synaptic inputs send their signal to all synapses along their respective row.}
 \end{figure}
 At its core it has a so called \textbf{synaptic array} (see figure~\ref{fig:array} that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs).
@@ -182,13 +182,13 @@ Because every instruction has to be represented by a circuit in the \ac{ALU}, a 
 In general developing a processor architecture is always a trade-off between factors like: available chip space, instruction set and design complexity, energy consumption and maximum clock frequency.
 Because of this, processors can be classified in two main groups:
 \begin{description}
-    \item[\acs{CISC}] Complex Instruction Set Computer
-    \item[\acs{RISC}] Reduced Instruction Set Computer
+    \item[\ac{CISC}]
+    \item[\ac{RISC}]
 \end{description}
 The latter usually has an instruction set that is reduced to simple instructions as |add| or |sub| and connects these to create more complex instructions.
 It also can be operated at higher clock frequencies, therefore it is the perfect architecture for applications that need to do simple arithmetic as fast as possible.
 
-The \ac{PPU} is a RISC architecture so we will focus more on \ac{RISC}'s key features throughout this chapter.
+The \ac{PPU} is a \ac{RISC} architecture so we will focus more on \ac{RISC}'s key features throughout this chapter.
 
 %assembly
 The complexity of an instruction set also affects developers directly, if they are working on low-level code.
@@ -202,13 +202,13 @@ Assembly instructions follow the same scheme as machine instructions do:
         \bitheader{0,7,15,23,31}\\
         \bitboxes{8}{{add}{r1 \\ \tiny register address}{0x3000 \\ \tiny memory address}{5 \\ \tiny immediate operand}}
     \end{bytefield}
-    \caption{\label{fig:opcode} Representation of a Machine Instruction in Memory}
+    \caption{\label{fig:mnemonic} Representation of a Machine Instruction in Memory}
 \end{figure}
-\begin{lstlisting}
+
+\begin{lstlisting}[caption=Assembly in Written Form, label=lst:asm]
     add r1, 0x3000, 5
-    mnemonic operand/result operand operand
 \end{lstlisting}
-In \acfi{RISC} architectures instructions typically consist of 3 operands and are usually between registers only (except for load/store memory instructions).
+In \ac{RISC} architectures instructions typically consist of 3 operands and are usually between registers only (except for load/store memory instructions).
 The mnemonic in most cases is a named after the first letters of the instructions full name, which is emphasized in the following table.
 The operand can be of three different types which are all shown above.
 They either represent a specific register (r1 = register 1), a memory address (0x3000 = the value at memory location 0x3000) or an immediate value (5 = the integer 5).
@@ -223,13 +223,12 @@ As address size is limited by the register, the maximum amount of memory that ca
     2^{n} byte \xrightarrow{\text{n = 32 bit}} 2^{32} byte \approx 4*10^{9} byte = 4 GiB
 \end{equation}
 
-An overview of different assembly mnemonics for the POWER7 ISA can be seen in the Appendix as table~\ref{table:asm}.
-It is accompanied by tables~\ref{table:letters} and \ref{table:asmmisc} which give further information on assembly.
+An overview of different assembly mnemonics for the POWER7 ISA can be seen in the appendix section~\ref{sec:inlineasm}.
 
-%RISC
-Many RISC architectures have an instruction set that consists exclusively of 3 operand instructions and any instructions that seem to have less than that, are just mapped to more complex instructions that have three operands but still need only the minimum amount of clock cycles.
+%\ac{RISC}
+Many \ac{RISC} architectures have an instruction set that consists exclusively of 3 operand instructions and any instructions that seem to have less than that, are just mapped to more complex instructions that have three operands but still need only the minimum amount of clock cycles.
 Such simple instructions are similar to micro instructions, which were mentioned earlier, and every simple instruction has the same low number of micro instructions.
-RISC architectures therefore start ``pipelining'' instructions, which means starting the next machine instruction as the previous machine instruction just performed the first step in a clock cycle.
+\ac{RISC} architectures therefore start ``pipelining'' instructions, which means starting the next machine instruction as the previous machine instruction just performed the first step in a clock cycle.
 Ideally, this will increase the performance by a factor that is equal to the number of micro instructions in a machine instruction.
 
 It must be noted though, that the processor has to implement detection of \textbf{hazards}, which are data dependencies between instructions; e.g. one instruction needs the result of another.
@@ -296,7 +295,7 @@ Its vector registers can either hold sixteen 8-bit |char| (V16QI), eight 16-bit 
     \caption{\label{fig:vectorlength} Vector structures are mostly 128 bits wide and split into common word sizes that are always powers of two.}
 \end{figure}
 
-It resembles most characteristics of the s2pp vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of GCC, but both \ac{VE}s also feature differences.
+It resembles most characteristics of the s2pp vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of \ac{GCC}, but both \ac{VE}s also feature differences.
 
 The s2pp \ac{VE} features a vector accumulator of 128 bits width and a \ac{VCR} which holds 3 bits for each half byte of the vector, making 96 bit in total.
 Instructions on the s2pp \ac{VE} can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the \ac{VCR}, while the AltiVec \ac{VE} utilizes the \ac{CR} of the PowerPC architecture.
@@ -338,7 +337,7 @@ It therefore splits the code into instructions issued before the memory barrier 
 This prohibits any instruction from being executed on the wrong side of the barrier due to reordering and thereby generally prevents conflicting memory instructions.
 
 One kind of memory barrier is |sync| which does exactly what we just described.
-This and other memory barriers are also described in the appendix (\ref{table:asm}).
+This and other memory barriers are also described in section~\ref{sec:inlineasm}.
 
 \begin{lstlisting}[caption=The memory barrier ensures that the first store was performed before the second store is issued., label=lst:sync]
 stw     r7,data1(r9)#store shared data (last)
@@ -433,10 +432,10 @@ In general these opcodes are divided into 6 groups of instructions:
 At its core every compiler translates a source-language into a target-language as figure~\ref{fig:compiler} illustrates.
 Most often it translates a high-level, human readable programming language into a machine language that consists of basic instructions that build complicated structures.
 In doing so, compilers may be the essential part in everyday lives of programmers everywhere.
-And since the point in time when the first compilers emerged, their development played a big role in making computers such an important part of everyday life as they are today.
+Thereby compilers played a key role in development of computers in general.
 
-What differs compilers from the competing concept of interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.
-As interpreters combine these two and translate a program at run-time, a compiler takes the time to read the source-language file completely (often several times) and only then creates the executable files which are executed after the process has finished.
+What differs compilers from interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.
+As interpreters combine these two and translate a program at run-time, a compiler reads the source-language file completely (often several times) and only then creates the executable files which are executed after the process has finished.
 The advantages of this are simple:
 While a compiler takes some time at first until the program can be started, the resulting executable is next to always faster and more efficient.
 This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a \textbf{pass}).
@@ -455,35 +454,34 @@ Of course there do exist many different compilers today and what matters to the 
 \end{figure}
 
 A compiler is not the only contributor to translation of a program into an executable program although it is the most prominent one.
-Figure~\ref{fig:compiler} illustrates the chain of tools that is involved into this process:
-As one can see the \textbf{preprocessor} modifies the source before it is processed by the compiler and removes comments, substitutes macros and also includes other files into the source before it passes the new program code to the compiler.
+Figure~\ref{fig:cmpstruct} illustrates the chain of tools that is involved into this process:
+First the \textbf{preprocessor} modifies the source before it is processed by the compiler and removes comments, substitutes macros and also includes other files into the source before it passes the new program code to the compiler.
 The compiler then passes its output to the \textbf{assembler} which translates the output of the compiler which is written in a language called \textbf{assembly} into actual machine code by substituting the easy-to-read string alternatives with actual opcodes.
 At last the \textbf{linker} combines the resulting ``object-files'' that the assembler emitted with standard library functions, that are already compiled, and other resources. 
 The result is a single file that is almost executable.
-The only task which is left for the \textbf{loader} is assigning a base address to the relative memory references of the ``relocatable'' file which were used until now.
+The only task which is left for the \textbf{loader} is assigning a base address to the relative memory references of the ``relocatable'' file.
 The code is now fully written in machine language and ready for operation.
 \\
 \\
-Since we are more interested in compilers than other components, we will take a better look at the compiler itself.
-Figure~\ref{fig:compiler} shows the common separation of a compiler into \textbf{front-end}, \textbf{back-end} and an optional \textbf{middle-end}.
+Figure~\ref{fig:cmpintstruct} shows the separation of a compiler into \textbf{front-end}, \textbf{back-end} and an optional \textbf{middle-end}.
 This is done to make a compiler portable, which means allowing the compiler to work for different source-languages which are implemented in the front-end and target-languages which must be specified in the back-end.
 Therefore if one wants to compile two different programs e.g. one in C the other in FORTRAN, it is necessary to change the front-end but not the back-end because the machine or \textbf{target} stays the same.
 The middle-end in this regard is not always needed but could be responsible for optimizations that are both source-independent and target-independent.
 
 Of course the different parts of the compiler have to communicate through a language that all parts can understand or speak.
-Such a language is called \textbf{intermediate representation} (IR) and also used during different phases of the compilation process.
+Such a language is called \textbf{\ac{IR}} and also used during different phases of the compilation process.
 It may differ in its form but always stays a representation of the original program code.
 \\
 \\
 The different phases of a compilation process are illustrated to the far right of figure~\ref{fig:compiler}.
-First the preprocessed source code is fed into the \textbf{scanner} that performs lexical analysis, which is combining sequences of characters to symbols and so called tokens that get associated with an attribute such as ``number'' or ``plus-sign'' and the symbol.
+First the preprocessed source code is given to the \textbf{scanner} that performs lexical analysis, which is combining sequences of characters and attributes such as ``number'' or ``plus-sign'' to so called tokens.
 Next the \textbf{parser} takes the sequence of tokens and builds a syntax tree that represents the structure of a program and is extended by the \textbf{semantic analyzer} which adds known attributes at compile-time like ``integer'' or ``array of integers'' and checks if the resulting combinations of attributes are valid.
-This already is the first form of IR.
+This already is the first form of \ac{IR}.
 The \textbf{source code optimizer} which is the last phase of the front-end takes the syntax tree and takes a first shot at optimizing the code.
 Typically only light optimization is possible at this point such as pre-computing simple arithmetic instructions.
 After the source code optimizer is done the syntax tree is converted into different IR in order to be passed to the back-end.
 
-The \textbf{code generator} takes this IR and translates it to machine code that fits the target --- typically this is assembly.
+The \textbf{code generator} takes this \ac{IR} and translates it to machine code that fits the target --- typically this is assembly.
 At last the \textbf{target code optimizer} tries to apply target-specific optimization until the target code can be emitted.
 
 During these phases the compiler also generates a symbol and literal table.
@@ -492,16 +490,14 @@ A \textbf{literal table} in contrast holds constants (i.e. strings) and makes th
 This information is used by the code generator and various optimization processes.
 
 \subsection{Back-End and Code Generation}
-We now want to focus a little more on the last two phases of a compiler, which are also part of the back-end.
-We already stated that the back-end is responsible for code generation and target optimization and since we will keep focus on the back-end later on, we need to get used to a few other terms that are common when talking about compiler back-ends.
-\\
-\\
-Usually the processes of code generation and target optimization are entangled as optimization can take place at different phases of code generation.
+The last two phases of the compiler, which are part of the back-end, are the most interesting in respect to this thesis.
+Usually the processes of code generation and target optimization in the back-end are entangled as optimization can take place at different phases of code generation.
 Thus we first take a look at code generation in the back-end.
-
-As we learned already, the source program reaches the back-end in form of IR.
-Often the IR is already linearized and thereby again in a form that can be seen as sequence of instructions.
-Because of this the IR may also be referred to as Intermediate Code.
+\\
+\\
+As we learned already, the source program reaches the back-end in form of \ac{IR}.
+Often the \ac{IR} is already linearized and thereby again in a form that can be seen as sequence of instructions.
+Because of this the \ac{IR} may also be referred to as Intermediate Code.
 The process of generating actual machine code from this is again split into different phases:
 \begin{itemize}
     \item instruction selection
@@ -510,14 +506,15 @@ The process of generating actual machine code from this is again split into diff
 \end{itemize}
 
 At first the back-end recognizes sets of instructions in intermediate code that can be expressed as an equivalent machine instruction.
-Depending on the complexity of the instruction set a single machine instruction can combine several IR instructions.
-This may involve additional information that the front-end aggregated and added to the IR as attributes single machine instruction can combine several IR instructions.
-At the end of this is a compiler typically emits a sequence of assembly instructions which we will explain later on.
+Depending on the complexity of the instruction set a single machine instruction can combine several \ac{IR} instructions.
+This may involve additional information that the front-end aggregated and added to the \ac{IR} as attributes.
+Single machine instruction can combine several of these \ac{IR} instructions.
+At the end of this, a compiler typically emits a sequence of assembly instructions which we will explain later on.
 In order to fulfill this task the compiler needs the specifications of the target it compiles for.
 This is called a target description and can contain things like specifications of the register-set, restrictions and alignment in memory and availability of extensions and functionalities.
-The compiler also needs knowledge of the instruction set of a target sometimes referred to as the ISA which is in essence a list of instructions which are available and also their functionality.
-The compiler picks instructions according to their functionality from this list and substitutes the IR with this.
-Ideally a back-end thus could support different back-ends just by exchanging the machine description and the ISA as the basic methods of generating code are the same for most targets.
+The compiler also needs knowledge of the instruction set of a target, which is determined by the \ac{ISA} and is a list of instructions which are available and also their functionality.
+The compiler picks instructions according to their functionality from this list and substitutes the \ac{IR} with this.
+Ideally a back-end thus could support different back-ends just by exchanging the machine description and the \ac{ISA} as the basic methods of generating code are the same for most targets.
 
 After the IR is converted into machine instructions the back-end now rearranges the sequence of instruction.
 This needs to be done as different instructions take different amounts of time to be executed.
@@ -527,7 +524,7 @@ This means that the compiler adds |nop|s before every instruction that needs to 
 For critical memory usage the compiler can also insert |sync|s as memory barriers before hazardous memory instructions.
 Alternatively it can stall only the instruction which depends on the result which is currently computed but perform instructions that do not depend on the result in the mean time.
 By doing so the scheduler increases performance noticeably and thus can partly be seen as part of the optimization process.
-On RISC architectures this is especially important as load and store instructions can take a few hundred times more clock cycles than normal register instructions and pipelining depends mainly on the instruction sequence.
+On \ac{RISC} architectures this is especially important as load and store instructions can take a few hundred times more clock cycles than normal register instructions and pipelining depends mainly on the instruction sequence.
 Thus the scheduler is also involved parallelization of code.
 As a result of this a compiler would usually accumulate all load instructions at he beginning of a procedure and start computing on registers that already have a value while the others are still loaded.
 This is done vice versa at the end of a procedure for storing the results in memory.
@@ -557,11 +554,11 @@ In peephole optimization the compiler only looks at a small amount of code throu
 These substitutions must be specified by hand and are highly target-dependent in contrast to the optimizations which were mentioned before that are target-independent.
 If the sequence can be substituted the peephole optimizer does so, otherwise the peephole is moved one step further and the new sequence is evaluated.
 
-\subsection{Assembly Basics}
+\subsection{Inline Assembly}
 \label{section:asm}
 Following a short introduction in the previous section, we want to spend a little time on assembly as it is useful to know how to program in assembly while using C.
-This is done as follows:
-\begin{lstlisting}[caption= Exemplatory Assembly invkation, label=lst:asm]
+This is called \textbf{inline assembly} and uses the function |asm|.
+\begin{lstlisting}[caption= Exemplatory Assembly invkation, label=lst:inlineasm]
 asm volatile (  "add %0, %1, %2"
                 : "=r" (dst)
                 : "r" (src1), "r" (src2):);
@@ -591,56 +588,58 @@ A typical field of application for intrinsics would be vectorization and paralle
 Sometimes this is the sole option of using the machine instructions associated with them.
 
 \subsection{GNU Compiler Collection}
-The GNU Compiler Collection (GCC) is a compiler suite that supports different programming languages and targets.
-Though normally it is seen as a build of GCC supports a variety of front-ends while it was built for a specific target.
+\label{sec:GCC}
+The \ac{GCC} is a compiler suite that supports different programming languages and targets.
+Though normally it is seen as a build of \ac{GCC} supports a variety of front-ends while it was built for a specific target.
 This target in most cases is the processor architecture on which the user runs the compiler.
-But GCC also supports the idea of a cross-compiler which is the concept of compiling code on one machine but running the code on a different machine that is also based on a different architecture.
-One must though build a version of GCC locally for every back-end one wants to compile code for.
+But \ac{GCC} also supports the idea of a cross-compiler which is the concept of compiling code on one machine but running the code on a different machine that is also based on a different architecture.
+One must though build a version of \ac{GCC} locally for every back-end one wants to compile code for.
 This is realized through a modular structure which follows the idea of a front-end, middle-end and back-end as it was described in section \ref{section:compiler} although some information that belongs to a back-end is also needed at the front-end, hence the compiler is built back-end specific but supports a wide variety of back-ends to choose from.
 
-GCC itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
+\ac{GCC} itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
 It is wide-spread and one of the most popular compilers especially among academic institutions and small scale developers.
-Every major UNIX distribution and many minor ones include GCC as a standard compiler.\cite{definitveGCCGuide:introduction}
+Every major UNIX distribution and many minor ones include \ac{GCC} as a standard compiler.\cite{definitveGCCGuide:introduction}
 As an open source project there is a constant development to the compiler and there exist many threads that support known bugs.
 
-There is one major competitor though which stands besides GCC as an open source compiler suite which is Clang that is part of the LLVM (low level virtual machine).
-Both support running the same source code on multiple machines while LLVM actually runs intermediate code rather than actual machine code and uses GCC to generate this intermediate code for some front-ends.
-However while one can argue in favor for either one, GCC seems a little better suited for our application. \todo{reference LLVM vs. GCC on ARM, LLVM vs. Gcc in EISC}
+There is one major competitor though which stands besides \ac{GCC} as an open source compiler suite which is Clang that is part of the \ac{LLVM} (low level virtual machine).
+Both support running the same source code on multiple machines while \ac{LLVM} actually runs intermediate code rather than actual machine code and uses \ac{GCC} to generate this intermediate code for some front-ends.
+However while one can argue in favor for either one, \ac{GCC} seems a little better suited for our application. \todo{reference \ac{LLVM} vs. \ac{GCC} on ARM, \ac{LLVM} vs. Gcc in EISC}
 These results have to be viewed with care, as they are based on different processor architectures but it seems like both compilers provide similar performance.
 Ultimately it is the personal preference of the programmer that decides which compiler one is more comfortable with and often enough he chooses that compiler.
-In our case I have chosen GCC over LLVM for two main reasons.
-One is that after all GCC follows more the traditional concept of a compiler that generates machine code at the end and also I was far more familiar with GCC than with LLVM when this decision had to be made.
-The other is that GCC support existed to a minimum before I started this thesis and thus there was a point to start from.
+In our case I have chosen \ac{GCC} over \ac{LLVM} for two main reasons.
+One is that after all \ac{GCC} follows more the traditional concept of a compiler that generates machine code at the end and also I was far more familiar with \ac{GCC} than with \ac{LLVM} when this decision had to be made.
+The other is that \ac{GCC} support existed to a minimum before I started this thesis and thus there was a point to start from.
 This topic will be referred to later on in the discussion but for now a short motivation seems to be sufficient.
 
-By now GCC is a stable release version of 6.3 with version 7 in the works but we will use an older version which is used internally at the BrainScaleS project which is version 4.9.2.
+By now \ac{GCC} is a stable release version of 6.3 with version 7 in the works but we will use an older version which is used internally at the BrainScaleS project which is version 4.9.2.
 Additionally we will use binutils 2.25 which was patched by Simon Friedmann and since includes the opcodes and mnemonics which are supported by the nux.
 A complete specification of the libraries used and a handy script that builds a cross-compiler for the nux on PowerPC systems can be found there as well.
 
-We take a special interest in the PowerPC back-end of GCC which is called rs/6000 for IBMs RISC system/6000 architecture that is equivalent to POWER.
-According to GCCs Internals manual \cite{GCCint}, which we will refer to as the sole source of information in this regard, the back-end of GCC has the following structure:
+We take a special interest in the PowerPC back-end of \ac{GCC} which is called rs/6000 for IBMs \ac{RISC} system/6000 architecture that is equivalent to POWER.
+According to \ac{GCC}s Internals manual \cite{GCCint}, which we will refer to as the sole source of information in this regard, the back-end of \ac{GCC} has the following structure:
 
 Each architecture has a directory with its respective name in gcc/config e.g. gcc/config/rs6000 that contains a minimum amount of files.
 These are the machine description rs6000.md which is an overview of machine instructions with additional information to each instruction and the header files rs6000.h and rs6000-protos.h and source file rs6000.c that handle the target description through macros and functions.
-Every back-end needs these files in the GCC source and the final back-end is build from these files through the macros and functions just mentioned.
+Every back-end needs these files in the \ac{GCC} source and the final back-end is build from these files through the macros and functions just mentioned.
 To notice a back-end in the first place the back-ends directory -here "rs6000"- must be added to the file config.gcc which also includes a list of all files in the aforementioned directory.
 Most back-ends include additional files which makes a back-ends complex structure clearer but these are not mandatory and we will address these later.
 
 Instead we address one of the most important functions which unfortunately is also one of the least documented though most complicated ones.
 The function/process is called ``reload'' and is used as part of the register allocation process. \cite{GCCwiki:reload}
-Specifically reload is meant to do register spilling but over almost 25 years that GCC existed until 4.9.2 it became more and more complex and basically does everything associated with register allocation (mainly moving the contents of different registers and memory around, and finding the right registers in the first place).
+Specifically reload is meant to do register spilling but over almost 25 years that \ac{GCC} existed until 4.9.2 it became more and more complex and basically does everything associated with register allocation (mainly moving the contents of different registers and memory around, and finding the right registers in the first place).
 Over the years it thus became one of the main sources of errors when constructing a back-end and was meant to be replaced several times.
-As of now reload is being replaced by LRA (local register allocator) but GCC 4.9.2 is not impacted by this therefore we are stuck with reload indefinitely.
+As of now reload is being replaced by LRA (local register allocator) but \ac{GCC} 4.9.2 is not impacted by this therefore we are stuck with reload indefinitely.
 
-To address possible errors in reload later on we now get to know one form of IR in GCC that is Register Transfer Language (RTL).
+To address possible errors in reload later on we now get to know one form of \ac{IR} in \ac{GCC} that is Register Transfer Language (\ac{RTL}).
 
-\subsubsection{Register Transfer Language Basics}
-RTL, which is not to be mixed up with Register Transfer Level, is a form of IR the back-end uses to generate machine code.
-Usually GCC uses the IR GIMPLE which looks like stripped down C code with 3 argument expressions, temporary variables and |goto| control structures.
-The back-end transforms this into a less readable IR that inherits GIMPLEs structure but brings it to a machine instruction level.
-It is inspired by Lisp lists and thus we will need to take a look at those at last in before we take on the task of extending a GCC back-end.
+\subsubsection{Insn Definition and Register Transfer Language}
+\label{sec:defineinsn}
+\ac{RTL}, which is not to be mixed up with Register Transfer Level, is a form of \ac{IR} the back-end uses to generate machine code.
+Usually \ac{GCC} uses the \ac{IR} GIMPLE which looks like stripped down C code with 3 argument expressions, temporary variables and |goto| control structures.
+The back-end transforms this into a less readable \ac{IR} that inherits GIMPLEs structure but brings it to a machine instruction level.
+It is inspired by Lisp lists and thus we will need to take a look at those at last in before we take on the task of extending a \ac{GCC} back-end.
 
-We do so in looking at one of the most fundamental RTL statements first while explaining the each part at a time.
+We do so in looking at one of the most fundamental \ac{RTL} statements first while explaining the each part at a time.
 
 \begin{lstlisting}
 (define_insn "add<mode>3"
@@ -662,16 +661,16 @@ We do so in looking at one of the most fundamental RTL statements first while ex
 
 There exist manuals to basically everything which is written here and the more extensive manual will be referenced at he end of each paragraph.
 
-|define_insn| is an RTL expression that generates an RTL equivalent to a machine instruction.
-One such instruction is called an insn (short for instruction) hand has several properties like a name, an RTL template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
+|define_insn| is an \ac{RTL} expression that generates an \ac{RTL} equivalent to a machine instruction.
+One such instruction is called an insn (short for instruction) hand has several properties like a name, an \ac{RTL} template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
 The name in this case is |add<mode>3| (|3| for three operands) where |<mode>| is to replaced by a set of values that describe a modes. \cite{GCCint:stdnames}
 A mode is the form of an operand and can be something like |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \cite{GCCint:modes}
 There are many more modes that follow the same scheme.
 In this case we do not specify the mode explicitly but use an iterator that creates a |define_insn| for every valid mode we specify. \cite{GCCint:iterator}
 The second |define_insn| shows this with a specific mode.
 
-Next follows the RTL template which is in square brackets.
-All RTL templates need a side effect expression as a base which describes what happens to the operands that follow.
+Next follows the \ac{RTL} template which is in square brackets.
+All \ac{RTL} templates need a side effect expression as a base which describes what happens to the operands that follow.
 In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \cite{GCCint:sideeffect}
 The first expression that follows is a specified operand.
 |match_operand| tells the compiler that what follows is a new operand.
@@ -682,43 +681,44 @@ The following string describes a predicate which tells the compiler more about t
 Operands typically end in |_operand| and a single predicate is meant to group several different operand types.
 In this case any register would be a valid operand. \cite{GCCint:predicates}
 The next string specifies the operands further and is meant to fine tune the predicate.
-It is called a constraint and matches the description which was taken in section \ref{section:asm}.
+It is called a constraint and matches the description in section \ref{section:asm}.
 |=| again means that the register must be writable and |v| stands for an AltiVec vector register.\cite{GCCint:constraints}
 This pattern is repeated for every operand and only changes slightly.
 Though the second expression of the |set| side effect has an additional pair of parentheses because of the |plus| statement.
 This is an arithmetic expression and tells the compiler that the following operands are part of an operation that results in a new value.
 It is also succeeded by a mode that specifies the mode of the result.\cite{GCCint:arith}
 
-The RTL template is matched by the compiler against the RTL it generated from GIMPLE and if the template matches the RTL is substituted by the output template that follows.
+The \ac{RTL} template is matched by the compiler against the \ac{RTL} it generated from GIMPLE and if the template matches the \ac{RTL} is substituted by the output template that follows.
 
-After the RTL template is finished, the condition specifies if the insn may be used.
-It is a C expression an must render |true| in order to allow the matching RTL pattern to be applied.
+After the \ac{RTL} template is finished, the condition specifies if the insn may be used.
+It is a C expression an must render |true| in order to allow the matching \ac{RTL} pattern to be applied.
 In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \cite{GCCint:defineinsn}
 
 The output template is usually is similar to the |asm| template from |asm|.
-The string contains the mnemonic of a machine instruction and the operands which are numbered according to the indexes of the RTL template.
+The string contains the mnemonic of a machine instruction and the operands which are numbered according to the indexes of the \ac{RTL} template.
 Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \cite{GCCint:defineinsn}
 
 At last the insn is completed by its attributes which hold further information about the insn that is used by the compiler internally like which effect an insn has on certain register etc..
 We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \cite{GCCint:attributes}
 
 
-The attentive reader might have noticed that only RTL template is written in RTL.
+The attentive reader might have noticed that only \ac{RTL} template is written in \ac{RTL}.
 This is true but still do insn patterns belong into this section.
-The RTL not only is the most important part of an insn but we will hardly see RTL outside from RTL templates.
-Still should RTL be mentioned in its other form here as it is used for debugging purposes.
+The \ac{RTL} not only is the most important part of an insn but we will hardly see \ac{RTL} outside from \ac{RTL} templates.
+Still should \ac{RTL} be mentioned in its other form here as it is used for debugging purposes.
 
-RTL can be split into two phases which are non-strict RTL and strict RTL.
+\unsure{keep everything that follows?}
+
+\ac{RTL} can be split into two phases which are non-strict \ac{RTL} and strict \ac{RTL}.
 Non-strict occurs only before |reload| and is very deliberate in specifying its operands.
 Operands usually are virtual registers that have a unique number.
 |match_operand| then is replaced by |(reg:SI 1)| which tells the compiler the type of operand, the mode and the register number.\cite{GCCint:regsnmem}
 
-Strict RTL has passed |reload| and no longer contains virtual registers but only references existing hard registers or memory.
+Strict \ac{RTL} has passed |reload| and no longer contains virtual registers but only references existing hard registers or memory.
 
-An example of non-strict RTL and strict RTL of the same code can be seen in figure \add{examples of RTL code}
+An example of non-strict \ac{RTL} and strict \ac{RTL} of the same code can be seen in figure \add{examples of \ac{RTL} code}
 
 \add{
-MMU ?= memory controller
 PPC must handle syncing in compiler when I/O is added
 explain stack and frame pointer
 PPU instruction set

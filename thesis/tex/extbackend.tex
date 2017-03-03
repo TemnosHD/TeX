@@ -79,7 +79,7 @@ in |rs6000.h| as macros with |MASK_| are a standard from earlier versions of GCC
 Although this option flag shall later enable s2pp support, we need the aforementioned flags as well to compiler nux programs.
 For this reason we add a processor type which combines those flags.
 There exist several lists that contain available targets and we need to add nux to these.
-First we create the |asm|~\ref{dection:asm} flag which tells the assembler which system architecture is used.
+First we create the inline assembly (see section~\ref{section:asm}) flag which tells the assembler which system architecture is used.
 As nux is based on POWER7 we copy the flag |-mpower7| in |driver-rs6000.def|:
 
     \begin{lstlisting}[caption=rs6000.h]{Name}
@@ -384,7 +384,7 @@ rs6000_attribute_takes_identifier_p (const_tree attr_id)
 \section{Registers}
 \label{section:register}
 This section will describe, how s2pp registers are added to the back-end.
-Also, we will add constraints and predicates \ref{sec:definsn} for these registers.
+Also, we will add constraints and predicates (see section~\ref{sec:defineinsn}) for these registers.
 
 There are three types of registers in the s2pp VE:
 \begin{description}
@@ -813,7 +813,7 @@ For this reason we must scan the source files for uses of |FP_REGNO_P(N)| and ad
 This is especially the case when dealing with hard registers and having the compiler emit register moves.
 
 \section{Reload}
-As hinted in section \ref{sec:methreload} |reload| is a deprecated process in GCC that mainly performs register allocation.
+As hinted in section \ref{sec:GCC}, |reload| is a deprecated process in GCC that mainly performs register allocation.
 Obviously we need to add special handling for vector registers to |reload| because because register allocation is an important part of the compilation process.
 Thus we must add support for |S2PP_REGS|.
 
@@ -900,6 +900,7 @@ rs6000_cannot_change_mode_class (enum machine_mode from,
 \end{lstlisting}
 
 \section{Built-ins, Insns and Machine Instructions}
+\label{sec:builtins}
 Basically the back-end is now capable of handling s2pp vector instructions.
 The only thing that is left to do, is specifying machine instructions that move registers or access memory.
 For this reason we add a machine description file |s2pp.md| to the back-end which will contain all available vector instructions.
@@ -943,7 +944,7 @@ It is generally used by |emit_move_insn| to allocate registers and memory.
   [(set_attr "type" "vecstore,vecload,vecsimple,store,load,*,vecsimple,*")])
 \end{lstlisting}
 
-We explained the basics of insn definition earlier in section \ref{section:insn} thus we will only explain specific for this insn.
+We explained the basics of insn definition earlier in section \ref{sec:defineinsn} thus we will only explain specific for this insn.
 The name is proceeded by an asterisk that renders the name not accessible directly because this insn shall only be referred to by the RTL sequence that follows.
 Names starting with an asterisk are in general equal to no name.
 
