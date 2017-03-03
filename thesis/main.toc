@@ -3,30 +3,30 @@
 \select@language {ngerman}
 \select@language {english}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Fundamentals and Applications of Computer Architectures and Compiler Design}{4}{chapter.2}
-\contentsline {section}{\numberline {2.1}Hardware Implementation of Neural Networks}{4}{section.2.1}
-\contentsline {section}{\numberline {2.2}Processor Architectures and the Plasticity Processing Unit}{7}{section.2.2}
-\contentsline {section}{\numberline {2.3}Basic Compiler Structure}{16}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Back-End and Code Generation}{18}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Inline Assembly}{21}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}Intrinsics}{21}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{22}{subsection.2.3.4}
-\contentsline {subsubsection}{\nonumberline Insn Definition and Register Transfer Language}{23}{section*.53}
-\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{26}{chapter.3}
-\contentsline {section}{\numberline {3.1}Adding Option Flag and nux Target}{27}{section.3.1}
-\contentsline {section}{\numberline {3.2}Creating Macros}{31}{section.3.2}
-\contentsline {section}{\numberline {3.3}Registers}{34}{section.3.3}
-\contentsline {section}{\numberline {3.4}Reload}{42}{section.3.4}
-\contentsline {section}{\numberline {3.5}Built-ins, Insns and Machine Instructions}{44}{section.3.5}
-\contentsline {section}{\numberline {3.6}Prologue and Epilogue}{53}{section.3.6}
-\contentsline {chapter}{\numberline {4}Results and Applications}{56}{chapter.4}
-\contentsline {chapter}{\numberline {5}Discussion and Outlook}{58}{chapter.5}
-\contentsline {chapter}{Appendix}{61}{section*.69}
-\contentsline {chapter}{\numberline {A}Appendix}{61}{appendix.A}
-\contentsline {section}{\numberline {A.1}Acronyms}{61}{section.A.1}
-\contentsline {section}{\numberline {A.2}List of nux Intrinsics}{65}{section.A.2}
-\contentsline {section}{\numberline {A.3}Assembly Mnemonics}{65}{section.A.3}
-\contentsline {chapter}{Bibliography}{68}{appendix*.76}
+\contentsline {chapter}{\numberline {2}Fundamentals and Applications of Computer Architectures and Compiler Design}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Hardware Implementation of Neural Networks}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Processor Architectures and the Plasticity Processing Unit}{6}{section.2.2}
+\contentsline {section}{\numberline {2.3}Basic Compiler Structure}{15}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Back-End and Code Generation}{17}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Inline Assembly}{19}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Intrinsics}{20}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{20}{subsection.2.3.4}
+\contentsline {subsubsection}{\nonumberline Insn Definition and Register Transfer Language}{22}{section*.63}
+\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{25}{chapter.3}
+\contentsline {section}{\numberline {3.1}Adding Option Flag and nux Target}{26}{section.3.1}
+\contentsline {section}{\numberline {3.2}Creating Macros}{30}{section.3.2}
+\contentsline {section}{\numberline {3.3}Registers}{33}{section.3.3}
+\contentsline {section}{\numberline {3.4}Reload}{41}{section.3.4}
+\contentsline {section}{\numberline {3.5}Built-ins, Insns and Machine Instructions}{43}{section.3.5}
+\contentsline {section}{\numberline {3.6}Prologue and Epilogue}{52}{section.3.6}
+\contentsline {chapter}{\numberline {4}Results and Applications}{55}{chapter.4}
+\contentsline {chapter}{\numberline {5}Discussion and Outlook}{57}{chapter.5}
+\contentsline {chapter}{Appendix}{60}{section*.79}
+\contentsline {chapter}{\numberline {A}Appendix}{60}{appendix.A}
+\contentsline {section}{\numberline {A.1}Acronyms}{60}{section.A.1}
+\contentsline {section}{\numberline {A.2}List of nux Intrinsics}{63}{section.A.2}
+\contentsline {section}{\numberline {A.3}Assembly Mnemonics}{63}{section.A.3}
+\contentsline {chapter}{Bibliography}{68}{appendix*.86}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}

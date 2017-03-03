@@ -15,10 +15,8 @@ The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
 A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
-Warning--I didn't find a database entry for "microprocessor"
 Warning--I didn't find a database entry for "nux"
 Warning--I didn't find a database entry for "https://gcc.gnu.org/gcc-4.9/"
-Warning--I didn't find a database entry for "heimbrecht"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--to sort, need author or key in AV:registers
 Warning--to sort, need author or key in GCCint
@@ -32,7 +30,6 @@ Warning--to sort, need author or key in GCCint:predicates
 Warning--to sort, need author or key in GCCint:constraints
 Warning--to sort, need author or key in GCCint:arith
 Warning--to sort, need author or key in GCCint:attributes
-Warning--to sort, need author or key in GCCint:regsnmem
 Warning--to sort, need author or key in GCCint:options
 Warning--to sort, need author or key in GCCint:asm
 Warning--to sort, need author or key in GCCint:definesplit
@@ -40,45 +37,47 @@ Warning--to sort, need author or key in GCCint:defineexpand
 Warning--to sort, need author or key in GCCint:funcentry
 Warning--empty year in AV:registers
 Warning--empty journal in PPU
-You've used 23 entries,
+Warning--empty journal in llvmgccarm
+Warning--empty journal in llvmgcceisc
+You've used 25 entries,
             3160 wiz_defined-function locations,
-            1201 strings with 12469 characters,
-and the built_in function-call counts, 8080 in all, are:
-= -- 659
-> -- 135
-< -- 6
-+ -- 89
-- -- 33
-* -- 592
-:= -- 697
-add.period$ -- 23
-call.type$ -- 23
-change.case$ -- 81
-chr.to.int$ -- 8
-cite$ -- 125
-duplicate$ -- 868
-empty$ -- 777
-format.name$ -- 44
-if$ -- 1694
-int.to.chr$ -- 16
+            1214 strings with 12744 characters,
+and the built_in function-call counts, 10039 in all, are:
+= -- 831
+> -- 248
+< -- 9
++ -- 139
+- -- 60
+* -- 728
+:= -- 910
+add.period$ -- 25
+call.type$ -- 25
+change.case$ -- 96
+chr.to.int$ -- 11
+cite$ -- 130
+duplicate$ -- 1047
+empty$ -- 890
+format.name$ -- 78
+if$ -- 2101
+int.to.chr$ -- 15
 int.to.str$ -- 1
-missing$ -- 149
-newline$ -- 76
-num.names$ -- 20
-pop$ -- 414
+missing$ -- 175
+newline$ -- 82
+num.names$ -- 32
+pop$ -- 506
 preamble$ -- 1
-purify$ -- 57
+purify$ -- 70
 quote$ -- 0
-skip$ -- 400
+skip$ -- 516
 stack$ -- 0
-substring$ -- 212
-swap$ -- 406
-text.length$ -- 2
+substring$ -- 256
+swap$ -- 528
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 201
-warning$ -- 20
-while$ -- 18
+type$ -- 216
+warning$ -- 21
+while$ -- 33
 width$ -- 0
-write$ -- 233
-(There were 24 warnings)
+write$ -- 255
+(There were 23 warnings)

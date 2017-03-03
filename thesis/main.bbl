@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
@@ -64,17 +64,17 @@ Gcc wiki, accessed 2017.03.26, 2013.
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
   Inc., 16.7 Predicates, 2017{\natexlab{m}}.
 
-\bibitem[{GCC(2017{\natexlab{n}})}]{GCCint:regsnmem}
+\bibitem[{GCC(2017{\natexlab{n}})}]{GCCint:sideeffect}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 13.8 Registers and Memory, 2017{\natexlab{n}}.
+  Inc., 13.15 Side Effect Expressions, 2017{\natexlab{n}}.
 
-\bibitem[{GCC(2017{\natexlab{o}})}]{GCCint:sideeffect}
+\bibitem[{GCC(2017{\natexlab{o}})}]{GCCint:stdnames}
 \textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 13.15 Side Effect Expressions, 2017{\natexlab{o}}.
+  Inc., 16.9 Standard Pattern Names For Generation, 2017{\natexlab{o}}.
 
-\bibitem[{GCC(2017{\natexlab{p}})}]{GCCint:stdnames}
-\textit{GNU Compiler Collection Internals Manual}, Free Software Foundation
-  Inc., 16.9 Standard Pattern Names For Generation, 2017{\natexlab{p}}.
+\bibitem[{\textit{Flik}(2005)}]{microprocessor}
+Flik, T., \textit{Mikroprozessortechnik und Rechnerstrukturen}, 7., neu bearb.
+  aufl. ed., XIV, 649 S. pp., Springer, Berlin ; Heidelberg [u.a.], 2005.
 
 \bibitem[{\textit{Friedmann}(2016)}]{nuxmanual}
 Friedmann, S., \textit{nux Manual}, 2016.
@@ -87,6 +87,16 @@ Friedmann, S., J.~Schemmel, A.~Grübl, A.~Hartel, M.~Hock, and K.~Meier,
 
 \bibitem[{\textit{Heimbrecht}(2017)}]{heimbrecht_2017internship}
 Heimbrecht, A., Internship report --- altivec intrinsics, 2017.
+
+\bibitem[{\textit{Kim et~al.}(2010)\textit{Kim, Lee, Moon, and
+  Kim}}]{llvmgccarm}
+Kim, J.-J., S.-Y. Lee, S.-M. Moon, and S.~Kim, Comparison of llvm and gcc on
+  the arm platform, pp. 1--6, 2010.
+
+\bibitem[{\textit{Park et~al.}(2014)\textit{Park, Han, Lee, and
+  Kim}}]{llvmgcceisc}
+Park, C., M.~Han, H.~Lee, and S.~W. Kim, Performance comparison of gcc and llvm
+  on the eisc processor, pp. 1--2, 2014.
 
 \bibitem[{\textit{Silbernagl and Despopoulos}(2009)}]{silbernagl2009color}
 Silbernagl, S., and A.~Despopoulos, \textit{Color Atlas of Physiology}, Basic

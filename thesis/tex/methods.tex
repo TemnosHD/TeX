@@ -2,101 +2,100 @@
 \label{ch:methods}
 
 \section{Hardware Implementation of Neural Networks}
-This thesis mainly focuses on a processor that is an essential part of the \acfi{HICANN-DLS}.
-The following chapter will deal with the \ac{HICANN-DLS} as a whole and then look into the \acfi{PPU} in detail while also addressing processor architecture in general.
+This thesis mainly focuses on a processor that is an essential part of the \textbf{\ac{HICANN-DLS}}.
+The following chapter will deal with the \ac{HICANN-DLS} as a whole and then look into the \textbf{\ac{PPU}} in detail while also addressing processor architecture in general.
 
 The \ac{HICANN-DLS} was built to emulate neural networks at high speeds with low power consumption.
 In contrast to many other systems \reference{other systems} it is a \textbf{spike based} system.
 This means that neuronal activities do not follow discrete time steps and neurons send out spikes when activated.
 
-Neurons are interconnected through dendrites, synapses and axons which can be of different coupling strength. 
+Neurons are interconnected through dendrites, synapses and axons where synapses can be of different coupling strength. 
 This means that a neuron is activated only for a short time, called a spike, and sends out this spike through its axon to neurons that are connected via synapses.
-Between those spikes the neuron is resting and not sending any signals.
+Between those spikes the neuron is resting and not sending any signals while still receiving input spikes from other neurons.
 Synapses can work quite differently but have in common that there is a certain weight associated to them, which we will call synaptic weight.
 The synaptic weight either amplifies or attenuates the pre-synaptic signal.
 The signal is then passed through the dendrite of the post-synaptic neuron to the soma where all incoming signals are integrated.
 If the integrated signals reach a certain threshold the neuron spikes and sends this signal to other neurons~\citep{silbernagl2009color}.
 
-The \ac{HICANN-DLS} system implements a simplified neural model in analogue electronics in order to emulate neuronal networks in a biologically plausible parameter range.
+The \ac{HICANN-DLS} system implements a simplified neural model in analog electronics in order to emulate neuronal networks in a biologically plausible parameter range.
 
 \begin{figure}[h!]
     \centering
     \include{fig/array}
     \caption{\label{fig:array} The synaptic array consists of pre-synaptic inputs (left), neurons (bottom) and 1024 synapses. All synapses along a column are connected to the respective neuron. Pre-synaptic inputs send their signal to all synapses along their respective row.}
 \end{figure}
-At its core it has a so called \textbf{synaptic array} (see figure~\ref{fig:array} that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs).
-Pre-synaptic inputs are arranged along one side of the chip which is orthogonal to the arrangement of the neurons.
-They enclose a 2D field which will be our synaptic array as it mainly consists of synapse circuits.
-All neurons reach into the array through conductors that are organized in columns.
-The pre-synaptic inputs respectively have conductors that resemble rows in the array.
-At each intersection of of those conducting lines, a synapse is placed that thereby connects a neuron and a pre-synaptic input.
-Overall this gives 1024 synapses that interconnect every neuron and every synapse.
+At its core it has a so called \textbf{synaptic array} (see figure~\ref{fig:array}) that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs).
+They enclose a 2D field which is the synaptic array as it mainly consists of synapse circuits.
+All neurons reach into the array through input lines that are organized in columns.
+The pre-synaptic inputs respectively have wires that resemble rows in the array.
+At each intersection of those rows and columns, a synapse is placed that thereby connects a neuron and a pre-synaptic input.
+Overall this gives 1024 synapses that interconnect neurons with the synaptic input.
 
-A \acfi{FPGA} is connected to all pre-synaptic inputs and routes external spikes to these inputs.
-Along an input row the signal of one pre-synaptic input reaches all synapses that connected and is processed individually.
-Synapses in the synapse array are realized as small repetitive circuits that contain 8 bits of accessible information.
-The lower 6 bits are \textbf{synaptic weight} and the spare two upper bits are used for calibration.
+A \textbf{\ac{FPGA}} is connected to all pre-synaptic inputs and routes external spikes to these inputs.
+Synapses are realized as small repetitive circuits that contain 16 bits of data (see figure~\ref{fig:circuit}).
+6 bits of those are used as \textbf{synaptic weight} and the spare two upper bits of that byte are used for calibration.
 Each synapse also holds a 6-bit wide internal decoder address.
 Decoder Address and synaptic weight can both be changed from outside.
 
-The synapse array can also be used in 16-bit mode for higher accuracy that combines the weights of two synapses to a 12-bit weight.
+The synapse array can also be used in 16-bit mode for higher weight accuracy, that combines the weights of two synapses to a 12-bit weight.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{pictures/syncircuit.png}
-    \caption{\label{fig:circuit} Block diagram of a synapse circuit (taken from \cite{PPU}).}
+    \caption{\label{fig:circuit} Block diagram of a synapse circuit (modified from \citeauthor{PPU}).}
 \end{figure}
 
-The \ac{FPGA} sends a 6-bit address whenever it sends a spike to a pre-synaptic input which then is compared by each synapse to the addresses they hold themselves.
-In case the addresses match, each synapse multiplies an output signal with the weight it stores and sends the result along a column where it reaches a neuron.
+The \ac{FPGA} sends a 6-bit address whenever it sends a spike to a pre-synaptic input which then is compared by each synapse to the decoder addresses they hold themselves.
+In case the addresses match, each synapse multiplies an output signal with the weight it stores and sends the result along a column where it reaches the neuron.
 Along those columns signals from different synapses are collected.
 Inside the neurons the resulting current input is integrated and if it exceeds a certain threshold the neuron spikes.
 If the neuron is spiking it sends an output signal to the FPGA which is responsible for spike routing in the first place.
 All of this is done continuously and does not follow discrete time steps, as mentioned earlier.
-Along each column sits a \acfi{CADC} that converts the signal one neuron receives into digital data for analysis but can also be accessed by the \ac{PPU} similar to the synaptic array.
-
-The \ac{HICANN-DLS} is also equipped with a processing unit that includes a vector extension and some memory for it to operate on.
-This is the plasticity processing unit \ac{PPU} which is also connected to the synapse array for it to read and write synaptic weights.
+Along each column sits a \textbf{\ac{CADC}} that measures correlation of post- and pre-synaptic spikes and can be accessed by the \ac{PPU} similar to the synaptic array.
+\begin{wrapfigure}[15]{l}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{pictures/nux.png}
+    \caption{\label{fig:nux} Block diagram of the nux architecture (modified from \citeauthor{PPU}).}
+\end{wrapfigure}
+The \ac{PPU} is the processing unit of \ac{HICANN-DLS} and is equipped with a \ac{VE} that is called \ac{s2pp}.
+It is also connected to the digital information is the synapse array.
 
 The following naming convention will be used throughout this thesis:
 \begin{description}
-    \item[\ac{PPU}] is the processor which is part of \ac{HICANN-DLS} and mainly responsible for plasticity of synapses.
-    \item[nux] refers to the architecture of the \ac{PPU}.
-    \item[s2pp] describes the \ac{PPU}'s vector extension and is part of the nux architecture.
+    \item[\ac{PPU}] is the processor which is part of \ac{HICANN-DLS} and mainly responsible for plasticity.
+    \item[nux] refers to the architecture of the \ac{PPU}, see figure~\ref{fig:nux}.
+    \item[\ac{s2pp}] describes the \ac{PPU}'s \ac{VE} and is part of the nux architecture.
 \end{description}
 
-Digital configuration of the synapses and writing \ac{PPU} programs to the memory is handled by an \ac{FPGA} that has access to every interface of a \ac{HICANN-DLS} chip.
+Digital configuration of the synapses and writing \ac{PPU} programs to the memory is handled by an \ac{FPGA}, that has access to every interface of a \ac{HICANN-DLS} chip.
 
-\begin{wrapfigure}{l}{0.6\textwidth}
-    \centering
-    \includegraphics[width=0.6\textwidth]{pictures/nux.png}
-    \caption{\label{fig:nux} Block diagram of the nux architecture (taken from \cite{PPU}).}
-\end{wrapfigure}
-It was developed to handle plasticity and as such applies different plasticity rules to synapses during or in between experiments.
+It was developed to handle plasticity and can apply different plasticity rules to synapses during or in between experiments.
 This is done much faster by the \ac{PPU} than by the \ac{FPGA} which is important for achieving experimental speeds that are $10^{3}$ times faster than their biological counterparts.
-In general the \ac{PPU} is meant to handle plasticity of the synapses during experiments while the \ac{FPGA} should be used to initially set up an experiment, manage spike input and record data 
-\\
-\\
-\section{Processor Architectures and the Plasticity Processing Unit}
-Although the main goal of this project is to provide an alternative analogue architecture like the \ac{HICANN-DLS} does, there are advantages to classic computing which are needed for some applications and almost all contemporary processors are built using the so called von-Neumann architecture \todo{add reference}.
+In general the \ac{PPU} is meant to handle plasticity of the synapses during experiments while the \ac{FPGA} should be used to initially set up an experiment, manage spike input and record data.
 
-The main advantage of digital systems over analogue systems, such as the human brain, is the ability to do numeric and logical operations at much higher speeds and precision as well as the availability of existing digital interfaces.
+
+\section{Processor Architectures and the Plasticity Processing Unit}
+Although the main goal of \ac{HICANN-DLS} is to provide an alternative analog architecture, there are advantages to classic computing which are needed for some applications and almost all contemporary processors are built using the so called von-Neumann architecture (figure~\ref{fig:processor}). \todo{add reference}
+
+The main advantage of digital systems over analog systems, such as the human brain, is the ability to do numeric and logical operations at much higher speeds and precision as well as the availability of existing digital interfaces.
 For this reason ``normal'' processors are responsible for handling experiment data as well as configuration of an experiment in the \ac{HICANN-DLS}.
 We will now shortly get in touch with basics of such processors and explain common terms while referring to the \ac{PPU} at times when it is convenient.
-\\
-The \ac{PPU}, which was designed by \citep{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
-Specifically the \ac{PPU} uses POWER7 which was released in 2010 as a successor of the original POWER architecture and runs at 100 MHz clock frequency.
-\begin{wrapfigure}[15]{r}{0.5\textwidth}
+\begin{wrapfigure}[20]{r}{0.5\textwidth}
     \centering
+        \vspace*{17mm}
         \include{fig/processor}
         \vspace*{-10mm}
-        \caption{\label{fig:processor} Structure of von-Neumann Architecture}
+        \caption{\label{fig:processor} Structure of a Processor in von-Neumann Architecture}
 \end{wrapfigure}
+\\
+The \ac{PPU}, which was designed by \citeauthor{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
+Specifically the \ac{PPU} uses POWER7 which was released in 2010 as a successor of the original POWER architecture.
+It runs at 100 MHz clock frequency.
 
 %general stuff
 In general a microprocessor can be seen as a combination of two units which are an operational section and a control section.
-The control section is responsible for fetching instructions and operands, interpreting them, controlling their execution as well as reading and writing to the main memory or other buses.
-The operational section on the other hand saves operands and results only as long as they are needed and performs logic or arithmetic operation on these as instructed by the control section.
-Prominent parts of the operational section are the \acfi{ALU} and the \acfi{RF}.
+The control section is responsible for fetching instructions and operands, interpreting them, controlling their execution and reading/writing to the main memory or other buses.
+The operational section on the other hand creates results from instructions and operands as it performs logic or arithmetic operation on these, as instructed by the control section.
+Prominent parts of the operational section are the \textbf{\ac{ALU}} and the \textbf{\ac{RF}}.
 
 %register
 The \ac{RF} can be seen as short-term memory of the processor.
@@ -105,10 +104,10 @@ It consists of several repeated elements, called \textbf{registers}, that save d
 Typically the number and purpose of registers varies for different architectures.
 Common purposes of registers are:
 \begin{description}
-    \item[\acfi{GPR}] These registers can store values for various causes but in most cases are soon to be used by the ALU. Most registers on a processor are typically GPRs.
-        Any register that is not a GPR is called a \textbf{special purpose register SPR}
-    \item[\acfi{LR}] This register marks the jump point of function calls. After a function completes, the program jumps to the address in the link register.
-    \item[\acfi{CR}] This register's value is set by an instruction that compares one or two values in GPRs. Its value can be a condition for some instructions if they are to be executed or not.
+    \item[\ac{GPR}] These registers can store values for various causes but in most cases are soon to be used by the ALU. Most registers on a processor are typically \ac{GPR}s.
+        Any register that is not a \ac{GPR} is called a \textbf{\ac{SPR}}
+    \item[\ac{LR}] This register marks the jump point of function calls. After a function completes, the program jumps to the address in the link register.
+    \item[\ac{CR}] This register's value is set by an instruction that compares one or two values in GPRs. Its value can condition some instructions if they are executed or not.
 \end{description}        
 The \ac{ALU} uses values which are stored in the \ac{RF} to perform the aforementioned logic or arithmetic operations and saves the results there as well.
 
@@ -129,14 +128,14 @@ Intermediate results can be stored there because access to the accumulator is th
 \end{figure}
 
 %memory
-Memory is often implemented as \acfi{RAM} which is both readable and writable.
-It can be split into two popular types which are \acfi{SRAM} and \acfi{DRAM}.
+Memory is often implemented as \textbf{\ac{RAM}} which is both readable and writable.
+It can be split into two popular types which are \textbf{\ac{SRAM}} and \textbf{\ac{DRAM}}.
 They differ in how bits are set in RAM.
-SRAM uses Flip Flops to switch transistors that indicate which bit is set, while DRAM uses capacities that are charged to do so.\unsure{should I keep this}
+SRAM uses Flip Flops to switch transistors that indicate which bit is set, while DRAM uses capacities that are charged to do so. \unsure{should I keep this}
 Flip Flops allow for short access time, but can only be realized in small scales and are also expensive.
-\ac{DRAM} on the other side is cheaper and usually offers more memory, but also has a longer access time.\cite{microprocessor}
+\ac{DRAM} on the other side is cheaper and usually offers more memory, but also has a longer access time.\cite[p.~371]{microprocessor}
 Memory of a von-Neumann machine contains both, the program and data and is often seen as blocks with addresses.
-Because the smallest amount of information which we are interested in is usually a byte, each address is equivalent to one byte in memory.
+Because the smallest amount of information which we are interested in is usually a byte (for other sizes see figure~\ref{fig:bitlength}), each address is equivalent to one byte in memory.
 A program is simply a list of instructions in memory that belong to the \textbf{instruction set}.
 Each instruction thereby is a specific sequence of bits. 
 \begin{figure}[htpb]
@@ -145,12 +144,12 @@ Each instruction thereby is a specific sequence of bits.
         \bitheader{0,7,15,23,31}\\
         \bitboxes{8}{{opcode}{operand 0 \\ \tiny{return operand}}{operand 1}{operand 2}}
     \end{bytefield}
-    \caption{\label{fig:opcode} representation of machine instruction in memory}
+    \caption{\label{fig:opcode} Representation of a Machine Instruction in Memory}
 \end{figure}
 
 %instructions
-An instruction like in figure~\ref{fig:opcode} is called a \textbf{machine isntruction} and combines several elements.
-The first part is called an \textbf{opcode} and is typically an 8-bit number that identifies an operation.
+An instruction like in figure~\ref{fig:opcode} is called a \textbf{machine instruction} and combines several elements.
+The first part is called an \textbf{opcode} and is typically an 8-bit number that identifies the operation.
 The ALU reads this number and performs a set of so called \textbf{micro instructions} accordingly.
 
 During a single clock cycle a chip can perform a single micro instruction.
@@ -223,7 +222,7 @@ As address size is limited by the register, the maximum amount of memory that ca
     2^{n} byte \xrightarrow{\text{n = 32 bit}} 2^{32} byte \approx 4*10^{9} byte = 4 GiB
 \end{equation}
 
-An overview of different assembly mnemonics for the POWER7 ISA can be seen in the appendix section~\ref{sec:inlineasm}.
+An overview of different assembly mnemonics for the POWER7 \ac{ISA} can be seen in the appendix section~\ref{sec:inlineasm}.
 
 %\ac{RISC}
 Many \ac{RISC} architectures have an instruction set that consists exclusively of 3 operand instructions and any instructions that seem to have less than that, are just mapped to more complex instructions that have three operands but still need only the minimum amount of clock cycles.
@@ -270,11 +269,11 @@ A few examples are:
     \vspace{1em}
 \end{minipage}
 
-The s2pp \acfi{VE} of nux is the \ac{PPU}'s distinct feature that allows for \acfi{SIMD} operations on synaptic weights.
-The \ac{VE} is only weakly coupled to the \acfi{GPP} of the \ac{PPU} nand both parts can operate in parallel while interaction is highly limited.
+The \ac{s2pp} \textbf{\ac{VE}} of nux is the \ac{PPU}'s distinct feature that allows for \textbf{\ac{SIMD}} operations on synaptic weights.
+The \ac{VE} is only weakly coupled to the \ac{GPP} of the \ac{PPU} and both parts can operate in parallel while interaction is highly limited.
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
 This renders no problem since the nux does not recognize AltiVec opcodes and most likely is not going to in the future.
-The \acfi{VRF} 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
+The {\ac{VRF} 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
 This allows for either use of vectors with 8 halfword sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
 
 But we take also a special interest in the AltiVec vector extension itself which was developed by Apple, IBM and Motorola in the mid 1990's and is also known as \ac{VMX} and Velocity Engine for the POWER architecture. 
@@ -295,17 +294,17 @@ Its vector registers can either hold sixteen 8-bit |char| (V16QI), eight 16-bit 
     \caption{\label{fig:vectorlength} Vector structures are mostly 128 bits wide and split into common word sizes that are always powers of two.}
 \end{figure}
 
-It resembles most characteristics of the s2pp vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of \ac{GCC}, but both \ac{VE}s also feature differences.
+It resembles most characteristics of the \ac{s2pp} vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of \ac{GCC}, but both \ac{VE}s also feature differences.
 
-The s2pp \ac{VE} features a vector accumulator of 128 bits width and a \ac{VCR} which holds 3 bits for each half byte of the vector, making 96 bit in total.
-Instructions on the s2pp \ac{VE} can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the \ac{VCR}, while the AltiVec \ac{VE} utilizes the \ac{CR} of the PowerPC architecture.
+The \ac{s2pp} \ac{VE} features a vector accumulator of 128 bits width and a \ac{VCR} which holds 3 bits for each half byte of the vector, making 96 bit in total.
+Instructions on the \ac{s2pp} \ac{VE} can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the \ac{VCR}, while the AltiVec \ac{VE} utilizes the \ac{CR} of the PowerPC architecture.
 This does not allow for selective operations on individual elements through the \ac{CR}, but allows for checking if all elements meet the condition in a single instruction.
 If element-wise selection is needed, AltiVec offers this through vector masks.
     
 The AltiVec \ac{VE} has two register that are not featured on s2p.
 The \ac{VSCR} is responsible for detecting saturation in vector operations and decides which floating point mode is used.
 The \ac{VRSAVE} assists applications and operation systems by indicating for each \ac{VR} if it is currently used by a process and thus must be restored in case of an interrupt.
-Both of these registers are not available in the s2pp \ac{VE} but would likely not be needed for simple arithmetic tasks which the \ac{PPU} is meant to perform.
+Both of these registers are not available in the \ac{s2pp} \ac{VE} but would likely not be needed for simple arithmetic tasks which the \ac{PPU} is meant to perform.
 
 We already stated that all instructions of \ac{VE}s must first pass the control unit, which detects vector instructions and then passes them to the \ac{VE}.
 These instructions then go into an instruction cache for vector instructions. \unsure{add instruciton cache?}
@@ -313,15 +312,15 @@ On nux the instructions then shortly stay in a reservation station that is speci
 This allows for performing some arithmetic operations on a vector during the process of accessing a different vector in memory.
 The result is faster processing speed as pipelining for each instruction is also supported.
 Though the limiting factor for this remains the \ac{VRF}'s single port for reading and writing.
-A more limiting factor in comparison is the shared memory interface of s2pp and \ac{GPP}.
+A more limiting factor in comparison is the shared memory interface of \ac{s2pp} and \ac{GPP}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{pictures/s2pp.png}
-    \caption{\label{fig:s2pp} Detailed structure of the s2pp vector extension (taken from \cite{PPU}).}
+    \caption{\label{fig:s2pp} Detailed structure of the \ac{s2pp} vector extension (taken from \cite{PPU}).}
 \end{figure}
 
 Normally processors themselves do not keep track of memory directly.
-This is usually done by a \acfi{MMU} or a \acfi{MC}.
+This is usually done by a \textbf{\ac{MMU}} or a \ac{MC}.
 It handles memory access by the processor and can provide a set of virtual memory addresses which it translates into physical addresses.
 Most modern \ac{MMU}s also incorporate a cache that stores memory instructions while another memory instruction is performed.
 It also detects dependencies within this cache, which can be resolved there.
@@ -386,9 +385,9 @@ When using vector instruction for nux, one must always keep in mind that the wei
         \centering
     \begin{bytefield}[bitwidth=0.11111111\textwidth]{8}
         \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
-        \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{$-1$} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$}\\
+        \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-6}$}\\
     \end{bytefield}
-    \caption{\label{subfig:synapse} fractional representation of weights in synapse and in vector unit}
+    \caption{\label{subfig:synapse} fractional representation of weights in synapses}
     \end{subfigure}
     \begin{subfigure}[b]{\textwidth}
         \centering
@@ -396,7 +395,7 @@ When using vector instruction for nux, one must always keep in mind that the wei
         \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
         \bitbox{1}{sign} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-7}$}\\
     \end{bytefield}
-    \caption{\label{subfig:fracVE} fractional representation of weights in synapse and in vector unit}
+    \caption{\label{subfig:fracVE} fractional representation of vector componbents for fixed-point saturational arithmetic}
     \end{subfigure}
     \caption{\label{fig:fractional} fractional representation of weights in synapse and in vector unit}
 \end{figure}
@@ -523,8 +522,8 @@ First it can simply stall the programs execution as long as the instruction is e
 This means that the compiler adds |nop|s before every instruction that needs to wait for an operand as |nop| tells the processor to wait until the previous instruction has finished.
 For critical memory usage the compiler can also insert |sync|s as memory barriers before hazardous memory instructions.
 Alternatively it can stall only the instruction which depends on the result which is currently computed but perform instructions that do not depend on the result in the mean time.
-By doing so the scheduler increases performance noticeably and thus can partly be seen as part of the optimization process.
-On \ac{RISC} architectures this is especially important as load and store instructions can take a few hundred times more clock cycles than normal register instructions and pipelining depends mainly on the instruction sequence.
+By doing so the scheduler increases performance noticeably and thus can be seen as part of the optimization process.
+On \ac{RISC} architectures this is especially important as load and store instructions can take a few hundred clock cycles more than normal register instructions and pipelining depends mainly on the instruction sequence.
 Thus the scheduler is also involved parallelization of code.
 As a result of this a compiler would usually accumulate all load instructions at he beginning of a procedure and start computing on registers that already have a value while the others are still loaded.
 This is done vice versa at the end of a procedure for storing the results in memory.
@@ -550,39 +549,44 @@ Another example would be the reordering of code like the scheduler did before or
 If a compiler knows the specific costs of instructions, it can also try to substitute general instruction with more specialized but faster instructions, like substituting a multiplication with 2 by shifting a value one position to the left.
 There exist many more ways of optimization but we only want to explain one more kind of optimization which is called peephole optimization.
 
-In peephole optimization the compiler only looks at a small amount of code through a ``peephole'' and tries to find a substitution for this specific sequence of instructions.
+In \textbf{peephole optimization} the compiler only looks at small amounts of code at a time through a ``peephole'' and tries to find a substitution for the specific sequence of instructions it ``sees''.
+If the sequence can be substituted the peephole optimizer does so, otherwise the peephole is moved one step and the new sequence is evaluated.
 These substitutions must be specified by hand and are highly target-dependent in contrast to the optimizations which were mentioned before that are target-independent.
-If the sequence can be substituted the peephole optimizer does so, otherwise the peephole is moved one step further and the new sequence is evaluated.
 
 \subsection{Inline Assembly}
 \label{section:asm}
 Following a short introduction in the previous section, we want to spend a little time on assembly as it is useful to know how to program in assembly while using C.
 This is called \textbf{inline assembly} and uses the function |asm|.
-\begin{lstlisting}[caption= Exemplatory Assembly invkation, label=lst:inlineasm]
+\begin{lstlisting}[caption= Exemplatory Assembly invkation, label=lst:inlineasm, float, floatplacement=htbp]
+int dst, src1, src2;
 asm volatile (  "add %0, %1, %2"
                 : "=r" (dst)
                 : "r" (src1), "r" (src2):);
+return dst; /*would return src1 + src2*/
 \end{lstlisting}
 
-The code above tells the compiler to generate the instruction |add| in assembly which is followed by three operands.
-The number |n| in |%n| indicates that the operand is specified by the |n+1|th description of an operand that follows.
-The description that follows after |:| describes the output operands.
-|"=r"| means that the output is to be stored in a register (letter |r| for register operand) and that the register is to be written (|=| this is called constraint).
-The variable in parentheses must be declared before its occurrence and of matching type (|float| would not be allowed in this case).
-The following description is that of the input operands and those must not be written!
-|r| again stands for a register operand and the variable is in parentheses, the arguments are separated by commas.
-After the third |:| follow clobbered (=temporarily used) registers which would also be in quotes, but these are optional arguments.
+Listing~\ref{lst:inlineasm} would generate the instruction |add| in the assembly output of the compiler which would be followed by three operands.
+
+First one must write an assembler template that is based on assembly.
+The integer in |%n| indicates the order, in which the operands are specified after the assembler template.
+
+Output operands are specified after the first |:| as a list of comma separated constraints and variables.
+|"=r"| is such a constraint, that determines that the operand is to be stored in a register (|r| for register operand) and that the register is to be written (|=| this is called a modifier).
+The variable in parentheses must be declared in before and must be of matching type (|float| would not be allowed in this case).
+
+The second |:| separates the input operands, which are specified the same way.
+|r| again stands for a register operand and the variable is in parentheses, the different operands are separated by commas.
+The third |:| separates operands from clobbered (=temporarily used) registers which would also be in quotes, but these are optional arguments and not needed in this case.
 |volatile| means that the compiler must not delete the following instructions due to optimization.
 
-As a special command |asm (:::memory);| would indicate a memory barrier to the compiler, ergo the machine instructions previous to this line and the one following may not be interchanged.\unsure{keep this?}
+|asm (:::memory);| is a special operand and would indicate a memory barrier to the compiler, ergo the machine instructions previous to this line and the one following may not be interchanged.\unsure{keep this?}
 
 \subsection{Intrinsics}
-Something that will also occur quite often later in this thesis are intrinsics.
-Intrinsics are sometimes also called built-in functions and resemble an intermediate form of |asm| and a high-level programming language.
+Intrinsics are sometimes also called built-in functions and resemble an intermediate form of inline assembly and a high-level programming language.
 This means that by calling an intrinsic function, we tell the compiler to use a certain machine instruction that typically shares its name with the intrinsic.
 What differs an intrinsic from |asm()| is that we do not need to specify constraints or registers classes but only need to keep an eye on the type of arguments.
-One could easily mistake them for normal functions of library but they are directly integrated into the back-end of a compiler and thus independent of the programming language.
-In order to implement intrinsics into a back-end the compiler need a certain knowledge of what the |asm| instruction does and what kind of operands it needs.
+One could easily mistake them for normal library functions but they are directly integrated into the back-end of a compiler and thus independent of the programming language.
+In order to implement intrinsics into a back-end, the compiler needs certain knowledge of what the |asm| instruction does and what kind of operands it needs.
 
 A typical field of application for intrinsics would be vectorization and parallelization of code through processor extensions.
 Sometimes this is the sole option of using the machine instructions associated with them.
@@ -592,56 +596,63 @@ Sometimes this is the sole option of using the machine instructions associated w
 The \ac{GCC} is a compiler suite that supports different programming languages and targets.
 Though normally it is seen as a build of \ac{GCC} supports a variety of front-ends while it was built for a specific target.
 This target in most cases is the processor architecture on which the user runs the compiler.
-But \ac{GCC} also supports the idea of a cross-compiler which is the concept of compiling code on one machine but running the code on a different machine that is also based on a different architecture.
-One must though build a version of \ac{GCC} locally for every back-end one wants to compile code for.
-This is realized through a modular structure which follows the idea of a front-end, middle-end and back-end as it was described in section \ref{section:compiler} although some information that belongs to a back-end is also needed at the front-end, hence the compiler is built back-end specific but supports a wide variety of back-ends to choose from.
+But \ac{GCC} also supports the idea of a cross-compiler, which is the concept of compiling code on one machine but running the code on another machine that may be based on a different architecture.
+One build of \ac{GCC} does not support different back-ends though and therefore \ac{GCC} must be built individually for every back-end, it wants to compile code for.
+This is realized through a modular structure which follows the idea of a front-end, middle-end and back-end as was described in section \ref{section:compiler} although some information that belongs to a back-end is also needed at the front-end, hence the compiler is built back-end specific but supports a wide variety of back-ends to choose from.
 
 \ac{GCC} itself is programmed in C++ and part of the GNU project of the Free Software Foundation.
 It is wide-spread and one of the most popular compilers especially among academic institutions and small scale developers.
 Every major UNIX distribution and many minor ones include \ac{GCC} as a standard compiler.\cite{definitveGCCGuide:introduction}
-As an open source project there is a constant development to the compiler and there exist many threads that support known bugs.
+As an open source project there is a constant development to the compiler bugs get constantly fixed.
 
-There is one major competitor though which stands besides \ac{GCC} as an open source compiler suite which is Clang that is part of the \ac{LLVM} (low level virtual machine).
+There is one major competitor though which stands besides \ac{GCC} as an open source compiler suite.
+This competitor is Clang, which works with \ac{LLVM}.
 Both support running the same source code on multiple machines while \ac{LLVM} actually runs intermediate code rather than actual machine code and uses \ac{GCC} to generate this intermediate code for some front-ends.
-However while one can argue in favor for either one, \ac{GCC} seems a little better suited for our application. \todo{reference \ac{LLVM} vs. \ac{GCC} on ARM, \ac{LLVM} vs. Gcc in EISC}
-These results have to be viewed with care, as they are based on different processor architectures but it seems like both compilers provide similar performance.
-Ultimately it is the personal preference of the programmer that decides which compiler one is more comfortable with and often enough he chooses that compiler.
-In our case I have chosen \ac{GCC} over \ac{LLVM} for two main reasons.
+There are ongoing discussions on which compiler is better suited for which application but regarding performance, \ac{GCC} takes the slight edge. \citep{llvmgcceisc} \citep{llvmgccarm}
+These results have to be viewed with care though, as they are based on different processor architectures but it seems like both compilers provide similar performance.
+In this thesis \ac{GCC} was chosen over \ac{LLVM} for two main reasons.
 One is that after all \ac{GCC} follows more the traditional concept of a compiler that generates machine code at the end and also I was far more familiar with \ac{GCC} than with \ac{LLVM} when this decision had to be made.
-The other is that \ac{GCC} support existed to a minimum before I started this thesis and thus there was a point to start from.
-This topic will be referred to later on in the discussion but for now a short motivation seems to be sufficient.
+The other is that \ac{GCC} support for the \ac{PPU} existed to a minimum before and a cross-compiler already existed.
 
-By now \ac{GCC} is a stable release version of 6.3 with version 7 in the works but we will use an older version which is used internally at the BrainScaleS project which is version 4.9.2.
-Additionally we will use binutils 2.25 which was patched by Simon Friedmann and since includes the opcodes and mnemonics which are supported by the nux.
-A complete specification of the libraries used and a handy script that builds a cross-compiler for the nux on PowerPC systems can be found there as well.
+At the time of writing \ac{GCC} is at stable release version 6.3 with version 7 in the works but we will use an older version which is used internally by the working group which is version 4.9.2.
+Additionally binutils 2.25 will be used, which was patched by Simon Friedmann and since includes the opcodes and mnemonics which are supported by nux.
 
-We take a special interest in the PowerPC back-end of \ac{GCC} which is called rs/6000 for IBMs \ac{RISC} system/6000 architecture that is equivalent to POWER.
+We take a special interest in the PowerPC back-end of \ac{GCC} which is called \ac{rs/6000} and is equivalent to POWER.
 According to \ac{GCC}s Internals manual \cite{GCCint}, which we will refer to as the sole source of information in this regard, the back-end of \ac{GCC} has the following structure:
 
-Each architecture has a directory with its respective name in gcc/config e.g. gcc/config/rs6000 that contains a minimum amount of files.
-These are the machine description rs6000.md which is an overview of machine instructions with additional information to each instruction and the header files rs6000.h and rs6000-protos.h and source file rs6000.c that handle the target description through macros and functions.
+Each architecture has a directory with its respective name |gcc/config/target/|, i.d. |gcc/config/rs6000/|, that contains a minimum amount of files.
+These are the machine description |target.md| which is an overview of machine instructions with additional information to each instruction and the header files |target.h| and |target-protos.h| and source file |target.c| that handle the target description through macros and functions.
 Every back-end needs these files in the \ac{GCC} source and the final back-end is build from these files through the macros and functions just mentioned.
-To notice a back-end in the first place the back-ends directory -here "rs6000"- must be added to the file config.gcc which also includes a list of all files in the aforementioned directory.
+To notice a back-end in the first place the back-ends directory |gcc/config/target/| --- must be added to the file |gcc/config/config.gcc| which also includes a list of all files in the aforementioned directory.
 Most back-ends include additional files which makes a back-ends complex structure clearer but these are not mandatory and we will address these later.
 
 Instead we address one of the most important functions which unfortunately is also one of the least documented though most complicated ones.
 The function/process is called ``reload'' and is used as part of the register allocation process. \cite{GCCwiki:reload}
-Specifically reload is meant to do register spilling but over almost 25 years that \ac{GCC} existed until 4.9.2 it became more and more complex and basically does everything associated with register allocation (mainly moving the contents of different registers and memory around, and finding the right registers in the first place).
+Specifically reload is meant to do register spilling.
+Over the lifetime of \ac{GCC} until 4.9.2 it became more and more complex and basically does everything associated with register allocation.
+This involves moving the contents of different registers and memory around, and locating the right registers in the first place.
 Over the years it thus became one of the main sources of errors when constructing a back-end and was meant to be replaced several times.
-As of now reload is being replaced by LRA (local register allocator) but \ac{GCC} 4.9.2 is not impacted by this therefore we are stuck with reload indefinitely.
+As of now reload is being replaced by LRA (local register allocator) but \ac{GCC} 4.9.2 is not impacted by this and thus we will use reload.
 
-To address possible errors in reload later on we now get to know one form of \ac{IR} in \ac{GCC} that is Register Transfer Language (\ac{RTL}).
+To address possible errors in reload later on we now get to know one form of \ac{IR} in \ac{GCC} that is \ac{RTL}.
 
 \subsubsection{Insn Definition and Register Transfer Language}
 \label{sec:defineinsn}
-\ac{RTL}, which is not to be mixed up with Register Transfer Level, is a form of \ac{IR} the back-end uses to generate machine code.
+\acf{RTL}, which is not to be mixed up with Register Transfer Level, is a form of \ac{IR} the back-end uses to generate machine code.
 Usually \ac{GCC} uses the \ac{IR} GIMPLE which looks like stripped down C code with 3 argument expressions, temporary variables and |goto| control structures.
 The back-end transforms this into a less readable \ac{IR} that inherits GIMPLEs structure but brings it to a machine instruction level.
-It is inspired by Lisp lists and thus we will need to take a look at those at last in before we take on the task of extending a \ac{GCC} back-end.
+It is inspired by Lisp and for this thesis mainly used as template when defining insns.
+An insn (short for instruction) has several properties like a name, an \ac{RTL} template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
+It is used for combining \ac{RTL} \ac{IR} with actual machine instructions.
 
-We do so in looking at one of the most fundamental \ac{RTL} statements first while explaining the each part at a time.
-
-\begin{lstlisting}
+Normal \ac{RTL} can be split into two phases which are non-strict \ac{RTL} and strict \ac{RTL}.
+Non-strict occurs only before |reload| and is very deliberate in specifying its operands.
+Operands usually are virtual registers that have a unique number.
+Strict \ac{RTL} has passed |reload| and no longer contains virtual registers but only references existing hard registers or memory.
+Though this thesis will only feature \ac{RTL} templates in insn definitions such as listings~\ref{lst:addinsn} and \ref{lst:addinsnfloat}.
+\\
+\\
+\begin{lstlisting}[caption=Definition of Unspecific add Insn, label=lst:addinsn, float, floatplacement=htbp]
 (define_insn "add<mode>3"
   [(set (match_operand:VI2 0 "register_operand" "=v")
         (plus:VI2 (match_operand:VI2 1 "register_operand" "v")
@@ -649,7 +660,9 @@ We do so in looking at one of the most fundamental \ac{RTL} statements first whi
   "<VI_unit>"
   "vaddu<VI_char>m %0,%1,%2"
   [(set_attr "type" "vecsimple")])
+\end{lstlisting}
 
+\begin{lstlisting}[caption=Definition of Specific add Insn, label=lst:addinsnfloat, float, floatplacement=htbp]
 (define_insn "*altivec_addv4sf3"
   [(set (match_operand:V4SF 0 "register_operand" "=v")
         (plus:V4SF (match_operand:V4SF 1 "register_operand" "v")
@@ -659,14 +672,12 @@ We do so in looking at one of the most fundamental \ac{RTL} statements first whi
   [(set_attr "type" "vecfloat")])
 \end{lstlisting}
 
-There exist manuals to basically everything which is written here and the more extensive manual will be referenced at he end of each paragraph.
+|define_insn| defines an \ac{RTL} equivalent to a machine instruction, which we called insn.
+The name of the first insn in listing~\ref{lst:addinsn} is |add<mode>3| (|3| for three operands) where |<mode>| is to be replaced by a set of values that describe modes. \cite{GCCint:stdnames}
 
-|define_insn| is an \ac{RTL} expression that generates an \ac{RTL} equivalent to a machine instruction.
-One such instruction is called an insn (short for instruction) hand has several properties like a name, an \ac{RTL} template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
-The name in this case is |add<mode>3| (|3| for three operands) where |<mode>| is to replaced by a set of values that describe a modes. \cite{GCCint:stdnames}
-A mode is the form of an operand and can be something like |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \cite{GCCint:modes}
+A mode is the form of an operand, e.g. |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \cite{GCCint:modes}
 There are many more modes that follow the same scheme.
-In this case we do not specify the mode explicitly but use an iterator that creates a |define_insn| for every valid mode we specify. \cite{GCCint:iterator}
+In this case the mode is not defined explicitly but uses an iterator that creates a |define_insn| for every valid mode that is specified. \cite{GCCint:iterator}
 The second |define_insn| shows this with a specific mode.
 
 Next follows the \ac{RTL} template which is in square brackets.
@@ -674,7 +685,7 @@ All \ac{RTL} templates need a side effect expression as a base which describes w
 In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \cite{GCCint:sideeffect}
 The first expression that follows is a specified operand.
 |match_operand| tells the compiler that what follows is a new operand.
-|VI2| belongs to the mode iterator we saw earlier and is to be substituted by the equivalent mode to <mode> in caps, which can be seen for the following |define_insn|.
+|VI2| belongs to the mode iterator we saw earlier and is to be substituted by the equivalent mode to <mode> in caps, which can be seen  in listing~\ref{lst:addinsnfloat}.
 All modes |VI2| are to be substituted by the same real mode.
 After the mode comes the index of an operand which starts at 0 for every |define_insn|.
 The following string describes a predicate which tells the compiler more about the operand and which constraints it must fulfill.
@@ -686,37 +697,20 @@ It is called a constraint and matches the description in section \ref{section:as
 This pattern is repeated for every operand and only changes slightly.
 Though the second expression of the |set| side effect has an additional pair of parentheses because of the |plus| statement.
 This is an arithmetic expression and tells the compiler that the following operands are part of an operation that results in a new value.
-It is also succeeded by a mode that specifies the mode of the result.\cite{GCCint:arith}
+It is also followed by a mode that specifies the mode of the result.\cite{GCCint:arith}
 
 The \ac{RTL} template is matched by the compiler against the \ac{RTL} it generated from GIMPLE and if the template matches the \ac{RTL} is substituted by the output template that follows.
 
 After the \ac{RTL} template is finished, the condition specifies if the insn may be used.
-It is a C expression an must render |true| in order to allow the matching \ac{RTL} pattern to be applied.
+It is a C expression and must render |true| in order to allow the matching \ac{RTL} pattern to be applied.
 In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \cite{GCCint:defineinsn}
 
-The output template is usually is similar to the |asm| template from |asm|.
+The output template usually is similar to the assembler template in inline assembly.
 The string contains the mnemonic of a machine instruction and the operands which are numbered according to the indexes of the \ac{RTL} template.
 Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \cite{GCCint:defineinsn}
 
-At last the insn is completed by its attributes which hold further information about the insn that is used by the compiler internally like which effect an insn has on certain register etc..
+At last the insn is completed by its attributes which hold further information about the insn that is used by the compiler internally like effects of an insn on certain registers and similar properties.
 We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \cite{GCCint:attributes}
-
-
-The attentive reader might have noticed that only \ac{RTL} template is written in \ac{RTL}.
-This is true but still do insn patterns belong into this section.
-The \ac{RTL} not only is the most important part of an insn but we will hardly see \ac{RTL} outside from \ac{RTL} templates.
-Still should \ac{RTL} be mentioned in its other form here as it is used for debugging purposes.
-
-\unsure{keep everything that follows?}
-
-\ac{RTL} can be split into two phases which are non-strict \ac{RTL} and strict \ac{RTL}.
-Non-strict occurs only before |reload| and is very deliberate in specifying its operands.
-Operands usually are virtual registers that have a unique number.
-|match_operand| then is replaced by |(reg:SI 1)| which tells the compiler the type of operand, the mode and the register number.\cite{GCCint:regsnmem}
-
-Strict \ac{RTL} has passed |reload| and no longer contains virtual registers but only references existing hard registers or memory.
-
-An example of non-strict \ac{RTL} and strict \ac{RTL} of the same code can be seen in figure \add{examples of \ac{RTL} code}
 
 \add{
 PPC must handle syncing in compiler when I/O is added
