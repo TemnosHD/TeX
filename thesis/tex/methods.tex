@@ -21,7 +21,7 @@ The \ac{HICANN-DLS} system implements a simplified neural model in analog electr
 
 \begin{figure}[h!]
     \centering
-    \include{fig/array}
+    %\include{fig/array}
     \caption{\label{fig:array} The synaptic array consists of pre-synaptic inputs (left), neurons (bottom) and 1024 synapses. All synapses along a column are connected to the respective neuron. Pre-synaptic inputs send their signal to all synapses along their respective row.}
 \end{figure}
 At its core it has a so called \textbf{synaptic array} (see figure~\ref{fig:array}) that connects 32 neurons which are located on a single chip to 32 different pre-synaptic inputs).
@@ -40,7 +40,7 @@ Decoder Address and synaptic weight can both be changed from outside.
 The synapse array can also be used in 16-bit mode for higher weight accuracy, that combines the weights of two synapses to a 12-bit weight.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{pictures/syncircuit.png}
+    \includegraphics[width=\textwidth]{pictures/syncircuit.pdf}
     \caption{\label{fig:circuit} Block diagram of a synapse circuit (modified from \citeauthor{PPU}).}
 \end{figure}
 
@@ -52,8 +52,9 @@ If the neuron is spiking it sends an output signal to the FPGA which is responsi
 All of this is done continuously and does not follow discrete time steps, as mentioned earlier.
 Along each column sits a \textbf{\ac{CADC}} that measures correlation of post- and pre-synaptic spikes and can be accessed by the \ac{PPU} similar to the synaptic array.
 \begin{wrapfigure}[15]{l}{0.5\textwidth}
+\captionsetup{format=plain, indention=.6cm, labelsep=newline,singlelinecheck=false}
     \centering
-    \includegraphics[width=0.5\textwidth]{pictures/nux.png}
+    \includegraphics[width=0.5\textwidth]{pictures/nux.pdf}
     \caption{\label{fig:nux} Block diagram of the nux architecture (modified from \citeauthor{PPU}).}
 \end{wrapfigure}
 The \ac{PPU} is the processing unit of \ac{HICANN-DLS} and is equipped with a \ac{VE} that is called \ac{s2pp}.
@@ -80,11 +81,12 @@ The main advantage of digital systems over analog systems, such as the human bra
 For this reason ``normal'' processors are responsible for handling experiment data as well as configuration of an experiment in the \ac{HICANN-DLS}.
 We will now shortly get in touch with basics of such processors and explain common terms while referring to the \ac{PPU} at times when it is convenient.
 \begin{wrapfigure}[20]{r}{0.5\textwidth}
+\captionsetup{format=plain, indention=.6cm, labelsep=newline,singlelinecheck=false}
     \centering
         \vspace*{17mm}
         \include{fig/processor}
         \vspace*{-10mm}
-        \caption{\label{fig:processor} Structure of a Processor in von-Neumann Architecture}
+        \caption{\label{fig:processor} Structure of a Processor in \\ von-Neumann Architecture}
 \end{wrapfigure}
 \\
 The \ac{PPU}, which was designed by \citeauthor{PPU}, is a custom processor, that is based on the Power Instruction Set Architecture (PowerISA), which was developed by IBM since 1990. 
@@ -115,29 +117,27 @@ Some architectures also have an accumulator that is often part of the \ac{ALU}.
 Intermediate results can be stored there because access to the accumulator is the fastest possible but it can only holds a single value at a time.
 \\
 \\
+
+%memory
+Memory of a von-Neumann machine contains both, the program and data.
+Usually this memory is displayed as equal-sized blocks of information with addresses as in figure~\ref{fig:memory}.
 \begin{figure}[htpb]
     \centering
     \begin{bytefield}[endianness=little]{32}
-        \bitheader{0,1,7,15,31}\\
-        \colorbitbox{lightgray}{1}{\tiny bit} && \bitbox{31}{}\\
-        \colorbitbox{lightgray}{8}{byte} && \bitbox{24}{}\\
-        \colorbitbox{lightgray}{16}{half-word} && \bitbox{16}{}\\
-        \colorbitbox{lightgray}{32}{word}\\
+        \bitheader{0,7}\\
+        \wordbox{1}{\tt 0x0001}\\
+        \wordbox{1}{\tt 0x0002}\\
+        \wordbox{1}{\tt 0x0003}\\
+        \wordbox[]{1}{$\vdots$} \\[1ex]
+        \wordbox{1}{\tt 0x3fff}\\
+        \wordbox{1}{\tt 0x4000}\\
     \end{bytefield}
-    \caption{\label{fig:bitlength} Illustration of Word Sizes for 32-bit Words}
+    \caption{\label{fig:memory} Illustration of Word Sizes for 32-bit Words}
 \end{figure}
 
-%memory
-Memory is often implemented as \textbf{\ac{RAM}} which is both readable and writable.
-It can be split into two popular types which are \textbf{\ac{SRAM}} and \textbf{\ac{DRAM}}.
-They differ in how bits are set in RAM.
-SRAM uses Flip Flops to switch transistors that indicate which bit is set, while DRAM uses capacities that are charged to do so. \unsure{should I keep this}
-Flip Flops allow for short access time, but can only be realized in small scales and are also expensive.
-\ac{DRAM} on the other side is cheaper and usually offers more memory, but also has a longer access time.\cite[p.~371]{microprocessor}
-Memory of a von-Neumann machine contains both, the program and data and is often seen as blocks with addresses.
-Because the smallest amount of information which we are interested in is usually a byte (for other sizes see figure~\ref{fig:bitlength}), each address is equivalent to one byte in memory.
-A program is simply a list of instructions in memory that belong to the \textbf{instruction set}.
-Each instruction thereby is a specific sequence of bits. 
+Because the smallest amount of information which we are interested in is usually a byte, each address is equivalent to one byte in memory.
+The program is normally in a different location in memory than data and the processor goes through the program step by step. 
+Each of these steps is called a machine instruction, which consists of several elements that occupy a fixed amount of memory (see figure~\ref{fig:opcode}).
 \begin{figure}[htpb]
     \centering
     \begin{bytefield}[endianness=big, bitwidth=0.027777\linewidth]{32}
@@ -149,6 +149,7 @@ Each instruction thereby is a specific sequence of bits.
 
 %instructions
 An instruction like in figure~\ref{fig:opcode} is called a \textbf{machine instruction} and combines several elements.
+A program is simply a list of these instructions in memory that belong to the \textbf{instruction set}.
 The first part is called an \textbf{opcode} and is typically an 8-bit number that identifies the operation.
 The ALU reads this number and performs a set of so called \textbf{micro instructions} accordingly.
 
@@ -274,7 +275,18 @@ The \ac{VE} is only weakly coupled to the \ac{GPP} of the \ac{PPU} and both part
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
 This renders no problem since the nux does not recognize AltiVec opcodes and most likely is not going to in the future.
 The {\ac{VRF} 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
-This allows for either use of vectors with 8 halfword sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
+    This allows for either use of vectors with 8 halfword (see figure~\ref{fig:bitlength}) sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
+\begin{figure}[htpb]
+    \centering
+    \begin{bytefield}[endianness=little]{32}
+        \bitheader{0,1,7,15,31}\\
+        \colorbitbox{lightgray}{1}{\tiny bit} && \bitbox{31}{}\\
+        \colorbitbox{lightgray}{8}{byte} && \bitbox{24}{}\\
+        \colorbitbox{lightgray}{16}{half-word} && \bitbox{16}{}\\
+        \colorbitbox{lightgray}{32}{word}\\
+    \end{bytefield}
+    \caption{\label{fig:bitlength} Illustration of Word Sizes for 32-bit Words}
+\end{figure}
 
 But we take also a special interest in the AltiVec vector extension itself which was developed by Apple, IBM and Motorola in the mid 1990's and is also known as \ac{VMX} and Velocity Engine for the POWER architecture. 
 The AltiVec extension provides a similar single-precision floating point and integer SIMD instruction set.
@@ -315,7 +327,7 @@ Though the limiting factor for this remains the \ac{VRF}'s single port for readi
 A more limiting factor in comparison is the shared memory interface of \ac{s2pp} and \ac{GPP}.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{pictures/s2pp.png}
+    \includegraphics[width=\textwidth]{pictures/s2pp.pdf}
     \caption{\label{fig:s2pp} Detailed structure of the \ac{s2pp} vector extension (taken from \cite{PPU}).}
 \end{figure}
 
@@ -424,6 +436,7 @@ In general these opcodes are divided into 6 groups of instructions:
 \label{section:compiler}
 
 \begin{wrapfigure}[18]{r}{0.35\textwidth}
+\captionsetup{format=plain, indention=.6cm, labelsep=newline,singlelinecheck=false}
     \centering
         \include{fig/compiler}
         \caption{\label{fig:compiler} Compiler Representation}
@@ -443,13 +456,13 @@ Of course there do exist many different compilers today and what matters to the 
     \centering
     \begin{subfigure}[t]{0.25\textwidth}
         \include{fig/cmpstruct}
-        \caption{\label{fig:cmpstruct} The compilation tree has different contributors besides the compiler.}
+        \caption{\label{fig:cmpstruct} }
     \end{subfigure} \hspace{2cm}
     \begin{subfigure}[t]{0.37\textwidth}
         \include{fig/cmpintstruct}
-        \caption{\label{fig:cmpintstruct} The compiler goes through different phases, that belong to the front- or back-end.}
+        \caption{\label{fig:cmpintstruct} }
     \end{subfigure}
-    \caption{\label{fig:cmp} Overviews of compilation stages.}
+    \caption{\label{fig:cmp} Overviews of Compilation Stages \\ The compilation tree in \ref{fig:cmpstruct} has different contributors besides the compiler. The compiler in \ref{fig:cmpintstruct} goes through different phases, that belong to the front- or back-end.}
 \end{figure}
 
 A compiler is not the only contributor to translation of a program into an executable program although it is the most prominent one.
@@ -642,7 +655,7 @@ To address possible errors in reload later on we now get to know one form of \ac
 Usually \ac{GCC} uses the \ac{IR} GIMPLE which looks like stripped down C code with 3 argument expressions, temporary variables and |goto| control structures.
 The back-end transforms this into a less readable \ac{IR} that inherits GIMPLEs structure but brings it to a machine instruction level.
 It is inspired by Lisp and for this thesis mainly used as template when defining insns.
-An insn (short for instruction) has several properties like a name, an \ac{RTL} template, a condition template, an output template and attributes. \cite{GCCint:defineinsn}
+An insn (short for instruction) has several properties like a name, an \ac{RTL} template, a condition template, an output template and attributes. \cite[ch.~16.2]{GCCint}
 It is used for combining \ac{RTL} \ac{IR} with actual machine instructions.
 
 Normal \ac{RTL} can be split into two phases which are non-strict \ac{RTL} and strict \ac{RTL}.
@@ -673,16 +686,16 @@ Though this thesis will only feature \ac{RTL} templates in insn definitions such
 \end{lstlisting}
 
 |define_insn| defines an \ac{RTL} equivalent to a machine instruction, which we called insn.
-The name of the first insn in listing~\ref{lst:addinsn} is |add<mode>3| (|3| for three operands) where |<mode>| is to be replaced by a set of values that describe modes. \cite{GCCint:stdnames}
+The name of the first insn in listing~\ref{lst:addinsn} is |add<mode>3| (|3| for three operands) where |<mode>| is to be replaced by a set of values that describe modes. \cite[ch.~16.9]{GCCint}
 
-A mode is the form of an operand, e.g. |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \cite{GCCint:modes}
+A mode is the form of an operand, e.g. |si| for single integer, |qi| for quarter integer (quarter the bits of a single integer), |sf| for single float or |v16qi| for a vector of 16 elements which are quarter integers each. \cite[ch.~13.6]{GCCint}
 There are many more modes that follow the same scheme.
-In this case the mode is not defined explicitly but uses an iterator that creates a |define_insn| for every valid mode that is specified. \cite{GCCint:iterator}
+In this case the mode is not defined explicitly but uses an iterator that creates a |define_insn| for every valid mode that is specified. \cite[ch.~16.23]{GCCint}
 The second |define_insn| shows this with a specific mode.
 
 Next follows the \ac{RTL} template which is in square brackets.
 All \ac{RTL} templates need a side effect expression as a base which describes what happens to the operands that follow.
-In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \cite{GCCint:sideeffect}
+In our case |set| means that the value which is specified by the second expression is stored into the place specified by the first expression. \cite[ch.~13.15]{GCCint}
 The first expression that follows is a specified operand.
 |match_operand| tells the compiler that what follows is a new operand.
 |VI2| belongs to the mode iterator we saw earlier and is to be substituted by the equivalent mode to <mode> in caps, which can be seen  in listing~\ref{lst:addinsnfloat}.
@@ -690,27 +703,27 @@ All modes |VI2| are to be substituted by the same real mode.
 After the mode comes the index of an operand which starts at 0 for every |define_insn|.
 The following string describes a predicate which tells the compiler more about the operand and which constraints it must fulfill.
 Operands typically end in |_operand| and a single predicate is meant to group several different operand types.
-In this case any register would be a valid operand. \cite{GCCint:predicates}
+In this case any register would be a valid operand. \cite[ch.~16.7]{GCCint}
 The next string specifies the operands further and is meant to fine tune the predicate.
 It is called a constraint and matches the description in section \ref{section:asm}.
-|=| again means that the register must be writable and |v| stands for an AltiVec vector register.\cite{GCCint:constraints}
+|=| again means that the register must be writable and |v| stands for an AltiVec vector register.\cite[ch.~16.8]{GCCint}
 This pattern is repeated for every operand and only changes slightly.
 Though the second expression of the |set| side effect has an additional pair of parentheses because of the |plus| statement.
 This is an arithmetic expression and tells the compiler that the following operands are part of an operation that results in a new value.
-It is also followed by a mode that specifies the mode of the result.\cite{GCCint:arith}
+It is also followed by a mode that specifies the mode of the result.\cite[ch.~13.9]{GCCint}
 
 The \ac{RTL} template is matched by the compiler against the \ac{RTL} it generated from GIMPLE and if the template matches the \ac{RTL} is substituted by the output template that follows.
 
 After the \ac{RTL} template is finished, the condition specifies if the insn may be used.
 It is a C expression and must render |true| in order to allow the matching \ac{RTL} pattern to be applied.
-In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \cite{GCCint:defineinsn}
+In this case the condition is also depending on the mode iterator which substitutes |<VI_unit>| for equivalent code to that of the next |define_insn| with a matching mode. \cite[ch.~16.2]{GCCint}
 
 The output template usually is similar to the assembler template in inline assembly.
 The string contains the mnemonic of a machine instruction and the operands which are numbered according to the indexes of the \ac{RTL} template.
-Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \cite{GCCint:defineinsn}
+Again this is depending on the mode iterator and |<VI_char>| will be substituted by a character that belongs to a machine mode. \cite[ch.~16.2]{GCCint}
 
 At last the insn is completed by its attributes which hold further information about the insn that is used by the compiler internally like effects of an insn on certain registers and similar properties.
-We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \cite{GCCint:attributes}
+We are less interested in this, as attributes are optional and we do not add attributes to the back-end. \cite[ch.~16.19]{GCCint}
 
 \add{
 PPC must handle syncing in compiler when I/O is added

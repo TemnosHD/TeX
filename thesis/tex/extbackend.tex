@@ -24,7 +24,7 @@ There is a number of files we will systematically edit and keep referencing to a
     \item[t-fprules] sets soft-float as default for certain targets
 \end{description}
 
-It is recommended to have chapter 5 of \citep{nux} at hand, as it contains an overview of existing s2pp vector instructions.
+It is recommended to have chapter 5 of the nux manual~\citep[ch.~5]{nuxmanual} at hand, as it contains an overview of existing s2pp vector instructions.
 
 During the course of extending the GCC back-end a few things became clear:
 
@@ -68,7 +68,7 @@ This adds |ms2pp| to the list of option flags and the next lines defines a macro
 |Report| means that the option is to be printed when |-fverbose-asm| is is set.
 |Mask(S2PP)| initializes a bitmask that is available through |OPTION_MASK_S2PP|.
 That macro is attached to |rs6000_isa_flags|, which specified by |Var|.
-It simultaneously specifies a macro |TARGET_S2PP| that is set to |1|. \citep{GCCint:options}
+It simultaneously specifies a macro |TARGET_S2PP| that is set to |1|. \citep[ch.~8]{GCCint}
 
 When this is done we need to specify 
 \begin{lstlisting}
@@ -82,7 +82,7 @@ There exist several lists that contain available targets and we need to add nux 
 First we create the inline assembly (see section~\ref{section:asm}) flag which tells the assembler which system architecture is used.
 As nux is based on POWER7 we copy the flag |-mpower7| in |driver-rs6000.def|:
 
-    \begin{lstlisting}[caption=rs6000.h]{Name}
+    \begin{lstlisting}[caption=\tt rs6000.h]
     #define ASM_CPU_SPEC \
         ...
         %{mcpu=power7: %(asm_cpu_power7)} \
@@ -90,7 +90,7 @@ As nux is based on POWER7 we copy the flag |-mpower7| in |driver-rs6000.def|:
         %{mcpu=nux: %(asm_cpu_power7)} \
         ...
     \end{lstlisting}
-    \begin{lstlisting}[caption=driver-rs6000.c]
+    \begin{lstlisting}[caption=\tt driver-rs6000.c]
     static const struct asm_name asm_names[] = {
         ...
         { "power7",   "%(asm_cpu_power7)" },
@@ -230,7 +230,7 @@ SOFT_FLOAT_CPUS = e300c2 401 403 405 440 464 476 ec603e 801 821 823 860 nux
 \section{Creating Macros}
 Since the preliminary requirements are now met, we start adding fundamental macros a |vector| attribute for specifying vectors in program code.
 
-\textbf{Attributes} are used to specify various variables and can be used for example to control alignment \citep{GCCint:attributes}.
+\textbf{Attributes} are used to specify various variables and can be used for example to control alignment \citep[ch.~16.19]{GCCint}.
 
 First a new vector unit is needed.
 It will be called |VECTOR_S2PP| and added to the enumeration |rs6000_vector| in |rs6000-opts.h|.
@@ -403,7 +403,7 @@ Since these instructions are not available, ``nulling'' a register becomes a pro
 Therefore we reserve the first register and splat zeros into it.
 Moving this register, will have the same effect as |XOR|ing a register.
 As |OR| is also not available, we use an alternative instruction, which is |fxvselect|.
-|fxvselect| selects either elements of the second or the third operand depending on the condition register and its forth operand\citep{nux}.
+|fxvselect| selects either elements of the second or the third operand depending on the condition register and its forth operand.\citep[ch.~5]{nuxmanual}
 Having identical second and third operands thus will simply generate the same vector as return value.
 By setting the forth operand |0|, |fxvselect| will always choose elements from the second operand.
 This gives us a simple work-around as |fxvselect| also takes only one clock cycle for execution.
@@ -484,7 +484,7 @@ The only use the macros though is in the prologue and the epilogue, which will b
 
 After we declared all register indexes, we must also specify them further.
 Each register type (or register class) needs and entry to the enumeration |reg_class| and a definition of identical register names in |REG_CLASS_NAMES|.
-\begin{lstlisting}
+\begin{lstlisting}[multicols=2]
 enum reg_class
 {
   ...
@@ -494,17 +494,18 @@ enum reg_class
   FLOAT_REGS,
   S2PP_ACC_REG,
   ALTIVEC_REGS,
-  ...}
-...
-#define REG_CLASS_NAMES                         \
-  {                                   \
   ...
-  "GENERAL_REGS",                           \
-  "S2PP_C_REG",                             \
-  "S2PP_REGS",                              \
-  "FLOAT_REGS",                             \
-  "S2PP_ACC_REG",                           \
-  "ALTIVEC_REGS",                           \
+  ALL_REGS}
+...
+#define REG_CLASS_NAMES  \
+  {                      \
+  ...
+  "GENERAL_REGS",        \
+  "S2PP_C_REG",          \
+  "S2PP_REGS",           \
+  "FLOAT_REGS",          \
+  "S2PP_ACC_REG",        \
+  "ALTIVEC_REGS",        \
   ...
   "ALL_REGS"}
   \end{lstlisting}\unsure{in columns?}
@@ -589,7 +590,7 @@ After we defined these names we can also define the according constraints in |co
 \end{lstlisting}
 
 The first string is the register constraint's name and the second string will be assigned a register class later in |rs6000.c|.
-The last string is only for documentary purposes.\citep{GCCint:constraints}
+The last string is only for documentary purposes.\citep[ch.~16.8]{GCCint}
 
 Before we can assign register classes though, we must modify an enumeration in |rs6000.h|
 \begin{lstlisting}
@@ -763,7 +764,7 @@ We can copy these from respective AltiVec predicates and change both the vector 
 })
 ...    
 \end{lstlisting}
-If one wants to add more predicates, GCC offers a manuals entry \citep{GCCint:predicates}.
+If one wants to add more predicates, GCC offers a manuals entry \citep[ch.~16.7]{GCCint}.
 
 The |easy_s2pp_constant| function, which is referred to in the listing above, checks if an operand is ``splittable'', ergo that all elements have the same value and the operand can be synthesized through a split instruction.
 To check this the operand is analyzed sequentially if either of the two available splat instructions can synthesize the same operand.
@@ -957,7 +958,7 @@ The template can also be written in C.
 
 Each case is indexed according to the list of constraints so we take a look at |case 0|, which is the first pair.
 This alternative return a machine instruction for storing a vector in memory |fxvstax|.
-The second operand of this instruction also contains a character besides its index which is an operand modifier \citep{GCCint:asm} that will cause the operand |0| to be split into an offset and an address in respective GPRs.
+The second operand of this instruction also contains a character besides its index which is an operand modifier \citep[ch.~6.45.2]{GCCint} that will cause the operand |0| to be split into an offset and an address in respective GPRs.
 
 Other alternatives include instructions |fxvlax|, for loading a vector from memory, and |fxvsel|, for moving vector registers.
 |case 6| moves the contents of vector register |0| (this register is all |0|s) and thereby nulls that register (|j| is the respective constraint for a zero vector).
@@ -966,7 +967,7 @@ Returning |#| as output template is equivalent to stating that there is no machi
 This causes the compiler to look for different RTL templates that have the same effect but also has a machine instruction.
 
 This process is called \textbf{insn splitting} and can also be used for optimization.
-A developer may define which RTL templates are equivalent by using |define_split| \citep{GCCint:definesplit}.
+A developer may define which RTL templates are equivalent by using |define_split| \citep[16.16]{GCCint}.
 
 As there exist non-AltiVec-specific splits for cases 3 through 5 in AltiVec, we do not need to define splits ourself.
 
@@ -983,9 +984,9 @@ Inorder to fulfill the condition, we add the |S2PP_VECTOR_MODE_P| to the insn.
 \end{lstlisting}
 
 |define_expand| is an \textbf{insn expansion} which is similar to insn splitting, but may combine several RTL templates and can not specify any machine instruction directly.
-Usually this is used to compose built-ins from an instruction sequence \citep{GCCint:defineexpand}.
+Usually this is used to compose built-ins from an instruction sequence \citep[ch.~16.15]{GCCint}.
 
-|define_insn_and_split| is a combination of insn definition and insn splitting and is also described in the GCC manual \citep{GCCint:definesplit}.
+|define_insn_and_split| is a combination of insn definition and insn splitting and is also described in the GCC manual \citep[ch.~16.16]{GCCint}.
 
 Besides |mov| there is number of insn expansions in |vector.md| that must also apply to s2pp.
 \begin{lstlisting}
@@ -1310,7 +1311,7 @@ A complete list of all intrinsic functions that the compiler supports at the tim
 Another problem, that only emerges, when using many registers at the same time, is missing prologue and epilogue support.
 
 There is an ending number of registers, which the compiler can use for saving values, and this number is also reduced by the amount of fixed registers
-Thus the compiler occasionally must store values in memory before calling a function that needs some of the available registers by calling a so called \textbf{prologue} \citep{GCCint:funcentry}.
+Thus the compiler occasionally must store values in memory before calling a function that needs some of the available registers by calling a so called \textbf{prologue} \citep[ch.~17.9.11]{GCCint}.
 The compiler then restores the registers after the function has finished through an \textbf{epilogue}.
 
 Before the compiler can save registers, it must check which registers need to be saved.
