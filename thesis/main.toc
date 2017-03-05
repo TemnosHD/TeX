@@ -13,7 +13,7 @@
 \contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{20}{subsection.2.3.4}
 \contentsline {subsubsection}{\nonumberline Insn Definition and Register Transfer Language}{21}{section*.65}
 \contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}
-\contentsline {section}{\numberline {3.1}Adding Option Flag and nux Target}{25}{section.3.1}
+\contentsline {section}{\numberline {3.1}Adding the s2pp Option Flag and nux Target}{25}{section.3.1}
 \contentsline {section}{\numberline {3.2}Creating Macros}{29}{section.3.2}
 \contentsline {section}{\numberline {3.3}Registers}{32}{section.3.3}
 \contentsline {section}{\numberline {3.4}Reload}{40}{section.3.4}

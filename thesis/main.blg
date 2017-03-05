@@ -14,47 +14,50 @@ The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
 A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
+Warning--I didn't find a database entry for "reponux"
+Warning--I didn't find a database entry for "repohomeostasis"
+Warning--I didn't find a database entry for "repostdp"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--empty journal in PPU
-You've used 12 entries,
+You've used 14 entries,
             3160 wiz_defined-function locations,
-            1163 strings with 11264 characters,
-and the built_in function-call counts, 6425 in all, are:
-= -- 562
-> -- 248
-< -- 9
-+ -- 114
-- -- 60
-* -- 440
-:= -- 655
-add.period$ -- 12
-call.type$ -- 12
-change.case$ -- 60
-chr.to.int$ -- 10
-cite$ -- 37
-duplicate$ -- 631
-empty$ -- 476
-format.name$ -- 78
-if$ -- 1339
+            1179 strings with 11819 characters,
+and the built_in function-call counts, 7019 in all, are:
+= -- 607
+> -- 259
+< -- 10
++ -- 119
+- -- 63
+* -- 483
+:= -- 724
+add.period$ -- 14
+call.type$ -- 14
+change.case$ -- 68
+chr.to.int$ -- 12
+cite$ -- 43
+duplicate$ -- 694
+empty$ -- 536
+format.name$ -- 82
+if$ -- 1461
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 96
-newline$ -- 43
-num.names$ -- 32
-pop$ -- 284
+missing$ -- 107
+newline$ -- 49
+num.names$ -- 36
+pop$ -- 306
 preamble$ -- 1
-purify$ -- 48
+purify$ -- 54
 quote$ -- 0
-skip$ -- 375
+skip$ -- 398
 stack$ -- 0
-substring$ -- 155
-swap$ -- 376
+substring$ -- 163
+swap$ -- 400
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 99
+type$ -- 117
 warning$ -- 1
-while$ -- 33
+while$ -- 36
 width$ -- 0
-write$ -- 131
-(There was 1 warning)
+write$ -- 154
+(There were 4 warnings)

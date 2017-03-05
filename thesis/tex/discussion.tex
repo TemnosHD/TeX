@@ -1,37 +1,38 @@
 \chapter{Discussion and Outlook}
 \label{chapter:discussion}
 
-The initial motivation of this thesis was, to simplify programming for the \ac{PPU} and provide tools to users by establishing compiler support for the nux architecture.
+The motivation of this thesis was, to simplify programming for the \ac{PPU} and provide tools to users by establishing compiler support for the nux architecture.
 This should help the development of new applications for the \ac{HICANN-DLS} and make the system accessible to more users.
 
 Already there exist many experiments on \ac{HICANN-DLS} the addition of compiler support could help increase their number and complexity.
 Easy experiments can now be generated in a short amount of time and need little expertise by the user.
 There exist various tutorials and examples on using vector types in C \reference{guides on vector programming} that can be used as introductory reading.
 
-At the same time can experienced users create more complex experiments than before, as functions are available for different purposes and optimization will help improving performance.
+At the same time can experienced users create complex experiments more easily than before, as functions are available for different purposes and optimization will help improving performance.
 This will become even more important, as higher levels of optimization are yet to be verified for use.
 
 Testing the compiler in general is still a major task for the near future.
-The back-end needs testing as only this can show if it is reliable and may reveal bugs that were not obvious before.
-At the time of this thesis there already exist first test cases that aim for high-level software tests and test single intrinsics as discussed in chapter~\ref{ch:results}.
+The back-end needs high-level tests similar to listing~\ref{lst:nuxtest} that can be run on the \ac{PPU} and give comparable results.
 This should be extended to more complex testing scenarios that involve various combinations of intrinsics with different arguments and dependencies as well as conditional branching and looping.
+Running these tests with various optimization stages, would proof reliability of optimization as well..
+The same could be done for inline assembly code.
 
-Also the number of low level tests should be increased to compare test results, especially if tests fail.
-This could be done the in same way existing tests were created but could be accompanied be similar tests in inline assembly.
-The latter would help verifying the reliability of the compiler as well.
+Also the number of low level tests should be increased to compare results, especially if tests fail.
+These would rather test the nux architecture than the compiler, but only testing on both sides gives meaningful results.
+These tests should be similar to existing tests that are written in assembly.
 
-All tests should be conducted in simulation as well as on hardware to find more of such unexpected behavior, like first test already revealed.
-There are intentions of emulating the nux architecture on hardware in the future to accompany existing software simulation.
+All tests should be conducted in simulation as well as on hardware, to create a robust testing environment.
+It is planned to emulate the nux architecture on hardware in the future, which would accompany existing software simulation.
 This would make parallel testing of hardware faster and allow for continuous testing of future \ac{PPU} modifications.
 
-Such a testing environment would ultimately allow to validate if optimization beyond |-O1| is reliable with the new back-end.
+Such a testing environment would allow to validate if optimization beyond |-O1| is reliable with the new back-end.
 This could also involve existing AltiVec tests in GCC, that are transferable to nux.
 
 Results form these tests as well as new insights from this thesis should be featured in the nux manual, in order to provide sufficient documentation of the hardware.
 \\
 \\
 As the current back-end requires GCC 4.9.2, the future development of GCC should also be consodered.
-The most recent release of the GCC 4.9 release series dates back to August 2016 and maintenance is officially discontinued \cite{GCCweb}.
+The most recent version of the GCC 4.9 release series dates back to August 2016 and maintenance is officially discontinued \cite{GCCweb}.
 There exist newer bugs but these were fixed through patches thanks to an active community behind GCC.
 It is highly unlikely that the GCC compiler itself will cause problems in the future but it might be reasonable to move to the latest 4.9 release 4.9.4 and test the back-end there as well.
 
@@ -40,37 +41,35 @@ Nonetheless exists an experimental build of GCC 7 with an early version of the s
 Also will the POWER architecture likely be supported by GCC to a great extend as there still exist back-ends for deprecated architectures and very minor targets.\unsure{is minor right?}
 
 Thus the most crucial development is that of the nux architecture.
-If it is ever decided that the  \ac{PPU} is to be completely redesigned, it would likely render the current back-end pointless.
+If it is ever decided that the  \ac{PPU} is to be completely redesigned, the current back-end would likely not support the new architecture.
 Smaller changes however, i.e. adding logical vector instructions to the instruction set, may be supported by adding these to the machine description and creating intrinsics from this as described in section \ref{sec:builtins} and the already mentioned internship report \citep{heimbrecht_2017internship}.
 The back-ends structure would also allow for adding custom intrinsics that can be composed from existing machine instructions through the machine description and \ac{RTL} code.
 
 Eventually the s2pp extended GCC back-end may be usable for a reasonable amount of time and even longer if the back-end is maintained.
 \\
 \\
-Currently the \ac{PPU} could play key role in future experiments on \ac{HICANN-DLS}.
+The \ac{PPU} will play a key role in future experiments on \ac{HICANN-DLS}.
 Experiments on this system that do not utilize the \ac{PPU} are usually slower or less flexible and must be supervised outside of \ac{HICANN-DLS}.
 The performance of vector processing on the \ac{PPU} and direct access to the analogue system offer various possibilities for future experiments.
-Although the processing power of the \ac{PPU} is limited when compared to larger experimental setups, it fulfills the requirements for simple optimization, reduced virtual environments with high latency for analogue neural networks and managing calibration of the system.
+Although the processing power of the \ac{PPU} is limited when compared to larger experimental setups, it fulfills the requirements for simple optimization, reduced virtual environments with low latency for analogue neural networks and managing calibration of the system.
 This would allow for experiments that run solely on the \ac{PPU} and do not need external supervision, which makes the \ac{HICANN-DLS} a standalone system.
 As such, it would be able to run long-term experiments on its own and create many new testing scenarios.
 
 A limiting factor to this is the small memory of the \ac{PPU}.
 As the \ac{PPU} should gain access to the FPGAs memory in future DLS releases, this limitation will drop.
 
-Future set-ups might feature the \ac{PPU} in wafer-scale implementation, that allows for multiple experiments running in parallel or large network plasticity at at experimental speeds.
+Future set-ups might feature the \ac{PPU} in wafer-scale implementation, that allows for multiple experiments running in parallel or large network plasticity.
 \\
 \\
 All of this needs code that is at the same efficient and favorably of small size.
-Software should be easy to write as more complex systems will cause programs to become more complicated and users should be encouraged to work on this platform.
+Software should be easy to write, as more complex systems will cause programs to become more complicated and users should be encouraged to work on this platform.
 
-The s2pp compiler support could offer this if test prove its reliability and users will adapt to it.
-Tests which were described in the beginning of this chapter will be essential to this development but new features may also hep it.
+The s2pp compiler support offers this and could open the way to additional features.
 
-One such feature could be the \ac{GDB} which offers code debugging.
-As debugging \ac{PPU} software right now is not possible, this would users that work with the \ac{PPU}.
+One such feature could be the \ac{GDB} which offers code debugging, as this is currently not possible for \ac{PPU} software.
 \ac{GDB} support might also be possible in the future but it is likely that more work on the back-end is necessary for this.
 Until the end of this thesis there have been no tests with \ac{GDB} and the new back-end and other features such as optimization and testing would be more important.
-At most, only time will tell if the extended-GCC build will be used regularly and become a standard tool for nux development.
-Over time the \ac{PPU} should become more independent and help realizing experiments with large simulated networks or multiple standalone experiments in parallel.
+Over time this will help realizing experiments with large simulated networks or multiple standalone experiments in parallel.
 
-Ultimately though, the future of the \ac{PPU} is welded by users, developers and the applications they create for \ac{HICANN-DLS} and other systems. Giving them the right tolls at hand might accelerate its development.
+Ultimately though, the future of the \ac{PPU} is welded by users, developers and the applications they create for \ac{HICANN-DLS} and other systems.
+Giving them the right tolls at hand will accelerate its development.

@@ -3,21 +3,21 @@
 In the course of the third chapter, the GCC back-end was extended for the s2pp vector extension.
 This chapter will examine features and early applications of the back-end.
 
-So far the compiler back-end can be built into a compiler which creates machine code for the PPU.
-This newly built compiler also supports the use of |-mcpu=nux| and |-ms2pp| target flags and a header file named |s2pp.h| which can be included the same way GCC standard header files are included.
+So far the compiler back-end can be integrated into a compiler which creates machine code for the PPU.
+This enhanced compiler also supports the use of |-mcpu=nux| and |-ms2pp| target flags and a header file named |s2pp.h| which can be included the same way GCC standard header files are included.
 The back-end features a |vector| variable attribute which enables vector variables of different types.
 
 These vector variables can serve as arguments for implemented s2pp intrinsic functions that cover every vector instruction which is available on nux.
 Additionally the new intrinsics support type detection and map automatically to the according machine instruction for each vector type if this is demanded by the user.
 
-When using this, assigning registers as well as memory is done automatically and does not need for user interaction.
+When using this, assigning registers as well as memory is done automatically and does not require user interaction.
 Despite a special bus to the synapse array, the back-end can also accesses the synapse array through special intrinsics.
 Specifically the intrinsics |fxv_inx| and |fxv_outx| allow to access the synapse array and load/store variables from/to there.
 
 As many of the mentioned intrinsics as possible were designed similar to existing intrinsics for AltiVec and use the |vec_| prefix besides th |fxv_| prefix.
-This was done to include both, users that are accompanied to the existing vector macros and new users that are somewhat familiar with AltiVec.
+This was done to include both, users that are accustomed to the existing vector macros and new users that are somewhat familiar with AltiVec.
 
-In addition to intrinsics, the compiler also supports inline assembly coding in |asm| with vector instructions (as described in section \ref{section:asm}, see listing~\ref{lst:nuxtest}).
+In addition to intrinsics, the compiler also supports inline assembly coding in |asm| with vector instructions (as described in section~\ref{section:asm}, see listing~\ref{lst:nuxtest}).
 The user does not need to choose hard registers or implement store and load instructions by himself, as this is done by the compiler.
 This is possible through the addition of the |kv| constraint that marks vector registers as |r| does for GRPs.
 Overall inline assembly for nux became more intuitive than it had been before.
@@ -53,34 +53,35 @@ This will ultimately make it easier to combine low-level coding in high-level pr
 The new back-end also supports the use of global functions that support simple function calls.
 \\
 First tests were conducted during extension development and made use of intrinsics instead of macros.
-This produced machine code as well as correct results for small example code.
-More complex tests will be discussed in chapter \ref{chapter:discussion}.
+Ideas for more complex tests will be discussed in chapter \ref{chapter:discussion}.
 
-David Stöckel further implemented a small series of tests using a newly developed unit testing framework as part of |libnux| in order to conduct high-level software tests (example in listing~\ref{lst:nuxtest}.
+David Stöckel further implemented a small series of tests using a newly developed unit testing framework as part of |libnux| in order to conduct high-level software tests (example in listing~\ref{lst:nuxtest}).
 
-Through these early tests, it was possible to find a bug which previously was not known and could be identified as undocumented behavior of the nux for conditional execution of arithmetic instructions.
-In the end it was possible to implement a workaround for this which was already mentioned in chapter~\ref{chapter:extbackend}.
-The workaround was not tested for its performance, as the test code was very short, but passed David Stöckel's tests.
+Through these early tests, it was possible to find a bug in nux for conditional execution of arithmetic instructions \cite{reponux}.
+It was possible to implement a workaround for this which was already mentioned in chapter~\ref{chapter:extbackend}.
+The workaround was test and passed David Stöckel's test, while performance was no criteria.
 At the same time the code size was minimally affected as only one machine instruction is added.
 
 He also used the nux back-end for first experiments that made use of different functionalities of nux.
 One experiment used the \ac{PPU} to increase the synaptic weights of all synapses in small steps and then measure the network activity.
-The same procedure was repeated for decreasing weights and the difference between activities evaluated
-Another experiment updated all synaptic weights depending on spike counts to create homeostatic behavior and yet a different experiment implemented simple \ac{STDP} that relies on accessing the hardware correlation data of \ac{HICANN-DLS}.
-As all these experiments still used inline assembly instead of intrinsics but may be transferred to intrinsics in the future.
+The same procedure was repeated for decreasing weights and the difference between activities was evaluated.
+Another experiment updated all synaptic weights depending on spike counts to create homeostatic behavior \cite{repohomeostasis} and yet a different experiment implemented simple \ac{STDP} that relies on accessing the hardware correlation data of \ac{HICANN-DLS} \cite{repostdp}.
+All these experiments still used inline assembly instead of intrinsics but may be transferred to intrinsics in the future.
 Nonetheless did the nux back-end simplify usage of inline assembly as described earlier and allowed the user to focus on tests rather than low-level operand management.
 
 All tests used a version of \ac{GCC} that was patched and then integrated to the waf build system of the working group.
 Hence a patched cross-compiler is already available at the time of this thesis.
 \\
 As pointed out in the beginning of this thesis we also wanted to support optimization of vector specific machine code.
-As for now this could be achieved for basic optimization (with flag |-O1|) which mainly reduces memory accesses to a minimum but keeps execution order.
+Until the end of this thesis could be achieved for basic optimization (with flag |-O1|) which mainly reduces memory accesses to a minimum but keeps execution order.
 This still gives readable assembly code and should achieve similar performance to code written with the former standard macros.
 
-This is due to the way these macros were implemented.
-Since the compiler did not recognize \ac{s2pp} instructions before, |asm| statements had to be |volatile| to prevent vector instructions to be removed by optimization as |volatile| statements may only be moved by optimization.
-Thus only code around vector instruction was affected by optimization and performance of vector instructions was up to the user's skill.
-Optimization going beyond (|-O1|) is yet to be tested for reliability with the new back-end which will be discussed later on.
+Since the compiler did not recognize \ac{s2pp} instructions before, |asm| statements had to be |volatile| to prevent vector instructions from being removed by optimization.
+|volatile| code can still be moved around by optimization.
+Other optimizations, like loop optimization or optimizations within a volatile statement are not possible.
+Efficient machine code was therefore relying more on the users code than usual.
+This changed with support of simple optimization (|-O1|) by the extended back-end.
+Optimization going beyond |-O1| is yet to be tested for reliability with the new back-end which will be discussed later on.
 
 Besides these internal improvements to \ac{s2pp} usage we want to point out the main advantage of the new back-end for users of nux.
 The main goal of this thesis was to simplify programming for nux and listing~\ref{lst:intrinsics} shows this for an exemplary program.

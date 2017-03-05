@@ -9,7 +9,7 @@
 \BOOKMARK [2][-]{subsection.2.3.4}{GNU Compiler Collection}{section.2.3}% 9
 \BOOKMARK [3][-]{section*.65}{Insn Definition and Register Transfer Language}{subsection.2.3.4}% 10
 \BOOKMARK [0][-]{chapter.3}{Extending the GCC Back-End}{}% 11
-\BOOKMARK [1][-]{section.3.1}{Adding Option Flag and nux Target}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.1}{Adding the s2pp Option Flag and nux Target}{chapter.3}% 12
 \BOOKMARK [1][-]{section.3.2}{Creating Macros}{chapter.3}% 13
 \BOOKMARK [1][-]{section.3.3}{Registers}{chapter.3}% 14
 \BOOKMARK [1][-]{section.3.4}{Reload}{chapter.3}% 15
