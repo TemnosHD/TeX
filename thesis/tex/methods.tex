@@ -150,11 +150,16 @@ Each of these steps is called a machine instruction, which consists of several e
 %instructions
 An instruction like in figure~\ref{fig:opcode} is called a \textbf{machine instruction} and combines several elements.
 A program is simply a list of these instructions in memory that belong to the \textbf{instruction set}.
-The first part is called an \textbf{opcode} and is typically an 8-bit number that identifies the operation.
-The ALU reads this number and performs a set of so called \textbf{micro instructions} accordingly.
+Each machine instruction requires a fixed amount of memory and consists of an opcode and multiple operands.
+The \textbf{opcode} is the first part of the instruction and is typically an 8-bit number that identifies the operation.
+
+Opcodes are often represented by an alias string like |add|, that is called a \textbf{mnemonic}.
+The opcode is followed by several addresses that refer to the location a value can be taken from or where it should be stored.
+These addresses are called \textbf{operands} and can either be a memory address or a register number.
+The ALU reads this the opcode and operands and performs a set of so called \textbf{micro instructions} accordingly.
 
 During a single clock cycle a chip can perform a single micro instruction.
-An example for micro instructions in an add instruction (|d = add(a,b)|) would be:
+An example for micro instructions in an add instruction (|d = add(a,b)|) would be:\citep[p.~23ff.]{microprocessor}
 \begin{lstlisting}[caption=example of micro instructions, label=lst:microinstruction]
     1. fetch instruction from memory
     2. decode instruction
@@ -164,34 +169,24 @@ An example for micro instructions in an add instruction (|d = add(a,b)|) would b
     6. store result
 \end{lstlisting}\todo{inhaltlicher zusammenhang}
 
-Opcodes are often represented by an alias string like |add| that is called a \textbf{mnemonic}.
-The opcode is followed by several addresses that refer to the location a value can be taken from or where it should be stored.
-These addresses are called \textbf{operands} and can either be a memory address or a register number.
-
-It takes up to several hundred cycles for instructions to access memory which effectively stalls the processor until the memory instruction has finished and reduces performance.
-
-\begin{equation*}
-    \text{speed(accumulator)} > \text{speed(register)} \gg \text{speed(memory)}
-\end{equation*}
-Therefore a user should try to avoid memory access as much as possible and use registers instead.
-
 %instruction set
-As we mentioned the instruction set before, the complexity of an instruction set is also very important for performance. 
-A complex instruction set might seem favorable to increase performance at first but a smaller instruction set also bears some advantages.
-Because every instruction has to be represented by a circuit in the \ac{ALU}, a smaller instruction set safes space and is easier to design.
-In general developing a processor architecture is always a trade-off between factors like: available chip space, instruction set and design complexity, energy consumption and maximum clock frequency.
+The complexity of an instruction set is important for performance. 
+As complex instruction sets feature highly specialized circuits and microinstructions, they are able to complete complex computation in only a few clock cycles.
+But most often a complex instruction set would often rely a small set of basic arithmetic instructions and rarely use complex ones.
+Because every micro instruction must be represented by a circuit in the \ac{ALU}, a smaller instruction set would safe space and be easier to design.
+In general developing a processor architecture involves factors like: available chip space, instruction set and design complexity, energy consumption and maximum clock frequency.\unsure {give reason for clock frequency}
 Because of this, processors can be classified in two main groups:
 \begin{description}
-    \item[\ac{CISC}]
-    \item[\ac{RISC}]
+    \item[\ac{CISC}] e.g. x86, MC68000, and i8080
+    \item[\ac{RISC}] e.g. \ac{POWER}, ARM and MIPS
 \end{description}
-The latter usually has an instruction set that is reduced to simple instructions as |add| or |sub| and connects these to create more complex instructions.
-It also can be operated at higher clock frequencies, therefore it is the perfect architecture for applications that need to do simple arithmetic as fast as possible.
+The latter usually has an instruction set that is reduced to simple  instructions like |add| or |sub| and connects these to create more complex instructions.
+This is similar to how micro instructions work and makes programs on a \ac{RISC} processor more complicated, which also affects developers directly.
+The architecture also features more registers than \ac{CISC} and instruction pipelining, which will be discussed later on.
 
 The \ac{PPU} is a \ac{RISC} architecture so we will focus more on \ac{RISC}'s key features throughout this chapter.
 
 %assembly
-The complexity of an instruction set also affects developers directly, if they are working on low-level code.
 Programs that only consist of machine instructions a called \textbf{assembly} which is the lowest level of representation of a program that is still is human-readable.
 Assembly instructions follow the same scheme as machine instructions do:
 \begin{figure}[htpb]
@@ -200,35 +195,45 @@ Assembly instructions follow the same scheme as machine instructions do:
         \bitheader{0,7,15,23,31}\\
         \bitboxes{8}{{mnemonic}{operand}{operand}{operand}}\\
         \bitheader{0,7,15,23,31}\\
-        \bitboxes{8}{{add}{r1 \\ \tiny register address}{0x3000 \\ \tiny memory address}{5 \\ \tiny immediate operand}}
+        \bitboxes{8}{{\tt{addi}}{{\tt r1} \\ \tiny register address}{{\tt r2} \\ \tiny register address}{{\tt 5} \\ \tiny immediate operand}}
     \end{bytefield}
-    \caption{\label{fig:mnemonic} Representation of a Machine Instruction in Memory}
+    \caption{\label{fig:mnemonic} Representation of Assembly Instruction {\tt addi} as a Machine Instruction in Memory. It adds an immediate value to register {\tt r2} and writes the result in {\tt r1}. Table~\ref{tab:asm} shows a list of important instructions in the PowerISA.}
 \end{figure}
 
 \begin{lstlisting}[caption=Assembly in Written Form, label=lst:asm]
-    add r1, 0x3000, 5
+addi     r1, r2, 5
 \end{lstlisting}
 In \ac{RISC} architectures instructions typically consist of 3 operands and are usually between registers only (except for load/store memory instructions).
-The mnemonic in most cases is a named after the first letters of the instructions full name, which is emphasized in the following table.
-The operand can be of three different types which are all shown above.
-They either represent a specific register (r1 = register 1), a memory address (0x3000 = the value at memory location 0x3000) or an immediate value (5 = the integer 5).
-Register operands can also have an indirect use, which means that that content of the register is taken into account.
-E.g. a memory address can be saved to the register and an operation uses the value at the memory location which the register refers to.
-This is often the case for \ac{RISC} architectures as they support only one \textbf{load} and one \textbf{store} instruction, that either loads a value from memory into a register, or stores a register's value in memory.
-Therefore \ac{RISC} architectures often qualify as load/store architectures as the memory address is first stored in a register that afterwards is an operand of a memory instruction.
-This is called an indirect operand.
+Instructions that have less operands are usually mapped on different instructions.
+Its operand can be of two different types which are all shown in figure~\ref{fig:mnemonic}.
+They either represent a specific register (r1 = register 1) or an immediate value (5 = the integer 5).
+\ac{RISC} architectures often also support only one \textbf{load} (memory to register) and one \textbf{store} (register to memory) instruction, which qualifies them as load/store architectures.
+In order to access memory, operands must be used indirectly:
 
-As address size is limited by the register, the maximum amount of memory that can be used is:
+A memory address is given by an immediate value that is saved to a register.
+A memory instruction then uses the value that is saved in the register instead of the register address as in listing \ref{lst:loadstore}.
+
+\begin{lstlisting}[caption=Example Code for Load and Store Instruction. The contents of memory address {\tt 0x0000} are loaded into register {\tt r0} and then stored at address {\tt 0x1000}. See table~\ref{tab:asm} for information on used mnemonics., label=lst:loadstore]
+li      r1, 0x0000
+lw      r0, 0(r1)
+li      r1, 0x1000
+stw     r1, 0(r1)
+\end{lstlisting}
+
+It takes up to several hundred cycles for instructions to access memory which effectively stalls the processor until the memory instruction has finished.
+\begin{equation*}
+    \text{speed(accumulator)} > \text{speed(register)} \gg \text{speed(memory)}
+\end{equation*}
+Therefore a user should try to avoid memory access as much as possible and use registers instead.
+
+As address size is limited by the register size, the maximum amount of memory that can be used is:\unsure{keep this?}
 \begin{equation}
     2^{n} byte \xrightarrow{\text{n = 32 bit}} 2^{32} byte \approx 4*10^{9} byte = 4 GiB
 \end{equation}
 
-An overview of different assembly mnemonics for the POWER7 \ac{ISA} can be seen in the appendix section~\ref{sec:inlineasm}.
-
-%\ac{RISC}
-Many \ac{RISC} architectures have an instruction set that consists exclusively of 3 operand instructions and any instructions that seem to have less than that, are just mapped to more complex instructions that have three operands but still need only the minimum amount of clock cycles.
-Such simple instructions are similar to micro instructions, which were mentioned earlier, and every simple instruction has the same low number of micro instructions.
-\ac{RISC} architectures therefore start ``pipelining'' instructions, which means starting the next machine instruction as the previous machine instruction just performed the first step in a clock cycle.
+%pipiling
+Since instructions on \ac{RISC} are all very simple, they also follow the scheme in listing~\ref{lst:microinstruction}.
+The processor therefore start ``pipelining'' instructions, which means starting the next machine instruction as the previous machine instruction just performed the first micro instruction after one clock cycle.
 Ideally, this will increase the performance by a factor that is equal to the number of micro instructions in a machine instruction.
 
 It must be noted though, that the processor has to implement detection of \textbf{hazards}, which are data dependencies between instructions; e.g. one instruction needs the result of another.
@@ -236,15 +241,16 @@ Such an instruction is then postponed to a delay-slot and other instructions tha
 The result is reordering of instructions on a processor level.
 \\
 \\
-Processors sometimes have so called \textbf{co-processors} for complex instructions that are not included in the instruction set but are still needed.
-An example would be multiplication on most RISCs, which would need many cycles when split in |add| instructions but a co-processor can perform this in just a few cycles.
+Processors sometimes have so called \textbf{co-processors} for complex instructions that are not included in the instruction set, but are still useful.
+An example would be multiplication on most RISCs, which would need many cycles when split in |add| instructions.
+A co-processor can perform this in just a few cycles.
 In such a case the control section recognizes the |mult| opcode and passes it to the co-processor instead of the ALU.
 
 This can be extended to whole units similar to the ALU existing in parallel.
-One example would be a \textbf{floating point unit} (FPU) which is nowadays standard for most processors and handles all instructions on floating point numbers.
-For this the FPU has its own \textbf{floating point registers} (FPRs) in a separate register file on which it performs instructions and which also has access to the memory.\unsure{keep this?}
+One example would be a \textbf{\ac{FPU}} which is nowadays standard for most processors and handles all instructions on floating point numbers.
+For this reason has the FPU its own \textbf{\acp{FPR}} in a separate register file.
 
-A different kind of extension are vector extensions that do the same as the FPU but for vectors instead of floats.
+A different kind of extension are vector extensions that do the same as the FPU but for vectors instead of floats and allows for \textbf{\ac{SIMD}} processing.
 This is mostly wanted for highly parallel processes such as graphic rendering or audio and video processing \todo{reference}.
 Early supercomputers such as the Cray-1 \todo{reference} also made use of vector processing to gain performance by operating on multiple values  simultaneously through a single register.
 This could either be realized through a fully parallel architecture or more easily through pipelining instructions for vector elements.
@@ -270,11 +276,12 @@ A few examples are:
     \vspace{1em}
 \end{minipage}
 
-The \ac{s2pp} \textbf{\ac{VE}} of nux is the \ac{PPU}'s distinct feature that allows for \textbf{\ac{SIMD}} operations on synaptic weights.
-The \ac{VE} is only weakly coupled to the \ac{GPP} of the \ac{PPU} and both parts can operate in parallel while interaction is highly limited.
+The \ac{s2pp} \textbf{\ac{VE}} on the nux architecture is the \ac{PPU}'s distinct feature that allows for \textbf{\ac{SIMD}} operations on synaptic weights.
+The \ac{VE} is only weakly coupled to the \ac{GPP} of the \ac{PPU}.
+Both parts can operate in parallel while interaction is highly limited.
 To handle the vector unit the instruction set was extended by 53 new vector instructions that partly share their opcodes with existing AltiVec instructions.
 This renders no problem since the nux does not recognize AltiVec opcodes and most likely is not going to in the future.
-The {\ac{VRF} 32 new vector registers which are each 128-bit wide~\citep{AV:registers}.
+The {\ac{VRF} contains 32 new vector registers which are each 128-bit wide~\citep{AltiVec}.
     This allows for either use of vectors with 8 halfword (see figure~\ref{fig:bitlength}) sized elements or 16 byte sized elements which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
 \begin{figure}[htpb]
     \centering
@@ -303,17 +310,21 @@ Its vector registers can either hold sixteen 8-bit |char| (V16QI), eight 16-bit 
         \bitheader{0,7,15,31,63,127}\\
         \begin{rightwordgroup}{V4SF}\bitboxes{32}{{SF}{\tiny Single \\ Float}{}{}}\end{rightwordgroup}\\
     \end{bytefield}
-    \caption{\label{fig:vectorlength} Vector structures are mostly 128 bits wide and split into common word sizes that are always powers of two.}
+    \caption{\label{fig:vectorlength} Vector structures are 128 bits wide and split into common word sizes.}
 \end{figure}
 
 It resembles most characteristics of the \ac{s2pp} vector extension, like a similar VRF, and is already implemented in the PowerPC back-end of \ac{GCC}, but both \ac{VE}s also feature differences.
 
 The \ac{s2pp} \ac{VE} features a vector accumulator of 128 bits width and a \ac{VCR} which holds 3 bits for each half byte of the vector, making 96 bit in total.
+The bits represent the result of a previous comparison instruction for vector elements.
+If the first bit is set, the compared element was larger than |0|, if it was less than |0| the second bit is set and if the element is equal to |0|, the third bit is set.
+For more information see the nux manual \citep[p.~23]{nuxmanual}.
+
 Instructions on the \ac{s2pp} \ac{VE} can be specified to operate only on those elements of a vector, that meet the condition in the corresponding bits in the \ac{VCR}, while the AltiVec \ac{VE} utilizes the \ac{CR} of the PowerPC architecture.
 This does not allow for selective operations on individual elements through the \ac{CR}, but allows for checking if all elements meet the condition in a single instruction.
 If element-wise selection is needed, AltiVec offers this through vector masks.
     
-The AltiVec \ac{VE} has two register that are not featured on s2p.
+The AltiVec \ac{VE} has two register that are not featured on \ac{s2pp}.
 The \ac{VSCR} is responsible for detecting saturation in vector operations and decides which floating point mode is used.
 The \ac{VRSAVE} assists applications and operation systems by indicating for each \ac{VR} if it is currently used by a process and thus must be restored in case of an interrupt.
 Both of these registers are not available in the \ac{s2pp} \ac{VE} but would likely not be needed for simple arithmetic tasks which the \ac{PPU} is meant to perform.
@@ -322,45 +333,45 @@ We already stated that all instructions of \ac{VE}s must first pass the control 
 These instructions then go into an instruction cache for vector instructions. \unsure{add instruciton cache?}
 On nux the instructions then shortly stay in a reservation station that is specific for each kind of operation and thus allows for little out-of-order operation for instructions in these reservation stations which is illustrated in figure~\ref{fig:s2pp}.
 This allows for performing some arithmetic operations on a vector during the process of accessing a different vector in memory.
-The result is faster processing speed as pipelining for each instruction is also supported.
+This results in a faster processing speed as pipelining for each instruction is also supported.
 Though the limiting factor for this remains the \ac{VRF}'s single port for reading and writing.
-A more limiting factor in comparison is the shared memory interface of \ac{s2pp} and \ac{GPP}.
+An even more limiting factor is the shared memory interface of the \ac{s2pp} and \ac{GPP}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{pictures/s2pp.pdf}
-    \caption{\label{fig:s2pp} Detailed structure of the \ac{s2pp} vector extension (taken from \cite{PPU}).}
+    \caption{\label{fig:s2pp} Detailed structure of the \ac{s2pp} vector extension (taken from \citeauthor{PPU}).}
 \end{figure}
 
 Normally processors themselves do not keep track of memory directly.
 This is usually done by a \textbf{\ac{MMU}} or a \ac{MC}.
 It handles memory access by the processor and can provide a set of virtual memory addresses which it translates into physical addresses.
 Most modern \ac{MMU}s also incorporate a cache that stores memory instructions while another memory instruction is performed.
-It also detects dependencies within this cache, which can be resolved there.
-Ultimately this results in faster transfer of data as two or more instructions do not need to access the same memory to fetch a value.
+It detects dependencies within this cache, which can be resolved there.
+Ultimately, this results in faster transfer of data because the \ac{MMU} can return results, it knows from the cache, without accessing the memory.
 
 Not all \ac{MMU}s support this though, which might lead to certain problems when handling memory.
 If instructions are reordered due to pipelining while dependencies on the same memory address are not detected correctly, an instruction may write to memory before a different one could load the previous value it needed from there.
-Another reason could be delayed instructions as it was mentioned above.
+Another reason could be delayed instructions, which were mentioned earlier.
 For this reason memory barriers exist.
 
 A \textbf{memory barrier} is an instruction that is equal to a guard, placed in code, that waits until all load and store instructions issued to the \ac{MMU} are finished.
 It therefore splits the code into instructions issued before the memory barrier and issued after the memory barrier.
 This prohibits any instruction from being executed on the wrong side of the barrier due to reordering and thereby generally prevents conflicting memory instructions.
 
-One kind of memory barrier is |sync| which does exactly what we just described.
-This and other memory barriers are also described in section~\ref{sec:inlineasm}.
+This kind of memory barrier is called |sync| which is used in listing~\ref{lst:sync}.
+This and other memory barriers are also described in table~\ref{tab:asm}.
 
-\begin{lstlisting}[caption=The memory barrier ensures that the first store was performed before the second store is issued., label=lst:sync]
-stw     r7,data1(r9)#store shared data (last)
-sync    export barrier
-stw     r4,lock(r3)#release lock
+\begin{lstlisting}[caption=The memory barrier ensures that the first store has been performed before the second store is issued., label=lst:sync]
+stw     r7,data1(r9)    #store shared data (last)
+sync                    #export barrier
+stw     r4,lock(r3)     #release lock
 \end{lstlisting}
 
-Using |sync| can result in up to a few hundred cycles of waiting for memory access to be finished and therefore this should only be done if necessary.
+Using |sync| can result in up to a few hundred cycles of waiting for memory access to finish and therefore this should only be done if necessary.
 
 The \ac{PPU}'s memory is 16 kiB which is accompanied by 4 kiB of instruction cache.\todo{add description to instruction cache}
 Together with the \ac{PPU} this is called the plasticity sub-system.
-The \ac{MMU} of this system is very simple as it does not cache memory instructions and also has matching virtual and physical addresses thus memory barriers can become necessary at times.
+The \ac{MMU} of this system is very simple as it does not cache memory instructions and also has matching virtual and physical addresses, thus memory barriers can become necessary at times.
 \\
 \\
 Another feature of the \ac{PPU} is the ability to read out spike counts and similar information through a bus which is accessible through the memory interface of the \ac{MMU}.
@@ -368,12 +379,10 @@ It uses the upper 16 bits of a memory address for routing
 These are available because the memory is only 16 kiB large which is equivalent to 16-bit addresses.
 A pointer to a virtual memory address allows to read for example spike counts during an experiment.
 This is done the same way for the whole chip configuration such as analog neuron parameters.
-
-The fact, that the system views the highest as the greatest values, makes this a \textbf{big-endian} system.
 \\
 \\
 The memory bus is also accessible by the \ac{FPGA}.
-This is needed for writing programs into the memory as well as getting results during or after experiments.
+This is needed for writing programs into the memory as well as getting results during, or after experiments.
 It also allows for communication between a ``master'' \ac{FPGA} and a ``slave'' \ac{PPU}.
 
 A \textbf{bus} is the connection between parts of a processor and used for data transfer.
@@ -383,11 +392,9 @@ But as buses of such width need much space, some architectures use narrower buse
 The upper half of the width is called \textbf{high order bits} and the bottom half is called \textbf{low order bits} for big-endian architectures.
 Systems of this sort are described as 32/16-bit architecture, which means that registers are 32 bit wide while buses are only 16 bit wide.
 As the higher order bits of registers are not as often used as the lower order ones, it is often enough to move the lower 16 bits.
-This results in less performance loss than one would initially expected.
+This results in less performance loss than one would initially expected.\unsure{keep this?}
 
-The main feature of the \ac{PPU} though is access to the synaptic array which is offered through an extra bus.
-Still the synapse array is mainly accessible through the main memory bus by setting the first bits similar to the spiking rate information.
-Using this extra bus or the instructions associated with it is nonetheless more comfortable and gives more structure to the program but does not increase performance.
+One of the main feature of the \ac{PPU} though is access to the synaptic array which is offered through an extra bus, which can be seen in figure~\ref{fig:s2pp}.
 \\
 \\
 When using vector instruction for nux, one must always keep in mind that the weights in the synaptic array only consist of the latter 6 or 12 bits which are in a vector register and are right aligned.
@@ -396,23 +403,23 @@ When using vector instruction for nux, one must always keep in mind that the wei
     \begin{subfigure}[b]{\textwidth}
         \centering
     \begin{bytefield}[bitwidth=0.11111111\textwidth]{8}
-        \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
+        \bitheader[endianness=big]{0-7}\\
         \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-6}$}\\
     \end{bytefield}
-    \caption{\label{subfig:synapse} fractional representation of weights in synapses}
+    \caption{\label{subfig:synapse} }
     \end{subfigure}
     \begin{subfigure}[b]{\textwidth}
         \centering
     \begin{bytefield}[bitwidth=0.11111111\textwidth]{8}
-        \bitheader[endianness=little,bitformatting={\tiny\hspace*{-6em}}]{0-8}\\
-        \bitbox{1}{sign} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-7}$}\\
+        \bitheader[endianness=big]{0-7}\\
+        \bitbox{1}{$-1$} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-7}$}\\
     \end{bytefield}
-    \caption{\label{subfig:fracVE} fractional representation of vector componbents for fixed-point saturational arithmetic}
+    \caption{\label{subfig:fracVE} }
     \end{subfigure}
-    \caption{\label{fig:fractional} fractional representation of weights in synapse and in vector unit}
+    \caption{\label{fig:fractional} Comparison of \ref{subfig:synapse} Representation of Weights in Synapses and \ref{subfig:fracVE} Fractional Representation of Vector Components for Fixed-Point Saturational Arithmetic}
 \end{figure}
 
-Figure~\ref{fig:fractional} displays synaptic weights as a fractional number between $-1$ and $1-2^{-5}$.
+Figure~\ref{fig:fractional} displays the representation of values in the synapses and in vectors.
 The weight is the sum of the values where the bits are set to one.
 In contrast to this, the sign-bit changes its meaning when used in the vector unit and becomes a factor instead of a summand.
 This is the reason why a user must shift the vector's elements when reading/writing to the synapse array, as only then do special attributes of instructions work properly.
@@ -421,13 +428,13 @@ An example would be instructions that rely on \textbf{saturation} which predefin
 In case, the result is out-of-range, the instruction will return either the minimum or the maximum (whichever is closer).
 For this to work properly the bit representation must match the intended one, which is the above mentioned fractional representation, and the values must also be correctly aligned.
 
-An overview of all opcodes is provided by \cite{nuxmanual}, which is recommended as accompanying literature besides this thesis.
-In general these opcodes are divided into 6 groups of instructions:
+An overview of all vector opcodes is provided in the nux manual \cite[ch.~5]{nuxmanual}, which is recommended as accompanying literature besides this thesis.
+In general these vector opcodes are divided into 6 groups of instructions:
 \begin{description}
     \item[modulo halfword/byte instructions] apply a modulo operation after every instruction which causes wrap around in case of an overflow at the most significant bit position.
         Each instruction is provided as halfword (modulo $2^{16}$) and as byte instruction (modulo $2^{8}$).
-    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range between $2^{-1}$ and $2^{-15}$ for halfword and $2^{-7}$ for byte instructions.
-    \item[permute instructions] perform operations on vectors that handle elements of vectors only as a series of bits.
+    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range $[-1, 1-2^{-7}]$ for byte elements and $[-1, 1-2^{-15}]$ for half-word elements.
+    \item[permute instructions] perform operations on vectors that handle elements of vectors as a series of bits.
     \item[load/store instructions] move vectors between vector registers and memory or the synapse array.
 \end{description}
 

@@ -9,7 +9,7 @@
     \acro{ASIP}{Application Specific Instruction set Processor}
     \acro{asm}{Assembly}
     \acro{CADC}{Correlation Analog Digital Converter}
-    \acro{CISC}{Complex Instruction Set Computer}
+    \acro{CISC}{Complex Instruction Set Computing}
     \acro{CPU}{Central Processing Unit}
     \acro{CR}{Conditional Register}
     \acro{DLS}{Digital Learning System}
@@ -38,7 +38,7 @@
     \acro{RAM}{Random Access Memory}
     \acro{RF}{Register File}
     \acro{RTL}{Register Transfer Language}
-    \acro{RISC}{Reduced Instruction Set Computer}
+    \acro{RISC}{Reduced Instruction Set Computing}
     \acro{rs/6000}{RISC system/6000}
     \acro{s2pp}{synaptic plasiticity processor}
     \acro{SIMD}{Single Input Multiple Data}
@@ -380,7 +380,7 @@
 \end{table}
 
 \section{Assembly Mnemonics}
-\label{sec:inlineasm}
+\label{sec:asmmnem}
 \begin{table}[htbp]
 \begin{tabular}{l l p{9cm}}
     mnemonic & operands & description \\
@@ -404,7 +404,7 @@
     |lwz| & |RT, D(RA)| & \textbf{l}oad \textbf{w}ord at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
     |mflr| & |RT| & \textbf{m}ove \textbf{f}rom \textbf{l}inker \textbf{r}egister to |RT|\\
     |mr| & |RT, RA| & \textbf{m}ove \textbf{r}egister |RA| to |RT| \\
-    |nop| & & halts execution until the previous instructions are finished EDITHIS\\
+    |nop| & & \textbf{no-op}eration or an instruction is performed that has no effect\\
     |rlwinm| & |RA, RS, SH, MB, ME| & \textbf{r}otate \textbf{l}eft \textbf{w}ord in |RS| by \textbf{i}mmediate |SH| bits then a\textbf{n}d with \textbf{m}ask which is 1 from |MB+32| to |ME+32| and 0 else, store to |RA|\\
     |stw| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA|\\
     |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\

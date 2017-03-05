@@ -5,7 +5,6 @@ A level-1 auxiliary file: cover/cover_kip.aux
 A level-1 auxiliary file: cover/cover_faculty.aux
 A level-1 auxiliary file: cover/cover_prof.aux
 A level-1 auxiliary file: tex/abstract.aux
-A level-1 auxiliary file: fig/array.aux
 A level-1 auxiliary file: fig/processor.aux
 A level-1 auxiliary file: fig/compiler.aux
 A level-1 auxiliary file: fig/cmpstruct.aux
@@ -15,54 +14,47 @@ The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
 A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
-Warning--I didn't find a database entry for "https://gcc.gnu.org/gcc-4.9/"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-Warning--to sort, need author or key in AV:registers
-Warning--to sort, need author or key in GCCint
-Warning--to sort, need author or key in GCCwiki:reload
-Warning--empty year in AV:registers
 Warning--empty journal in PPU
-Warning--empty journal in llvmgccarm
-Warning--empty journal in llvmgcceisc
-You've used 11 entries,
+You've used 12 entries,
             3160 wiz_defined-function locations,
-            1157 strings with 11070 characters,
-and the built_in function-call counts, 6159 in all, are:
-= -- 537
+            1163 strings with 11264 characters,
+and the built_in function-call counts, 6425 in all, are:
+= -- 562
 > -- 248
 < -- 9
-+ -- 111
++ -- 114
 - -- 60
-* -- 418
-:= -- 629
-add.period$ -- 11
-call.type$ -- 11
-change.case$ -- 54
-chr.to.int$ -- 11
-cite$ -- 46
-duplicate$ -- 599
-empty$ -- 442
+* -- 440
+:= -- 655
+add.period$ -- 12
+call.type$ -- 12
+change.case$ -- 60
+chr.to.int$ -- 10
+cite$ -- 37
+duplicate$ -- 631
+empty$ -- 476
 format.name$ -- 78
-if$ -- 1275
-int.to.chr$ -- 1
+if$ -- 1339
+int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 91
-newline$ -- 40
+missing$ -- 96
+newline$ -- 43
 num.names$ -- 32
-pop$ -- 282
+pop$ -- 284
 preamble$ -- 1
-purify$ -- 42
+purify$ -- 48
 quote$ -- 0
-skip$ -- 364
+skip$ -- 375
 stack$ -- 0
-substring$ -- 158
-swap$ -- 359
+substring$ -- 155
+swap$ -- 376
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 90
-warning$ -- 7
+type$ -- 99
+warning$ -- 1
 while$ -- 33
 width$ -- 0
-write$ -- 115
-(There were 8 warnings)
+write$ -- 131
+(There was 1 warning)
