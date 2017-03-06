@@ -9,11 +9,11 @@ For its next generation the current prototype(HICANN-DLS) features a programmabl
 It is based on a Power7 architecture and includes a vector extension for SIMD-parallelization.
 Together with a custom I/O-interface it is able to access and update synaptic weights, correlation measurements and chip configuration in the system.
 This allows for fast and flexible application of plasticity rules during experiments.
-This architecture is also capable of parforming additional tasks in experiments.
+This architecture is also capable of performing additional tasks in experiments.
 
 This thesis will focus on bringing high-level programming to the architecture by extending the PowerPC back-end of the \ac{GCC}.
 This allows for programming the vector extension using important features of \ac{GCC}, such as vector intrinsics, inline assembly and optimization.
-First tests of the extended back-end have been successful and already pinned down bugs in the current processor, which could be worked around.
+First tests of the extended back-end have been successful and pinned down bugs in the current processor, which could be worked around.
 The extended back-end is already in use for different synaptic plasticity experiments.
 \vspace*{5em}
 
@@ -21,14 +21,14 @@ The extended back-end is already in use for different synaptic plasticity experi
 \textbf{\thesisTitleGerman}
 \end{center}
 
-Das Brainscales Wafersystem ermöglicht beschleunigtes analoges neuromorphes Rechnen mit fest eigebauten synaptischen Plastizitätsregeln.
-Der Prototyp für die nächste Generation des Systems (HICANN-DLS) verwendet einen programmierbaren Plasitzitätsprozessor, der zukünftig verschiedenste Plastitzitätsregeln ermöglichen soll.
+Das Brainscales Wafersystem ermöglicht beschleunigtes analoges neuromorphes Rechnen mit fest eingebauten synaptischen Plastizitätsregeln.
+Der Prototyp für die nächste Generation des Systems (HICANN-DLS) verwendet einen programmierbaren Plastizitätsprozessor, der zukünftig verschiedenste Plastitzitätsregeln ermöglichen soll.
 Dieser Prozessor basiert auf der Power7 Architektur und wurde um eine spezielle Vektoreinheit zur SIMD-Parallelisierung erweitert.
 Zusammen mit einer eigenen I/O-Schnittstelle, kann der Prozessor auf Synapsengewichte, Korrelationsmessungen und die Chipkonfiguration zugreifen und updaten.
-Das ermöglicht schnelle und flexible Platizitätsregeln während eines Experiments.
-Zusätzlich ist der Prozessor in der Lage weiter Aufgaben in Experimenten zu übernehmen.
+Das ermöglicht schnelle und flexible Plastizitätsregeln während eines Experiments.
+Zusätzlich ist der Prozessor in der Lage weitere Aufgaben in Experimenten zu übernehmen.
 
-In dieser Bachelorarbeit wird die Anpassung der \acf{GCC} Back-Ends für diese Architektur beschrieben.
+In dieser Bachelorarbeit wird die Anpassung des \acf{GCC} Backends für diese Architektur beschrieben.
 Dies ermöglicht die vollständige Nutzung höherer Programmiersprachen und weitere Vorteile, wie Optimierung, Unterstützung von integriertem Assembler und intrinsische Vektorfunktionen.
 Mit dem Backend wurden bereits erste Tests der Vektoreinheit durchgeführt, wodurch Bugs im aktuellen Prozessordesign entdeckt werden konnten, die jedoch mit Software zu lösen sind.
 Mittlerweile wird das erweiterte Backend von Anwendern für verschiedene Experimente genutzt.

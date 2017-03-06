@@ -12,42 +12,44 @@ A level-1 auxiliary file: fig/cmpstruct.aux
 A level-1 auxiliary file: fig/cmpintstruct.aux
 A level-1 auxiliary file: tex/appendix.aux
 The style file: bib/agu.bst
+A level-1 auxiliary file: tex/acknowledgments.aux
+A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--empty journal in PPU
 You've used 29 entries,
             3160 wiz_defined-function locations,
-            1277 strings with 15013 characters,
-and the built_in function-call counts, 16419 in all, are:
-= -- 1467
+            1276 strings with 14961 characters,
+and the built_in function-call counts, 16392 in all, are:
+= -- 1464
 > -- 639
 < -- 22
 + -- 301
 - -- 158
-* -- 1146
-:= -- 1728
+* -- 1137
+:= -- 1725
 add.period$ -- 29
 call.type$ -- 29
 change.case$ -- 149
 chr.to.int$ -- 24
 cite$ -- 88
-duplicate$ -- 1637
-empty$ -- 1172
+duplicate$ -- 1634
+empty$ -- 1169
 format.name$ -- 209
-if$ -- 3360
+if$ -- 3354
 int.to.chr$ -- 6
 int.to.str$ -- 1
 missing$ -- 245
 newline$ -- 94
 num.names$ -- 97
-pop$ -- 704
+pop$ -- 710
 preamble$ -- 1
 purify$ -- 113
 quote$ -- 0
-skip$ -- 866
+skip$ -- 869
 stack$ -- 0
 substring$ -- 418
-swap$ -- 1046
+swap$ -- 1040
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
@@ -55,5 +57,5 @@ type$ -- 243
 warning$ -- 1
 while$ -- 92
 width$ -- 0
-write$ -- 329
+write$ -- 326
 (There was 1 warning)

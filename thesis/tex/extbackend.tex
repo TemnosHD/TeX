@@ -1,7 +1,7 @@
 \chapter{Extending the \ac{GCC} Back-End}
 \label{chapter:extbackend}
 The previous chapter dealt with processors, the \ac{PPU}, compilers and \ac{GCC}, which was preparation for this chapter.
-This chapter will now emphasize on the task of extending the \ac{GCC} back-end.
+This chapter will emphasize the task of extending the \ac{GCC} back-end.
 There is a number of files, which will be systematically edited and referenced as they are important parts of the \ac{rs/6000} back-end and are changed in the process of extending the back-end. 
 \begin{description}
     \item[rs6000.md] is the machine description of the back-end in general and contains insn definitions for all scalar functions
@@ -11,7 +11,7 @@ There is a number of files, which will be systematically edited and referenced a
     \item[rs6000-builtins.def] contains the definitions of intrinsics
     \item[rs6000-cpus.def] lists sub-targets that belong to the \ac{rs/6000} family
     \item[rs6000-c.c] links built-ins and overloaded built-ins
-    \item[rs6000-opts.h] contains a set of enumerations that represent option values for the back-end
+    \item[rs6000-opts.h] contains a set of enumerations that represent option values
     \item[rs6000-protos.h] makes functions in |rs6000.c| globally available
     \item[rs6000-tables.opt] lists values to a processor enumeration
     \item[driver-rs6000.c] a collection of driver details for different targets
@@ -155,6 +155,7 @@ Already this would allow for the use of |-mcpu=nux| as target and |-ms2pp| as op
 But since the flags we used are basically mandatory to the \ac{s2pp} extension, the compiler should check for these flags before starting compilation.
 First though for each flag needs a macro, which the back-end can identify.
 This is done in |rs6000-c.c| where \textbf{global macros} can be defined:
+
 \begin{lstlisting}
 rs6000_target_modify_macros (bool define_p, HOST_WIDE_INT flags,
                  HOST_WIDE_INT bu_mask)
@@ -581,7 +582,7 @@ Register names are defined in |rs6000.h|.
 The strings are names for registers and the integers represent their indexes.
 
 After these names have been defined, one can also define the according constraints in |constraints.md|
-\begin{lstlisting}
+\begin{lstlisting}[linewidth=1.1\textwidth]
 (define_register_constraint "kv" "rs6000_constraints[RS6000_CONSTRAINT_kv]"
   "s2pp vector register")
 
@@ -1233,20 +1234,20 @@ The exact definition of those macros is described for AltiVec built-ins in the i
                  | RS6000_BTM_S2PP)
 \end{lstlisting}
 
-We then use those new s2pp built-in macros to create built-in definitions for each insn and also each mode (halfword or byte).
+Those new s2pp built-in macros are then used to create built-in definitions for each insn and also each mode (halfword or byte).
 Most built-ins follow the scheme of a normal function that has a result and a certain number of arguments.
 But there is a number of insns that do not produce an output as they set the accumulator or the conditional register.
 These instructions need special handling and thus are defined as special built-ins.
 
-Besides defining built-ins we also define overloads.
+Besides built-ins, there are also \textbf{overloads} defined in |rs6000-builtins.def|.
 These are used to differ intrinsics through arguments types, simplify using them and prevent false usage.
-Overloads are also further explained in the internship report~\citep{heimbrecht_2017internship}.
+Overloads are further explained in the internship report~\citep{heimbrecht_2017internship}.
 
-To make overloads usable one must link them to existing built-ins as overloads are not directly connected to insns.
+To make overloads usable, one must link them to existing built-ins, as overloads are not directly connected to insns.
 This is done through structures that combine the built-in and overload names with a return type and up to three arguments.
 
-To use these structures, we will add a function to |rs6000-c.c| that resolves the overloaded built-ins and is again built upon an AltiVec function that does the very same.
-These functions are |s2pp_build_resolved_builtin| and |s2pp_resolve_overloaded_builtin|
+To use these structures, the functions |s2pp_build_resolved_builtin| and |s2pp_resolve_overloaded_builtin| are needed and must be added to |rs6000-c.c|.
+These functions resolve overloaded built-ins, which is done the same way as for their AltiVec counterparts.
 
 Which resolving function is used by the back-end, is decided in |rs6000.h|
 \begin{lstlisting}
@@ -1261,24 +1262,25 @@ Which resolving function is used by the back-end, is decided in |rs6000.h|
 } while (0)
 \end{lstlisting}
 
-Also we need functions in |rs6000.c| that handle built-ins in general.
-A new function |s2pp_expand_builtin|, which is invoked by |rs6000_expand_builtin|, handles all special built-ins that belong to s2pp and picks expander functions according to the built-in's name.
-We therefore must create expander functions that take care of s2pp built-ins.
+Also there is the need for functions in |rs6000.c| that handle built-ins in general.
+A new function |s2pp_expand_builtin|, which is invoked by |rs6000_expand_builtin|, handles all special built-ins that belong to s2pp and picks an expander function according to the built-in's name.
+These expander functions must be implemented for\ac{s2pp} built-ins.
 
-One group of built-ins are memory intrinsics that handle explicit memory addressing and synram intrinsics (|fxvinx|, |fxvoutx|).
+One group of built-ins are memory intrinsics, that handle explicit memory addressing (|fxvlax|, |fxvstax|) and synram intrinsics (|fxvinx|, |fxvoutx|).
 Expanders are needed because of the special way memory is accessed through indirect register referencing.
-Since AltiVec uses the same way of addressing we can reuse its implementation but use a different function names |s2pp_expand_stv_builtin| and |s2pp_expand_lv_builtin|.
+Since AltiVec uses the same way of addressing, it is possible to reuse its implementation but use different function names |s2pp_expand_stv_builtin| and |s2pp_expand_lv_builtin|.
 
-Besides memory expander functions we add a new kind of expander function for s2pp.
-These expect no kind of return operand since a great number of instructions do not return any values because they write the accumulator or the conditional register.
-These functions are called |s2pp_expand_unaryx_builtin|, |s2pp_expand_binaryx_builtin| and |s2pp_expand_ternaryx_builtin| and are used in regard to the number of arguments in a built-in.
+Besides memory expander functions a new kind of expander function is needed for \ac{s2pp}.
+These functions should expect a missing return operand, since a great number of instructions does not return any value because it is written to the accumulator or the conditional register.
+These functions are called |s2pp_expand_unaryx_builtin| for one operand, |s2pp_expand_binaryx_builtin| for two operands and |s2pp_expand_ternaryx_builtin| for three operands.
+These can not be easily merged, as operands are handled quite explicitly.
 \begin{lstlisting}
 static rtx
 s2pp_expand_unaryx_builtin (enum insn_code icode, tree exp)
 {
      tree arg0;
      rtx op0, pat;
-     enum machine_mode mode0; //, tmode;
+     enum machine_mode mode0;
      arg0 = CALL_EXPR_ARG (exp, 0);
      op0 = expand_normal (arg0);
      mode0 = insn_data[icode].operand[0].mode;
@@ -1297,15 +1299,16 @@ s2pp_expand_unaryx_builtin (enum insn_code icode, tree exp)
 }
 \end{lstlisting}
 
-As we are already handling special built-ins we need to define those built-ins in |rs6000.c| as well.
-|s2pp_init_bultins| takes care of this, as it is a series of |define_builtin| functions which must be written explicitly.
+Such intrinsics qualify as \textbf{special built-ins} and need to be defined in |rs6000.c|.
+|s2pp_init_bultins| takes care of this, as it is a series of |define_builtin| functions, which must be written explicitly.
 
-Besides built-ins that are connected to vector instructions, it is also possible to create intrinsics, that rely solely on GPRs.
-|vec_ext|, |vec_init| and |vec_promote| are built-ins, which are compiler-constructed sequences of machine instructions that mainly use memory.
+Besides built-ins that are connected to vector instructions, it is also possible to create intrinsics, that mainly use memory instructions.
+|vec_ext|, |vec_init| and |vec_promote| are built-ins, which are compiler-constructed sequences of machine instructions that utilize their memory representation.
+E.g. |vec_ext| saves a vector in memory and addresses a single element of the vector through a normal load instruction, in order to extract the value.
 These functions are identical to AltiVec's implementation since they do not need a vector extension.
 
-Finally we conclude on built-ins by defining alternative names for built-in functions in |s2pp.h|.
-A complete list of all intrinsic functions that the compiler supports at the time this thesis was written is available in table \ref{tab:builtinlist}.
+The definition of built-ins concludes by defining alternative names for built-in functions in |s2pp.h|.
+A complete list of all intrinsic functions that the compiler supports at the time of this thesis is available in table \ref{tab:builtinlist}.
 
 \section{Prologue and Epilogue}
 Another problem, that only emerges, when using many registers at the same time, is missing prologue and epilogue support.
@@ -1317,7 +1320,7 @@ The compiler then restores the registers after the function has finished through
 Before registers can be saved, it must be checked which registers need to be saved.
 This is done by |seve_reg_p()|.
 In |rs6000_emit_prologue| the compiler checks each register that exists and saves them according to this function.
-Since the compiler checks register numbers instead of types, we need to alter the case for FPRs and add a target flag:
+Since the compiler checks register numbers instead of types, it is necessary to alter the case for \acs{FPR} and add a target flag:
 \begin{lstlisting}
 ...
   if (!WORLD_SAVE_P (info) && (strategy & SAVE_INLINE_FPRS))
@@ -1345,19 +1348,19 @@ Since the compiler checks register numbers instead of types, we need to alter th
     }
 ...
 \end{lstlisting}
-An |rtx|, which was a type often used in the previous listing, is short for \ac{RTL} expression and can be used by |insn|s as an argument.
-\ac{RTL} expressions can also contain information on how the operand is to be constructed as this allows chaining of operations.
+An |rtx| variable represents an \ac{RTL} expression and can be used by |insn|s as an argument.
+\ac{RTL} expressions contain information on how the operand is constructed, which allows chaining of operations.
 
-If a register needs to be saved, the compiler computes an offset, that takes the current frame offset and adds 16 bytes(s2pp register size) for every register.
+If a register needs to be saved, the compiler computes an offset, that takes the current frame offset and adds 16 bytes(\ac{s2pp} register size) for every register.
 |savereg| and |areg| are two kinds of registers that will later serve as operands for a memory instruction.
-|savereg| is the vector register we want to save and |areg| will be the GPR operand that holds an offset.
+|savereg| is the vector register that needs to be saved and |areg| is a \ac{GPR} operand that holds an offset.
 |emit_move_insn| creates IR that stores the offset in |areg|.
-Now we can create a complete memory operand |mem| that takes |offset| in |areg| and |frame_reg_rtx|, which is the register holding the frame pointer, and combines them to a single operand.
+A complete memory operand |mem| can then be created from |offset| in |areg| and |frame_reg_rtx|, which is the register holding the frame pointer, and combines them to a single \ac{RTL} expression.
 As both, register and memory, are specified, the compiler can emit a move insn that stores |savereg| to |mem|.
-Finally |rs6000_frame_related| handles the insn which was just created and performs additional customizations which are needed as the IR belongs to a function call.
+Finally, |rs6000_frame_related| handles the insn which was just created and performs additional customizations which are needed as the IR belongs to a function call.
 
 After the prologue has finished, the function is compiled.
-Next, |rs6000_emit_epilogue| is called and works similar to prologue but restores the registers from memory.
+Next, |rs6000_emit_epilogue| is called and does similar operations to prologue but restores the registers from memory.
 This function can not work on its but needs other functions that set parameters and prepare statements as well.
 \begin{lstlisting}%[caption=Supportive functions and variables for prologue and epilogue]
 typedef struct rs6000_stack {
@@ -1409,4 +1412,16 @@ rs6000_stack_info (void)
 ...
 }
 \end{lstlisting}
+
+This chapter dealt with the task of extending the \ac{rs/6000} back-end of \ac{GCC} for the nux' \ac{s2pp} \ac{VE}.
+It first discussed a new option flag |-s2pp| along with a new target flag |-mcpu=nux| to enable vector declarations for the nux architecture.
+Afterwards it was illustrated, how to create the vector attribute and mandatory macros for vector usage.
+It was also shown, how to implement the different vector register types and classes, which was followed by including s2pp registers into |reload|.
+This allowed for adding new built-in functions to the back-end as well as implementing s2pp cases for prologue and epilogue functions.
+
+In reality the process of extending the back-end was less streamlined and many attempts ended in internal compiler errors.
+Some solutions could only be figured out by trial and error as there is so little documentation on this specific back-end.
+Still, it is possible to understand the structure of this back-end over time.
+
+
 

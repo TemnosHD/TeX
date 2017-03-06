@@ -114,6 +114,7 @@ There are also special operands which might occur in inline assembly, which beha
 \section{List of nux Intrinsics}
 \label{sec:nuxintrinsics}
 \begin{table}[!htbp]
+    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used.}
     \adjustbox{max width=1.2\textwidth, center}{%
         \begin{tabular}{c c¡c¡c¡c¡c¡p{5cm}}
             \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
@@ -225,19 +226,6 @@ There are also special operands which might occur in inline assembly, which beha
                                             |vector unsigned short*|\\
                                             |unsigned short|\end{tabular}
                                             & & |d| is read from synaptic address |a + b|\\ 
-        \end{tabular}
-    }
-    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used.}
-\end{table}
-
-\begin{table}[htbp]
-    \adjustbox{max width=1.2\textwidth, center}{%
-        \begin{tabular}{c c¡c¡c¡c¡p{4cm}¡p{5cm}}
-            \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
-            \cline{3-6}
-             & & d & a & b & c & \\
-            \hline \hline
-
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|fxv_sel|\end{tabular} & |d = fxv_sel(a,b,c)| & same as |a| & 
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
@@ -245,6 +233,19 @@ There are also special operands which might occur in inline assembly, which beha
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
                                             & same as |a| & |2-bit int| & select element from |a| if |c| applies for that index otherwise select |b|, store the result in |d|\\ 
+        \end{tabular}
+    }
+\end{table}
+
+\begin{table}[htbp]
+    \vspace*{3.5em}
+    \adjustbox{max width=1.2\textwidth, center}{%
+        \begin{tabular}{c c¡c¡c¡c¡p{4cm}¡p{5cm}}
+            \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
+            \cline{3-6}
+             & & d & a & b & c & \\
+            \hline \hline
+
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|vec_extract|\end{tabular} & |d = vec_exctract(a,b)| & 
                 \begin{tabular}[x]{@{}c@{}} |signed char|\\
@@ -423,10 +424,5 @@ There are also special operands which might occur in inline assembly, which beha
 
         \end{tabular}
     }
-    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used.}
 \end{table}
-
-
-\newpage
-\listoftodos[Notes]
 

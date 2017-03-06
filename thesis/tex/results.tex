@@ -12,7 +12,7 @@ Additionally the new intrinsics support type detection and map automatically to 
 
 When using this, assigning registers as well as memory is done automatically and does not require user interaction.
 Despite a special bus to the synapse array, the back-end can also accesses the synapse array through special intrinsics.
-Specifically the intrinsics |fxv_inx| and |fxv_outx| allow to access the synapse array and load/store variables from/to there.
+Specifically the intrinsics |fxv_inx| and |fxv_outx| allow to access the synapse array.
 
 As many of the mentioned intrinsics as possible were designed similar to existing intrinsics for AltiVec and use the |vec_| prefix besides th |fxv_| prefix.
 This was done to include both, users that are accustomed to the existing vector macros and new users that are somewhat familiar with AltiVec.
@@ -20,23 +20,25 @@ This was done to include both, users that are accustomed to the existing vector 
 In addition to intrinsics, the compiler also supports inline assembly coding in |asm| with vector instructions (as described in section~\ref{section:asm}, see listing~\ref{lst:nuxtest}).
 The user does not need to choose hard registers or implement store and load instructions by himself, as this is done by the compiler.
 This is possible through the addition of the |kv| constraint that marks vector registers as |r| does for GRPs.
-Overall inline assembly for nux became more intuitive than it had been before.
+Overall, inline assembly for nux became more intuitive than it had been before.
 \begin{figure}[htb]
 {
 \captionsetup[lstlisting]{font={small}, format=plain, indention=.6cm}
-\begin{lstlisting}[caption={Example of nux Test.\hspace{\textwidth} This This test directly loads two values as immediates into registers and splats them into vector registers. Those vector registers are added and the result saved in a variable. The result is then tested and also written into the mailbox for analysis.}, label=lst:nuxtest]
+\begin{lstlisting}[caption={Example of a nux Test.\hspace{\textwidth} This This test directly loads two values as immediates into registers and splats them into vector registers. Those vector registers are added and the result is saved in a variable. The result is then tested and also written into the mailbox for analysis.}, label=lst:nuxtest]
 libnux_testcase_begin("fxvpckbu");
 vector uint8_t vec1, vec2, vec3;
-asm volatile (	"li %3, 0x1258\n\t" /*load value into gpr*/ \
-		"fxvsplath %0, %3\n\t" /*splat value of gpr*/ \
-		"li %3, 0x00ff\n\t"\
-		"fxvsplath %1, %3\n\t" /*splat value of gpr*/ \
+asm volatile (	"li %3, 0x1258\n\t" /*load value into gpr*/ 
+		"fxvsplath %0, %3\n\t" /*splat value of gpr*/ 
+		"li %3, 0x00ff\n\t"
+		"fxvsplath %1, %3\n\t" /*splat value of gpr*/ 
 		"fxvaddbm %2, %0, %1, 0 \n\t"
-		: "=kv" (vec1), "=kv" (vec2), "=kv" (vec3) ,"=r" (value) :/*handle output operands*/\
+		: "=kv" (vec1), "=kv" (vec2), "=kv" (vec3) ,"=r" (value)
+        :/*handle output operands above*/
 		: "r1"); /*reserve clobbered registers*/
 
 libnux_mailbox_write_string("fxvpckbu\n");
-for (uint32_t index = 0; index < 16/sizeof(vec_extract(vec3,0)); index++) {
+for (uint32_t index = 0; index < 16/sizeof(vec_extract(vec3,0)); index++)
+    {
 	libnux_test_equal(vec3[index], 0x1337);
 	libnux_mailbox_write_string("Index is ");
 	libnux_mailbox_write_hex(index);
@@ -48,9 +50,7 @@ for (uint32_t index = 0; index < 16/sizeof(vec_extract(vec3,0)); index++) {
 }
 \end{figure}
 
-This will ultimately make it easier to combine low-level coding in high-level programs.
-
-The new back-end also supports the use of global functions that support simple function calls.
+This will ultimately make it easier to include low-level coding in high-level programs.
 \\
 First tests were conducted during extension development and made use of intrinsics instead of macros.
 Ideas for more complex tests will be discussed in chapter \ref{chapter:discussion}.
@@ -59,13 +59,12 @@ David Stöckel further implemented a small series of tests using a newly develop
 
 Through these early tests, it was possible to find a bug in nux for conditional execution of arithmetic instructions \cite{reponux}.
 It was possible to implement a workaround for this which was already mentioned in chapter~\ref{chapter:extbackend}.
-The workaround was tested and passed David Stöckel's test, while performance was no criteria.
+The workaround was tested and passed the libnux tests, while performance was no criteria.
 At the same time the code size was minimally affected as only one machine instruction was added.
 
-He also used the nux back-end for first experiments that made use of different functionalities of nux.
-One experiment used the \ac{PPU} to increase the synaptic weights of all synapses in small steps and then measure the network activity.
-The same procedure was repeated for decreasing weights and the difference between activities was evaluated.
-Another experiment updated all synaptic weights depending on spike counts to create homeostatic behavior and yet a different experiment implemented simple \ac{STDP} that relies on accessing the hardware correlation data of \ac{HICANN-DLS} \cite{repostdp}.
+The back-end was also used by David Stöckel for first experiments that made use of different functionalities of nux.
+One experiment used the \ac{PPU} to increase or decrease the synaptic weights of all synapses in small steps while measuring the network activity.
+In another experiment all synaptic weights were updated, depending on spike counts, to create homeostatic behavior and yet a different experiment implemented simple \ac{STDP} that relies on accessing the hardware correlation data of \ac{HICANN-DLS} \cite{repostdp}.
 All these experiments still used inline assembly instead of intrinsics but may be transferred to intrinsics in the future.
 Nonetheless did the nux back-end simplify usage of inline assembly as described earlier and allowed the user to focus on tests rather than low-level operand management.
 
@@ -132,27 +131,18 @@ start:
 \end{minipage}
 \end{adjustbox}
 
-One can see that listing~\ref{lst:intrinsics} resembles standard C code and while listing~\ref{lst:macros} still uses the old macros for nux programming.
+One can see that listing~\ref{lst:intrinsics} resembles standard C code and while listing~\ref{lst:macros} still uses macros for nux programming.
 Listing~\ref{lst:assembly} shows the assembly output by the compiler for |-O1| optimization.
 Comparing \ref{lst:intrinsics} and \ref{lst:macros} shows that intrinsics give more structure to the program than macros do, especially since variables are supported.
 Dependencies between variables are also obvious right away.
 
 When using the macros in listing~\ref{lst:macros}, the code is very close to the assembly output in \ref{lst:assembly}, which would almost be identical to the assembly output of \ref{lst:macros}.
 The only differences would be register numbers, as \ac{GCC} does not assign the lowest index registers first.
-\\
-\\
-Another example is listing~\ref{lst:vec_extract}, that combines function calls and the new intrinsic |vec_extract|.
-This intrinsic extracts the element, which is indexed by the second argument, from a vector which is the first argument.
-It also presents the possibility of vector intrinsics as function arguments and return types.
-
-Listing~\ref{lst:assembly2} shows |-O1| optimized assembly output, which illustrates the capabilities of optimization.
-
-Overall the compiler shows promising abilities that could help users create future software for the \ac{PPU}.
 
 \begin{adjustbox}{width=1.0\textwidth}
 \lstset{numbers=none}
 \captionsetup[lstlisting]{font={small}, format=plain, indention=.6cm, labelsep=newline,singlelinecheck=false}
-    \begin{minipage}[t]{.4\textwidth}
+    \begin{minipage}[t]{.45\textwidth}
     \begin{lstlisting}[caption={Code Example with Function and Complex Intrinsic}, label=lst:vec_extract]
 vector uint8_t splat_elem(vector uint8_t vec, uint8_t elem_no) {
   uint8_t elem = vec_extract(vec, elem_no);
@@ -161,10 +151,13 @@ vector uint8_t splat_elem(vector uint8_t vec, uint8_t elem_no) {
 
 void start() {
   vector uint8_t vec1;
-  volatile vector uint8_t vec1;
+  volatile vector uint8_t vec2;
 
   vec1 = (vector uint8_t)
-        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        { 0,  1,  2,  3,
+          4,  5,  6,  7,
+          8,  9, 10, 11,
+         12, 13, 14, 15};
 
   vec2 = splat_elem(vec1, 11);
 
@@ -173,8 +166,8 @@ void start() {
 \end{lstlisting}
 \end{minipage}
 \hspace{1cm}
-\begin{minipage}[t]{.4\textwidth}
-    \begin{lstlisting}[caption={Assembly Output for \ref{lst:vec_extract}}, label=lst:assembly2]
+\begin{minipage}[t]{.45\textwidth}
+    \begin{lstlisting}[caption={Optimized Assembly Output for \ref{lst:vec_extract}}, label=lst:assembly2]
 start:
 	stwu %r1,-48(%r1)
 	li %r9,11
@@ -186,4 +179,12 @@ start:
 \end{lstlisting}
 \end{minipage}
 \end{adjustbox}
+
+Another example is listing~\ref{lst:vec_extract}, that combines function calls and the new intrinsic |vec_extract|.
+This intrinsic extracts the element, which is indexed by the second argument, from a vector which is the first argument.
+It also presents the possibility of vector intrinsics as function arguments and return types.
+
+Listing~\ref{lst:assembly2} shows |-O1| optimized assembly output, which illustrates the capabilities of optimization.
+
+Overall the compiler shows promising abilities that could help users create future software for the \ac{PPU}.
 

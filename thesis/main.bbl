@@ -23,7 +23,7 @@ Cooper, K.~D., and L.~Torczon, \textit{Engineering a compiler}, 2. ed. ed.,
 \bibitem[{\textit{Davis}(2005)}]{websda}
 Davis, G., Back to the basics: Compiler optimization for smaller, faster
   embedded application code,
-  \url{http://www.embedded.com/design/debug-and-optimization/4025587/Back-to-the-Basics-Compiler-optimization-for-smaller-faster-embedded-application-code},
+  \url{http://www.embedded.com/design/debug-and-optimization/4025587/Back-to-the-Basics-Compiler-optimization-for-smaller-faster-embedded\\-application-code},
   accessed 2017.03.01, 2005.
 
 \bibitem[{\textit{Esser et~al.}(2015)\textit{Esser, Appuswamy, Merolla, Arthur,
@@ -71,7 +71,7 @@ Heimbrecht, A., Bug no.2359 --- conditional not working properly for arithmetic
 
 \bibitem[{\textit{Hsu}(2014)}]{6905473}
 Hsu, J., Ibm's new brain [news], \textit{IEEE Spectrum}, \textit{51}(10),
-  17--19, \doi{10.1109/MSPEC.2014.6905473}, 2014.
+  17--19, 2014.
 
 \bibitem[{IBM()}]{ibmsda}
 IBM, \textit{Developing PowerPC Embedded Application Binary Interface (EABI)
@@ -84,13 +84,11 @@ Kim, J.-J., S.-Y. Lee, S.-M. Moon, and S.~Kim, Comparison of llvm and gcc on
 
 \bibitem[{\textit{Kozyrakis and Patterson}(2003)}]{vectormedia}
 Kozyrakis, C.~E., and D.~A. Patterson, Scalable, vector processors for embedded
-  systems, \textit{IEEE Micro}, \textit{23}(6), 36--45,
-  \doi{10.1109/MM.2003.1261385}, 2003.
+  systems, \textit{IEEE Micro}, \textit{23}(6), 36--45, 2003.
 
 \bibitem[{\textit{Maass}(1997)}]{Maass19971659}
 Maass, W., Networks of spiking neurons: The third generation of neural network
-  models, \textit{Neural Networks}, \textit{10}(9), 1659 -- 1671,
-  \doi{http://dx.doi.org/10.1016/S0893-6080(97)00011-7}, 1997.
+  models, \textit{Neural Networks}, \textit{10}(9), 1659 -- 1671, 1997.
 
 \bibitem[{\textit{Matlis}(2005)}]{supercomputer}
 Matlis, J., A brief history of supercomputers,

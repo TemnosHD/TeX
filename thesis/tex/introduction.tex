@@ -11,11 +11,11 @@ This can be a hurdle for many users when developing new experiments, that initia
 \\
 One example for this is the current way of programming for the plasticity processing unit of the \ac{HICANN-DLS}. 
 The \ac{HICANN-DLS} is a small scale system that features analog emulation of neurons and synapses in networks~\cite{PPU}.
-The \ac{PPU}, as part of \ac{HICANN-DLS}, can be used for implementing plasticity rules for such networks.
+The \ac{PPU}, as part of \ac{HICANN-DLS}, can be used for implementing plasticity rules in such networks.
 It resembles a traditional processor architecture, which was modified for this task.
 Implementing such plasticity rules differs from conventional high-level programming styles. 
 When creating code for the \ac{PPU}, users are partially pushed back to the origins of computing;
-instead of assigning values like |d = a + b|, one must first read the variables from memory, then operate on their values and finally write back the result to memory.
+instead of assigning values like |d = a + b|, one must first read the variables from memory, then operate on their values and finally write the result back to memory.
 Therefore coding for the \ac{PPU} works on a low level and brings new challenges to users, that are already challenged by neuromorphic programming.
 
 Ultimately, the more a system abandons conventional elements of programming, the more challenges emerge from this.
@@ -26,7 +26,7 @@ This can cause fewer users to take the initiative of writing code for such syste
 Compilers usually save users from these problems by offering high-level languages.
 Over decades compilers have been developed and became a standard tool for programmers.
 At the same time compilers became more and more of a black box that transforms a program into an executable file.
-For this reason it may be difficult for some users to abandon their convenience and go back to low-level programming.
+For this reason it may be difficult for some users to abandon this convenience and go back to low-level programming.
 
 Though the \ac{PPU} is not completely without compiler support, its distinct features are only usable on a low level.
 As these features are necessary to implement plasticity rules on the \ac{HICANN-DLS}, this can easily cause inconveniences for users.
@@ -52,7 +52,7 @@ This leads to repetitive code or difficulties when integrating calibration into 
 Offering more tools for \ac{PPU} programs could reduce the effort of developing for the \ac{PPU}, while at the same time increasing capabilities of programs.
 Besides allowing full high-level programming, compiler support could also offer tools like code optimization and debugging features.
 At some point compiler support may also facilitate automatic code generation as a prerequisite for implementation of very high-level languages.
-Users then could create plasticity rules in existing program environments from where code is translated into \ac{PPU} programs.
+Users then could create plasticity rules in existing program environments, from where code is translated into \ac{PPU} programs.
 This creates the need for optimization of \ac{PPU} code, like those built into virtually every compiler.
 \\
 \\

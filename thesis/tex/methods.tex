@@ -157,7 +157,7 @@ The ALU reads the opcode and operands and performs a set of so called \textbf{mi
 
 During a single clock cycle a chip can perform a single micro instruction.
 An example for micro instructions in an add instruction (|d = add(a,b)|) would be:
-\begin{lstlisting}[caption=Example of Micro Instructions in an {\tt add} instruction, label=lst:microinstruction]
+\begin{lstlisting}[caption=Example of Micro Instructions in an {\tt add} Instruction, label=lst:microinstruction]
 fetch instruction from memory
 decode instruction
 fetch first operand a
@@ -422,14 +422,6 @@ In general these vector opcodes are divided into groups of instructions:
 At its core every compiler translates a source-language into a target-language as figure~\ref{fig:compiler} illustrates~\cite[p.~3]{UBHD-66483012}.
 Most often it translates a high-level, human readable programming language into a machine languages.
 
-What differs compilers from interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.
-Interpreters combine these two and translate a program at run-time.
-A compiler reads the source-language file completely (often several times) and then creates the executable files, which are executed after the process has finished.
-This has certain advantages to it:
-While a compiler takes some time at first until the program can be started, the resulting executable is almost always faster and more efficient.
-This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a \textbf{pass}).
-Of course there do exist many different compilers today and what matters to the user is the combination of the amount of time it takes to compile a program and the performance of that program.
-
 \begin{wrapfigure}[15]{r}{0.35\textwidth}
     \captionsetup{format=plain, indention=.6cm, labelsep=newline,singlelinecheck=false}
     \centering
@@ -438,15 +430,18 @@ Of course there do exist many different compilers today and what matters to the 
     \caption{\label{fig:compiler} Compiler Representation}
 \end{wrapfigure}
 
+What differs compilers from interpreters is the separation of \textbf{compile-time} and \textbf{run-time}.
+Interpreters combine these two and translate a program at run-time.
+A compiler reads the source-language file completely (often several times) and then creates the executable files, which are executed after the process has finished.
+This has certain advantages to it:
+While a compiler takes some time at first until the program can be started, the resulting executable is almost always faster and more efficient.
+This is due to the possibility of optimizing code during the compilation process and the chance of reading through the source file several times if this is needed (with each time the code is read being called a \textbf{pass}).
+Of course there do exist many different compilers today and what matters to the user is the combination of the amount of time it takes to compile a program and the performance of that program.
+
 A compiler is not the only contributor to translation of a program into an executable program, although it is the most prominent one.
 Figure~\ref{fig:cmpstruct}) illustrates the chain of tools that is involved into this process:
 First the \textbf{preprocessor} modifies the source code, before it is processed by the compiler.
 It removes comments, substitutes macros and also includes other files into the source before it passes the new program code to the compiler.
-The compiler then passes its output to the \textbf{assembler}.
-It translates the output of the compiler which is written in \textbf{assembly} into actual machine code by substituting the easy-to-read string alternatives with actual opcodes.
-The \textbf{linker} combines the resulting ``object-files'' that the assembler emitted with standard library functions, that are already compiled, and other resources. 
-The only task which is left for the \textbf{loader}, is assigning a base address to the relative memory references of the ``relocatable'' file.
-The code is now fully written in machine language and ready for operation~\cite{UBHD-66483012}.
 
 \begin{figure}[htb]
     \centering
@@ -458,8 +453,14 @@ The code is now fully written in machine language and ready for operation~\cite{
         \include{fig/cmpintstruct}
         \caption{\label{fig:cmpintstruct} }
     \end{subfigure}
-    \caption{\label{fig:cmp} Overview of Compilation Stages \\ \ref{fig:cmpstruct}) shows stages of the compilation process. \ref{fig:cmpintstruct}) different phases in the compiler.}
+    \caption{\label{fig:cmp}Overview of Compilation Steps \\ \ref{fig:cmpstruct}) Stages of the Compilation Process. \ref{fig:cmpintstruct}) Different Phases in the Compiler.}
 \end{figure}
+
+The compiler then passes its output to the \textbf{assembler}.
+It translates the output of the compiler which is written in \textbf{assembly} into actual machine code by substituting the easy-to-read string alternatives with actual opcodes.
+The \textbf{linker} combines the resulting ``object-files'' that the assembler emitted with standard library functions, that are already compiled, and other resources. 
+The only task which is left for the \textbf{loader}, is assigning a base address to the relative memory references of the ``relocatable'' file.
+The code is now fully written in machine language and ready for operation~\cite{UBHD-66483012}.
 
 Figure~\ref{fig:cmpintstruct}) shows the separation of a compiler into \textbf{front-end}, \textbf{back-end} and an optional \textbf{middle-end}.
 This structure makes a compiler portable, which means allowing the compiler to accept different source-languages, which are implemented in the front-end, and produce different target-languages, which must be specified in the back-end.
