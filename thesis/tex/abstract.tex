@@ -3,17 +3,33 @@
 \textbf{\thesisTitle}
 \end{center}
 
-As part of the Human Brain Project, BrainScaleS System is a unique project on many levels.
-This includes a processor solely used by the HICANN-DLS, which manages synaptic weights for every neuron built into one of the many wafers through a special I/O bus. 
-To accelerate the speed at which this so called plasticity processor unit or ``nux'' computes all synaptic weights of every neuron used, the processor has an extended instruction set architecture that supports vector registers and single input multiple data.
 
-This report deals with the task of adding built-in functions to an existing back-end of GCC, specifically the one already used by nux, in order to extend the already implemented set of functions according to the user's needs.
+The BrainScaleS wafer-scale system is an approach to accelerated analog neuromorphic computing that supports online plasticity with fixed update rules.
+For its next generation the current prototype(HICANN-DLS) features a programmable plasticity processor, that is designed for a wide range of plasticity rules.
+It is based on a Power7 architecture and includes a vector extension for SIMD-parallelization.
+Together with a custom I/O-interface it is able to access and update synaptic weights, correlation measurements and chip configuration in the system.
+This allows for fast and flexible application of plasticity rules during experiments.
+This architecture is also capable of parforming additional tasks in experiments.
 
+This thesis will focus on bringing high-level programming to the architecture by extending the PowerPC back-end of the \ac{GCC}.
+This allows for programming the vector extension using important features of \ac{GCC}, such as vector intrinsics, inline assembly and optimization.
+First tests of the extended back-end have been successful and already pinned down bugs in the current processor, which could be worked around.
+The extended back-end is already in use for different synaptic plasticity experiments.
 \vspace*{5em}
 
 \begin{center}
 \textbf{\thesisTitleGerman}
 \end{center}
 
-Deutsche Sprach ist schwere Sprach
+Das Brainscales Wafersystem ermöglicht beschleunigtes analoges neuromorphes Rechnen mit fest eigebauten synaptischen Plastizitätsregeln.
+Der Prototyp für die nächste Generation des Systems (HICANN-DLS) verwendet einen programmierbaren Plasitzitätsprozessor, der zukünftig verschiedenste Plastitzitätsregeln ermöglichen soll.
+Dieser Prozessor basiert auf der Power7 Architektur und wurde um eine spezielle Vektoreinheit zur SIMD-Parallelisierung erweitert.
+Zusammen mit einer eigenen I/O-Schnittstelle, kann der Prozessor auf Synapsengewichte, Korrelationsmessungen und die Chipkonfiguration zugreifen und updaten.
+Das ermöglicht schnelle und flexible Platizitätsregeln während eines Experiments.
+Zusätzlich ist der Prozessor in der Lage weiter Aufgaben in Experimenten zu übernehmen.
+
+In dieser Bachelorarbeit wird die Anpassung der \acf{GCC} Back-Ends für diese Architektur beschrieben.
+Dies ermöglicht die vollständige Nutzung höherer Programmiersprachen und weitere Vorteile, wie Optimierung, Unterstützung von integriertem Assembler und intrinsische Vektorfunktionen.
+Mit dem Backend wurden bereits erste Tests der Vektoreinheit durchgeführt, wodurch Bugs im aktuellen Prozessordesign entdeckt werden konnten, die jedoch mit Software zu lösen sind.
+Mittlerweile wird das erweiterte Backend von Anwendern für verschiedene Experimente genutzt.
 \end{abstract}

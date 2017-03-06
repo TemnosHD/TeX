@@ -5,6 +5,7 @@ A level-1 auxiliary file: cover/cover_kip.aux
 A level-1 auxiliary file: cover/cover_faculty.aux
 A level-1 auxiliary file: cover/cover_prof.aux
 A level-1 auxiliary file: tex/abstract.aux
+A level-1 auxiliary file: fig/array.aux
 A level-1 auxiliary file: fig/processor.aux
 A level-1 auxiliary file: fig/compiler.aux
 A level-1 auxiliary file: fig/cmpstruct.aux
@@ -14,50 +15,52 @@ The style file: bib/agu.bst
 A level-1 auxiliary file: tex/acknowledgments.aux
 A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
-Warning--I didn't find a database entry for "reponux"
-Warning--I didn't find a database entry for "repohomeostasis"
-Warning--I didn't find a database entry for "repostdp"
+I was expecting a `,' or a `}'---line 291 of file bib/myrefs.bib
+ :   
+ :   note = {Accessed 2017.03.06}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--empty journal in PPU
-You've used 14 entries,
+You've used 28 entries,
             3160 wiz_defined-function locations,
-            1179 strings with 11819 characters,
-and the built_in function-call counts, 7019 in all, are:
-= -- 607
-> -- 259
-< -- 10
-+ -- 119
-- -- 63
-* -- 483
-:= -- 724
-add.period$ -- 14
-call.type$ -- 14
-change.case$ -- 68
-chr.to.int$ -- 12
-cite$ -- 43
-duplicate$ -- 694
-empty$ -- 536
-format.name$ -- 82
-if$ -- 1461
-int.to.chr$ -- 3
+            1274 strings with 14842 characters,
+and the built_in function-call counts, 16065 in all, are:
+= -- 1440
+> -- 628
+< -- 21
++ -- 296
+- -- 155
+* -- 1117
+:= -- 1681
+add.period$ -- 28
+call.type$ -- 28
+change.case$ -- 143
+chr.to.int$ -- 24
+cite$ -- 85
+duplicate$ -- 1602
+empty$ -- 1144
+format.name$ -- 205
+if$ -- 3292
+int.to.chr$ -- 5
 int.to.str$ -- 1
-missing$ -- 107
-newline$ -- 49
-num.names$ -- 36
-pop$ -- 306
+missing$ -- 238
+newline$ -- 91
+num.names$ -- 93
+pop$ -- 693
 preamble$ -- 1
-purify$ -- 54
+purify$ -- 110
 quote$ -- 0
-skip$ -- 398
+skip$ -- 858
 stack$ -- 0
-substring$ -- 163
-swap$ -- 400
-text.length$ -- 4
+substring$ -- 411
+swap$ -- 1029
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 117
+type$ -- 234
 warning$ -- 1
-while$ -- 36
+while$ -- 89
 width$ -- 0
-write$ -- 154
-(There were 4 warnings)
+write$ -- 317
+(There was 1 error message)

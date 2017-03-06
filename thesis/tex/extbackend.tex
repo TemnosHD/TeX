@@ -1,21 +1,22 @@
-\chapter{Extending the GCC Back-End}
+\chapter{Extending the \ac{GCC} Back-End}
 \label{chapter:extbackend}
-Since we now are familiar with the basics of processors, the PPU, compilers and GCC we can put this knowledge to use and start extending the GCC back-end.
-There is a number of files we will systematically edit and keep referencing to as they are important parts of the rs6000 back-end and were changed in the process of extending the back-end. 
+The previous chapter dealt with processors, the \ac{PPU}, compilers and \ac{GCC}, which was preparation for this chapter.
+This chapter will now emphasize on the task of extending the \ac{GCC} back-end.
+There is a number of files, which will be systematically edited and referenced as they are important parts of the \ac{rs/6000} back-end and are changed in the process of extending the back-end. 
 \begin{description}
     \item[rs6000.md] is the machine description of the back-end in general and contains insn definitions for all scalar functions
     \item[rs6000.h] is a header file which contains macros and declarations for registers
     \item[rs6000.c] is the source file which implements the back-end's functions
     \item[rs6000.opt] lists the options and flags for the target
     \item[rs6000-builtins.def] contains the definitions of intrinsics
-    \item[rs6000-cpus.def] lists sub-targets that belong to the rs6000 family
+    \item[rs6000-cpus.def] lists sub-targets that belong to the \ac{rs/6000} family
     \item[rs6000-c.c] links built-ins and overloaded built-ins
     \item[rs6000-opts.h] contains a set of enumerations that represent option values for the back-end
     \item[rs6000-protos.h] makes functions in |rs6000.c| globally available
-    \item[rs6000-tables.opt] lists values to a CPU enumeration
+    \item[rs6000-tables.opt] lists values to a processor enumeration
     \item[driver-rs6000.c] a collection of driver details for different targets
     \item[ppc-asm.h] sets macros for the use of |asm|
-    \item[s2pp.md] is a new machine description of s2pp and contains insn definitions
+    \item[s2pp.md] is a new machine description of \ac{s2pp} and contains insn definitions
     \item[s2pp.h] is the header file that defines aliases for built-ins
     \item[constraints.md] contains definitions of constraints
     \item[predicates.md] contains definitions of predicates
@@ -24,39 +25,39 @@ There is a number of files we will systematically edit and keep referencing to a
     \item[t-fprules] sets soft-float as default for certain targets
 \end{description}
 
-It is recommended to have chapter 5 of the nux manual~\citep[ch.~5]{nuxmanual} at hand, as it contains an overview of existing s2pp vector instructions.
+It is recommended to have chapter 5 of the \textbf{nux manual}~\citep[ch.~5]{nuxmanual} at hand, as it contains an overview of existing \ac{s2pp} vector instructions.
 
-During the course of extending the GCC back-end a few things became clear:
+Before extending the \ac{GCC} back-end a few things must be stated:
 
-Due to the limited documentation of the back-end itself, one must rely on comments in code and the GCC internals manual~\citep{GCCint} 
-As a full implementation for a vector extension already exists, the AltiVec extension should be used as a guideline for a new extension. 
+Due to the limited documentation of the back-end itself, one must rely on comments in code and the \textbf{\ac{GCC} internals manual}~\citep{GCCint} 
+As a full implementation for a vector extension already exists, the AltiVec extension should be used as a guideline for a new extensions~\cite{AltiVec}. 
 Still, it should be avoided to change exiting code as much as possible.
 Code is often referred to from different places in the back-end and modifying existing code can therefore easily lead to compiler errors.
 Especially since the back-end is not extended completely right away but rather step by step.
 This applies particularly to functions that are implemented for AltiVec only.
-It is recommended to rather duplicate functions and distinguish them before they are called, than doing so inside a function call.
+It is recommended to rather duplicate functions and distinguish them, before they are called.
 This will make it easier to find bugs, as usually the function that generates an error is indicated in the error message.
-Also there do exist enough differences between these two vector extensions, that combining functions would not save work in the end.
+Also, there do exist enough differences between these two vector extensions, that combining functions would not save work.
 
-Therefore we will occasionally point out when functions or other code can be inherited from AltiVec and which modifications are needed.
+It will therefore occasionally be pointed out when functions or other code can be inherited from AltiVec and which modifications are needed.
 
 \section{Adding the s2pp Option Flag and nux Target}
-Extending the rs6000 back-end starts by adding the |nux| processor to the list of targets and also want to include mandatory flags with this.
-Ideally the user only has to add the option flag |-mcpu=nux| when compiling in order to produce machine code for the nux.
+Extending the rs6000 back-end starts by adding the |nux| processor to the list of targets and also including mandatory flags with this.
+Ideally the user only has to add the flag |-mcpu=nux| when compiling, in order to produce machine code for the nux.
 The flags which have to be set when using the nux are:
 \begin{description}
         \lstitem{-msdata=none}
-        disables the use of a "small data section" which is like a data section but has a register constantly referring to it and thus has faster access than the normal data section. Globals, statics and small variables that are often used are preferably stored there. It is turned off because the base pointer is not initialized by the linker and the effect of a small data section would likely be small for the \ac{PPU} \cite{nuxmanual, ibmsda, websda}.
+        disables the use of a \textbf{small data section} which is like a data section but has a register constantly referring to it and thus has faster access than the normal data section. Globals, statics and small variables that are often used are preferably stored there. It is turned off because the base pointer is not initialized by the linker and the effect of a small data section would likely be small for the \ac{PPU}~\cite{nuxmanual, ibmsda, websda}.
         \lstitem{-mstrict-align}
         aligns all variables in memory which means that a variable always starts at a memory address which is a multiple of its size. E.g. a vector has always an address that is dividable by 16 bytes or 128 bits. Memory management is far easier for aligned variables.
         \lstitem{-msoft-float}
         tells the compiler that there is no FPU and all floating point operations have to simulated by software.
         \lstitem{-mno-relocatable}
-        states that the program code has a fixed memory address that may not be altered.
+        states that the program code has a fixed memory address that may not be altered. Relocatable code is not needed as the \ac{PPU} runs only one program that is loaded into memory and uses no environment on top.
 \end{description}
 
-But first there should be an option flag that activates nux' VE like |-maltivec| does for the AltiVec VE.
-We chose the name |-ms2pp| for this new option flag and will define an option mask along with it.
+But first there should be an \textbf{option flag} that activates nux' \ac{VE} like |-maltivec| does for the AltiVec \ac{VE}.
+The name for this new option flag will be |-ms2pp| and it will define an option mask along with it.
 In |rs6000.opt| and we simply need to add:
 \begin{lstlisting}
 ms2pp
@@ -65,23 +66,22 @@ Use s2pp instructions
 \end{lstlisting}
 This adds |ms2pp| to the list of option flags and the next lines defines a macro, that is associated with it.
 |Target| means that the option is target specific, therefore only certain architectures support the option flag.
-|Report| means that the option is to be printed when |-fverbose-asm| is is set.
-|Mask(S2PP)| initializes a bitmask that is available through |OPTION_MASK_S2PP|.
-That macro is attached to |rs6000_isa_flags|, which specified by |Var|.
-It simultaneously specifies a macro |TARGET_S2PP| that is set to |1|. \citep[ch.~8]{GCCint}
+|Report| means that the option is printed when |-fverbose-asm| is is set.
+|Mask(S2PP)| initializes a bitmask, that is available through |OPTION_MASK_S2PP|.
+That macro is attached to |rs6000_isa_flags|, which is specified by |Var|.
+It simultaneously specifies a macro |TARGET_S2PP| that is set to |1|~\citep[ch.~8]{GCCint}.
 
-When this is done we need to specify 
+This needs also specification of 
 \begin{lstlisting}
 #define MASK_S2PP OPTION_MASK_S2PP
 \end{lstlisting}
-in |rs6000.h| as macros with |MASK_| are a standard from earlier versions of GCC.
+in |rs6000.h| as macros with |MASK_| are a standard from earlier versions of \ac{GCC}.
 
-Although this option flag shall later enable s2pp support, we need the aforementioned flags as well to compiler nux programs.
-For this reason we add a processor type which combines those flags.
-There exist several lists that contain available targets and we need to add nux to these.
-First we create the inline assembly (see section~\ref{section:asm}) flag which tells the assembler which system architecture is used.
-As nux is based on POWER7 we copy the flag |-mpower7| in |driver-rs6000.def|:
-
+Although this option flag shall later enable \ac{s2pp} support, it needs the aforementioned flags as well, to compile nux programs.
+For this reason exists a processor type which combines those flags.
+There exist several lists that contain available targets and nux shall be included.
+First an inline assembly (see section~\ref{section:asm}) flag is created, which tells the assembler which system architecture is used.
+As nux is based on POWER7, one can copy the flag |-mpower7| in |driver-rs6000.def|:
     \begin{lstlisting}[caption=\tt rs6000.h]
     #define ASM_CPU_SPEC \
         ...
@@ -98,7 +98,6 @@ As nux is based on POWER7 we copy the flag |-mpower7| in |driver-rs6000.def|:
         { "nux",  "%(asm_cpu_power7)" },
         ...
     \end{lstlisting}
-
 This will set the assembler |-mpower7| when using |-mcpu=nux|.
 
 The nux target should also be recognized by preceding phases of the compiler and set option flags accordingly.
@@ -110,59 +109,56 @@ RS6000_CPU ("nux", PROCESSOR_POWER7, MASK_SOFT_FLOAT | MASK_S2PP | MASK_STRICT_A
 \end{lstlisting}
 
 This uses the macro |RS6000_CPU (NAME, CPU, FLAGS)| and adds |nux| to the |processor_target_table[]|.
-Since we saw earlier that option flags usually set masks, we set the respective masks directly.
-The masks we chose will tell the compiler that the processor is a POWER7 architecture and uses |soft-float|, |strict-align| and |no-relocatable|(negated relocatable) as well as the new s2pp mask.
+Since option flags usually set masks, one can set the respective masks directly.
+The masks will tell the compiler that the processor is a POWER7 architecture and uses |soft-float|, |strict-align| and |no-relocatable|(negated relocatable) as well as the new s2pp mask.
 
-Unfortunately we could not set the |-msdata=none| flag before since the |-msdata| flag is initialized differently.
+It is not possible, to set the |-msdata=none| flag before since the |-msdata| flag is initialized differently.
 Also since it is not simply set ``on'' or ``off'' but accepts several values, it is handled in |sysv4.h|.
 |rs6000_sdata| will be set according to the string that follows |-msdata=|.
 \begin{lstlisting}
-#define SUBTARGET_OVERRIDE_OPTIONS                  \
+#define SUBTARGET_OVERRIDE_OPTIONS                          \
 ...
- if (rs6000_sdata_name)                        \
-     {                                   \
-       if (!strcmp (rs6000_sdata_name, "none"))              \
-     rs6000_sdata = SDATA_NONE;                  \
+  if (rs6000_sdata_name)                                    \
+     {                                                      \
+       if (!strcmp (rs6000_sdata_name, "none"))             \
+     rs6000_sdata = SDATA_NONE;                             \
      ...
-       else                              \
-     error ("bad value for -msdata=%s", rs6000_sdata_name);      \
-     }                                   \
- else if (OPTION_MASK_S2PP \
-          && OPTION_MASK_SOFT_FLOAT \
-          && OPTION_MASK_STRICT_ALIGN \
-          && !OPTION_MASK_RELOCATABLE)                 \
-     {                                   \
-     rs6000_sdata = SDATA_NONE;                    \
-     rs6000_sdata_name = "none";                   \
-     }                                   \
-else if (DEFAULT_ABI == ABI_V4)                   \
+       else                                                 \
+     error ("bad value for -msdata=%s", rs6000_sdata_name); \
+     }                                                      \
+  else if (OPTION_MASK_S2PP                                 \
+          && OPTION_MASK_SOFT_FLOAT                         \
+          && OPTION_MASK_STRICT_ALIGN                       \
+          && !OPTION_MASK_RELOCATABLE)                      \
+     {                                                      \
+     rs6000_sdata = SDATA_NONE;                             \
+     rs6000_sdata_name = "none";                            \
+     }                                                      \
+  else if (DEFAULT_ABI == ABI_V4)                           \
 ...
+)\todo{looose this!!!!!!!!!!!!!!!!!!!!!!}
 \end{lstlisting}
 
 It is not possible to detect in this file, if the nux flag is set.
-We therefore need a little work-around that helps setting the value of |rs6000_sdata|.
+It therefore needs a little workaround that helps setting the value of |rs6000_sdata|.
 If |-msdata| is not set, i.e. only |-mcpu=nux| is set, the compiler will use |if|-clauses that determine which value is assigned to |rs6000_sdata|.
-We add a case that checks for all flags, that are set by |-mcpu=nux| and set |rs6000_sdata| to |SDATA_NONE| if this applies.
-Hence the target options will also set |rs6000_sdata| as we wish which is to |SDATA_NONE|.
+It is possible, to add a case that checks for all flags, that are set by |-mcpu=nux| and set |rs6000_sdata| to |SDATA_NONE| if this applies.
+Hence the target options will set |rs6000_sdata| to |SDATA_NONE|.
 
-There exists a case for which this condition applies even when |nux| is not set as target but all flags are set by hand.
-If one chooses an explicit value for |-msdata| this case does not apply though and the value of |-msdata| is set accordingly.
+There exists a case for which this condition applies even when |nux| is not set as target, but all flags are set by hand.
+If one chooses an explicit value for |-msdata|, this case does not apply though and the value of |-msdata| is set accordingly.
 
-This is somewhat not the ideal but a trade-off with as few side effects as possible.
+This is not an ideal solution, but a trade-off with as few side effects as possible.
 \\
 \\
 Already this would allow for the use of |-mcpu=nux| as target and |-ms2pp| as option flag.
-But since the flags we used are basically mandatory to the s2pp extension we also want to check for these flags before starting compilation.
-First though for each flag are needed which the back-end can identify.
-This is done in |rs6000-c.c| where global macros can be defined:
-
+But since the flags we used are basically mandatory to the \ac{s2pp} extension, the compiler should check for these flags before starting compilation.
+First though for each flag needs a macro, which the back-end can identify.
+This is done in |rs6000-c.c| where \textbf{global macros} can be defined:
 \begin{lstlisting}
-
-void
 rs6000_target_modify_macros (bool define_p, HOST_WIDE_INT flags,
                  HOST_WIDE_INT bu_mask)
-{
-  ...
+{...
   if ((flags & OPTION_MASK_S2PP) != 0)
    rs6000_define_or_undefine_macro (define_p, "__S2PP__");
   if ((flags & OPTION_MASK_STRICT_ALIGN) != 0)
@@ -171,14 +167,14 @@ rs6000_target_modify_macros (bool define_p, HOST_WIDE_INT flags,
    rs6000_define_or_undefine_macro (define_p, "_RELOCATABLE");
   if (rs6000_sdata != SDATA_NONE)
    rs6000_define_or_undefine_macro (define_p, "_SDATA");
-   ...
+   ...}
 \end{lstlisting}
 
-If |flags| and the respective option mask are set, |rs6000_define_or_undefine_macro| will define a macro what is specified by the second argument.
+If |flags| and the respective option masks are set, |rs6000_define_or_undefine_macro| will define a macro that is specified by the second argument.
 Whether a macro is defined or undefined depends on the boolean |define_p|, which is set by the compiler.
 
-We can use these new macros to check if flags are set.
-This needs a new file, that will also be needed later on as a header file for s2pp.
+These new macros can be used to check if flags are set.
+This needs a new file, that will also be needed later on as the \textbf{\ac{s2pp} header file}.
 |s2pp,h| must be indexed in |gcc/config.gcc| under |extra_headers|.
 \begin{lstlisting}
 ...
@@ -195,7 +191,7 @@ powerpc*-*-*)
     ;;
 ...
 \end{lstlisting}
-This is done for GCC to invoke the header file as it is not referenced elsewhere.
+This is done, so \ac{GCC} invokes the header file, as it is not referenced elsewhere.
 
 |s2pp.h| can now be used to check the compiler flags.
 \begin{lstlisting}
@@ -219,18 +215,17 @@ This is done for GCC to invoke the header file as it is not referenced elsewhere
 #error Use the "-msdata=none" flag to enable s2pp support
 #endif
 ...
-\end{lstlisting}\unsure{one example for repetitive use?}
+\end{lstlisting}
 
 If for example |__S2PP__| is not defined but |s2pp.h| included, the compiler will emit an error that tells the user to set the target flag.
-Since hard floats are not supported on |nux| regardless of |s2pp.h| we add nux to the list of soft-float CPUs in |t-fprules|.
+Since hard floats are not supported on |nux| regardless of |s2pp.h|, nux can be added to the list of soft-float processors in |t-fprules|.
 \begin{lstlisting}
 SOFT_FLOAT_CPUS = e300c2 401 403 405 440 464 476 ec603e 801 821 823 860 nux
 \end{lstlisting}
 
 \section{Creating Macros}
-Since the preliminary requirements are now met, we start adding fundamental macros a |vector| attribute for specifying vectors in program code.
-
-\textbf{Attributes} are used to specify various variables and can be used for example to control alignment \citep[ch.~16.19]{GCCint}.
+Since the preliminary requirements are now met, the back-end needs a \textbf{{\tt vector} attribute} for specifying vectors in program code.
+Attributes are used to specify various variables and can be used for example to control alignment~\citep[ch.~16.19]{GCCint}.
 
 First a new vector unit is needed.
 It will be called |VECTOR_S2PP| and added to the enumeration |rs6000_vector| in |rs6000-opts.h|.
@@ -247,7 +242,7 @@ enum rs6000_vector {
 };
 \end{lstlisting}
 
-To put this to use, we will create macros in |rs6000.h| which compare vector units to the newly created |VECTOR_S2PP|.
+To put this to use, it needs macros in |rs6000.h| which compare vector units to the newly created |VECTOR_S2PP|.
 \begin{lstlisting}
 ...
 #define VECTOR_UNIT_S2PP_P(MODE)            \
@@ -258,39 +253,41 @@ To put this to use, we will create macros in |rs6000.h| which compare vector uni
 ...
 \end{lstlisting}
 
-|VECTOR_UNIT_S2PP_P(MODE)| and |VECTOR_MEM_S2PP_P(MODE)| are identical as we will create identical entries for |rs6000_vector_unit[]| and |rs6000_vector_mem[]|.
-This is a relict from AltiVec implementation as vector units in memory may differ in certain cases. \unsure{mention VSX?}
+|VECTOR_UNIT_S2PP_P(MODE)| and |VECTOR_MEM_S2PP_P(MODE)| are identical as identical entries in |rs6000_vector_unit[]| and |rs6000_vector_mem[]| are created.
+This is a relict from the AltiVec implementation as vector units in memory may differ in certain cases. 
 
-We will also add checking for specific vector modes which are supported by s2pp.
-The hardware only supports two types of vectors which are vectors with byte elements (V16QI) and vectors with halfword elements (V8HI).
+Checking for specific \textbf{vector modes}, which are supported by \ac{s2pp}, will also be added.
+The nux hardware only supports two types of vectors which are vectors with byte elements (V16QI) and vectors with half-word elements (V8HI).
 \begin{lstlisting}
 #define S2PP_VECTOR_MODE(MODE)        \
          ((MODE) == V16QImode)        \
           ||  (MODE) == V8HImode)
 \end{lstlisting}
 
-Next we need to find conditions which easily apply to |TARGET_S2PP| as they already do for |TARGET_ALTIVEC|.
-There exist only five such cases, |rs6000_builtin_vectorization_cost|, |rs6000_special_adjust_field_align_p| and |expand_block_clear| handle alignment of vectors.
+Some uses of |TARGET_ALTIVEC| must now be accompanied by |TARGET_S2PP| to handle vectors correctly.
+There exist five such cases:
+
+|rs6000_builtin_vectorization_cost|, |rs6000_special_adjust_field_align_p| and |expand_block_clear| handle alignment of vectors.
 \textbf{Alignment} refers to the position of data blocks in memory; 16-bit alignment means that variables may only start at addresses that represent multiples of 16 bits.
-AltiVec vectors and s2pp are aligned the same way as we want to reduce misalignment of 128-bit vectors to a minimum.
+AltiVec vectors and s2pp are aligned the same way and it is desirable to reduce misalignment of 128-bit vectors to a minimum.
 
-|rs6000_common_init_builtins| initializes common built-ins (which we will later refer to) and is needed by all extensions that use built-ins.
-In these cases we can simply expand the condition for |TARGET_S2PP|.
+|rs6000_common_init_builtins| initializes common built-ins and is needed by all extensions that use built-ins (see section~\ref{sec:builtins}).
+In these cases the condition can be extended for |TARGET_S2PP|.
 
-Other conditions that will later be expanded for |TARGET_S2PP| need further modification and thus are not mentioned here.
+Other conditions that will later be extended for |TARGET_S2PP| need further modification and thus are not mentioned here.
 
-We must do the same for |VECTOR_UNIT_S2PP_P| and other macros that have AltiVec counterparts:
+It is necessary, to do the same for |VECTOR_UNIT_S2PP_P| and other macros that have AltiVec counterparts:
 In |reg_offset_addressing_ok_p| cases for |V16QImode| and |V8HImode| return false if |VECTOR_MEM_S2PP_P| or the AltiVec version apply.
-In |rs6000_legitimize_reload_address| and |rs6000_legitimate_address_p| offset addresses are handled they same way they are for AltiVec.
+In |rs6000_legitimize_reload_address| and |rs6000_legitimate_address_p| offset addresses are handled the same way they are handled for AltiVec.
 In |rs6000_secondary_reload| indirect addressing is enforced.
-In |print_operand| operand modifier |y| is validated for s2pp as well.
-|rs6000_vector_mode_supported_p| returns true is a mode is supported by s2pp.
+In |print_operand| operand modifier |y| is validated for \ac{s2pp}.
+|rs6000_vector_mode_supported_p| returns true if a mode is supported by \ac{s2pp}.
 
-All of these cases handle addressing of vectors in memory which is equivalent in AltiVec and s2pp.
-It is therefore quite simple to support this for s2pp.
+All of these cases handle addressing of vectors in memory which is equivalent for AltiVec and \ac{s2pp}.
+It is therefore quite simple to support this for \ac{s2pp}.
 \\
 \\
-Since we established vector modes and vector units by now, we need to connect these in |rs6000_init_hard_regno_mode_ok|.
+Since vector modes and units have been established by now, it is possible to connect these in |rs6000_init_hard_regno_mode_ok|.
 In case |TARGET_S2PP| is set |VECTOR_S2PP| is assigned to modes |V16QImode| and |V8HImode|.
 \begin{lstlisting}
 ...
@@ -306,7 +303,7 @@ In case |TARGET_S2PP| is set |VECTOR_S2PP| is assigned to modes |V16QImode| and 
 ...
 \end{lstlisting}
 
-Also preferred modes when vectorizing a non-vector modes in |rs6000_preferred_simd_mode|.
+Preferred modes when vectorizing a non-vector mode in |rs6000_preferred_simd_mode| can be set.
 \begin{lstlisting}
 ...
   if (TARGET_S2PP)
@@ -321,9 +318,9 @@ Also preferred modes when vectorizing a non-vector modes in |rs6000_preferred_si
 ... 
 \end{lstlisting}
 
-By now we can define a vector attribute as we mentioned before.
-GCC already supports a vector attribute which is also used by AltiVec.
-Thus we can add s2pp to the |rs6000_attribute_table| and |rs6000_opt_masks[]| array with the same values as for AltiVec but changing the keyword.
+It is now possible to create vector attributes, as mentioned before.
+\ac{GCC} already supports a vector attribute which is also used by AltiVec.
+Thus \ac{s2pp} can be added to |rs6000_attribute_table| and |rs6000_opt_masks[]| array with the same values as for AltiVec but changing the keyword.
 \begin{lstlisting}
 static const struct attribute_spec rs6000_attribute_table[] =
 {
@@ -333,7 +330,7 @@ static const struct attribute_spec rs6000_attribute_table[] =
       false },
     { "s2pp",   1, 1, false, true,  false, rs6000_handle_s2pp_attribute,
       false },
-...
+  ...}
 struct rs6000_opt_mask {
   const char *name;     /* option name */
   HOST_WIDE_INT mask;       /* mask to set */
@@ -346,12 +343,12 @@ static struct rs6000_opt_mask const rs6000_opt_masks[] =
   { "altivec",          OPTION_MASK_ALTIVEC,        false, true  },
   ...
   { "s2pp",         OPTION_MASK_S2PP,       false, true  },
-  ...
+  ...}
 \end{lstlisting}
 
-We also add the function |rs6000_handle_s2pp_attribute| which is copied form AltiVec but stripped off unsupported vector modes.
+The function |rs6000_handle_s2pp_attribute| is also copied from AltiVec, but stripped off unsupported vector modes.
 
-This would make these attributes already usable but we also define built-ins in |rs6000-c.c| that shorten the attribute from |__vector=__attribute__((s2pp(vector__)))| to |__vector|:
+This would make these attributes already usable but defining built-ins in |rs6000-c.c| shortens the attribute from |__vector=__attribute__((s2pp(vector__)))| to |__vector|:
 \begin{lstlisting}
 void
 rs6000_cpu_cpp_builtins (cpp_reader *pfile)
@@ -368,8 +365,12 @@ rs6000_cpu_cpp_builtins (cpp_reader *pfile)
   }
 ... 
 \end{lstlisting}
+|__vector| is then used to define |vector| in |s2pp.h|.
+\begin{lstlisting}
+#define vector __vector
+\end{lstlisting}
 
-Additionally we indicate to the front-end that special attributes are handled by the back-end.
+At last it must be indicated to the front-end, that special attributes are handled by the back-end.
 \begin{lstlisting}
 static bool
 rs6000_attribute_takes_identifier_p (const_tree attr_id)
@@ -383,34 +384,37 @@ rs6000_attribute_takes_identifier_p (const_tree attr_id)
 
 \section{Registers}
 \label{section:register}
-This section will describe, how s2pp registers are added to the back-end.
-Also, we will add constraints and predicates (see section~\ref{sec:defineinsn}) for these registers.
+This section will describe, how \ac{s2pp} registers are added to the back-end.
+It will also add constraints and predicates (see section~\ref{sec:defineinsn}) for these registers.
 
-There are three types of registers in the s2pp VE:
+There are three types of registers in the \ac{s2pp} \ac{VE}:
 \begin{description}
-    \item[32 vector registers] these are normal registers that hold vector values
+    \item[32 vector registers] these are normal vector registers that hold vector values
     \item[1 accumulator] which is used for chaining arithmetic instructions and cannot be accessed directly
     \item[1 conditional register] which holds conditional bits and also cannot be accessed directly
 \end{description}
 
-During extension of the GCC back-end, it became apparent that a reserved vector register, that is all zeros the entire time, will be necessary for some implementations of the back-end.
-This became necessary since the nux instruction set does not include logical vector instructions.
+During extension of the \ac{GCC} back-end, it becomes apparent that a reserved vector register, that is all zeros the entire time, will be necessary for some implementations of the back-end.
+This is necessary since the nux instruction set does not include logical vector instructions.
 Normally the instructions |XOR| and |OR| are used by the back-end to implement simple register features.
-|OR| is used for moving around the content of a register as |OR|ing the same first register to a second register will simply copy the contents of the first register.
-On the other side, does |XOR|ing the same register result in writing all zeros to the return register.\ref{section:asm}
+|OR| is used for moving around the content of a register, as |OR|ing the same first register to a second register will simply copy the contents of the first register.
+On the other side, does |XOR|ing the same register result in writing all zeros to the return register.
 
 Since these instructions are not available, ``nulling'' a register becomes a problem.
-Therefore we reserve the first register and splat zeros into it.
+Therefore the first register is reserved and splatted with zeros.
 Moving this register, will have the same effect as |XOR|ing a register.
-As |OR| is also not available, we use an alternative instruction, which is |fxvselect|.
-|fxvselect| selects either elements of the second or the third operand depending on the condition register and its forth operand.\citep[ch.~5]{nuxmanual}
+As |OR| is also not available, an alternative instruction is used, which is |fxvselect|.
+|fxvselect| selects either elements of the second or the third operand depending on the condition register and its forth operand~\citep[ch.~5]{nuxmanual}.
 Having identical second and third operands thus will simply generate the same vector as return value.
 By setting the forth operand |0|, |fxvselect| will always choose elements from the second operand.
-This gives us a simple work-around as |fxvselect| also takes only one clock cycle for execution.
-An alternative idea would be subtracting the same register from one another with |fxvsubm|, which also nulls the return operand.
-This would take more clock cycles though and is unfavorable, as we do not know how often registers need to be nulled.
-Ultimately it is a trade-off between having one less register at hand and wasting clock cycles continuously.
-The latter could get easily more of a problem than the first one and therefore we will implement the first alternative.
+This gives a simple work-around, as |fxvselect| also takes only one clock cycle for execution.
+An alternative idea would be subtracting the same register from itself with |fxvsubm|, which also nulls the return operand.
+This would take more clock cycles though and is unfavorable, as it is not clear, how often registers need to be nulled.
+Ultimately it is a trade-off between having one less register at hand and possibly wasting clock cycles continuously.
+At first it is safer to 
+And thus the first alternative is implemented.
+The same goes for splatting zeros constantly, as this would require an extra instruction to load a zero into a \ac{GPR}.
+Also it is not possible at late stages of code generation to reserve a \ac{GPR} for this.
 
 When talking about reserved registers must also think about saved, call-used and fixed registers:
 \begin{description}
@@ -508,7 +512,7 @@ enum reg_class
   "ALTIVEC_REGS",        \
   ...
   "ALL_REGS"}
-  \end{lstlisting}\unsure{in columns?}
+  \end{lstlisting}
 
 Then we need to specify the contents of our new register classes in |REG_CLASS_CONTENTS|.
 \begin{lstlisting}
@@ -536,8 +540,8 @@ Subsequent numbers start where the previous one ended, therefore are registers 3
 Therefore does |0xfffffffe| mask all registers except for the 32nd which is masked by |0x00000001|.
 
 One can see that FPRs are masked completely as |FLOAT_REGS| between definition of s2pp registers.
-Subsequent entries must not me subsets of previous masks but may extend these.
-Also should higher order bits follow lower order bits.
+Subsequent entries must not be subsets of previous masks but may extend these.
+Also should masks for higher register indexes follow masks for lower indexes.
 Since we also added a register index which was not masked before, we also have to change some subsequent masks accordingly.
 
 There exist macros for register classes as well, which we also need to implement.
@@ -559,8 +563,8 @@ The constraints are:
         \lstitem{ka} for |S2PP_ACC_REG|, the accumulator
 \end{description}
 
-|k| was chosen as the first character of s2pp constraints because there are very few letters left which are not used as constraints already.
-|k| is the first of those and can be somewhat associated with the nux (``nuks'').
+|k| was chosen as the first character of s2pp constraints because there are very few letters left which were not used as constraints already.
+|k| can be somewhat associated with the nux (``nuks'').
 The second character is the respective first letter of a register type.
 
 Register names are defined in |rs6000.h|.
@@ -590,9 +594,9 @@ After we defined these names we can also define the according constraints in |co
 \end{lstlisting}
 
 The first string is the register constraint's name and the second string will be assigned a register class later in |rs6000.c|.
-The last string is only for documentary purposes.\citep[ch.~16.8]{GCCint}
+The last string is only for documentary purposes~\citep[ch.~16.8]{GCCint}.
 
-Before we can assign register classes though, we must modify an enumeration in |rs6000.h|
+Before we can assign register classes, we must modify an enumeration in |rs6000.h|
 \begin{lstlisting}
 enum r6000_reg_class_enum {
   ...
@@ -687,7 +691,7 @@ rs6000_conditional_register_usage (void)
   ...
 }
 \end{lstlisting}
-We need to prevent the back-end form fixing the FPRs even though |TARGET_SOFT_FLOAT| is set and fix the registers 32 and 64 (|kc| and |ka|).
+We need to prevent the back-end from fixing the FPRs even though |TARGET_SOFT_FLOAT| is set and fix the registers 32 and 64 (|kc| and |ka|).
 
 We can also add debugging information for s2pp registers in |rs6000_debug_reg_global|.
 Although this is not necessary, it can be helpful at times, when using the |-mdebug| flag.
@@ -764,7 +768,7 @@ We can copy these from respective AltiVec predicates and change both the vector 
 })
 ...    
 \end{lstlisting}
-If one wants to add more predicates, GCC offers a manuals entry \citep[ch.~16.7]{GCCint}.
+If one wants to add more predicates, \ac{GCC} offers a manuals entry~\citep[ch.~16.7]{GCCint}.
 
 The |easy_s2pp_constant| function, which is referred to in the listing above, checks if an operand is ``splittable'', ergo that all elements have the same value and the operand can be synthesized through a split instruction.
 To check this the operand is analyzed sequentially if either of the two available splat instructions can synthesize the same operand.
@@ -772,7 +776,7 @@ This function is transferable from an AltiVec equivalent with the exception that
 \begin{lstlisting}
 bool
 easy_s2pp_constant (rtx op, enum machine_mode mode)
-{ //cause of problem?
+{
   unsigned step, copies;
 
   if (mode == VOIDmode)
@@ -806,7 +810,7 @@ easy_s2pp_constant (rtx op, enum machine_mode mode)
 \end{lstlisting}
 
 This is the only time, we will use an AltiVec function (|vspltis_constant|) instead of defining a new function, as this function has not to be altered.
-A similar function |gen_easy_s2pp_constant| can also be transfered as it is basically the same but generates RTL code that will create a constant vector operand from a different operand.
+A similar function |gen_easy_s2pp_constant| can also be transfered as it is basically the same but generates \ac{RTL} code that will create a constant vector operand from a different operand.
 
 As all registers are now fully implemented, we have to take care of conflicts with FPRs.
 s2pp registers and FPRs share the same indexes and since they are not fixed could be identified as FPRs.
@@ -814,12 +818,12 @@ For this reason we must scan the source files for uses of |FP_REGNO_P(N)| and ad
 This is especially the case when dealing with hard registers and having the compiler emit register moves.
 
 \section{Reload}
-As hinted in section \ref{sec:GCC}, |reload| is a deprecated process in GCC that mainly performs register allocation.
+As hinted in section \ref{sec:GCC}, |reload| mainly performs register allocation.
 Obviously we need to add special handling for vector registers to |reload| because because register allocation is an important part of the compilation process.
 Thus we must add support for |S2PP_REGS|.
 
-As |reload| is capable of moving the contents of registers, it must be specified that s2pp registers are not compatible with GPRs or any other registers.
-It is also important to implement that memory instructions take two GPRs as registers.
+As |reload| is capable of moving the contents of registers, it must be specified that s2pp registers are not directly compatible with GPRs or any other registers.
+At the same time do \ac{s2pp} memory instructions need two indirect operands which are \acp{GPR}.
 \begin{lstlisting}
 static reg_class_t
 rs6000_secondary_reload (bool in_p,
@@ -848,7 +852,7 @@ rs6000_secondary_reload (bool in_p,
 \end{lstlisting}
 
 Because registers are quite different in their specifications and reload could possibly ask for any combination of source/destination register we restrict s2pp register moves to other s2pp registers or memory.
-This creates the need for checking the register class of an RTL expression and eventually correcting the register class.
+This creates the need for checking the register class of an \ac{RTL} expression and eventually correcting the register class.
 \begin{lstlisting}
 static enum reg_class
 rs6000_preferred_reload_class (rtx x, enum reg_class rclass)
@@ -946,10 +950,10 @@ It is generally used by |emit_move_insn| to allocate registers and memory.
 \end{lstlisting}
 
 We explained the basics of insn definition earlier in section \ref{sec:defineinsn} thus we will only explain specific for this insn.
-The name is proceeded by an asterisk that renders the name not accessible directly because this insn shall only be referred to by the RTL sequence that follows.
+The name is preceded by an asterisk that renders the name not accessible directly because this insn shall only be referred to by the \ac{RTL} sequence that follows.
 Names starting with an asterisk are in general equal to no name.
 
-The RTL template is fairly simple and states that operand |0| is set by operand |1|.
+The \ac{RTL} template is fairly simple and states that operand |0| is set by operand |1|.
 Still, this insn applies for a number of cases which are specified by its constraints.
 The constraints of each operand build pairs.
 The first pair for example (|Z| and |kv|) tells the compiler that memory, which is accessed by an indirect operand |Z|, will be set by the contents of a vector register |kv|.
@@ -958,23 +962,23 @@ The template can also be written in C.
 
 Each case is indexed according to the list of constraints so we take a look at |case 0|, which is the first pair.
 This alternative return a machine instruction for storing a vector in memory |fxvstax|.
-The second operand of this instruction also contains a character besides its index which is an operand modifier \citep[ch.~6.45.2]{GCCint} that will cause the operand |0| to be split into an offset and an address in respective GPRs.
+The second operand of this instruction also contains a character besides its index which is an operand modifier~\citep[ch.~6.45.2]{GCCint} that will cause the operand |0| to be split into an offset and an address in respective GPRs.
 
 Other alternatives include instructions |fxvlax|, for loading a vector from memory, and |fxvsel|, for moving vector registers.
 |case 6| moves the contents of vector register |0| (this register is all |0|s) and thereby nulls that register (|j| is the respective constraint for a zero vector).
 
-Returning |#| as output template is equivalent to stating that there is no machine instruction which can perform the RTL template.
-This causes the compiler to look for different RTL templates that have the same effect but also has a machine instruction.
+Returning |#| as output template is equivalent to stating that there is no machine instruction which can perform the \ac{RTL} template.
+This causes the compiler to look for different \ac{RTL} templates that have the same effect but also has a machine instruction.
 
 This process is called \textbf{insn splitting} and can also be used for optimization.
-A developer may define which RTL templates are equivalent by using |define_split| \citep[16.16]{GCCint}.
+A developer may define which \ac{RTL} templates are equivalent by using |define_split|~\citep[16.16]{GCCint}.
 
 As there exist non-AltiVec-specific splits for cases 3 through 5 in AltiVec, we do not need to define splits ourself.
 
-Insn splitting is quite common for GCC back-ends because defining insns with unspecific constraints and then splitting them allows for easier generation of code.
+Insn splitting is quite common for \ac{GCC} back-ends because defining insns with unspecific constraints and then splitting them allows for easier generation of code.
 The back-end will then automatically search for code that fits the operands of the instruction.
-The same applies for |*s2pp_mov| which can not be referenced by name, but by an RTL template of |mov| in |vector.md|.
-Inorder to fulfill the condition, we add the |S2PP_VECTOR_MODE_P| to the insn.
+The same applies for |*s2pp_mov| which can not be referenced by name, but by an \ac{RTL} template of |mov| in |vector.md|.
+In order to fulfill the condition, we add the |S2PP_VECTOR_MODE_P| to the insn.
 \begin{lstlisting}
 (define_expand "mov<mode>"
   [(set (match_operand:VEC_M 0 "nonimmediate_operand" "")
@@ -983,10 +987,10 @@ Inorder to fulfill the condition, we add the |S2PP_VECTOR_MODE_P| to the insn.
   {...})
 \end{lstlisting}
 
-|define_expand| is an \textbf{insn expansion} which is similar to insn splitting, but may combine several RTL templates and can not specify any machine instruction directly.
-Usually this is used to compose built-ins from an instruction sequence \citep[ch.~16.15]{GCCint}.
+|define_expand| is an \textbf{insn expansion} which is similar to insn splitting, but may combine several \ac{RTL} templates and can not specify any machine instruction directly.
+Usually this is used to compose built-ins from an instruction sequence~\citep[ch.~16.15]{GCCint}.
 
-|define_insn_and_split| is a combination of insn definition and insn splitting and is also described in the GCC manual \citep[ch.~16.16]{GCCint}.
+|define_insn_and_split| is a combination of insn definition and insn splitting and is also described in the \ac{GCC} manual~\citep[ch.~16.16]{GCCint}.
 
 Besides |mov| there is number of insn expansions in |vector.md| that must also apply to s2pp.
 \begin{lstlisting}
@@ -1078,20 +1082,19 @@ Besides |mov| there is number of insn expansions in |vector.md| that must also a
   "VECTOR_UNIT_ALTIVEC_OR_VSX_P (<MODE>mode) || VECTOR_UNIT_S2PP_P (<MODE>mode)"
   "")
 ...
-}])))]]}}]}]} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! edit this away, included for spellchecking, some bracked not escaped
 \end{lstlisting}
 
 Before we can continue with other insns, we shall go back to |*s2pp_mov| and take a look at |case 7| which applies for constant vectors.
 
 Constant vectors have a constant value that are known at compile time.
-GCC will look for such vectors and check if these vectors can be splatted.
+\ac{GCC} will look for such vectors and check if these vectors can be splatted.
 This is mainly used by AltiVec, which offers a special splat instruction that takes a constant immediate value as operand.
 Splatting an immediate value saves a GPR and thus boosts performance.
 Still, we keep this function, since we can achieve a similar effect for constant zero vectors by moving the zero register.
 To distinguish between cases where this applies, we use the function |output_vec_const_move()| in|rs6000.c| which is also used by AltiVec.
 Only if the vector is a zero vector, this functions returns a machine instruction, otherwise it will return |#|.
 \begin{lstlisting}
-const char * /*p_o_i*/
+const char *
 output_vec_const_move (rtx *operands)
 {...
   if (TARGET_S2PP)
@@ -1140,10 +1143,10 @@ Since we are now missing an instruction to use this split we will define a split
   [(set_attr "type" "vecperm")])
 \end{lstlisting}
 
-We split the upper RTL template, which moves a constant vector to a vector register into the bottom RTL template, which inserts an intermediate step.
+We split the upper \ac{RTL} template, which moves a constant vector to a vector register into the bottom \ac{RTL} template, which inserts an intermediate step.
 |match_dup n| means that the operand should match the operand with the same index, that is specified somewhere else.
 For this reason are operands 2 and 3 specified in the following C template, which also converts operand 1 into a single integer element because all values are the same.
-The second RTL template uses the newly created integer and moves it to a GPR, which is then splatted into a vector register.
+The second \ac{RTL} template uses the newly created integer and moves it to a GPR, which is then splatted into a vector register.
 
 An |unspec| operator together with |UNSPEC_...| tells the compiler that the operation is not specified but has a name to distinguish it from other unspecified operations.
 \\
@@ -1155,10 +1158,10 @@ As this is also done for AltiVec, we simply differentiate between those option f
 By now the compiler would already support |asm| usage as shown in \ref{section:asm}.
 
 This also completes the prerequisites for intrinsic functions of \textbf{built-ins}.
-The different steps of adding built-ins were also described in a previous internship report \citep{heimbrecht_2017internship}.
+The different steps of adding built-ins were also described in a previous internship report~\citep{heimbrecht_2017internship}.
 Therefore we will only describe this briefly and refer to the report at times.
 
-First we start defining insns for each vector instruction that is listed in the nux user guide \citep{nuxmanual}.
+First we start defining insns for each vector instruction that is listed in the nux user guide~\citep{nuxmanual}.
 In order to allow access to the synram we implement insns that work similar to |fxvstax| and |fxvlax| and are called |fxvoutx| and |fxvinx|.
 \begin{lstlisting}
 ;;store
@@ -1205,26 +1208,26 @@ All of these insns exist with different conditionals and are named accordingly b
 \\
 Simple arithmetic instructions exist in multiple versions that either support conditional execution or do not.
 
-Due to an issue with nux regarding conditionals and arithmetic instructions, there exist two different ways of how conditionals are realized
-As tests revealed, the conditional execution of arithmetic instructions perform unexpectedly in case a condition does not apply.
+Due to an issue with nux regarding conditionals and arithmetic instructions, there exist two different ways of how arithmetic instructions are implemented.
+As tests revealed, the conditional execution of arithmetic instructions gives wrong results in case a condition does not apply.
 In this case, the result of a previous instruction is written to the return operand.
 Normally the operation should leave the contents of the operand untouched instead.
 For this reason we implement a workaround through insn splitting, that utilizes |fxvselect| and its conditional execution, as this instruction does work as intended.
 This was shown by another series of tests.
-Still, we should offer arithmetic operations without splits as this saves a clock cycle in comparison to having an additional |fxvselect|.
+Still, we should offer arithmetic operations without splits and thus without conditionals, as this saves a clock cycle in comparison to having an additional |fxvselect|.
 
 As of now, this was only done for simple arithmetic operations, |fxvadd...|, |fxvsub...| and |fxvmul...|.
 There also exist more complex operations that make use of the accumulator, which should not be used with conditionals as further testing is imminent and it is not clear whether those conditionals would work.
 Additionally would an extra instruction render the advantages of an accumulator meaningless.
-Nonetheless were accumulator instructions implemented together with a conditional argument which will allow for easier testing later on.
+Accumulator insns still offer a conditional operand which will be set to |0| when assigning intrinsic names.
 Also does the additional operand not influence the performance of the instruction in a bad manner when set to |0|.
 
 We will refer back to this when discussing the results.
 \\
 \\
 Since this completes the insns we can go on and create built-ins for these in |rs6000-builtins.def|.
-First though we add macros that simplify adding intrinsics.
-The exact definition of those macros is described for AltiVec built-ins in the internship report \citep{heimbrecht_2017internship} and we can easily transfer those for s2pp by adding the |RS6000_BTM_S2PP| built-in mask in |rs6000.h|.
+First we specify macros that simplify adding intrinsics.
+The exact definition of those macros is described for AltiVec built-ins in the internship report~\citep{heimbrecht_2017internship} and we can easily transfer those for s2pp by adding the |RS6000_BTM_S2PP| built-in mask in |rs6000.h|.
 \begin{lstlisting}
 #define RS6000_BTM_S2PP     MASK_S2PP   /* s2pp-mark/s2pp vectors.  */
 
@@ -1239,10 +1242,10 @@ But there is a number of insns that do not produce an output as they set the acc
 These instructions need special handling and thus are defined as special built-ins.
 
 Besides defining built-ins we also define overloads.
-These are used to differ intrinsics through arguments types, simplify using them easier and prevent false usage.
-Overloads are also further explained in the intership report\citep{heimbrecht_2017internship}.
+These are used to differ intrinsics through arguments types, simplify using them and prevent false usage.
+Overloads are also further explained in the internship report~\citep{heimbrecht_2017internship}.
 
-To make overloads usable one must link them to existing buili-ns as overloads are not directly connected to insns.
+To make overloads usable one must link them to existing built-ins as overloads are not directly connected to insns.
 This is done through structures that combine the built-in and overload names with a return type and up to three arguments.
 
 To use these structures, we will add a function to |rs6000-c.c| that resolves the overloaded built-ins and is again built upon an AltiVec function that does the very same.
@@ -1262,10 +1265,10 @@ Which resolving function is used by the back-end, is decided in |rs6000.h|
 \end{lstlisting}
 
 Also we need functions in |rs6000.c| that handle built-ins in general.
-A new function |s2pp_expand_builtin|, which is invoked by |rs6000_expand_builtin|, handles all special built-ins that belong to s2pp and picks expander functions according the built-in's name.
+A new function |s2pp_expand_builtin|, which is invoked by |rs6000_expand_builtin|, handles all special built-ins that belong to s2pp and picks expander functions according to the built-in's name.
 We therefore must create expander functions that take care of s2pp built-ins.
 
-One group of built-ins are memory intrinsics that handle explicit memory addressing and synram intrinsicsi (|fxvinx|, |fxvoutx|).
+One group of built-ins are memory intrinsics that handle explicit memory addressing and synram intrinsics (|fxvinx|, |fxvoutx|).
 Expanders are needed because of the special way memory is accessed through indirect register referencing.
 Since AltiVec uses the same way of addressing we can reuse its implementation but use a different function names |s2pp_expand_stv_builtin| and |s2pp_expand_lv_builtin|.
 
@@ -1305,19 +1308,19 @@ Besides built-ins that are connected to vector instructions, it is also possible
 These functions are identical to AltiVec's implementation since they do not need a vector extension.
 
 Finally we conclude on built-ins by defining alternative names for built-in functions in |s2pp.h|.
-A complete list of all intrinsic functions that the compiler supports at the time this thesis was written is available in the appendix \ref{appendix:builtinlist}.
+A complete list of all intrinsic functions that the compiler supports at the time this thesis was written is available in table \ref{tab:builtinlist}.
 
 \section{Prologue and Epilogue}
 Another problem, that only emerges, when using many registers at the same time, is missing prologue and epilogue support.
 
-There is an ending number of registers, which the compiler can use for saving values, and this number is also reduced by the amount of fixed registers
-Thus the compiler occasionally must store values in memory before calling a function that needs some of the available registers by calling a so called \textbf{prologue} \citep[ch.~17.9.11]{GCCint}.
+There is a limited number of registers, which the compiler can use for saving values, and this number is also reduced by the amount of fixed registers
+Thus the compiler occasionally must store values in memory before calling a function that needs some of the available registers by calling a so called \textbf{prologue}~\citep[ch.~17.9.11]{GCCint}.
 The compiler then restores the registers after the function has finished through an \textbf{epilogue}.
 
-Before the compiler can save registers, it must check which registers need to be saved.
+Before registers can be saved, it must be checked which registers need to be saved.
 This is done by |seve_reg_p()|.
 In |rs6000_emit_prologue| the compiler checks each register that exists and saves them according to this function.
-Since the compilers checks register numbers instead of types, we need to alter the case for FPRs and add a target flag:
+Since the compiler checks register numbers instead of types, we need to alter the case for FPRs and add a target flag:
 \begin{lstlisting}
 ...
   if (!WORLD_SAVE_P (info) && (strategy & SAVE_INLINE_FPRS))
@@ -1345,12 +1348,12 @@ Since the compilers checks register numbers instead of types, we need to alter t
     }
 ...
 \end{lstlisting}
-An |rtx|, which was a type often used in the previous listing, is short for RTL expression and can be used by |insn|s as an argument.
-RTL expressions can also contain information on how the operand is to be constructed as this allows chaining of operations.
+An |rtx|, which was a type often used in the previous listing, is short for \ac{RTL} expression and can be used by |insn|s as an argument.
+\ac{RTL} expressions can also contain information on how the operand is to be constructed as this allows chaining of operations.
 
-If register needs to be saved, the compiler computes an offset, that takes the current frame offset and adds 16 bytes(s2pp register size) for every register.
+If a register needs to be saved, the compiler computes an offset, that takes the current frame offset and adds 16 bytes(s2pp register size) for every register.
 |savereg| and |areg| are two kinds of registers that will later serve as operands for a memory instruction.
-|savereg| is the vector register we want to save and |areg| will be the GPR operand that holds an offset\reference{fxvstax and fxvlax}
+|savereg| is the vector register we want to save and |areg| will be the GPR operand that holds an offset.
 |emit_move_insn| creates IR that stores the offset in |areg|.
 Now we can create a complete memory operand |mem| that takes |offset| in |areg| and |frame_reg_rtx|, which is the register holding the frame pointer, and combines them to a single operand.
 As both, register and memory, are specified, the compiler can emit a move insn that stores |savereg| to |mem|.
@@ -1410,9 +1413,3 @@ rs6000_stack_info (void)
 }
 \end{lstlisting}
 
-
-\add{
-stack boundary -> put this together
-frame offsetr
-stackoffset
-}

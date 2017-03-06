@@ -1,29 +1,29 @@
 \addcontentsline{toc}{chapter}{Appendix}
 \chapter{Appendix}
 \label{ch:appendix}
-
+\vspace*{-1\baselineskip}
 \section{Acronyms}
+\begin{multicols}{2}
+    %\setlength{\topmargin}{-.5in}
+    %\setlength{\headsep}{0pt}
+    %\setlength{\headheight}{0pt}
+    %\setlength{\oddsidemargin}{20pt}
+    %\setlength{\textheight}{800pt}
 \begin{acronym}
-    \acro{ADC}{Analog Digital Converter}
     \acro{ALU}{Arithmetic Logic Unit}
-    \acro{ASIP}{Application Specific Instruction set Processor}
-    \acro{asm}{Assembly}
     \acro{CADC}{Correlation Analog Digital Converter}
     \acro{CISC}{Complex Instruction Set Computing}
     \acro{CPU}{Central Processing Unit}
     \acro{CR}{Conditional Register}
-    \acro{DLS}{Digital Learning System}
     \acro{DRAM}{Dynamic RAM}
-    \acro{insn}{instruction}
     \acro{IR}{Intermediate Representation}
     \acro{FPGA}{Field Programmable Gate Array}
     \acro{FPR}{Floating Point Register}
-    \acro{FPU}{Ploating Point Unit}
+    \acro{FPU}{Floating Point Unit}
     \acro{GCC}{GNU Compiler Collection}
     \acro{GDB}{GNU Project Debugger}
     \acro{GPP}{General Purpose Processor}
     \acro{GPR}{General Purpose Register}
-    \acro{HICANN}{High Input Count Neural Network}
     \acro{HICANN-DLS}{High Input Count Neural Network - Digital Learning System}
     \acro{ISA}{Instruction Set Architecture}
     \acro{LLVM}{Low Level Virtual Machine}
@@ -42,7 +42,7 @@
     \acro{rs/6000}{RISC system/6000}
     \acro{s2pp}{synaptic plasiticity processor}
     \acro{SIMD}{Single Input Multiple Data}
-    \acro{STDP}{Stimulated Time-Dependent Plasticity}
+    \acro{STDP}{Spike Timing Dependent Plasticity}
     \acro{SPR}{Special Purpose Register}
     \acro{SRAM}{Static RAM}
     \acro{VE}{Vector Extension}
@@ -51,14 +51,70 @@
     \acro{VSCR}{Vector Status and Control Register}
     \acro{VRSAVE}{Vector Save/Restore register}
     \acro{VRF}{Vector Register File}
-    \acro{VMX}{Vector Media eXtension}
-
 \end{acronym}
+\end{multicols}
+
+\section{Assembly Mnemonics}
+\label{sec:asmmnem}
+\begin{table}[htbp]
+\begin{tabular}{l l p{9cm}}
+    mnemonic & operands & description \\
+    \hline
+    |add| & |RT, RA, RB| & \textbf{add} |RB| to |RA| and store the result in |RT| \\
+    |addi| & |RT, RA, SI| & \textbf{add} |SI| to |RA| and store the result in |RT| \\
+    |addis| & |RT, RA, SI| & \textbf{add} |SI| \textbf{s}hifted left by 16 bit to |RA| and store the result in |RT| \\
+    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
+    |b| & |target_addr| & \textbf{b}ranch to the code at |target_addr|\\
+    |ble| & |BF, target_addr| & \textbf{b}ranch to the code at |target_addr| if |BF| is \textbf{l}ess or \textbf{e}qual \\
+    |blr| & & \textbf{b}ranch to the code at address in the \textbf{l}inker \textbf{r}egister \\
+    |cmp| & |BF, L, RA, RB| & |RA| and |RB| are \textbf{c}o\textbf{mp}ared and the result (|gt,lt,eq|) is stored in |BF|, |L| depicts if 32-bit or 64-bit are compared \\
+    |cmplwi| & |BF, RA, SI| & |RA| \textbf{c}o\textbf{mp}ared \textbf{l}ogically \textbf{w}ordwise with \textbf{i}mmediate |SI| and the result is stored in |BF|\\
+    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
+    |eieio| & & enforce in-order execution of I/O\\
+    |isync| & & instruction cache synchronize\\
+    |la| & |RT, D(RA)| & \textbf{l}oad \textbf{a}ggregate |D + RA| into |RT|\\
+    |li| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| into |RT|\\
+    |lis| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| \textbf{s}hifted left by 16 bit into |RT|\\
+    |lbz| & |RT, D(RA)| & \textbf{l}oad \textbf{b}yte at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
+    |lwz| & |RT, D(RA)| & \textbf{l}oad \textbf{w}ord at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
+    |mflr| & |RT| & \textbf{m}ove \textbf{f}rom \textbf{l}inker \textbf{r}egister to |RT|\\
+    |mr| & |RT, RA| & \textbf{m}ove \textbf{r}egister |RA| to |RT| \\
+    |nop| & & \textbf{no-op}eration or an instruction is performed that has no effect\\
+    |rlwinm| & |RA, RS, SH, MB, ME| & \textbf{r}otate \textbf{l}eft \textbf{w}ord in |RS| by \textbf{i}mmediate |SH| bits then a\textbf{n}d with \textbf{m}ask which is 1 from |MB+32| to |ME+32| and 0 else, store to |RA|\\
+    |stw| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA|\\
+    |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\
+    |sync| & & synchronize data cache\\
+\end{tabular}
+\caption {\label{tab:asm} Overview of Common Assembly Mnemonics \cite{PPCman1, PPCman2}.}
+\end{table}
+
+Mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
+\begin{description}
+    \lstitem{i} indicates that the instructions uses an immediate value
+    \lstitem{b} stands for byte and references the size of the operand
+    \lstitem{h} stands for halfword and references the size of the operand
+    \lstitem{w} stands for word and references the size of the operand
+    \lstitem{s} indicates that one of the operands is shifted
+    \lstitem{g, ge, l, le, e} stand for greater, greater or equal, less, less or equal and equal which is the possible content of the conditional register
+\end{description}
+
+There are also special operands which might occur in inline assembly, which behave like pointers, while others contain debugginf information.
+\begin{description}
+    \lstitem{@l(C)} is equivalent to the lower order 16 bits of of |C| in the symbol table
+    \lstitem{@ha(C)} is equivalent to the higher order 16 bits of of |C| in the symbol table and minds the sign extension
+    \lstitem{.loc # # #} marks a line of code (file, line, column) in the source file
+    \lstitem{.LVL} is a local label which can be discarded
+    \lstitem{.LFB} marks the begin of a function
+    \lstitem{.LFE} marks the end of a function
+    \lstitem{.LC0} is a constant of the literals table at position |0|
+\end{description}
+
+\newpage
 
 \section{List of nux Intrinsics}
 \label{sec:nuxintrinsics}
-\begin{table}[htbp]
-    \adjustbox{max width=\textwidth}{%
+\begin{table}[!htbp]
+    \adjustbox{max width=1.2\textwidth, center}{%
         \begin{tabular}{c c¡c¡c¡c¡c¡p{5cm}}
             \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
             \cline{3-6}
@@ -169,6 +225,19 @@
                                             |vector unsigned short*|\\
                                             |unsigned short|\end{tabular}
                                             & & |d| is read from synaptic address |a + b|\\ 
+        \end{tabular}
+    }
+    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used.}
+\end{table}
+
+\begin{table}[htbp]
+    \adjustbox{max width=1.2\textwidth, center}{%
+        \begin{tabular}{c c¡c¡c¡c¡p{4cm}¡p{5cm}}
+            \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
+            \cline{3-6}
+             & & d & a & b & c & \\
+            \hline \hline
+
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|fxv_sel|\end{tabular} & |d = fxv_sel(a,b,c)| & same as |a| & 
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
@@ -188,13 +257,13 @@
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
                                             & |int| & & |d| is read from synaptic address |a + b|\\ 
-
-
-
-
-
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|vec_insert|\end{tabular} & |d = vec_insert(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}}|vec_insert|\end{tabular} & |d = vec_insert(a,b,c)| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            &
                 \begin{tabular}[x]{@{}c@{}} |signed char|\\
                                             |unsigned char|\\
                                             |signed short|\\
@@ -204,238 +273,160 @@
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & |int| & |d| is a copy of |b| with element |c| replaced by |a|\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|vec_promote|\end{tabular} & |d = vec_exctract(a,b)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
-                                            &
+                \begin{tabular}[x]{@{}c@{}}|vec_promote|\end{tabular} & |d = vec_promote(a,b)| & 
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |signed char|\\
+                                            |unsigned char|\\
+                                            |signed short|\\
+                                            |unsigned short|\end{tabular}
+                                            & |int| & & |d| is an empty vector with |a| at element |b|\\ 
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|vec_sh| \\ |fxv_sh|\end{tabular} & |d = fxv_sh(a,b)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & |int| & & |d| is |a| with each element shifted by |b| to the left\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|vec_splat_s16| \\ |vec_splat_u16 \\ fxv_splatb|\end{tabular} & |d = fxv_splatb(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
-                                            &
+                \begin{tabular}[x]{@{}c@{}}|vec_splat_s16| \\ |vec_splat_u16| \\ |fxv_splatb|\end{tabular} & |d = fxv_splatb(a)| & 
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
-                                            |vector unsigned char|\\
-                                            |vector signed short|\\
-                                            |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            |vector unsigned char|\end{tabular}
+                                            & |int| & & & |a| is splatted into vector |d|, |vec_splat_u16| returns an |unsigned| vector  \\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|vec_splat_s8| \\ |vec_splat_u8 \\ fxv_splath|\end{tabular} & |d = fxv_splath(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
-                                            &
-                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
-                                            |vector unsigned char|\\
-                                            |vector signed short|\\
+                \begin{tabular}[x]{@{}c@{}}|vec_splat_s8| \\ |vec_splat_u8| \\ |fxv_splath|\end{tabular} & |d = fxv_splath(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & |int| & & & |a| is splatted into vector |d|, |vec_splat_u8| returns an |unsigned| vector  \\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_cmp|\end{tabular} & |fxv_cmp(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
-                                            &
+        \begin{tabular}[x]{@{}c@{}}|fxv_cmp|\end{tabular} & |fxv_cmp(a)| & &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & & & each element of |a| is compared to |0| and the \ac{VCR} set accordingly\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_mtac| \\ |fxv_mtacfs|\end{tabular} & |fxv_mtac(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
-                                            &
+        \begin{tabular}[x]{@{}c@{}}|fxv_mtac| \\ |fxv_mtacfs|\end{tabular} & |fxv_mtac(a)| && 
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & & & moves the contents of |a| to the accumulator\\ 
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|fxv_addactacm| \\ |fxv_addactacf|\end{tabular} & |fxv_addactac(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & & & adds |a| to the accumulator and stores the value in the accumulator\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_addacm| \\ |fxv_addacfs|\end{tabular} & |fxv_addac(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}}|fxv_addacm| \\ |fxv_addacfs|\end{tabular} & |d = fxv_addacm(a)| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & & & adds |a| to the accumulator and returns |d|\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_mam| \\ |fxv_mafs|\end{tabular} & |fxv_ma(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}}|fxv_mam| \\ |fxv_mafs|\end{tabular} & |d = fxv_mam(a,b)| & 
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & & multiplies |a| and |b| and adds this to the accumulator, the result is returned as |d|\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_matacm| \\ |fxv_matacfs|\end{tabular} & |fxv_matac(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}}|fxv_matacm| \\ |fxv_matacfs|\end{tabular} & |fxv_matacm(a,b)| & 
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & & multiplies |a| and |b| and adds this to the accumulator. the result is stores in the accumulator\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_multacm| \\ |fxv_multacfs|\end{tabular} & |fxv_multac(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}}|fxv_multacm| \\ |fxv_multacfs|\end{tabular} & |fxv_multacm(a,b)| & 
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & & multiplies |a| and |b| and stores the to the accumulator\\ 
             \cline{3-6}
-                \begin{tabular}[x]{@{}c@{}}|fxv_addtac|\end{tabular} & |fxv_addtac(a)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}}|fxv_addtac|\end{tabular} & |fxv_addtacm(a,b)| & 
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\\
+                                            |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            & & adds |a| and |b| and saves the result in the accumulator\\ 
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|fxv_pckbu| \\ |fxv_pckbl|\end{tabular} & |d = fxv_pckbu(a,b)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
+                \begin{tabular}[x]{@{}c@{}} |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
                                             &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
-                                            |vector unsigned char|\\
-                                            |vector signed short|\\
-                                            |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            |vector unsigned char|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
+                                            |vector unsigned char|\end{tabular}
+                                            & & packs the upper/lower 8 bits of each element in |a| and |b| into single elements in |d|\\ 
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|fxv_upckbl| \\ |fxv_upckbr|\end{tabular} & |d = fxv_upckbl(a,b)| & 
-                \begin{tabular}[x]{@{}c@{}} |signed char|\\
-                                            |unsigned char|\\
-                                            |signed short|\\
-                                            |unsigned short|\end{tabular}
-                                            &
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\
-                                            |vector unsigned char|\\
-                                            |vector signed short|\\
+                                            |vector unsigned char|\end{tabular}
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            &
+                \begin{tabular}[x]{@{}c@{}} |vector signed short|\\
+                                            |vector unsigned short|\end{tabular}
+                                            &  & unpacks the leftmost/rightmost elements of |a| and |b| into |d|\\ 
 
         \end{tabular}
     }
-    \caption{\label{appendix:builtinlist} List of all implemented built-ins and how they are used.}
+    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used.}
 \end{table}
 
-\section{Assembly Mnemonics}
-\label{sec:asmmnem}
-\begin{table}[htbp]
-\begin{tabular}{l l p{9cm}}
-    mnemonic & operands & description \\
-    \hline
-    |add| & |RT, RA, RB| & \textbf{add} |RB| to |RA| and store the result in |RT| \\
-    |addi| & |RT, RA, SI| & \textbf{add} |SI| to |RA| and store the result in |RT| \\
-    |addis| & |RT, RA, SI| & \textbf{add} |SI| \textbf{s}hifted left by 16 bit to |RA| and store the result in |RT| \\
-    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
-    |b| & |target_addr| & \textbf{b}ranch to the code at |target_addr|\\
-    |ble| & |BF, target_addr| & \textbf{b}ranch to the code at |target_addr| if |BF| is \textbf{l}ess or \textbf{e}qual \\
-    |blr| & & \textbf{b}ranch to the code at address in the \textbf{l}inker \textbf{r}egister \\
-    |cmp| & |BF, L, RA, RB| & |RA| and |RB| are \textbf{c}o\textbf{mp}ared and the result (|gt,lt,eq|) is stored in |BF|, |L| depicts if 32-bit or 64-bit are compared \\
-    |cmplwi| & |BF, RA, SI| & |RA| \textbf{c}o\textbf{mp}ared \textbf{l}ogically \textbf{w}ordwise with \textbf{i}mmediate |SI| and the result is stored in |BF|\\
-    |and| & |RA, RS, RB| & |RS| and |RB| are \textbf{and}ed and the result is stored in |RT| \\
-    |eieio| & & enforce in-order execution of I/O\\
-    |isync| & & instruction cache synchronize\\
-    |la| & |RT, D(RA)| & \textbf{l}oad \textbf{a}ggregate |D + RA| into |RT|\\
-    |li| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| into |RT|\\
-    |lis| & |RT, SI| & \textbf{l}oad \textbf{i}mmediate value |SI| \textbf{s}hifted left by 16 bit into |RT|\\
-    |lbz| & |RT, D(RA)| & \textbf{l}oad \textbf{b}yte at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
-    |lwz| & |RT, D(RA)| & \textbf{l}oad \textbf{w}ord at address |D+RA| into |RT|, fill the other bits with \textbf{z}eros \\
-    |mflr| & |RT| & \textbf{m}ove \textbf{f}rom \textbf{l}inker \textbf{r}egister to |RT|\\
-    |mr| & |RT, RA| & \textbf{m}ove \textbf{r}egister |RA| to |RT| \\
-    |nop| & & \textbf{no-op}eration or an instruction is performed that has no effect\\
-    |rlwinm| & |RA, RS, SH, MB, ME| & \textbf{r}otate \textbf{l}eft \textbf{w}ord in |RS| by \textbf{i}mmediate |SH| bits then a\textbf{n}d with \textbf{m}ask which is 1 from |MB+32| to |ME+32| and 0 else, store to |RA|\\
-    |stw| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA|\\
-    |stwu| & |RS, D(RA)| & \textbf{st}ore \textbf{w}ord from |RS| to address |D+RA| and \textbf{u}pdate RA to |D+RA|\\
-    |sync| & & synchronize data cache\\
-\end{tabular}
-\caption {\label{tab:asm} Overview of Common Assembly Mnemonics}
-\end{table}
-\add{caption and reference to PPC book and asm website correct the table}
 
-Mnemonics follow a certain pattern that has letters which can be interchanged to alter the meaning of the mnemonic, some of these characters are:
-\begin{description}
-    \lstitem{i} indicates that the instructions uses an immediate value
-    \lstitem{b} stands for byte and references the size of the operand
-    \lstitem{h} stands for halfword and references the size of the operand
-    \lstitem{w} stands for word and references the size of the operand
-    \lstitem{s} indicates that one of the operands is shifted
-    \lstitem{g, ge, l, le, e} stand for greater, greater or equal, less, less or equal and equal which is the possible content of the conditional register
-\end{description}
-
-There are also special operands which might occur in inline assembly, which behave like pointers, while others contain debugginf information.
-\begin{description}
-    \lstitem{@l(C)} is equivalent to the lower order 16 bits of of |C| in the symbol table
-    \lstitem{@ha(C)} is equivalent to the higher order 16 bits of of |C| in the symbol table and minds the sign extension
-    \lstitem{.loc # # #} marks a line of code (file, line, column) in the source file
-    \lstitem{.LVL} is a local label which can be discarded
-    \lstitem{.LFB} marks the begin of a function
-    \lstitem{.LFE} marks the end of a function
-    \lstitem{.LC0} is a constant of the literals table at position |0|
-\end{description}
-
-\add{all these tables in the appendix}
 \newpage
 \listoftodos[Notes]
 

@@ -1,15 +1,38 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
   \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
 
+\bibitem[{\textit{Aho}(2008)}]{UBHD-66483012}
+Aho, A.~V., \textit{Compiler}, it Informatik, 2., aktualisierte aufl. ed.,
+  XXXVI, 1253 S. pp., Pearson Studium, M{\"u}nchen [u.a.], index S. 1227-1253,
+  2008.
+
+\bibitem[{\textit{Amir et~al.}(2013)}]{Amir2013CognitiveCP}
+Amir, A., et~al., Cognitive computing programming paradigm: A corelet language
+  for composing networks of neurosynaptic cores, in \textit{The 2013
+  International Joint Conference on Neural Networks (IJCNN)}, 2013.
+
+\bibitem[{\textit{Cooper and Torczon}(2012)}]{UBHD-67548259}
+Cooper, K.~D., and L.~Torczon, \textit{Engineering a compiler}, 2. ed. ed.,
+  XXIII, 800 S. pp., Elsevier, Amsterdam ; Heidelberg [u.a.], previous ed.:
+  2004 ; Hier auch sp{\"a}ter erschienene, unver{\"a}nderte Nachdrucke, 2012.
+
 \bibitem[{\textit{Davis}(2005)}]{websda}
 Davis, G., Back to the basics: Compiler optimization for smaller, faster
   embedded application code,
   \url{http://www.embedded.com/design/debug-and-optimization/4025587/Back-to-the-Basics-Compiler-optimization-for-smaller-faster-embedded-application-code},
   accessed 2017.03.01, 2005.
+
+\bibitem[{\textit{Esser et~al.}(2015)\textit{Esser, Appuswamy, Merolla, Arthur,
+  and Modha}}]{NIPS2015_5862}
+Esser, S.~K., R.~Appuswamy, P.~Merolla, J.~V. Arthur, and D.~S. Modha,
+  Backpropagation for energy-efficient neuromorphic computing, in
+  \textit{Advances in Neural Information Processing Systems 28}, edited by
+  C.~Cortes, N.~D. Lawrence, D.~D. Lee, M.~Sugiyama, and R.~Garnett, pp.
+  1117--1125, Curran Associates, Inc., 2015.
 
 \bibitem[{\textit{Flik}(2005)}]{microprocessor}
 Flik, T., \textit{Mikroprozessortechnik und Rechnerstrukturen}, 7., neu bearb.
@@ -38,7 +61,12 @@ FSF, \textit{GNU Compiler Collection Internals Manual}, Free Software
   2017{\natexlab{a}}.
 
 \bibitem[{\textit{Heimbrecht}(2017)}]{heimbrecht_2017internship}
-Heimbrecht, A., Internship report --- altivec intrinsics, 2017.
+Heimbrecht, A., Internship report --- implementations of new altivec
+  intrinsics, 2017.
+
+\bibitem[{\textit{Hsu}(2014)}]{6905473}
+Hsu, J., Ibm's new brain [news], \textit{IEEE Spectrum}, \textit{51}(10),
+  17--19, \doi{10.1109/MSPEC.2014.6905473}, 2014.
 
 \bibitem[{IBM()}]{ibmsda}
 IBM, \textit{Developing PowerPC Embedded Application Binary Interface (EABI)
@@ -49,8 +77,28 @@ IBM, \textit{Developing PowerPC Embedded Application Binary Interface (EABI)
 Kim, J.-J., S.-Y. Lee, S.-M. Moon, and S.~Kim, Comparison of llvm and gcc on
   the arm platform, \textit{IEEE}, pp. 1--6, 2010.
 
+\bibitem[{\textit{Kozyrakis and Patterson}(2003)}]{vectormedia}
+Kozyrakis, C.~E., and D.~A. Patterson, Scalable, vector processors for embedded
+  systems, \textit{IEEE Micro}, \textit{23}(6), 36--45,
+  \doi{10.1109/MM.2003.1261385}, 2003.
+
+\bibitem[{\textit{Maass}(1997)}]{Maass19971659}
+Maass, W., Networks of spiking neurons: The third generation of neural network
+  models, \textit{Neural Networks}, \textit{10}(9), 1659 -- 1671,
+  \doi{http://dx.doi.org/10.1016/S0893-6080(97)00011-7}, 1997.
+
+\bibitem[{\textit{Matlis}(2005)}]{supercomputer}
+Matlis, J., A brief history of supercomputers,
+  \url{http://www.computerworld.com.au/article/132504/brief_history_supercomputers/},
+  accessed 2017.03.03, 2005.
+
 \bibitem[{NXP()}]{AltiVec}
-NXP, \textit{AltiVec manual}, NXP, 2006.
+NXP, \textit{AltiVec™ Technology Programming Environments Manual}, Freescale
+  Semiconductor, 2006.
+
+\bibitem[{\textit{Ollmann}(2003)}]{altivectutorial}
+Ollmann, I., Altivec,
+  \url{http://web-docs.gsi.de/~ikisel/reco/Systems/Altivec.pdf}, 2003.
 
 \bibitem[{\textit{Park et~al.}(2014)\textit{Park, Han, Lee, and
   Kim}}]{llvmgcceisc}
@@ -61,8 +109,35 @@ Park, C., M.~Han, H.~Lee, and S.~W. Kim, Performance comparison of gcc and llvm
 Silbernagl, S., and A.~Despopoulos, \textit{Color Atlas of Physiology}, Basic
   sciences, Thieme, 2009.
 
+\bibitem[{\textit{Stöckel}(2017{\natexlab{a}})}]{reponux}
+Stöckel, D., Gerrit repository libnux,
+  \url{https://brainscales-r.kip.uni-heidelberg.de:9443/gitweb?p=libnux.git;a=summary},
+  accessed 2017.03.06, 2017{\natexlab{a}}.
+
+\bibitem[{\textit{Stöckel}(2017{\natexlab{b}})}]{repostdp}
+Stöckel, D., Gerrit repository ppu-software,
+  \url{https://brainscales-r.kip.uni-heidelberg.de:9443/gitweb?p=ppu-software.git;a=summary},
+  accessed 2017.03.06, 2017{\natexlab{b}}.
+
+\bibitem[{\textit{Tanenbaum}(2006)}]{tanenbaum}
+Tanenbaum, A.~S., \textit{Computerarchitektur}, i - informatik :
+  rechnerarchitektur, 5. aufl. ed., 829 S. pp., Pearson Studium, M{\"u}nchen
+  [u.a.], 2006.
+
 \bibitem[{\textit{von Hagen}(2006)}]{definitveGCCGuide:introduction}
 von Hagen, W., \textit{The Definitive Guide to GCC}, section Introduction, pp.
   xxiii--xxix, second ed., Apress, 2006.
+
+\bibitem[{\textit{Wetzel et~al.}(2005{\natexlab{a}})\textit{Wetzel, Silha, May,
+  Furukawa, and Frazier}}]{PPCman1}
+Wetzel, J., E.~Silha, C.~May, J.~Furukawa, and G.~Frazier, \textit{PowerPC User
+  Instruction Set Architecture Book I}, IBM Microelectronics, version 2.02 ed.,
+  2005{\natexlab{a}}.
+
+\bibitem[{\textit{Wetzel et~al.}(2005{\natexlab{b}})\textit{Wetzel, Silha, May,
+  Furukawa, and Frazier}}]{PPCman2}
+Wetzel, J., E.~Silha, C.~May, J.~Furukawa, and G.~Frazier, \textit{PowerPC User
+  Virtual Environment Architecture Book II}, IBM Microelectronics, version 2.02
+  ed., 2005{\natexlab{b}}.
 
 \end{thebibliography}

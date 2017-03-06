@@ -5,28 +5,28 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \contentsline {chapter}{\numberline {2}Fundamentals and Applications of Computer Architectures and Compiler Design}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}Hardware Implementation of Neural Networks}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}Processor Architectures and the Plasticity Processing Unit}{5}{section.2.2}
+\contentsline {section}{\numberline {2.2}Processor Architectures and the Plasticity Processing Unit}{6}{section.2.2}
 \contentsline {section}{\numberline {2.3}Basic Compiler Structure}{14}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Back-End and Code Generation}{17}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Inline Assembly}{19}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.1}Back-End and Code Generation}{16}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Inline Assembly}{18}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}Intrinsics}{19}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{20}{subsection.2.3.4}
-\contentsline {subsubsection}{\nonumberline Insn Definition and Register Transfer Language}{21}{section*.65}
-\contentsline {chapter}{\numberline {3}Extending the GCC Back-End}{24}{chapter.3}
-\contentsline {section}{\numberline {3.1}Adding the s2pp Option Flag and nux Target}{25}{section.3.1}
-\contentsline {section}{\numberline {3.2}Creating Macros}{29}{section.3.2}
-\contentsline {section}{\numberline {3.3}Registers}{32}{section.3.3}
-\contentsline {section}{\numberline {3.4}Reload}{40}{section.3.4}
-\contentsline {section}{\numberline {3.5}Built-ins, Insns and Machine Instructions}{42}{section.3.5}
-\contentsline {section}{\numberline {3.6}Prologue and Epilogue}{51}{section.3.6}
-\contentsline {chapter}{\numberline {4}Results and Applications}{54}{chapter.4}
-\contentsline {chapter}{\numberline {5}Discussion and Outlook}{58}{chapter.5}
-\contentsline {chapter}{Appendix}{61}{section*.77}
-\contentsline {chapter}{\numberline {A}Appendix}{61}{appendix.A}
-\contentsline {section}{\numberline {A.1}Acronyms}{61}{section.A.1}
-\contentsline {section}{\numberline {A.2}List of nux Intrinsics}{64}{section.A.2}
-\contentsline {section}{\numberline {A.3}Assembly Mnemonics}{64}{section.A.3}
-\contentsline {chapter}{Bibliography}{67}{appendix*.84}
+\contentsline {subsection}{\numberline {2.3.4}GNU Compiler Collection}{19}{subsection.2.3.4}
+\contentsline {subsubsection}{\nonumberline Insn Definition and Register Transfer Language}{21}{section*.55}
+\contentsline {chapter}{\numberline {3}Extending the \ac {GCC} Back-End}{23}{chapter.3}
+\contentsline {section}{\numberline {3.1}Adding the s2pp Option Flag and nux Target}{24}{section.3.1}
+\contentsline {section}{\numberline {3.2}Creating Macros}{28}{section.3.2}
+\contentsline {section}{\numberline {3.3}Registers}{31}{section.3.3}
+\contentsline {section}{\numberline {3.4}Reload}{39}{section.3.4}
+\contentsline {section}{\numberline {3.5}Built-ins, Insns and Machine Instructions}{41}{section.3.5}
+\contentsline {section}{\numberline {3.6}Prologue and Epilogue}{50}{section.3.6}
+\contentsline {chapter}{\numberline {4}Results and Applications}{53}{chapter.4}
+\contentsline {chapter}{\numberline {5}Discussion and Outlook}{57}{chapter.5}
+\contentsline {chapter}{Appendix}{60}{chapter.5}
+\contentsline {chapter}{\numberline {A}Appendix}{60}{appendix.A}
+\contentsline {section}{\numberline {A.1}Acronyms}{60}{section.A.1}
+\contentsline {section}{\numberline {A.2}Assembly Mnemonics}{61}{section.A.2}
+\contentsline {section}{\numberline {A.3}List of nux Intrinsics}{63}{section.A.3}
+\contentsline {chapter}{Bibliography}{68}{appendix*.66}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}

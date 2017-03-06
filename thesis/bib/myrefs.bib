@@ -21,13 +21,14 @@
   note = {Accessed 2017.01.25}
 }
 @MANUAL{AltiVec,
-  organization = {NXP},
-  title = {AltiVec manual},
+  organization = {Freescale Semiconductor},
+  title = {AltiVec™ Technology Programming Environments Manual},
   year = {2006},
   month = {April},
   owner = {aheimbrecht},
   timestamp = {2017.01.25},
   key = {NXP},
+  howpublished = {\url{http://www.nxp.com/assets/documents/data/en/reference-manuals/ALTIVECPEM.pdf}},
   url ={http://www.nxp.com/assets/documents/data/en/reference-manuals/ALTIVECPEM.pdf}
 }
 @MANUAL{GCCint,
@@ -137,7 +138,7 @@
 }
 @MISC{heimbrecht_2017internship,
   author = {Heimbrecht, Arthur},
-  title = {Internship Report --- AltiVec Intrinsics},
+  title = {Internship Report --- Implementations of New AltiVec Intrinsics},
   year = {2017},
   month = {January},
   institution = {Kirchhoff-Institut f\"ur Physik, Ruprecht-Karls-Universit\"at Heidelberg},
@@ -226,20 +227,143 @@
   url ={http://www.embedded.com/design/debug-and-optimization/4025587/Back-to-the-Basics-Compiler-optimization-for-smaller-faster-embedded-application-code},
   note = {Accessed 2017.03.01}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@MISC{supercomputer,
+  author = {Jan Matlis},
+  title = {A brief history of supercomputers},
+  month = {May},
+  year = {2005},
+  howpublished = {\url{http://www.computerworld.com.au/article/132504/brief_history_supercomputers/}},
+  owner = {aheimbrecht},
+  timestamp = {2017.02.26},
+  url ={http://www.computerworld.com.au/article/132504/brief_history_supercomputers/},
+  note = {Accessed 2017.03.03}
+}
+@MISC{reponux,
+  author = {David Stöckel},
+  title = {Gerrit Repository libnux},
+  month = {January},
+  year = {2017},
+  howpublished = {\url{https://brainscales-r.kip.uni-heidelberg.de:9443/gitweb?p=libnux.git;a=summary}},
+  owner = {aheimbrecht},
+  timestamp = {2017.02.26},
+  url ={https://brainscales-r.kip.uni-heidelberg.de:9443/gitweb?p=libnux.git;a=summary},
+  note = {Accessed 2017.03.06}
+}
+@MISC{repostdp,
+  author = {David Stöckel},
+  title = {Gerrit Repository ppu-software},
+  month = {January},
+  year = {2017},
+  howpublished = {\url{https://brainscales-r.kip.uni-heidelberg.de:9443/gitweb?p=ppu-software.git;a=summary}},
+  owner = {aheimbrecht},
+  timestamp = {2017.02.26},
+  url ={https://brainscales-r.kip.uni-heidelberg.de:9443/gitweb?p=ppu-software.git;a=summary},
+  note = {Accessed 2017.03.06}
+}
+@MANUAL{PPCman1,
+  organization = {IBM Microelectronics},
+  author ={Wetzel, Joe and Silha, Ed and May, Cathy and Furukawa, Junichi and Frazier, Giles},
+  title = {PowerPC User Instruction Set Architecture Book I},
+  month = {January},
+  year = {2005},
+  edition = {Version 2.02},
+  owner = {aheimbrecht},
+  timestamp = {2017.02.26},
+}
+@MANUAL{PPCman2,
+  organization = {IBM Microelectronics},
+  author ={Wetzel, Joe and Silha, Ed and May, Cathy and Furukawa, Junichi and Frazier, Giles},
+  title = {PowerPC User Virtual Environment Architecture Book II},
+  month = {January},
+  year = {2005},
+  edition = {Version 2.02},
+  owner = {aheimbrecht},
+  timestamp = {2017.02.26},
+}
+@MISC{altivectutorial,
+  author ={Ian Ollmann},
+  title = {AltiVec},
+  subtitle = {a.k.a. Velocity Engine},
+  year = {2003},
+  owner = {aheimbrecht},
+  timestamp = {2017.02.26},
+  howpublished ={\url{http://web-docs.gsi.de/~ikisel/reco/Systems/Altivec.pdf}}
+  note = {Accessed 2017.03.06}
+}
+@incollection{NIPS2015_5862,
+    title = {Backpropagation for Energy-Efficient Neuromorphic Computing},
+    author = {Esser, Steve K and Appuswamy, Rathinakumar and Merolla, Paul and Arthur, John V. and Modha, Dharmendra S},
+    booktitle = {Advances in Neural Information Processing Systems 28},
+    editor = {C. Cortes and N. D. Lawrence and D. D. Lee and M. Sugiyama and R. Garnett},
+    pages = {1117--1125},
+    year = {2015},
+    publisher = {Curran Associates, Inc.},
+    url = {http://papers.nips.cc/paper/5862-backpropagation-for-energy-efficient-neuromorphic-computing.pdf}
+}
+@book{tanenbaum,
+    author={Tanenbaum, Andrew S.},
+    title={Computerarchitektur},
+    subtitle={Strukturen, Konzepte, Grundlagen},
+    edition={5. Aufl.},
+    publisher={Pearson Studium},
+    address={M{\"u}nchen [u.a.]},
+    year={2006},
+    pages={829 S.},
+    language={ger},
+    isbn={3-8273-7151-1 and 978-3-8273-7151-5},
+    series={i - informatik : rechnerarchitektur},
+    keywords={Computerarchitektur},
+    library={UB [Signatur: LN-U 10-10173::(5)] ; MA [Signatur: INF 1 TAN 112/2 CL]},
+}
+@ARTICLE{vectormedia,
+    author={C. E. Kozyrakis and D. A. Patterson},
+    journal={IEEE Micro},
+    title={Scalable, vector processors for embedded systems},
+    year={2003},
+    volume={23},
+    number={6},
+    pages={36-45},
+    keywords={embedded systems;instruction sets;parallelising compilers;vector processor systems;VIRAM;Vector IRAM;data-level parallelism;embedded systems;high-end superscalar;instruction set;processor microarchitecture;scalable processors;vector processors;vectorizing compiler;Computer architecture;Embedded computing;Embedded system;Energy consumption;High performance computing;Parallel processing;Process design;Registers;VLIW;Vector processors},
+    doi={10.1109/MM.2003.1261385},
+    ISSN={0272-1732},
+    month={Nov},
+}
+@ARTICLE{6905473,
+    author={J. Hsu},
+    journal={IEEE Spectrum},
+    title={IBM's new brain [News]},
+    year={2014},
+    volume={51},
+    number={10},
+    pages={17-19},
+    doi={10.1109/MSPEC.2014.6905473},
+    ISSN={0018-9235},
+    month={October},
+}
+@article{Maass19971659,
+    title = "Networks of spiking neurons: The third generation of neural network models ",
+    journal = "Neural Networks ",
+    volume = "10",
+    number = "9",
+    pages = "1659 - 1671",
+    year = "1997",
+    note = "",
+    issn = "0893-6080",
+    doi = "http://dx.doi.org/10.1016/S0893-6080(97)00011-7",
+    url = "http://www.sciencedirect.com/science/article/pii/S0893608097000117",
+    author = "Wolfgang Maass",
+    keywords = "Spiking neuron",
+    keywords = "Integrate-and-fire neutron",
+    keywords = "Computational complexity",
+    keywords = "Sigmoidal neural nets",
+    keywords = "Lower bounds "
+}
+@inproceedings{Amir2013CognitiveCP,
+    title={Cognitive computing programming paradigm: A Corelet Language for composing networks of neurosynaptic cores},
+    author={Arnon Amir and Pallab Datta and William P. Risk and Andrew S. Cassidy and Jeffrey A. Kusnitz and Steven K. Esser and Alexander Andreopoulos and Theodore M. Wong and Myron Flickner and Rodrigo Alvarez-Icaza and Emmett McQuinn and Benjamin Shaw and Norm Pass and Dharmendra S. Modha},
+    booktitle={The 2013 International Joint Conference on Neural Networks (IJCNN)},
+    year={2013}
+}
 
 
 @MANUAL{GCCint:iterator,

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  5 MAR 2017 18:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  6 MAR 2017 14:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1448,15 +1448,12 @@ LaTeX Info: Redefining \textsubscript on input line 434.
 
 (./tex/aliases.tex) (./main.aux (./cover/cover_kip.aux)
 (./cover/cover_faculty.aux) (./cover/cover_prof.aux) (./tex/abstract.aux)
-(./fig/processor.aux) (./fig/compiler.aux) (./fig/cmpstruct.aux)
-(./fig/cmpintstruct.aux)
+(./fig/array.aux) (./fig/processor.aux) (./fig/compiler.aux)
+(./fig/cmpstruct.aux) (./fig/cmpintstruct.aux) (./tex/appendix.aux
 
-LaTeX Warning: Label `lst:intrinsics' multiply defined.
+LaTeX Warning: Label `tab:builtinlist' multiply defined.
 
-
-LaTeX Warning: Label `lst:assembly' multiply defined.
-
-(./tex/appendix.aux) (./tex/acknowledgments.aux) (./cover/statement.aux))
+) (./tex/acknowledgments.aux) (./cover/statement.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 210.
@@ -1551,7 +1548,7 @@ converted-to.pdf fig/cover/Publ-Cover1.eps>
 (epstopdf)             \includegraphics on input line 14.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=139, 541.02126pt x 118.4425pt>
+<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=138, 541.02126pt x 118.4425pt>
 File: fig/cover/Publ-Cover1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover1-eps-converted-to.pdf>
@@ -1608,7 +1605,7 @@ converted-to.pdf fig/cover/Publ-Cover2.eps>
 (epstopdf)             \includegraphics on input line 29.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=140, 393.47pt x 6.0225pt>
+<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=139, 393.47pt x 6.0225pt>
 File: fig/cover/Publ-Cover2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover2-eps-converted-to.pdf>
@@ -1655,7 +1652,7 @@ Package epstopdf Info: Source file: <fig/cover/Publ-Cover3.eps>
 converted-to.pdf fig/cover/Publ-Cover3.eps>
 (epstopdf)             \includegraphics on input line 55.
 Package epstopdf Info: Output file is already uptodate.
-<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=141, 401.5pt x 31.11626pt>
+<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=140, 401.5pt x 31.11626pt>
 File: fig/cover/Publ-Cover3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover3-eps-converted-to.pdf>
@@ -1851,7 +1848,10 @@ Package babel Info: Redefining ngerman shorthand "~
 ])
 \openout2 = `tex/abstract.aux'.
 
- (./tex/abstract.tex [1
+ (./tex/abstract.tex
+Package acronym Info: Label `acro:GCC' newly defined as it shall be overridden
+although it is yet undefined on input line 14.
+ [1
 
 
 
@@ -1889,38 +1889,34 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface .
 
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 4.
 Package acronym Info: Label `acro:HICANN-DLS' newly defined as it shall be over
 ridden
-although it is yet undefined on input line 10.
-Package acronym Info: Label `acro:PPU' newly defined as it shall be overridden
 although it is yet undefined on input line 12.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 16.
+Package acronym Info: Label `acro:PPU' newly defined as it shall be overridden
+although it is yet undefined on input line 14.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 18.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-Underfull \hbox (badness 10000) in paragraph at lines 4--18
+Underfull \hbox (badness 10000) in paragraph at lines 4--20
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 19--27
+Underfull \hbox (badness 10000) in paragraph at lines 21--30
 
  []
 
-<pictures/Fig1.png, id=248, 241.74315pt x 241.74315pt>
+<pictures/Fig1.png, id=258, 241.74315pt x 241.74315pt>
 File: pictures/Fig1.png Graphic file (type png)
  <use pictures/Fig1.png>
-Package pdftex.def Info: pictures/Fig1.png used on input line 37.
+Package pdftex.def Info: pictures/Fig1.png used on input line 40.
 (pdftex.def)             Requested size: 167.29967pt x 167.3046pt.
+Package acronym Info: Label `acro:STDP' newly defined as it shall be overridden
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--50
+although it is yet undefined on input line 48.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--50
+Underfull \hbox (badness 10000) in paragraph at lines 31--51
 
  []
 
@@ -1928,77 +1924,75 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.50 
+l.51 
       [1
 
-]
-Package acronym Info: Label `acro:GCC' newly defined as it shall be overridden
-although it is yet undefined on input line 61.
-
-Underfull \hbox (badness 3219) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 duce the ef-fort of de-vel-op-ing for the [][],
+])
+Underfull \hbox (badness 1715) in paragraph at lines 52--281
+\T1/cmr/m/n/10.95 sides al-low-ing full high-level pro-gram-
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 pro-gram-ming, com-piler sup-port could also of-
+Underfull \hbox (badness 2269) in paragraph at lines 52--281
+\T1/cmr/m/n/10.95 sup-port may also fa-cil-i-tate au-to-matic
  []
 
 
-Underfull \hbox (badness 3838) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 fer tools like code op-ti-miza-tion and de-bug-
+Underfull \hbox (badness 2435) in paragraph at lines 52--281
+\T1/cmr/m/n/10.95 code gen-er-a-tion as a pre-req-ui-site for
  []
 
 
-Underfull \hbox (badness 2080) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 ging fea-tures. This work there-fore aims to
+Underfull \hbox (badness 1509) in paragraph at lines 52--281
+\T1/cmr/m/n/10.95 im-ple-men-ta-tion of very high-level lan-
  []
 
 
-Underfull \hbox (badness 2556) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 some point com-piler sup-port may also fa-cil-
+Underfull \hbox (badness 2111) in paragraph at lines 52--281
+\T1/cmr/m/n/10.95 tic-ity rules in ex-ist-ing pro-gram en-vi-
  []
 
 
-Underfull \hbox (badness 2042) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 i-tate au-to-matic code gen-er-a-tion as a pre-req-
+Underfull \hbox (badness 2538) in paragraph at lines 52--281
+\T1/cmr/m/n/10.95 those built into vir-tu-ally ev-ery com-
  []
 
 
-Underfull \hbox (badness 6157) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 ui-site for im-ple-men-ta-tion of very high-level
- []
-
-
-Underfull \hbox (badness 3386) in paragraph at lines 51--64
-\T1/cmr/m/n/10.95 rules in ex-ist-ing pro-gram en-vi-ron-ments from
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 51--64
+Underfull \hbox (badness 10000) in paragraph at lines 52--281
 
  []
 
-) (./tex/methods.texpdfTeX warning (ext4): destination with the same identifier
- (name{page.2}) has been already used, duplicate ignored
+(./tex/methods.texpdfTeX warning (ext4): destination with the same identifier (
+name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.1 \chapter
             {Fundamentals and Applications of Computer Architectures and Com...
 [2 <./pictures/Fig1.png>]
 Chapter 2.
+Package acronym Info: Label `acro:HICANN-DLS' overridden on input line 6.
+Package acronym Info: Label `acro:PPU' overridden on input line 7.
+\openout2 = `fig/array.aux'.
+
+(./fig/array.tex)
+Overfull \hbox (21.61597pt too wide) in paragraph at lines 42--24
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Package acronym Info: Label `acro:FPGA' newly defined as it shall be overridden
+
+although it is yet undefined on input line 34.
 pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.33 
+l.39 
       [3
 
-]
-Package acronym Info: Label `acro:FPGA' newly defined as it shall be overridden
-
-although it is yet undefined on input line 34.
- <pictures/syncircuit.pdf, id=303, 759.01585pt x 325.98285pt>
+] <pictures/syncircuit.pdf, id=318, 759.01585pt x 325.98285pt>
 File: pictures/syncircuit.pdf Graphic file (type pdf)
 
 <use pictures/syncircuit.pdf>
@@ -2008,11 +2002,20 @@ Package acronym Info: Label `acro:CADC' newly defined as it shall be overridden
 
 although it is yet undefined on input line 53.
 
-<pictures/nux.pdf, id=309, 241.72237pt x 180.72461pt>
+<pictures/nux.pdf, id=324, 241.72237pt x 180.72461pt>
 File: pictures/nux.pdf Graphic file (type pdf)
  <use pictures/nux.pdf>
 Package pdftex.def Info: pictures/nux.pdf used on input line 57.
 (pdftex.def)             Requested size: 209.12778pt x 156.35495pt.
+pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.59 \end{wrapfigure}
+                      [4
+
+
+]
 Package acronym Info: Label `acro:VE' newly defined as it shall be overridden
 although it is yet undefined on input line 60.
 Package acronym Info: Label `acro:s2pp' newly defined as it shall be overridden
@@ -2023,17 +2026,12 @@ Underfull \hbox (badness 3679) in paragraph at lines 59--62
 []\T1/cmr/m/n/10.95 The [][] is the pro-cess-ing unit of
  []
 
-
-Underfull \hbox (badness 1968) in paragraph at lines 59--62
-[][][]\T1/cmr/m/n/10.95 Vector Ex-ten-sion ([])[] that is called
- []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
+pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.64 \begin{description}
-                         [4 <./pictures/syncircuit.pdf> <./pictures/nux.pdf
+l.75 
+      [5 <./pictures/syncircuit.pdf> <./pictures/nux.pdf
 
 pdfTeX warning: pdflatex (file ./pictures/nux.pdf): PDF inclusion: multiple pdf
 s with page group included in a single page
@@ -2042,35 +2040,44 @@ s with page group included in a single page
 
  (./fig/processor.tex)
 Package acronym Info: Label `acro:ALU' newly defined as it shall be overridden
-although it is yet undefined on input line 100.
+although it is yet undefined on input line 99.
 Package acronym Info: Label `acro:RF' newly defined as it shall be overridden
-although it is yet undefined on input line 100.
-pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has 
+although it is yet undefined on input line 99.
+pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.101 
-       [5
+l.104 
+       [6
 
 
 ]
 Package acronym Info: Label `acro:GPR' newly defined as it shall be overridden
-although it is yet undefined on input line 109.
+although it is yet undefined on input line 108.
 Package acronym Info: Label `acro:SPR' newly defined as it shall be overridden
-although it is yet undefined on input line 110.
+although it is yet undefined on input line 109.
 Package acronym Info: Label `acro:LR' newly defined as it shall be overridden
-although it is yet undefined on input line 111.
+although it is yet undefined on input line 110.
 Package acronym Info: Label `acro:CR' newly defined as it shall be overridden
-although it is yet undefined on input line 112.
+although it is yet undefined on input line 111.
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--120
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 116--120
-
- []
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 125.
 
 \height=\dimen32767 (local)
 \depth=\dimen32766 (local)
@@ -2088,8 +2095,30 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 128.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 126.
 
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 127.
+
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
 \height=\dimen32767 (local)
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
@@ -2134,6 +2163,15 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
 \width=\dimen32764 (local)
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
+[7]
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              You should note, that in 1994 font command `\tt' has
@@ -2146,12 +2184,8 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 132.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 160.
 
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              You should note, that in 1994 font command `\tt' has
@@ -2164,39 +2198,14 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 133.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 160.
 
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
-pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.149 
-       [6] [7]
 Package acronym Info: Label `acro:CISC' newly defined as it shall be overridden
 
-although it is yet undefined on input line 180.
+although it is yet undefined on input line 178.
 Package acronym Info: Label `acro:RISC' newly defined as it shall be overridden
 
-although it is yet undefined on input line 181.
-Package acronym Info: Label `acro:POWER' newly defined as it shall be overridde
-n
-although it is yet undefined on input line 181.
+although it is yet undefined on input line 179.
 \height=\dimen32767 (local)
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
@@ -2217,6 +2226,73 @@ although it is yet undefined on input line 181.
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
 \width=\dimen32764 (local)
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 196.
+
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 196.
+
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 196.
+
+\height=\dimen32767 (local)
+\depth=\dimen32766 (local)
+\totalheight=\dimen32765 (local)
+\width=\dimen32764 (local)
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 196.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
@@ -2232,46 +2308,6 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
 (scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
-
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
-
-\height=\dimen32767 (local)
-\depth=\dimen32766 (local)
-\totalheight=\dimen32765 (local)
-\width=\dimen32764 (local)
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              You should note, that in 1994 font command `\tt' has
@@ -2298,7 +2334,7 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 200.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
@@ -2312,7 +2348,7 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 200.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
@@ -2326,7 +2362,7 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 200.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
@@ -2340,7 +2376,7 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 200.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
@@ -2354,7 +2390,7 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 200.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
@@ -2368,124 +2404,117 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\tt' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 200.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 216.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 216.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 216.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 216.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 216.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\tt'!
-(scrreprt)              You should note, that in 1994 font command `\tt' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\tt' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
-(scrreprt)              by `\normalfont \ttfamily ' on input line 216.
+(scrreprt)              by `\normalfont \ttfamily ' on input line 198.
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 239--248
 
- []
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 214.
 
-Package acronym Info: Label `acro:FPU' newly defined as it shall be overridden
-although it is yet undefined on input line 250.
-Package acronym Info: Label `acro:FPR' newly defined as it shall be overridden
-although it is yet undefined on input line 251.
-Package acronym Info: Label `acro:SIMD' newly defined as it shall be overridden
 
-although it is yet undefined on input line 253.
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 214.
 
-LaTeX Warning: Marginpar on page 9 moved.
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 214.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 214.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 214.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 214.
 
 [9]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 265.
+Package acronym Info: Label `acro:FPU' newly defined as it shall be overridden
+although it is yet undefined on input line 242.
+Package acronym Info: Label `acro:FPR' newly defined as it shall be overridden
+although it is yet undefined on input line 243.
+Package acronym Info: Label `acro:SIMD' newly defined as it shall be overridden
+
+although it is yet undefined on input line 245.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 257.
 
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 265.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 257.
 
-Overfull \hbox (2.4216pt too wide) in paragraph at lines 263--277
+Overfull \hbox (2.4216pt too wide) in paragraph at lines 255--269
 [][] []
  []
 
 Package acronym Info: Label `acro:GPP' newly defined as it shall be overridden
-although it is yet undefined on input line 280.
+although it is yet undefined on input line 272.
 Package acronym Info: Label `acro:VRF' newly defined as it shall be overridden
-although it is yet undefined on input line 284.
+although it is yet undefined on input line 275.
 \height=\dimen32767 (local)
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
@@ -2530,10 +2559,8 @@ although it is yet undefined on input line 284.
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
 \width=\dimen32764 (local)
-Package acronym Info: Label `acro:VMX' newly defined as it shall be overridden
-although it is yet undefined on input line 298.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 300.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 291.
 \height=\dimen32767 (local)
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
@@ -2679,45 +2706,33 @@ LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
 \curly@shift=\dimen32765 (local)
 \total@box@width=\dimen32767 (local)
 
-Overfull \hbox (28.015pt too wide) in paragraph at lines 312--313
+Overfull \hbox (28.015pt too wide) in paragraph at lines 303--304
  [][] 
  []
 
-Package acronym Info: Label `acro:VCR' newly defined as it shall be overridden
-although it is yet undefined on input line 318.
 [10]
+Package acronym Info: Label `acro:GCC' overridden on input line 307.
+Package acronym Info: Label `acro:VCR' newly defined as it shall be overridden
+although it is yet undefined on input line 309.
 Package acronym Info: Label `acro:VSCR' newly defined as it shall be overridden
 
-although it is yet undefined on input line 328.
+although it is yet undefined on input line 318.
 Package acronym Info: Label `acro:VRSAVE' newly defined as it shall be overridd
 en
-although it is yet undefined on input line 329.
+although it is yet undefined on input line 319.
 Package acronym Info: Label `acro:VR' newly defined as it shall be overridden
-although it is yet undefined on input line 329.
- <pictures/s2pp.pdf, id=746, 446.91827pt x 231.26796pt>
+although it is yet undefined on input line 319.
+ [11] <pictures/s2pp.pdf, id=776, 446.91827pt x 231.26796pt>
 File: pictures/s2pp.pdf Graphic file (type pdf)
 
 <use pictures/s2pp.pdf>
-Package pdftex.def Info: pictures/s2pp.pdf used on input line 341.
+Package pdftex.def Info: pictures/s2pp.pdf used on input line 332.
 (pdftex.def)             Requested size: 418.25555pt x 216.4391pt.
 Package acronym Info: Label `acro:MMU' newly defined as it shall be overridden
-although it is yet undefined on input line 346.
+although it is yet undefined on input line 337.
 Package acronym Info: Label `acro:MC' newly defined as it shall be overridden
-although it is yet undefined on input line 346.
- [11]
-Underfull \hbox (badness 10000) in paragraph at lines 372--387
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 372--387
-
- []
-
-[12 <./pictures/s2pp.pdf>]
-
-LaTeX Warning: Marginpar on page 13 moved.
-
+although it is yet undefined on input line 337.
+ [12 <./pictures/s2pp.pdf>]
 \height=\dimen32767 (local)
 \depth=\dimen32766 (local)
 \totalheight=\dimen32765 (local)
@@ -2783,70 +2798,134 @@ LaTeX Warning: Marginpar on page 13 moved.
 \totalheight=\dimen32765 (local)
 \width=\dimen32764 (local)
 Package hyperref Info: bookmark level for unknown subfigure defaults to 0 on in
-put line 419.
-
-Underfull \hbox (badness 10000) in paragraph at lines 397--421
-
- []
-
-[13]
+put line 397.
+ [13] [14]
 \openout2 = `fig/compiler.aux'.
 
- (./fig/compiler.tex)
+
+(./fig/compiler.tex)
 \openout2 = `fig/cmpstruct.aux'.
 
  (./fig/cmpstruct.tex)
 \openout2 = `fig/cmpintstruct.aux'.
 
  (./fig/cmpintstruct.tex)
-[14
-
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 475--489
-
- []
-
-[15
-
-
-
-
-]
 Package acronym Info: Label `acro:IR' newly defined as it shall be overridden
-although it is yet undefined on input line 491.
+although it is yet undefined on input line 470.
+ [15
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--502
 
- []
+]
+[16
 
-[16]
-Underfull \hbox (badness 10000) in paragraph at lines 512--522
 
- []
 
+
+]
 Package acronym Info: Label `acro:ISA' newly defined as it shall be overridden
-although it is yet undefined on input line 534.
-[17] [18] [19]
+although it is yet undefined on input line 505.
+ [17] [18] [19]
 Package acronym Info: Label `acro:LLVM' newly defined as it shall be overridden
 
-although it is yet undefined on input line 629.
- [20]
+although it is yet undefined on input line 604.
 Package acronym Info: Label `acro:rs/6000' newly defined as it shall be overrid
 den
-although it is yet undefined on input line 640.
+although it is yet undefined on input line 616.
+Package acronym Info: Label `acro:LRA' newly defined as it shall be overridden
+although it is yet undefined on input line 628.
+ [20]
 Package acronym Info: Label `acro:RTL' newly defined as it shall be overridden
-although it is yet undefined on input line 657.
+although it is yet undefined on input line 633.
 
-Underfull \hbox (badness 10000) in paragraph at lines 668--684
 
- []
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 641.
 
-[21] [22]) (./tex/extbackend.tex [23]
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 641.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 650.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 650.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 650.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 650.
+
+[21]) (./tex/extbackend.tex [22]
 Chapter 3.
-[24
+[23
 
-] [25]
+] [24]
 
 Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              You should note, that in 1994 font command `\tt' has
@@ -2904,157 +2983,134 @@ Class scrreprt Warning: Usage of deprecated font command `\tt'!
 (scrreprt)              by `\normalfont \ttfamily ' on input line 93.
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 112--115
+Underfull \hbox (badness 1990) in paragraph at lines 111--114
 []\T1/cmr/m/n/10.95 This uses the macro [][][][][][][][][][][][][][][][][][][][
 ][][][][][][] and adds [][][][][][] to the
  []
 
-[26]
+[25]
 Underfull \hbox (badness 10000) in paragraph at lines 151--158
 
  []
 
-[27] [28] [29]
-Underfull \hbox (badness 4699) in paragraph at lines 272--276
-[]\T1/cmr/m/n/10.95 Next we need to find con-di-tions which eas-ily ap-ply to [
-][][][][][] as
+[26] [27]
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 227.
+
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 270--273
+[][][][][][][]\T1/cmr/m/n/10.95 , [][][][][][]
  []
 
 
-Underfull \hbox (badness 5741) in paragraph at lines 272--276
-\T1/cmr/m/n/10.95 they al-ready do for [][][][][][]. There ex-ist only five suc
-h cases,
+Underfull \hbox (badness 1924) in paragraph at lines 279--285
+[][][][] \T1/cmr/m/n/10.95 and [][][][][][] re-turn false if [][][][][][] or th
+e Al-tiVec ver-sion ap-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 289--295
+Underfull \hbox (badness 10000) in paragraph at lines 286--292
 
  []
 
-
-Overfull \hbox (26.33324pt too wide) in paragraph at lines 309--310
-[]\T1/cmr/m/n/10.95 Also pre-ferred modes when vec-tor-iz-ing a non-vector mode
-s in [][]
- []
-
-[30] [31] [32]
-Underfull \hbox (badness 10000) in paragraph at lines 422--427
+[29] [30] [31]
+Underfull \hbox (badness 10000) in paragraph at lines 425--430
 
  []
 
-[33]
-Underfull \hbox (badness 6995) in paragraph at lines 513--514
+[32]
+Underfull \hbox (badness 6995) in paragraph at lines 516--517
 []\T1/cmr/m/n/10.95 Then we need to spec-ify the con-tents of our new reg-is-te
 r classes in
  []
 
-[34] [35]
-Underfull \hbox (badness 10000) in paragraph at lines 577--581
+[33] [34]
+Underfull \hbox (badness 10000) in paragraph at lines 580--584
 
  []
 
-[36] [37]
-Overfull \hbox (1.52966pt too wide) in paragraph at lines 692--694
+[35] [36]
+Overfull \hbox (1.52966pt too wide) in paragraph at lines 695--697
 []\T1/cmr/m/n/10.95 We can also add de-bug-ging in-for-ma-tion for s2pp reg-is-
 ters in [][]
  []
 
-[38] [39] [40] [41] [42] [43] [44] [45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 1148--1154
+[37] [38] [39] [40] [41] [42] [43] [44] [45]
+Underfull \hbox (badness 10000) in paragraph at lines 1150--1156
+
+ []
+
+[46]
+Underfull \hbox (badness 10000) in paragraph at lines 1205--1209
 
  []
 
 [47]
-Underfull \hbox (badness 10000) in paragraph at lines 1203--1207
-
- []
-
-[48]
-Underfull \hbox (badness 10000) in paragraph at lines 1222--1228
+Underfull \hbox (badness 10000) in paragraph at lines 1224--1230
 
  []
 
 
-Underfull \hbox (badness 3291) in paragraph at lines 1248--1250
+Underfull \hbox (badness 3291) in paragraph at lines 1250--1252
 []\T1/cmr/m/n/10.95 To use these struc-tures, we will add a func-tion to [][][]
 [][][][][][][][][][][] that re-
  []
 
 
-Underfull \hbox (badness 1931) in paragraph at lines 1248--1250
+Underfull \hbox (badness 1931) in paragraph at lines 1250--1252
 \T1/cmr/m/n/10.95 does the very same. These func-tions are [][][][][][] and
  []
 
-[49] [50] [51]
-Overfull \hbox (1.18246pt too wide) in paragraph at lines 1359--1363
+[48] [49] [50]
+Overfull \hbox (1.18246pt too wide) in paragraph at lines 1361--1365
 []\T1/cmr/m/n/10.95 After the pro-logue has fin-ished, the func-tion is com-pil
 ed. Next, [][]
  []
 
 
 Package Listings Warning: Text dropped after begin of listing on input line 136
-3.
+5.
 
-[52]) (./tex/results.tex [53]
+[51]) (./tex/results.tex [52]
 Chapter 4.
 
 Overfull \hbox (164.20065pt too wide) in paragraph at lines 27--27
 [] []\T1/cmr/m/n/10 List-ing 4.1[][]: []|Ex-am-ple of nux Test.  This
  []
 
-
-Package natbib Warning: Citation `reponux' on page 54 undefined on input line 6
-0.
-
-[54
+[53
 
 ]
-
-Package natbib Warning: Citation `repohomeostasis' on page 55 undefined on inpu
-t line 68.
-
-Package acronym Info: Label `acro:STDP' newly defined as it shall be overridden
-
-although it is yet undefined on input line 68.
-
-Package natbib Warning: Citation `repostdp' on page 55 undefined on input line 
-68.
-
-[55]
+Package acronym Info: Label `acro:STDP' overridden on input line 68.
+ [54]
 Overfull \hbox (41.8281pt too wide) in paragraph at lines 86--134
 [] 
  []
-
-
-LaTeX Warning: Reference `lst:instrinsics' on page 56 undefined on input line 1
-36.
-
-
-LaTeX Warning: Reference `lst:vec_extract' on page 56 undefined on input line 1
-44.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 140--147
 
  []
 
-
-LaTeX Warning: Reference `fig:assembly2' on page 56 undefined on input line 148
-.
-
-
-Overfull \hbox (109.17775pt too wide) in paragraph at lines 148--185
-\T1/cmr/m/n/10.95 op-ti-miza-tion. [] 
- []
-
-[56]) (./tex/discussion.tex [57]
+) (./tex/discussion.tex [55] [56]
 Chapter 5.
 
 Underfull \hbox (badness 10000) in paragraph at lines 31--38
 
  []
 
-[58
+[57
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 48--57
@@ -3068,90 +3124,115 @@ Underfull \hbox (badness 10000) in paragraph at lines 61--66
 
 Package acronym Info: Label `acro:GDB' newly defined as it shall be overridden
 although it is yet undefined on input line 69.
-[59]) [60]
+[58]) [59]
 \openout2 = `tex/appendix.aux'.
 
  (./tex/appendix.tex
 Appendix A.
-[61
+[60
 
 
 
 ]
-Underfull \hbox (badness 1953) in paragraph at lines 79--80
+Overfull \hbox (24.24252pt too wide) in paragraph at lines 60--88
+[][] 
+ []
+
+[61] [62]
+Underfull \hbox (badness 1953) in paragraph at lines 135--136
 []\T1/cmr/m/n/10.95 subtract [][][][][][] from [][][][][][] mod-ulo
  []
 
 
-Underfull \hbox (badness 3417) in paragraph at lines 86--87
+Underfull \hbox (badness 3417) in paragraph at lines 142--143
 []\T1/cmr/m/n/10.95 multiply [][][][][][] and [][][][][][] mod-ulo
  []
 
 
-Underfull \hbox (badness 3792) in paragraph at lines 93--94
+Underfull \hbox (badness 3792) in paragraph at lines 149--150
 []\T1/cmr/m/n/10.95 add [][][][][][] and [][][][][][] sat-u-ra-tional
  []
 
 
-LaTeX Warning: Float too large for page by 170.4413pt on input line 380.
-
-
-Overfull \hbox (24.24252pt too wide) in paragraph at lines 385--413
-[][] 
+Underfull \hbox (badness 2582) in paragraph at lines 300--301
+[][][][][][][] \T1/cmr/m/n/10.95 is [][][][][][] with each el-e-ment
  []
 
-[62] [63] [64] [65] (./main.tdo)
+
+Underfull \hbox (badness 1609) in paragraph at lines 310--311
+[][][][]\T1/cmr/m/n/10.95 , [][][][][][] re-turns an
+ []
+
+
+Underfull \hbox (badness 3158) in paragraph at lines 422--423
+[]\T1/cmr/m/n/10.95 unpacks the left-most/right-
+ []
+
+[63] [64] (./main.tdo)
 \tf@tdo=\write11
 \openout11 = `main.tdo'.
 
-) [66
+) [65
 
 ]
 No file main.nls.
-(./main.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
+[66
+
+
+
+] (./main.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 24--28
 []\T1/cmr/m/n/10.95 Davis, G., Back to the ba-sics: Com-piler op-ti-miza-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
+Underfull \hbox (badness 10000) in paragraph at lines 24--28
 \T1/cmr/m/n/10.95 tion for smaller, faster em-bed-ded ap-pli-ca-tion code, [][]
 $\T1/cmtt/m/n/10.95 http :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
+Underfull \hbox (badness 10000) in paragraph at lines 24--28
 \T1/cmtt/m/n/10.95 / / www . embedded . com / design / debug-[]and-[]optimizati
 on / 4025587 /
  []
 
 
-Overfull \hbox (93.64714pt too wide) in paragraph at lines 9--13
+Overfull \hbox (93.64714pt too wide) in paragraph at lines 24--28
 \T1/cmtt/m/n/10.95 Back-[]to-[]the-[]Basics-[]Compiler-[]optimization-[]for-[]s
 maller-[]faster-[]embedded-[]application-[]code$[][]\T1/cmr/m/n/10.95 ,
  []
 
-)
-No file main.ind.
 [67
 
-
-
-
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 113--116
+[]\T1/cmr/m/n/10.95 Stöckel, D., Ger-rit repos-i-tory lib-nux, [][]$\T1/cmtt/m/
+n/10.95 https : / / brainscales-[]r . kip .
+ []
+
+
+Underfull \hbox (badness 4819) in paragraph at lines 118--121
+[]\T1/cmr/m/n/10.95 Stöckel, D., Ger-rit repos-i-tory ppu-software, [][]$\T1/cm
+tt/m/n/10.95 https : / / brainscales-[]r . kip .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--121
+\T1/cmtt/m/n/10.95 uni-[]heidelberg . de : 9443 / gitweb ? p = ppu-[]software .
+ git ; a = summary$[][]\T1/cmr/m/n/10.95 , ac-cessed
+ []
+
+)
+No file main.ind.
+[68]
 \openout2 = `tex/acknowledgments.aux'.
 
 
 No file tex/acknowledgments.tex.
-[68
-
-
-
-
-]
 \openout2 = `cover/statement.aux'.
 
- (./cover/statement.tex
+(./cover/statement.tex
 
 Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              You should note, that in 1994 font command `\bf' has
@@ -3168,23 +3249,22 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 
 ) [69
 
+
+
+
+
 ]
-
-Package natbib Warning: There were undefined citations.
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 361.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 361.
-(./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
-(./cover/cover_prof.aux) (./tex/abstract.aux) (./fig/processor.aux)
-(./fig/compiler.aux) (./fig/cmpstruct.aux) (./fig/cmpintstruct.aux)
-(./tex/appendix.aux) (./tex/acknowledgments.aux) (./cover/statement.aux))
+ (./main.aux (./cover/cover_kip.aux) (./cover/cover_faculty.aux)
+(./cover/cover_prof.aux) (./tex/abstract.aux) (./fig/array.aux)
+(./fig/processor.aux) (./fig/compiler.aux) (./fig/cmpstruct.aux)
+(./fig/cmpintstruct.aux) (./tex/appendix.aux) (./tex/acknowledgments.aux)
+(./cover/statement.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 361.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 361.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B68A2C7702750C8A088430BC56CBFBEE;1737.
-
-
-LaTeX Warning: There were undefined references.
+(rerunfilecheck)             Checksum: 2010FD35C7C1828D6EF256006EEBFE27;1735.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -3192,44 +3272,43 @@ LaTeX Warning: There were multiply-defined labels.
  )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 284 ({)
+### simple group (level 1) entered at line 271 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 32745 strings out of 493105
- 602437 string characters out of 6137072
- 2232991 words of memory out of 5000000
- 34185 multiletter control sequences out of 15000+600000
- 29562 words of font info for 72 fonts, out of 8000000 for 9000
+ 33551 strings out of 493105
+ 614613 string characters out of 6137072
+ 2074519 words of memory out of 5000000
+ 34996 multiletter control sequences out of 15000+600000
+ 30248 words of font info for 73 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
- 65i,22n,106p,834b,2359s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 65i,22n,106p,834b,2355s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1
-095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/
-texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/pu
-blic/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx20
-74.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/share/t
-exmf/fonts/type1/public/cm-super/sfit0900.pfb></usr/share/texmf/fonts/type1/pub
-lic/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm080
-0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/te
-xmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/publ
-ic/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200
-.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsl1095.pfb></usr/share/tex
-mf/fonts/type1/public/cm-super/sfss1440.pfb></usr/share/texmf/fonts/type1/publi
-c/cm-super/sfsx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.
-pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb></usr/share/texm
-f/fonts/type1/public/cm-super/sfsx2074.pfb></usr/share/texmf/fonts/type1/public
-/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.p
-fb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on main.pdf (79 pages, 1814804 bytes).
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-supe
+r/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr
+/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/t
+ype1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super
+/sfbx2074.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/
+share/texmf/fonts/type1/public/cm-super/sfit0900.pfb></usr/share/texmf/fonts/ty
+pe1/public/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/
+sfrm0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/s
+hare/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/typ
+e1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
+fsl1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1440.pfb></usr/sh
+are/texmf/fonts/type1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts/type
+1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sf
+sx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2074.pfb></usr/sha
+re/texmf/fonts/type1/public/cm-super/sfti0800.pfb></usr/share/texmf/fonts/type1
+/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sft
+t0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on main.pdf (79 pages, 1843175 bytes).
 PDF statistics:
- 2664 PDF objects out of 2984 (max. 8388607)
- 2406 compressed objects within 25 object streams
- 1235 named destinations out of 1440 (max. 500000)
+ 2730 PDF objects out of 2984 (max. 8388607)
+ 2471 compressed objects within 25 object streams
+ 1223 named destinations out of 1440 (max. 500000)
  384 words of extra memory for PDF output out of 10000 (max. 10000000)
 

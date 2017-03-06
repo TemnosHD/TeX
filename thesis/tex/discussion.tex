@@ -6,7 +6,7 @@ This should help the development of new applications for the \ac{HICANN-DLS} and
 
 Already there exist many experiments on \ac{HICANN-DLS} the addition of compiler support could help increase their number and complexity.
 Easy experiments can now be generated in a short amount of time and need little expertise by the user.
-There exist various tutorials and examples on using vector types in C \reference{guides on vector programming} that can be used as introductory reading.
+There exist tutorials and examples on using vector types in C \cite{altivectutorial} that can be used as introductory reading.
 
 At the same time can experienced users create complex experiments more easily than before, as functions are available for different purposes and optimization will help improving performance.
 This will become even more important, as higher levels of optimization are yet to be verified for use.
@@ -14,7 +14,7 @@ This will become even more important, as higher levels of optimization are yet t
 Testing the compiler in general is still a major task for the near future.
 The back-end needs high-level tests similar to listing~\ref{lst:nuxtest} that can be run on the \ac{PPU} and give comparable results.
 This should be extended to more complex testing scenarios that involve various combinations of intrinsics with different arguments and dependencies as well as conditional branching and looping.
-Running these tests with various optimization stages, would proof reliability of optimization as well..
+Running these tests with various optimization stages, would proof reliability of optimization as well.
 The same could be done for inline assembly code.
 
 Also the number of low level tests should be increased to compare results, especially if tests fail.
@@ -31,14 +31,14 @@ This could also involve existing AltiVec tests in GCC, that are transferable to 
 Results form these tests as well as new insights from this thesis should be featured in the nux manual, in order to provide sufficient documentation of the hardware.
 \\
 \\
-As the current back-end requires GCC 4.9.2, the future development of GCC should also be consodered.
+As the current back-end requires GCC 4.9.2, the future development of GCC should also be considered.
 The most recent version of the GCC 4.9 release series dates back to August 2016 and maintenance is officially discontinued \cite{GCCweb}.
 There exist newer bugs but these were fixed through patches thanks to an active community behind GCC.
 It is highly unlikely that the GCC compiler itself will cause problems in the future but it might be reasonable to move to the latest 4.9 release 4.9.4 and test the back-end there as well.
 
 Radical changes in the GCC environment are untypical for this project and the 4.9 release series is likely to be sufficient for a long time. 
 Nonetheless exists an experimental build of GCC 7 with an early version of the s2pp back-end and also the latest binutils version by David Stöckel which has not been tested yet and only demonstrates the possibility of porting the back-end to different GCC releases if it ever became necessary.
-Also will the POWER architecture likely be supported by GCC to a great extend as there still exist back-ends for deprecated architectures and very minor targets.\unsure{is minor right?}
+Also will the POWER architecture likely be supported by GCC to a great extend as there still exist back-ends for deprecated architectures and very minor target architectures.
 
 Thus the most crucial development is that of the nux architecture.
 If it is ever decided that the  \ac{PPU} is to be completely redesigned, the current back-end would likely not support the new architecture.
@@ -49,16 +49,16 @@ Eventually the s2pp extended GCC back-end may be usable for a reasonable amount 
 \\
 \\
 The \ac{PPU} will play a key role in future experiments on \ac{HICANN-DLS}.
-Experiments on this system that do not utilize the \ac{PPU} are usually slower or less flexible and must be supervised outside of \ac{HICANN-DLS}.
-The performance of vector processing on the \ac{PPU} and direct access to the analogue system offer various possibilities for future experiments.
-Although the processing power of the \ac{PPU} is limited when compared to larger experimental setups, it fulfills the requirements for simple optimization, reduced virtual environments with low latency for analogue neural networks and managing calibration of the system.
+Experiments on this system that do not utilize the \ac{PPU} are usually slower or less flexible and must be controlled from outside of the \ac{HICANN-DLS}.
+The performance of vector processing on the \ac{PPU} and direct access to the analog system offer various possibilities for future experiments.
+Although the processing power of the \ac{PPU} is limited when compared to larger experimental setups, it fulfills the requirements for optimization and algorithms, simplistic virtual environments, interacting with analog neural networks at minimum latency and managing calibration of the system.
 This would allow for experiments that run solely on the \ac{PPU} and do not need external supervision, which makes the \ac{HICANN-DLS} a standalone system.
 As such, it would be able to run long-term experiments on its own and create many new testing scenarios.
 
 A limiting factor to this is the small memory of the \ac{PPU}.
-As the \ac{PPU} should gain access to the FPGAs memory in future DLS releases, this limitation will drop.
+As the \ac{PPU} should gain access to the \ac{FPGA}s memory in future \ac{HICANN-DLS} releases, this limitation will be resolved.
 
-Future set-ups might feature the \ac{PPU} in wafer-scale implementation, that allows for multiple experiments running in parallel or large network plasticity.
+Future set-ups might feature the \ac{PPU} in wafer-scale implementation, that allows for multiple experiments running in parallel or large network experiments, involving plasticity on major parts of the system.
 \\
 \\
 All of this needs code that is at the same efficient and favorably of small size.
@@ -72,4 +72,4 @@ Until the end of this thesis there have been no tests with \ac{GDB} and the new 
 Over time this will help realizing experiments with large simulated networks or multiple standalone experiments in parallel.
 
 Ultimately though, the future of the \ac{PPU} is welded by users, developers and the applications they create for \ac{HICANN-DLS} and other systems.
-Giving them the right tolls at hand will accelerate its development.
+Giving them the right tools at hand will accelerate its development.
