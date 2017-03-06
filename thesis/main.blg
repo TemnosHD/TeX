@@ -12,55 +12,48 @@ A level-1 auxiliary file: fig/cmpstruct.aux
 A level-1 auxiliary file: fig/cmpintstruct.aux
 A level-1 auxiliary file: tex/appendix.aux
 The style file: bib/agu.bst
-A level-1 auxiliary file: tex/acknowledgments.aux
-A level-1 auxiliary file: cover/statement.aux
 Database file #1: bib/myrefs.bib
-I was expecting a `,' or a `}'---line 291 of file bib/myrefs.bib
- :   
- :   note = {Accessed 2017.03.06}
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--empty journal in PPU
-You've used 28 entries,
+You've used 29 entries,
             3160 wiz_defined-function locations,
-            1274 strings with 14842 characters,
-and the built_in function-call counts, 16065 in all, are:
-= -- 1440
-> -- 628
-< -- 21
-+ -- 296
-- -- 155
-* -- 1117
-:= -- 1681
-add.period$ -- 28
-call.type$ -- 28
-change.case$ -- 143
+            1277 strings with 15013 characters,
+and the built_in function-call counts, 16419 in all, are:
+= -- 1467
+> -- 639
+< -- 22
++ -- 301
+- -- 158
+* -- 1146
+:= -- 1728
+add.period$ -- 29
+call.type$ -- 29
+change.case$ -- 149
 chr.to.int$ -- 24
-cite$ -- 85
-duplicate$ -- 1602
-empty$ -- 1144
-format.name$ -- 205
-if$ -- 3292
-int.to.chr$ -- 5
+cite$ -- 88
+duplicate$ -- 1637
+empty$ -- 1172
+format.name$ -- 209
+if$ -- 3360
+int.to.chr$ -- 6
 int.to.str$ -- 1
-missing$ -- 238
-newline$ -- 91
-num.names$ -- 93
-pop$ -- 693
+missing$ -- 245
+newline$ -- 94
+num.names$ -- 97
+pop$ -- 704
 preamble$ -- 1
-purify$ -- 110
+purify$ -- 113
 quote$ -- 0
-skip$ -- 858
+skip$ -- 866
 stack$ -- 0
-substring$ -- 411
-swap$ -- 1029
+substring$ -- 418
+swap$ -- 1046
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 234
+type$ -- 243
 warning$ -- 1
-while$ -- 89
+while$ -- 92
 width$ -- 0
-write$ -- 317
-(There was 1 error message)
+write$ -- 329
+(There was 1 warning)

@@ -16,7 +16,7 @@
 \contentsline {section}{\numberline {3.1}Adding the s2pp Option Flag and nux Target}{24}{section.3.1}
 \contentsline {section}{\numberline {3.2}Creating Macros}{28}{section.3.2}
 \contentsline {section}{\numberline {3.3}Registers}{31}{section.3.3}
-\contentsline {section}{\numberline {3.4}Reload}{39}{section.3.4}
+\contentsline {section}{\numberline {3.4}Reload}{40}{section.3.4}
 \contentsline {section}{\numberline {3.5}Built-ins, Insns and Machine Instructions}{41}{section.3.5}
 \contentsline {section}{\numberline {3.6}Prologue and Epilogue}{50}{section.3.6}
 \contentsline {chapter}{\numberline {4}Results and Applications}{53}{chapter.4}
@@ -26,7 +26,7 @@
 \contentsline {section}{\numberline {A.1}Acronyms}{60}{section.A.1}
 \contentsline {section}{\numberline {A.2}Assembly Mnemonics}{61}{section.A.2}
 \contentsline {section}{\numberline {A.3}List of nux Intrinsics}{63}{section.A.3}
-\contentsline {chapter}{Bibliography}{68}{appendix*.66}
+\contentsline {chapter}{Bibliography}{69}{appendix*.66}
 \select@language {ngerman}
 \select@language {english}
 \select@language {ngerman}
