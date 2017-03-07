@@ -41,7 +41,7 @@ The synapse array can also be used in 16-bit mode for higher weight accuracy, th
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{pictures/syncircuit.pdf}
-    \caption{\label{fig:circuit} Block diagram of a synapse circuit (modified from~\citeauthor{PPU}).}
+    \caption{\label{fig:circuit} Block Diagram of the Synapse Circuit (modified from~\citeauthor{PPU}).}
 \end{figure}
 
 The \ac{FPGA} sends a 6-bit address, whenever it sends a spike to a pre-synaptic input, which then is compared by each synapse to the decoder addresses, they hold themselves.
@@ -55,7 +55,7 @@ Along each column sits a \textbf{\ac{CADC}} that measures correlation of post- a
 \captionsetup{format=plain, indention=.6cm, labelsep=newline,singlelinecheck=false}
     \centering
     \includegraphics[width=0.5\textwidth]{pictures/nux.pdf}
-    \caption{\label{fig:nux} Block diagram of the nux architecture (modified from~\citeauthor{PPU}).}
+    \caption{\label{fig:nux} Structure of the nux Architecture (taken from~\citeauthor{PPU}).}
 \end{wrapfigure}
 The \ac{PPU} is the processing unit of \ac{HICANN-DLS} and is equipped with a \ac{VE} that is named \ac{s2pp}.
 It has also access to the digital information in the synapse array.
@@ -273,14 +273,14 @@ The \ac{VE} is weakly coupled to the \ac{GPP} of the \ac{PPU}.
 Both parts can operate in parallel while interaction is highly limited.
 To handle the vector unit, the instruction set was extended by 53 new vector instructions.
 The \textbf{\ac{VRF}} contains 32 new vector registers which are each 128-bit wide~\citep{AltiVec}.
-This allows for either use of vectors with 8 half-word (see figure~\ref{fig:bitlength}) sized elements or 16 byte sized elements, which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
+This allows for either use of vectors with 8 halfword (see figure~\ref{fig:bitlength}) sized elements or 16 byte sized elements, which are 128 bits long as seen in figure~\ref{fig:vectorlength}.
     \begin{figure}[htpb]
         \centering
         \begin{bytefield}[endianness=little]{32}
             \bitheader{0,1,7,15,31}\\
             \colorbitbox{lightgray}{1}{\tiny bit} && \bitbox{31}{}\\
             \colorbitbox{lightgray}{8}{byte} && \bitbox{24}{}\\
-            \colorbitbox{lightgray}{16}{half-word} && \bitbox{16}{}\\
+            \colorbitbox{lightgray}{16}{halfword} && \bitbox{16}{}\\
             \colorbitbox{lightgray}{32}{word}\\
         \end{bytefield}
         \caption{\label{fig:bitlength} Illustration of Word Sizes for 32-bit Words}
@@ -410,7 +410,7 @@ In general these vector opcodes are divided into groups of instructions:
 \begin{description}
     \item[modulo halfword/byte instructions] apply a modulo operation after every instruction which causes wrap around in case of an overflow at the most significant bit position.
         Each instruction is provided as halfword (modulo $2^{16}$) and as byte instruction (modulo $2^{8}$).
-    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range $[-1, 1-2^{-7}]$ for byte elements and $[-1, 1-2^{-15}]$ for half-word elements.
+    \item[saturation fractional halfword/byte instructions] allow for the results only to be in the range $[-1, 1-2^{-7}]$ for byte elements and $[-1, 1-2^{-15}]$ for halfword elements.
     \item[permute instructions] perform operations on vectors that handle elements of vectors as a series of bits.
     \item[load/store instructions] move vectors between vector registers and memory or the synapse array.
 \end{description}

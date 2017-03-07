@@ -114,7 +114,7 @@ There are also special operands which might occur in inline assembly, which beha
 \section{List of nux Intrinsics}
 \label{sec:nuxintrinsics}
 \begin{table}[!htbp]
-    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used.}
+    \caption{\label{tab:builtinlist} List of all implemented built-ins and how they are used. The suffix {\tt fs} or {\tt f} represents fractional saturation instructions and {\tt m} modulo instructions.}
     \adjustbox{max width=1.2\textwidth, center}{%
         \begin{tabular}{c c¡c¡c¡c¡c¡p{5cm}}
             \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
@@ -238,9 +238,9 @@ There are also special operands which might occur in inline assembly, which beha
 \end{table}
 
 \begin{table}[htbp]
-    \vspace*{3.5em}
+    \vspace*{5.8em}
     \adjustbox{max width=1.2\textwidth, center}{%
-        \begin{tabular}{c c¡c¡c¡c¡p{4cm}¡p{5cm}}
+        \begin{tabular}{c c¡c¡c¡c¡c¡p{5cm}}
             \multicolumn{1}{c}{intrinsic name} & \multicolumn{1}{c}{use} & \multicolumn{4}{c}{data types} & \multicolumn{1}{c}{effect}\\
             \cline{3-6}
              & & d & a & b & c & \\
@@ -257,7 +257,7 @@ There are also special operands which might occur in inline assembly, which beha
                                             |vector unsigned char|\\
                                             |vector signed short|\\
                                             |vector unsigned short|\end{tabular}
-                                            & |int| & & |d| is read from synaptic address |a + b|\\ 
+                                            & |int| & \phantom{{\tt vector unsigned short}} & |d| is read from synaptic address |a + b|\\ 
             \cline{3-6}
                 \begin{tabular}[x]{@{}c@{}}|vec_insert|\end{tabular} & |d = vec_insert(a,b,c)| & 
                 \begin{tabular}[x]{@{}c@{}} |vector signed char|\\

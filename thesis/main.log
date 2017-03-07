@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  6 MAR 2017 20:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2016.8.29)  7 MAR 2017 08:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1545,7 +1545,7 @@ converted-to.pdf fig/cover/Publ-Cover1.eps>
 (epstopdf)             \includegraphics on input line 14.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=138, 541.02126pt x 118.4425pt>
+<fig/cover/Publ-Cover1-eps-converted-to.pdf, id=142, 541.02126pt x 118.4425pt>
 File: fig/cover/Publ-Cover1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover1-eps-converted-to.pdf>
@@ -1602,7 +1602,7 @@ converted-to.pdf fig/cover/Publ-Cover2.eps>
 (epstopdf)             \includegraphics on input line 29.
 Package epstopdf Info: Output file is already uptodate.
 
-<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=139, 393.47pt x 6.0225pt>
+<fig/cover/Publ-Cover2-eps-converted-to.pdf, id=143, 393.47pt x 6.0225pt>
 File: fig/cover/Publ-Cover2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover2-eps-converted-to.pdf>
@@ -1649,7 +1649,7 @@ Package epstopdf Info: Source file: <fig/cover/Publ-Cover3.eps>
 converted-to.pdf fig/cover/Publ-Cover3.eps>
 (epstopdf)             \includegraphics on input line 55.
 Package epstopdf Info: Output file is already uptodate.
-<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=140, 401.5pt x 31.11626pt>
+<fig/cover/Publ-Cover3-eps-converted-to.pdf, id=144, 401.5pt x 31.11626pt>
 File: fig/cover/Publ-Cover3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use fig/cover/Publ-Cover3-eps-converted-to.pdf>
@@ -1904,7 +1904,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--30
 
  []
 
-<pictures/Fig1.png, id=258, 241.74315pt x 241.74315pt>
+<pictures/Fig1.png, id=263, 241.74315pt x 241.74315pt>
 File: pictures/Fig1.png Graphic file (type png)
  <use pictures/Fig1.png>
 Package pdftex.def Info: pictures/Fig1.png used on input line 40.
@@ -1972,7 +1972,7 @@ Package acronym Info: Label `acro:PPU' overridden on input line 7.
 \openout2 = `fig/array.aux'.
 
 (./fig/array.tex)
-Overfull \hbox (21.61597pt too wide) in paragraph at lines 42--24
+Overfull \hbox (22.9707pt too wide) in paragraph at lines 42--24
  [][] 
  []
 
@@ -1989,7 +1989,7 @@ been already used, duplicate ignored
 l.39 
       [3
 
-] <pictures/syncircuit.pdf, id=319, 759.01585pt x 325.98285pt>
+] <pictures/syncircuit.pdf, id=324, 759.01585pt x 325.98285pt>
 File: pictures/syncircuit.pdf Graphic file (type pdf)
 
 <use pictures/syncircuit.pdf>
@@ -1999,7 +1999,7 @@ Package acronym Info: Label `acro:CADC' newly defined as it shall be overridden
 
 although it is yet undefined on input line 53.
 
-<pictures/nux.pdf, id=325, 241.72237pt x 180.72461pt>
+<pictures/nux.pdf, id=330, 241.72237pt x 180.72461pt>
 File: pictures/nux.pdf Graphic file (type pdf)
  <use pictures/nux.pdf>
 Package pdftex.def Info: pictures/nux.pdf used on input line 57.
@@ -2044,9 +2044,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.105 T
-       ypically the number and purpose of registers varies for different arc...
-[6
+l.104 
+       [6
 
 
 ]
@@ -2720,7 +2719,7 @@ en
 although it is yet undefined on input line 319.
 Package acronym Info: Label `acro:VR' newly defined as it shall be overridden
 although it is yet undefined on input line 319.
- [11] <pictures/s2pp.pdf, id=779, 446.91827pt x 231.26796pt>
+ [11] <pictures/s2pp.pdf, id=784, 446.91827pt x 231.26796pt>
 File: pictures/s2pp.pdf Graphic file (type pdf)
 
 <use pictures/s2pp.pdf>
@@ -3125,6 +3124,91 @@ Overfull \hbox (24.24252pt too wide) in paragraph at lines 60--88
  []
 
 [62] [63]
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 117.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 117.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 117.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 117.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 117.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 117.
+
+
 Underfull \hbox (badness 1953) in paragraph at lines 136--137
 []\T1/cmr/m/n/10.95 subtract [][][][][][] from [][][][][][] mod-ulo
  []
@@ -3138,6 +3222,20 @@ Underfull \hbox (badness 3417) in paragraph at lines 143--144
 Underfull \hbox (badness 3792) in paragraph at lines 150--151
 []\T1/cmr/m/n/10.95 add [][][][][][] and [][][][][][] sat-u-ra-tional
  []
+
+
+Class scrreprt Warning: Usage of deprecated font command `\tt'!
+(scrreprt)              You should note, that in 1994 font command `\tt' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\tt' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\tt' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\tt'
+(scrreprt)              by `\normalfont \ttfamily ' on input line 260.
 
 
 Underfull \hbox (badness 2582) in paragraph at lines 301--302
@@ -3246,17 +3344,21 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 361.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 361.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 361.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 70A78AC1039E5F5356E33D01C66BBF51;1735.
+(rerunfilecheck)             Checksum: B7774193CFA579A79E5FE99326C40CFF;1790.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  )
 (\end occurred inside a group at level 1)
 
 ### simple group (level 1) entered at line 271 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 33551 strings out of 493105
- 614636 string characters out of 6137072
- 2040601 words of memory out of 5000000
- 34992 multiletter control sequences out of 15000+600000
+ 33553 strings out of 493105
+ 614660 string characters out of 6137072
+ 2037698 words of memory out of 5000000
+ 34993 multiletter control sequences out of 15000+600000
  31247 words of font info for 75 fonts, out of 8000000 for 9000
  1157 hyphenation exceptions out of 8191
  55i,22n,84p,834b,2355s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -3285,10 +3387,10 @@ re/texmf/fonts/type1/public/cm-super/sfti0800.pfb></usr/share/texmf/fonts/type1
 i1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb></usr/shar
 e/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/
 public/cm-super/sftt1095.pfb>
-Output written on main.pdf (81 pages, 1894654 bytes).
+Output written on main.pdf (81 pages, 1895974 bytes).
 PDF statistics:
- 2790 PDF objects out of 2984 (max. 8388607)
- 2526 compressed objects within 26 object streams
- 1229 named destinations out of 1440 (max. 500000)
- 384 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2798 PDF objects out of 2984 (max. 8388607)
+ 2534 compressed objects within 26 object streams
+ 1230 named destinations out of 1440 (max. 500000)
+ 392 words of extra memory for PDF output out of 10000 (max. 10000000)
 

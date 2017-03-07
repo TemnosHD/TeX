@@ -258,7 +258,7 @@ To put this to use, it needs macros in |rs6000.h| which compare vector units to 
 This is a relict from the AltiVec implementation as vector units in memory may differ in certain cases. 
 
 Checking for specific \textbf{vector modes}, which are supported by \ac{s2pp}, will also be added.
-The nux hardware only supports two types of vectors which are vectors with byte elements (V16QI) and vectors with half-word elements (V8HI).
+The nux hardware only supports two types of vectors which are vectors with byte elements (V16QI) and vectors with halfword elements (V8HI).
 \begin{lstlisting}
 #define S2PP_VECTOR_MODE(MODE)        \
          ((MODE) == V16QImode)        \
@@ -537,7 +537,7 @@ Then the relation between register classes in specified in |REG_CLASS_CONTENTS|.
 
 Each hexnumber in these arrays can be viewed as a bit mask, with the least significant bit representing the first register, the next higher order bit the second register and so on.
 As a number is 32-bit wide, it masks 32 registers.
-Subsequent numbers start where the previous one ended, therefore are registers 32 through 63 (32 is the 33rd register) masked by the second number~\cite[ch.l~17.8]{GCCint}.
+Subsequent numbers start where the previous one ended, therefore are registers 32 through 63 (32 is the 33rd register) masked by the second number~\cite[ch.~17.8]{GCCint}.
 
 Therefore does |0xfffffffe| mask all registers except for the 32nd which is masked by |0x00000001|.
 
@@ -1413,14 +1413,16 @@ rs6000_stack_info (void)
 }
 \end{lstlisting}
 
+\section{Overview}
 This chapter dealt with the task of extending the \ac{rs/6000} back-end of \ac{GCC} for the nux' \ac{s2pp} \ac{VE}.
 It first discussed a new option flag |-s2pp| along with a new target flag |-mcpu=nux| to enable vector declarations for the nux architecture.
-Afterwards it was illustrated, how to create the vector attribute and mandatory macros for vector usage.
-It was also shown, how to implement the different vector register types and classes, which was followed by including s2pp registers into |reload|.
-This allowed for adding new built-in functions to the back-end as well as implementing s2pp cases for prologue and epilogue functions.
+This included automatically setting other option flags for the nux target architecture.
+Afterwards the |vector| attribute and mandatory macros for vector usage were created.
+It was also shown, how to implement the different vector register types and classes, while reusing \ac{FPR} indexes, and fixing these registers for use in functions.
+Then \ac{s2pp} registers were added to |reload|, which allowed to add elementary insns and new built-in functions to the back-end as well as implementing \ac{s2pp} cases for prologue and epilogue functions.
 
 In reality the process of extending the back-end was less streamlined and many attempts ended in internal compiler errors.
-Some solutions could only be figured out by trial and error as there is so little documentation on this specific back-end.
+Some solutions could only be figured out by trial and error, as there is little documentation on this specific back-end.
 Still, it is possible to understand the structure of this back-end over time.
 
 
