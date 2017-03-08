@@ -1,0 +1,37 @@
+    \tcbset
+    {my box/.style={enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+        fonttitle=\bfseries,nobeforeafter,center title, noparskip, size=small},
+    every box on layer 1/.style={every box},
+    every box on layer 2/.style={reset,my box}}
+\begin{tcolorbox}[enhanced jigsaw, width=\textwidth, opacityframe=0.0, opacityback=0.0]
+\begin{tcolorbox}[enhanced, height=.5cm, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0]\end{tcolorbox}
+\begin{tcolorbox}[enhanced, height=.7cm, width=\linewidth, watermark text=Preprocessor, remember as=pp]\end{tcolorbox}
+\begin{tcolorbox}[tcbox raise base, width=\linewidth, enhanced jigsaw, remember as=cmp]
+    \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1.4cm, width=\linewidth, watermark text=Front-End, remember as=fe]
+    \end{tcolorbox}
+    \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=0.7cm, width=\linewidth, watermark text=Middle-End, remember as=me]
+    \end{tcolorbox}
+    \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.3, opacityback=0.3, height=1.1cm, width=\linewidth, watermark text=Back-End, remember as=be]
+    \end{tcolorbox}
+\end{tcolorbox}
+
+\begin{tcolorbox}[height=0.7cm, width=\linewidth, watermark text=Assembler, remember as=as, enhanced jigsaw, noparskip]
+\end{tcolorbox}
+
+\begin{tcolorbox}[height=0.7cm, width=\linewidth, watermark text=Linker, remember as=lk, enhanced]
+\end{tcolorbox}
+
+\begin{tcolorbox}[height=0.7cm, width=\linewidth, watermark text=Loader, remember as=ld, enhanced]\end{tcolorbox}
+
+\end{tcolorbox}
+
+\begin{tikzpicture}[overlay,remember picture,line width=1mm]
+    \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1)$) -- node [left] {program code} (pp.north);
+    \draw[->, shorten >=-1.5mm] (pp.south) -- (fe.north);
+    \draw[->, shorten >=-1.5mm] (fe.south) -- (me.north);
+    \draw[->, shorten >=-1.5mm] (me.south) -- (be.north);
+    \draw[->, shorten >=-1.5mm] (be.south) -- (as.north);
+    \draw[->, shorten >=-1.5mm] (as.south) -- (lk.north);
+    \draw[->, shorten >=-1.5mm] (lk.south) -- (ld.north);
+    \draw[->] (ld.south) -- node [left] {machine files} ++(0,-1.0);
+\end{tikzpicture}

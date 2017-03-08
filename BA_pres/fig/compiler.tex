@@ -1,0 +1,15 @@
+
+    \tcbset
+    {enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+    fonttitle=\bfseries,nobeforeafter,center title, noparskip}
+\begin{tcolorbox}[enhanced, height=1cm, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0]\end{tcolorbox}
+            \begin{tcolorbox}[tcbox raise base, width=\linewidth, remember as=cp, enhanced, watermark text=Compiler]
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=1cm, width=\linewidth]
+                \end{tcolorbox}
+                \begin{tcolorbox}[enhanced, breakable, noparskip,opacityframe=0.0, opacityback=0.0, height=1.5cm, width=\linewidth]
+                \end{tcolorbox}
+            \end{tcolorbox}
+            \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+                \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- node [right] {program code} (cp.north);
+                \draw[->] (cp.south) -- node [right] {machine files} ($(cp.south)+(0,-1)$);
+            \end{tikzpicture}

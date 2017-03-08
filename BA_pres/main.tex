@@ -1,0 +1,108 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+
+\usepackage{presento/config/presento}
+\usepackage{tikz}
+\usetikzlibrary{shadings,shadows,calc,backgrounds,positioning}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\tcbuselibrary{skins,breakable}
+
+\usepackage[caption=false]{subfig}
+
+% figures
+\usepackage {pgf}                                 % includepgf for bitmaps
+\usepackage{graphicx}
+
+
+
+% Information
+\title{Extending Compiler Support for the BrainScaleS \\ Plasticity Processor}
+\subtitle{Bachelor's Thesis Presentation}
+\author{Arthur Heimbrecht}
+\institute{}
+\date{\today}
+
+\begin{document}
+
+
+% Title page
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+% sections in the presentation
+\begin{frame}{PPU Architecture}
+    \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+            \item \begin{center}\largetext{The design is \underline{clean}}\end{center}
+            \item \begin{center}\largetext{The rules are \underline{simple}}\end{center}
+            \item \begin{center}\largetext{The code is \underline{extensible}}\end{center}
+        \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+        \centering
+        \vspace*{3em}
+        \begin{figure}
+                \begin{adjustbox}{center, max width={.7\columnwidth}}
+                    \input{fig/processor}
+                \end{adjustbox}
+        \end{figure}
+    \end{column}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}{PPU Architecture}
+    \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+            \item \begin{center}\largetext{The design is \underline{clean}}\end{center}
+            \item \begin{center}\largetext{The rules are \underline{simple}}\end{center}
+            \item \begin{center}\largetext{The code is \underline{extensible}}\end{center}
+        \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+        \centering
+        \begin{figure}
+            \includegraphics[width=.8\textwidth]{pictures/nux.pdf}
+        \end{figure}
+    \end{column}
+    \end{columns}
+
+\end{frame}
+\begin{frame}[fragile]{GCC Structure}
+    \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+            \item \begin{center}\largetext{The design is \underline{clean}}\end{center}
+            \item \begin{center}\largetext{The rules are \underline{simple}}\end{center}
+            \item \begin{center}\largetext{The code is \underline{extensible}}\end{center}
+        \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+        \centering
+        \begin{figure}
+                \begin{adjustbox}{center, max width={.5\columnwidth}}
+                    \input{fig/cmpstruct}
+                    \input{fig/cmpintstruct}
+                \end{adjustbox}
+        \end{figure}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Extending GCC for PPU}
+ \begin{center}
+ \end{center}
+\end{frame}
+
+\begin{frame}{Results}
+ \begin{center}
+ \end{center}
+\end{frame}
+
+\end{document}

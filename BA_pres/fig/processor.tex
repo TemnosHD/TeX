@@ -1,0 +1,92 @@
+\tcbset
+{enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+fonttitle=\bfseries,center title, size=small}
+
+\centering
+
+%\begin{tcolorbox}[enhanced jigsaw, width=\linewidth, remember as=pp, opacityframe=0.0, opacityback=0.0, nobeforeafter]
+\tcbset
+{enhanced,colframe=blue!70!black,colback=white!50!blue,colupper=red!50!black,
+fonttitle=\bfseries,nobeforeafter,center title, noparskip, size=small}
+
+\begin{tikzpicture}[line width=1mm]
+    
+    \node[] (c) at (0,0) {
+    \begin{tcolorbox}[width=.65\linewidth, enhanced jigsaw, remember as=cpu, size=normal]
+        \centering
+        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, height=.7cm, size=small, remember as=cs]
+        \centering
+        Control Section
+        \end{tcolorbox}
+    
+        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small, fontupper=\footnotesize]
+            \centering
+    
+            \begin{tcolorbox}[enhanced, width=\linewidth, remember as=alu]
+                \centering
+                ALU
+            \end{tcolorbox}
+            \begin{tcolorbox}[enhanced, width=\linewidth, remember as=rf]
+                \centering
+                Register File
+            \end{tcolorbox}
+    
+            Operational Section
+        \end{tcolorbox}
+    
+        Processor
+    \end{tcolorbox}
+    };
+    \end{tikzpicture}
+    
+\begin{tikzpicture}[overlay,remember picture,line width=0.5mm]
+
+    \node[] (a) at ($(cpu.north)+(0,1.7)$) {
+        \begin{tcolorbox}[enhanced jigsaw, opacityframe=0.3, opacityback=0.3, height=1.0cm, width=.65\linewidth, remember as=mem, watermark text=Memory, nobeforeafter]
+        \end{tcolorbox}
+    };
+    
+%    \node[] (a) at ($(cs.west)!.0!(cs.north west)-(1.5,0)$) {
+%        \begin{tcolorbox}[enhanced jigsaw, opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=in, watermark text=Input, nobeforeafter]
+%        \end{tcolorbox}
+%    };
+%    
+%    \node[] (b) at ($(cs.east)!.0!(cs.north east)+(1.5,0)$) {
+%    \begin{tcolorbox}[enhanced jigsaw, opacityframe=0.3, opacityback=0.3, height=0.7cm, width=.15\linewidth, remember as=out, watermark text=Output, nobeforeafter]
+%    \end{tcolorbox}
+%    };
+%    \draw[->, shorten >=-1.0mm] (mem.west) to [out=180, in=90] (in.north);
+%    \draw[->, shorten >=-1.0mm] (out.north) to [out=90, in=0] (mem.east);
+%    
+%    \draw[->, shorten >=-1.0mm] ($(in.south)-(0,.5)$) -- (in.south);
+%    \draw[->, shorten >=-1.0mm] (out.south) -- ($(out.south)-(0,.5)$);
+%
+%    \draw[->, shorten >=-1.0mm] (in.east) -- ($(cs.west)!.0!(cs.north west)$);
+%    \draw[->, shorten >=-1.0mm] ($(cs.east)!.0!(cs.north east)$) -- (out.west);
+
+    \draw[->, out=225, in=165, shorten >=-1.0mm] (mem.west) to node[left, align=right]{\footnotesize Data \\ \footnotesize In} (cs.west);
+    \draw[->, out=20, in=315, shorten >=-1.0mm] (cs.east) to node[right, align=left]{\footnotesize Data \\ \footnotesize Out} (mem.east);
+    \draw[->, shorten >=-1.0mm] (mem.south) to node[right, align=left]{\footnotesize Machine \\ \footnotesize Instructions} (cs.north);
+
+    \draw[->, shorten >=-1.0mm] ($(cs.west)!.5!(cs.south west)$) to [out=225, in=165] (alu.west);
+    \draw[->, shorten >=-1.0mm] (alu.east) to [out=20, in=315] ($(cs.east)!.5!(cs.south east)$);
+    
+    \draw[->, shorten >=-1.0mm] ($(alu.south)!.5!(alu.south east)$) -- ($(rf.north)!.5!(rf.north east)$);
+    \draw[->, shorten >=-1.0mm] ($(rf.north)!.5!(rf.north west)$) -- ($(alu.south)!.5!(alu.south west)$);
+\end{tikzpicture}
+
+
+% \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+%     \draw[->, shorten >=-1.5mm] ($(cp.north)+(0,1)$) -- (sc.north);
+%     \draw[->, shorten >=-1.5mm] (sc.south) -- (ps.north);
+%     \draw[->, shorten >=-1.5mm] (ps.south) -- (sa.north);
+%     \draw[->, shorten >=-1.5mm] (sa.south) -- (sco.north);
+%     \draw[-] (sco.south) -- (me.north);
+%     \draw[->, shorten >=-1.5mm] (me.south) -- (cg.north);
+%     \draw[->, shorten >=-1.5mm] (cg.south) -- (tco.north);
+%     \draw[->] (tco.south) -- ($(cp.south)+(0,-1)$);
+% \end{tikzpicture}
+% \begin{tikzpicture}[overlay,remember picture,line width=1mm]
+%     \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.north east) -- (cp.north west);
+%     \draw[-, draw=blue!30!white,line width=.5mm, shorten >=.2cm,shorten <=.1cm] (cmp.south east) -- (cp.south west);
+% \end{tikzpicture}
