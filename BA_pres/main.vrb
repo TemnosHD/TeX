@@ -11,10 +11,11 @@
     \begin{column}{0.5\textwidth}
         \centering
         \begin{figure}
-                \begin{adjustbox}{center, max width={.5\columnwidth}}
-                    \input{fig/cmpstruct}
-                    \input{fig/cmpintstruct}
-                \end{adjustbox}
+            \begin{adjustbox}{center, max width={.5\columnwidth}}
+                \input{fig/cmpstruct}
+                \input{fig/cmpintstruct}
+            \end{adjustbox}
+            \caption{\label{fig:compiler} Structure of Compiling Process and Compiler}
         \end{figure}
     \end{column}
     \end{columns}

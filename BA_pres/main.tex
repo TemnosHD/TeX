@@ -6,17 +6,21 @@
 \usepackage{tcolorbox}
 \usepackage{adjustbox}
 \tcbuselibrary{skins,breakable}
+\usepackage[small, format=hang,justification=raggedright]{caption}
 
 \usepackage[caption=false]{subfig}
+%\usepackage{transparent}
+\setbeameroption{show notes}
+
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{bib/myrefs}
 
 % figures
 \usepackage {pgf}                                 % includepgf for bitmaps
 \usepackage{graphicx}
 
-
-
 % Information
-\title{Extending Compiler Support for the BrainScaleS \\ Plasticity Processor}
+\title{Extending Compiler Support for the BrainScaleS Plasticity Processor}
 \subtitle{Bachelor's Thesis Presentation}
 \author{Arthur Heimbrecht}
 \institute{}
@@ -26,18 +30,48 @@
 
 
 % Title page
+{
+\usebackgroundtemplate{
+    \tikz[overlay, remember picture]\node[opacity=0.3, inner sep=0, outer sep=0, ] at (current page.center) {\includegraphics[width=\paperwidth]{pictures/dls_die_photo.jpg}};
+}
 \begin{frame}[plain]
 \maketitle
+\note{ Welcome everybody to this talk about my Bachelor thesis. As this is a quite technical talk, feel free to ask questions at any time.}
+\note {The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasticity Processor.}
+\end{frame}
+
+}
+
+\begin{frame}{Contents}
+\begin{columns}[c]
+    \begin{column}{.5\textwidth}
+        \begin{minipage}[t][0.5\textheight]{0.75\textwidth}
+            \tableofcontents[sectionstyle=show, subsectionstyle=show/show/shaded]
+        \end{minipage}\hfill
+    \end{column}
+
+    \begin{column}{.5\textwidth}
+        \centering
+        \begin{figure}
+            \includegraphics[width=\textwidth]{pictures/dls_die_photo.jpg}
+            \caption{\label{fig:dls} Photograph of HICANN-DLS chip, \citeauthor{PPU}}
+        \end{figure}
+    \end{column}
+\end{columns}
+\note{
+    as the title hints there are two main components to this talk, which are the plasticity processing unit (PPU) and Compilers.
+    I will briefly talk about both of these and their applications.
+    Afterwards I will explain, what I did during my thesis, which is of course followed by a short presentation of the result.
+}
 \end{frame}
 
 % sections in the presentation
+\section{PPU Architecture}
 \begin{frame}{PPU Architecture}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
         \begin{itemize}
-            \item \begin{center}\largetext{The design is \underline{clean}}\end{center}
-            \item \begin{center}\largetext{The rules are \underline{simple}}\end{center}
-            \item \begin{center}\largetext{The code is \underline{extensible}}\end{center}
+            \item The design is \underline{clean}
         \end{itemize}
     \end{column}
 
@@ -48,6 +82,7 @@
                 \begin{adjustbox}{center, max width={.7\columnwidth}}
                     \input{fig/processor}
                 \end{adjustbox}
+            \caption{\label{fig:processor} Schematic of Processor in von-Neumann Architecture}
         \end{figure}
     \end{column}
     \end{columns}
@@ -68,11 +103,16 @@
         \centering
         \begin{figure}
             \includegraphics[width=.8\textwidth]{pictures/nux.pdf}
+            \caption{\label{fig:nux} Structure of nux Architecture}
         \end{figure}
     \end{column}
     \end{columns}
 
 \end{frame}
+
+
+
+\section{GCC Structure}
 \begin{frame}[fragile]{GCC Structure}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
@@ -86,23 +126,35 @@
     \begin{column}{0.5\textwidth}
         \centering
         \begin{figure}
-                \begin{adjustbox}{center, max width={.5\columnwidth}}
-                    \input{fig/cmpstruct}
-                    \input{fig/cmpintstruct}
-                \end{adjustbox}
+            \begin{adjustbox}{center, max width={.5\columnwidth}}
+                \input{fig/cmpstruct}
+                \input{fig/cmpintstruct}
+            \end{adjustbox}
+            \caption{\label{fig:compiler} Structure of Compiling Process and Compiler}
         \end{figure}
     \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}{Extending GCC for PPU}
+
+
+\section{Extending GCC for the PPU}
+\begin{frame}{Extending GCC for the PPU}
  \begin{center}
  \end{center}
 \end{frame}
 
+\section{Results}
 \begin{frame}{Results}
  \begin{center}
  \end{center}
+\end{frame}
+
+
+
+\section{References}
+\begin{frame}{References}
+    \printbibliography
 \end{frame}
 
 \end{document}

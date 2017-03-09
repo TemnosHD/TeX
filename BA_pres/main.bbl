@@ -1,0 +1,64 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{PPU}{article}{}
+  \name{author}{6}{}{%
+    {{}%
+     {Friedmann}{F.}%
+     {Simon}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Schemmel}{S.}%
+     {Johannes}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Grübl}{G.}%
+     {Andreas}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hartel}{H.}%
+     {Andreas}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hock}{H.}%
+     {Matthias}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Meier}{M.}%
+     {Karlheinz}{K.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{FS+1}
+  \strng{fullhash}{FSSJGAHAHMMK1}
+  \field{sortinit}{F}
+  \field{title}{Demonstrating Hybrid Learning in a Flexible Neuromorphic
+  Hardware System}
+  \field{year}{2016}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput
