@@ -19,57 +19,61 @@
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {5}{5}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {1}{0}{4}{6/6}{}{0}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@framepages {6}{6}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {2}{GCC Structure}{7}{GCC Structure}{0}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@sectionpages {5}{6}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {5}{6}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {2}{0}{5}{7/7}{}{0}}
+\headcommand {\slideentry {1}{0}{4}{7/7}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {7}{7}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {3}{Extending GCC for the PPU}{8}{Extending GCC for the PPU}{0}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@sectionpages {7}{7}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {7}{7}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {3}{0}{6}{8/8}{}{0}}
+\headcommand {\slideentry {1}{0}{5}{8/8}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {8}{8}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {4}{Results}{9}{Results}{0}}
+\headcommand {\sectionentry {2}{GCC Structure}{9}{GCC Structure}{0}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@sectionpages {8}{8}}
+\headcommand {\beamer@sectionpages {5}{8}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {8}{8}}
+\headcommand {\beamer@subsectionpages {5}{8}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {4}{0}{7}{9/9}{}{0}}
+\headcommand {\slideentry {2}{0}{6}{9/9}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {9}{9}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {5}{References}{10}{References}{0}}
+\headcommand {\sectionentry {3}{Extending GCC for the PPU}{10}{Extending GCC for the PPU}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {9}{9}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {9}{9}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {6}{References}{10}{References}{0}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@sectionpages {10}{9}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {10}{9}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {6}{0}{8}{10/10}{}{0}}
+\headcommand {\slideentry {3}{0}{7}{10/10}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\beamer@partpages {1}{10}}
-\headcommand {\beamer@subsectionpages {10}{10}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {4}{Results}{11}{Results}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {10}{10}}
-\headcommand {\beamer@documentpages {10}}
-\headcommand {\def \inserttotalframenumber {8}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {10}{10}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{0}{8}{11/11}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {11}{11}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {5}{References}{12}{References}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {11}{11}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {11}{11}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {6}{References}{12}{References}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {12}{11}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {12}{11}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {6}{0}{9}{12/12}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\beamer@partpages {1}{12}}
+\headcommand {\beamer@subsectionpages {12}{12}}
+\headcommand {\beamer@sectionpages {12}{12}}
+\headcommand {\beamer@documentpages {12}}
+\headcommand {\def \inserttotalframenumber {9}}

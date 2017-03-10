@@ -61,13 +61,67 @@
 \note{
     as the title hints there are two main components to this talk, which are the plasticity processing unit (PPU) and Compilers.
     I will briefly talk about both of these and their applications.
-    Afterwards I will explain, what I did during my thesis, which is of course followed by a short presentation of the result.
+    Afterwards I will explain, what I did during my thesis, which is of course followed by a short presentation of the results.
+
+    But first I should explain, what the PPU is.
 }
 \end{frame}
 
 % sections in the presentation
 \section{PPU Architecture}
-\begin{frame}{PPU Architecture}
+\begin{frame}{HICANN-DLS}
+    \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \centering
+        \begin{figure}
+                \begin{adjustbox}{center, max width={.45\columnwidth}}
+                    \input{fig/array}
+                \end{adjustbox}
+            \caption{\label{fig:dls} Photograph of HICANN-DLS chip, modified from \citeauthor{PPU}}
+        \end{figure}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+        \centering
+        \begin{figure}
+            \includegraphics[width=\textwidth]{pictures/dls_marked.pdf}
+            \caption{\label{fig:dls} Photograph of HICANN-DLS chip, modified from \citeauthor{PPU}}
+        \end{figure}
+    \end{column}
+    \note{
+        I am assuming that everybody here probably has heard about the HICANN-DLS.
+        In short it is a chip that emulates neural networks through neurons and synapses that are implemented directly on the chip.
+        What is special about the DLS, is the addition of a PPU to the HICANN.
+        It is capable of performing simple computation and allows for on-line plasticity directly on the chip.
+
+        As you can see to the right I have added a picture of the HICANN ship and marked the physical compartments.
+        The PPU actually takes up a large space on the chip but before I am going to talk about the PPU, I will talk about the other parts briefly
+        First we have the neurons.
+        There are 32 neurons on the HICANN-DLS and each neuron is a circuit that receives some input signal which can cause the neurons to spike.
+        These signals come from the so called synapse array.
+        It connect 32 pre-synaptic inputs to all 32 neurons.
+        This gives a total of 1024 synapses on each HICANN.
+        
+        Each synapse is realized through a circuit that takes the input signal and modifies it with a synpatic weight, that is saved in each synapse.
+        There are also other properties to each synapse, but for this presentation it is enough to focus on the synaptic weights.
+        Each synaptic weight is 6 bits wide, which is equivalent to numbers between 0 and 63 or a fixed-point number with an accuracy of $2^{-6}$.
+        Normally data segments are 8 bits wide, which is a byte, and the  superfluous bits are used for calibration of the synapse.
+        
+        The pre-synaptic inputs are handled by an FPGA, that takes care of spike routing.
+        
+        But there is also a correlation analog digital converter, that receives also signals of synapses if the forward signals to neurons.
+        Through the CADC one can read out correlation that can be used for plasticity.
+
+        The PPU is this remaining large section of the HICANN chip.
+		This mostly is an existing architecture, that is called POWER architecture, which was extended with a custom vector extension which we will call s2pp.
+
+		In general it is good to keep this in mind during this talk:
+		The processing unit in HICANN DLS is called the PPU, the architecture with the vector extension is called nux architecture and the vector extension will be called s2pp.
+}
+    \end{columns}
+
+\end{frame}
+\begin{frame}{Plasticity Processing Unit}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
         \begin{itemize}
@@ -86,6 +140,28 @@
         \end{figure}
     \end{column}
     \end{columns}
+\note{	But before I shall go into more detail, I have to talk about processors in general.
+		As you may know, next to all computing nowadays is done by processors which are often described as CPUs.
+		The processors are normally built according to the von-Neumann architecture, which combines programs and data in the same memory.
+		The processor fetches instructions from the memory and analyzes them to decide what to do.
+		Most instructions get passed to the ALU that performs any sort of computation in the processor.
+		To do this, the ALU has access to so called registers.
+		These registers can hold small amounts of data but offer a very low access time.
+		The ALU uses these registers for computation and saves results there as well.
+		Data is then written separately into memory or new values for registers are loaded from memory.
+		This usually takes a significant amount of time longer than access to registers and thus, programs try to use registers as much as possible.
+
+		Instead of the ALU, some instructions can be passed to other units that can perform special instructions.
+		These units may also use different registers.
+
+		This is the case for the PPU.
+		It includes a special vector extension that includes vector registers as well.
+		Using vector registers is favorable for operations that use have to be applied to multiple values and can be done in parallel.
+		
+		This is the strength of the PPU as is allows to compute weight updates of up to 16 synapses at the same time, which increases performance significantly. 
+		Although it induces a problem because the vector unit uses special instructions that are unique to the nux architecture.
+
+}
 
 \end{frame}
 
@@ -134,6 +210,13 @@
         \end{figure}
     \end{column}
     \end{columns}
+\note{	This is of special significance when using a compiler.
+		But why?
+		I am quite sure that all of you have used compilers just recently and know what they do.
+		And most will probably say that a compiler compiles code, or to be more specific it converts my program into a file that the computer can run.
+		This is of course right and is follows the definition of a compiler, but there is much more to it.
+		
+		What we usually call compiler consists of sveral stages that follow diffeerent purposes and 
 \end{frame}
 
 
