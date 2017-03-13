@@ -1,5 +1,28 @@
-\frametitle{References}
-\bibliographystyle{bib/agu}
-\bibliography{bib/myrefs}
-\note{ thank you all for listening to this rather technical talk.
-}
+\frametitle{Additional Figures}
+
+\begin{figure}
+\vspace*{3em}
+    \centering
+\begin{bytefield}[endianness=little, bitwidth=\widthof{\tiny bit}/2, bitheight=2em]{128}
+        \bitheader{0,7,15,31,63,127}\\
+    \bitboxes{8}{{QI}{\tiny Quarter \\ Integer}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}\\
+    \bitboxes{16}{{HI}{\tiny Half \\ Integer}{}{}{}{}{}{}}\\
+\bitboxes{32}{{SI}{\tiny Single \\ Integer}{}{}}\\
+    \bitboxes{32}{{SF}{\tiny Single \\ Float}{}{}}\\
+    \end{bytefield}
+\vspace*{-1.5em}
+    \caption{\label{fig:vectorlength} Vector structures are 128 bits wide and split into common word sizes.}
+\end{figure}
+
+\begin{figure}
+\begin{bytefield}[endianness=little, bitheight=2em, bitwidth=\widthof{\tiny bit}]{32}
+        \bitheader{0,1,7,15,31}\\
+        \colorbitbox{lightgray}{1}{\tiny bit} && \bitbox{31}{}\\
+        \colorbitbox{lightgray}{8}{byte} && \bitbox{24}{}\\
+        \colorbitbox{lightgray}{16}{halfword} && \bitbox{16}{}\\
+        \colorbitbox{lightgray}{32}{word}\\
+    \end{bytefield}
+\vspace*{-1.5em}
+    \caption{\label{fig:bitlength} Illustration of Word Sizes for 32-bit Words}
+\end{figure}
+

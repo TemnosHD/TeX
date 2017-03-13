@@ -1,36 +1,179 @@
-\begin{thebibliography}{6}
-\providecommand{\natexlab}[1]{#1}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
-  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
-  \urlstyle{rm}\Url}\fi
+% $ biblatex auxiliary file $
+% $ biblatex version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
 
-\bibitem[{\textit{Aho}(2008)}]{UBHD-66483012}
-Aho, A.~V., \textit{Compiler}, it Informatik, 2., aktualisierte aufl. ed.,
-  XXXVI, 1253 S. pp., Pearson Studium, M{\"u}nchen [u.a.], index S. 1227-1253,
-  2008.
+\entry{PPU}{article}{}
+  \name{author}{6}{}{%
+    {{}%
+     {Friedmann}{F.}%
+     {Simon}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Schemmel}{S.}%
+     {Johannes}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Grübl}{G.}%
+     {Andreas}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hartel}{H.}%
+     {Andreas}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hock}{H.}%
+     {Matthias}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Meier}{M.}%
+     {Karlheinz}{K.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{FS+1}
+  \strng{fullhash}{FSSJGAHAHMMK1}
+  \field{title}{Demonstrating Hybrid Learning in a Flexible Neuromorphic
+  Hardware System}
+  \field{year}{2016}
+  \warn{\item Invalid format of field 'month'}
+\endentry
 
-\bibitem[{\textit{Cooper and Torczon}(2012)}]{UBHD-67548259}
-Cooper, K.~D., and L.~Torczon, \textit{Engineering a compiler}, 2. ed. ed.,
-  XXIII, 800 S. pp., Elsevier, Amsterdam ; Heidelberg [u.a.], previous ed.:
-  2004 ; Hier auch sp{\"a}ter erschienene, unver{\"a}nderte Nachdrucke, 2012.
+\entry{microprocessor}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Flik}{F.}%
+     {Thomas}{T.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{language}{1}{%
+    {ger}%
+  }
+  \list{publisher}{1}{%
+    {Springer}%
+  }
+  \strng{namehash}{FT1}
+  \strng{fullhash}{FT1}
+  \field{edition}{7., neu bearb. Aufl.}
+  \field{isbn}{3-540-22270-7 and 978-3-540-22270-5}
+  \field{library}{UB [Signatur: LN-U 10-11516::(7)]}
+  \field{pages}{XIV, 649 S.}
+  \field{title}{Mikroprozessortechnik und Rechnerstrukturen}
+  \list{location}{1}{%
+    {Berlin ; Heidelberg [u.a.]}%
+  }
+  \field{year}{2005}
+\endentry
 
-\bibitem[{\textit{Flik}(2005)}]{microprocessor}
-Flik, T., \textit{Mikroprozessortechnik und Rechnerstrukturen}, 7., neu bearb.
-  aufl. ed., XIV, 649 S. pp., Springer, Berlin ; Heidelberg [u.a.], 2005.
+\entry{UBHD-67548259}{book}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Cooper}{C.}%
+     {Keith~D.}{K.~D.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Torczon}{T.}%
+     {Linda}{L.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{language}{1}{%
+    {eng}%
+  }
+  \list{publisher}{1}{%
+    {Elsevier}%
+  }
+  \keyw{{\"U}bersetzerbau}
+  \strng{namehash}{CKDTL1}
+  \strng{fullhash}{CKDTL1}
+  \field{edition}{2. ed.}
+  \field{isbn}{978-0-12-088478-0}
+  \field{library}{UB [Signatur: 2014 A 1986]}
+  \field{note}{Previous ed.: 2004}
+  \field{pages}{XXIII, 800 S.}
+  \field{title}{Engineering a compiler}
+  \list{location}{1}{%
+    {Amsterdam ; Heidelberg [u.a.]}%
+  }
+  \field{year}{2012}
+\endentry
 
-\bibitem[{\textit{Friedmann}(2016)}]{nuxmanual}
-Friedmann, S., \textit{nux Manual}, 2016.
+\entry{UBHD-66483012}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Aho}{A.}%
+     {Alfred~V.}{A.~V.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{language}{1}{%
+    {ger}%
+  }
+  \list{publisher}{1}{%
+    {Pearson Studium}%
+  }
+  \keyw{{\"U}bersetzerbau}
+  \strng{namehash}{AAV1}
+  \strng{fullhash}{AAV1}
+  \field{edition}{2., aktualisierte Aufl.}
+  \field{isbn}{978-3-8273-7097-6}
+  \field{library}{UB [Signatur: LN-U 10-14608::(2)]}
+  \field{note}{Index S. 1227-1253}
+  \field{pages}{XXXVI, 1253 S.}
+  \field{series}{it Informatik}
+  \field{subtitle}{Prinzipien, Techniken und Werkzeuge}
+  \field{title}{Compiler}
+  \list{location}{1}{%
+    {M{\"u}nchen [u.a.]}%
+  }
+  \field{year}{2008}
+\endentry
 
-\bibitem[{\textit{Friedmann et~al.}(2016)\textit{Friedmann, Schemmel, Grübl,
-  Hartel, Hock, and Meier}}]{PPU}
-Friedmann, S., J.~Schemmel, A.~Grübl, A.~Hartel, M.~Hock, and K.~Meier,
-  Demonstrating hybrid learning in a flexible neuromorphic hardware system,
-  2016.
+\entry{nuxmanual}{manual}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Friedmann}{F.}%
+     {Simon}{S.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{FS1}
+  \strng{fullhash}{FS1}
+  \field{title}{nux Manual}
+  \field{year}{2016}
+  \warn{\item Invalid format of field 'month'}
+\endentry
 
-\bibitem[{FSF()}]{GCCint}
-FSF, \textit{GNU Compiler Collection Internals Manual}, Free Software
-  Foundation Inc., \url{https://gcc.gnu.org/onlinedocs/gccint/index.html},
-  2017.
+\entry{GCCint}{manual}{}
+  \list{organization}{1}{%
+    {Free Software Foundation Inc.}%
+  }
+  \field{note}{\url{https://gcc.gnu.org/onlinedocs/gccint/index.html}}
+  \field{title}{GNU Compiler Collection Internals Manual}
+  \field{year}{2017}
+\endentry
 
-\end{thebibliography}
+\lossort
+\endlossort
+
+\endinput

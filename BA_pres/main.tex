@@ -17,11 +17,10 @@
 
 \usepackage[caption=false]{subfig}
 %\usepackage{transparent}
-\setbeameroption{show notes}
+%\setbeameroption{show notes}
 
-%\usepackage[backend=bibtex]{biblatex}
-\usepackage{natbib}
-%\bibliography{bib/myrefs}
+\usepackage[backend=bibtex,style=phys]{biblatex}
+\bibliography{bib/myrefs}
 
 \definecolor{darkblue}{HTML}{000099}
 \usepackage{listings}
@@ -60,8 +59,8 @@
 }
 \begin{frame}[plain]
 \maketitle
-\note{ Welcome everybody to this talk about my Bachelor thesis. As this is a quite technical talk, feel free to ask questions at any time.
-The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasticity Processor.}
+\note{ Welcome everybody to this talk about my Bachelor thesis. For some this might be a quite technical talk,so feel free to ask questions even during the presentation.
+The title of my thesis was Extending Compiler Support for the BrainScaleS Plasticity Processor.}
 \end{frame}
 
 }
@@ -83,9 +82,9 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
     \end{column}
 \end{columns}
 \note{
-    as the title hints there are two main components to this talk, which are the plasticity processing unit (PPU) and Compilers.
+    As the title hints there are two main components to this talk, which are the plasticity processing unit, or short PPU, and Compilers, specifically GCC.
     I will briefly talk about both of these and their applications.
-    Afterwards I will explain, what I did during my thesis, which is of course followed by a short presentation of the results.
+    Afterwards I will explain, what I did during my thesis, which is of course followed by a short presentation of the results with an outlook as well.
 
     But first I should explain, what the PPU is.
 }
@@ -114,36 +113,38 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
         \end{figure}
     \end{column}
     \note{\tiny
-        I am assuming that everybody here probably has heard about the HICANN-DLS.
+        I am assuming that everybody here likely has heard about the HICANN-DLS.
         In short it is a chip that emulates neural networks through neurons and synapses that are implemented directly on the chip.
-        What is special about the DLS, is the addition of a PPU to the HICANN.
-        It is capable of performing simple computation and allows for on-line plasticity directly on the chip.
+        What is special about the DLS, is the addition of a PPU to the HICANN system.
+        The PPU is capable of performing simple computation and allows for on-line plasticity directly on the chip itself.
 
-        As you can see to the right I have added a picture of the HICANN chip and marked the physical compartments.
+        As you can see to the right I have taken the previous picture of the HICANN-DLS chip and marked the physical compartments.
         The PPU actually takes up a large space on the chip but before I am going to talk about the PPU, I will talk about the other parts briefly
         First we have the neurons.
         There are 32 neurons on the HICANN-DLS and each neuron is a circuit that receives some input signal which can cause the neurons to spike.
-        These signals come from the so called synapse array.
-        It connects 32 pre-synaptic inputs to all 32 neurons.
-        This gives a total of 1024 synapses on each HICANN.
+        These signals come from the so called synapse array-which is to the left.
+        It connects 32 pre-synaptic inputs to all 32 neurons down here.
+        This gives a total of 1024 synapses on each HICANN-DLS.
         
         Each synapse is realized through a circuit that takes the input signal and modifies it with a synpatic weight, that is saved in each synapse.
-        There are also other properties to each synapse, but for this presentation it is enough to focus on the synaptic weights.
-        Each synaptic weight is 6 bits wide, which is equivalent to numbers between 0 and 63 or a fixed-point number with an accuracy of $2^{-6}$.
+		You can see a representation of this weight on whiteboard.
+        There are also other properties to each synapse, which are partly handled by first two bits, but for this presentation it is enough to focus on the synaptic weights.
+        Each synaptic weight is 6 bits wide, as you can see, which is equivalent to numbers between 0 and 63 or a fixed-point number with an accuracy of $2^{-6}$.
 		<bild whiteboard>
-        Normally data segments are 8 bits wide, which is a byte, and the  superfluous bits are used for calibration of the synapse.
         
         The pre-synaptic inputs are handled by an FPGA, that takes care of spike routing.
         
-        But there is also a correlation analog digital converter, that receives also signals of synapses if the forward signals to neurons.
-        Through the CADC one can read out correlation that can be used for plasticity.
+        But there is also a correlation analog digital converter, that receives signals from synapses if a signal is forwarded to neurons.
+        Through the CADC one can read out correlation that can be used for plasticity by the PPU.
 
-        The PPU is this remaining large section of the HICANN chip.
-		This mostly is an existing architecture, that is called POWER architecture, which was extended with a custom vector extension which we will call s2pp.
+        The PPU is this remaining large section of the HICANN-DLS chip.
+		Most of this is based on an existing processor architecture, that is called POWER architecture, but it was extended with a custom vector extension which we will call s2pp.
 
-		In general it is good to keep this in mind during this talk:
+		In general it is good to keep this in mind during my talk and I also noted it on the whiteboard:
 		The processing unit in HICANN DLS is called the PPU, the architecture with the vector extension is called nux architecture and the vector extension will be called s2pp.
+		There is no fixed convention and some might use it differently, I just wanted to clarify this.
 
+		Now I want to talk a little about processors in general and apply this to the PPU.
 }
     \end{columns}
 \end{frame}
@@ -171,16 +172,17 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
         \end{figure}
     \end{column}
     \end{columns}
-\note{	But before I shall go into more detail, I have to talk about processors in general.
+\note{	
 		As you may know, next to all computing nowadays is done by processors which are often described as CPUs.
 		The processors are normally built according to the von-Neumann architecture, which combines programs and data in the same memory.
-		The processor fetches instructions from the memory and analyzes them to decide what to do.
-		Most instructions get passed to the ALU that performs any sort of computation in the processor.
+		The processor fetches so called machine instructions from the memory and analyzes them to decide what to do.
+		This is running a program.
+		Most instructions get passed to the Arithmetic Logic Unit, or just ALU, that performs any sort of computation in the processor.
 		To do this, the ALU has access to so called registers.
-		These registers can hold small amounts of data but offer a very low access time.
+		These registers can hold small amounts of data, usually one variable, but offer a very low access time.
 		The ALU uses these registers for computation and saves results there as well.
-		Data is then written separately into memory or new values for registers are loaded from memory.
-		This usually takes a significant amount of time longer than access to registers and thus, programs try to use registers as much as possible.
+		Data is then written separately into memory and new values for registers are loaded from memory.
+		Using memory usually takes a significant amount of time longer than access to registers and thus, programs try to use registers as much as possible.
 }
 
 \end{frame}
@@ -209,14 +211,17 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
     \end{columns}
 \note{	
 		Instead of the ALU, some instructions can be passed to other units that can perform special instructions.
-		These units may also use different registers.
+		These units may also use different kinds of registers.
 
-		This is the case for the PPU.
-		It includes a special vector extension that includes vector registers as well.
-		Using vector registers is favorable for operations that use have to be applied to multiple values and can be done in parallel.
+		And this is the case for the PPU.
+		It includes a custom vector extension with special vector registers.
+		Using vector registers is favorable for operations that use have to be applied to multiple values, but can be done in parallel.
+		This works because and operation is performed on all vector elements the same way.
 		
-		This is the strength of the PPU as is allows to compute weight updates of up to 16 synapses at the same time, which increases performance significantly. 
-		For this reason the PPU is also connected to the synaptic array and is able to read out and write synaptic weights.
+		And this is the strength of the PPU as is allows to compute weight updates for up to 16 synapses at the same time, which increases performance significantly. 
+		For this reason the PPU is also connected to the synaptic array and is able to read out and write synaptic weights, in form of those 8 bits on the whiteboard.
+		Esspecially it can do this vector-wise as well.
+
 		Although it induces a problem because the vector unit uses special instructions that are unique to the nux architecture.
 }
 \end{frame}
@@ -250,25 +255,30 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 \note{	\scriptsize
 		This is of special significance when using a compiler.
 		But why?
-		I am quite sure that all of you have used compilers just recently and generally know what they do.
+		I am quite sure that all of you have use compilers regularly and generally know what they do.
 		And most will probably say that a compiler compiles code, or to be more specific it converts a program into a file that the computer can run.
-		This is of course right and is follows the definition of a compiler, but there is much more to it.
+		This is of course right and is follows the definition of a compiler.
+		But there is much more to this.
 		
-		What we usually call compiler consists of several stages that follow different purposes and like the preprocessor, that takes care of define instructions and substituting macros.
-		The actual compiler will only take that preprocessed code and create an assembly file from this.
-		Assembly is a language that consists of machine instructions which have specific names and represents pretty much the lowest level of coding a human would do.
-		From there on the assembly file gets converted into a pure machine code, hence no names only numbers, file by the assembler and then is combined with other files and gets assigned a memory location by the linker and loader.
+		What we usually call compiler consists of several compiling stages that follow different purposes, like the preprocessor.
+		It takes care of substituting macros and including header files in program code.
+		The actual compiler will then take the preprocessed code and create an assembly file from this.
+
+		Assembly is a language that represents machine instructions which have specific names and render pretty much the lowest level of coding a human would do.
+		Listing ... is an example of this and some might actually have seen this before.
+
+		The assembly file, which is generated by the compiler then gets converted into pure machine code, hence no names only numbers, by the assembler and then is combined with other files and gets assigned a memory location by the linker and loader.
 		
-		But since I focused on the compiler in this thesis, I should also give an overview of the internal structure of a compiler.
-		As you can see, this time there are different phases in the compiler and these similarly ordered like compiling stages.
+		But since I focused on the compiler in this thesis, I should also give an overview of the internal structure of a compiler as well.
+		As you can see, there are different phases in the compiler and these also follow different purposes.
 		But we only need to focus on the last two stages which are part of the back-end.
 		
-		The back-end is mainly responsible for creating the actual machine code which was previously processed by the front-end and the middle-end.
-		It then also optimizes the code it generated, but this is machine-dependent.
-		In general a back-end is always machine-dependent as the assembly language is different for different processor architectures.
+		The back-end is mainly responsible for creating the actual machine code, or assembly, from input by the front-end and the middle-end.
+		It then also optimizes the code it generated, but specifically for one processor architecture.
+		In general a back-end is always machine-dependent, with machine meaning a processor architecture, as the assembly language is different for various processor architectures.
 		One architecture, that most of you might know is the ARM architecture that is at the heart of every smartphone and also SpiNNaker.
 
-	The PPU though, has a POWER architecture which is also called rs/6000.}
+	The PPU though, is based on the POWER architecture, as I already mentioned.}
 \end{frame}
 
 \begin{frame}{GCC for the PPU}
@@ -293,24 +303,26 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
         \end{figure}
     \end{column}
     \end{columns}
-\note{\scriptsize	now there exist different compilers and the one which is used by this group is the GCC.
+\note{\scriptsize	Of course there exist different compilers and one which is used by this group is the GNU Compiler Collection, or just GCC.
 		GCC is a compiler that is wide-spread especially at academic institutions.
-		it is capable of compiling for a large variety of languages and also most processor architectures there are.
+		It is capable of compiling a large variety of languages for most processor architectures that exist.
 		Unfortunately this does not include the nux architecture.
-		Although the basic architecture of nux is supported, there is no official support of the vector extension.
+		Although the basic architecture of nux IS supported, there is no official GCC support of the vector extension.
 
-		This means that users can code in C for example but every time they need to use the vector extension, it is necessary to handle assembly code.
+		This means that users can code in C for example but every time they need to use the vector extension, it is necessary to handle low level assembly code.
 		There have been efforts to make this easier, but still it mostly looks like this when programming for the PPU.
 		<bild zeigen>
-		Although there ARE ways to program vector extensions that look more common.
-	
+		It uses macros to hide inline assembly programming and users allocate registers themselves.
+
+		Although there ARE easier ways to program vector extensions.
 		One such extension is the AltiVec extension to the POWER architecture.
-		So in a way this is a competing vector extension to s2pp and programming for AltiVec usually looks like this.
-
-		it uses so called intrinsics for vector processing.
+		In a way this COULD be seen as a competing vector extension to s2pp and programming for AltiVec usually looks like this.
+		<zweites bild>
+		It uses so called intrinsics for vector processing.
 		An intrinsic basically works like a function, the same way addition is also a function, only does it map on a specific machine instruction that is invoked when using an intrinsic.
+		TODO: hier mehr
 
-		And if we compare these two, I think it becomes clear that this is what we want.
+		And if we compare these two examples, I think it becomes clear that the second one is what we want.
 }
 \end{frame}
 
@@ -338,15 +350,22 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
         \end{figure}
     \end{column}
     \end{columns}
-\note{	And this is what I did throughout my Bachelor's thesis.
-		I added support for the nux architecture by extending the GCC back-end for POWER.
-		And as simple as sounds it was quite a challenge, since there was no documentation but comments and general information on how to create a back-end.
+\note{	So this is what I did throughout my Bachelor's thesis.
+		I wanted to allow for this kind of programming and thus added support for the nux architecture by extending the GCC back-end for POWER.
+		And as simple as it sounds it was quite a challenge, since there was no documentation except comments and general information on how to create a general back-end.
 
-		Luckily there is already the AltiVec extension which I mentioned earlier and it provided a good guideline for me to find relevant sections in code.
+		Luckily there is already this AltiVec extension, which I mentioned earlier and it provided a good guideline for me to find relevant sections in code.
 
-		Ultimately I had to go through roughly 50.000 lines of code and it needed about 3.000 additional lines to add support for the s2pp vector extension.
+		Ultimately I had to go through roughly 50.000 lines of code that make up the back-end and it needed about 3.000 additional lines to add support for the s2pp vector extension.
+		This included things like:
+			creating a new vector register type
+			adding a vector attribute for variables
+			building intrinsics for each vector instruction
+			and so on
+		
+		Most work actually went into adding supportive functions and macros which were needed to make this work at all.
 
-		Now I want to show you the results of this and also give an outlook, of what might be possible in the future.
+		But instead of going into detail I want to show you the results of this and also give an outlook, of what might be possible in the future.
 }
 \end{frame}
 
@@ -374,16 +393,16 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
         \end{figure}
     \end{column}
     \end{columns}
-\note{	Let's start with generating code for the PPU.
-		It simply takes one target flag and a header file, to create code for the complete nux architecture.
+\note{	Let's start on how it is possible to generate code for the PPU with the Compiler.
+		It simply takes one target flag and a header file, to create code, which is supported by nux architecture.
 		<bild>
-		Also there is a vector type which can be used to represent vectors as variables and it works exactly like other existing vector attributes.
+		Also there is a vector type which can be used to represent vectors as variables and it works exactly like other existing vector attributes, like AltiVec for example.
 		<extend picture>
 		Most importantly, users can now use intrinsics for simple vector instructions and use the vector variables instead of arbitrary macros.
 		<extend picture>
 		Furthermore, there is inline assembly support which allows for simpler low level coding whenever it is needed.
 		<extend picture>
-		And all of this also supports optimization, that allows for efficient programs on the PPU, without particular knowledge by the user.
+		And all of this also supports optimization, that allows for efficient programs on the PPU, without particular low-level knowledge by the user.
 		<beispiel mit und ohne optimiereung>	
 }
 \end{frame}
@@ -412,42 +431,47 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
     \end{column}
     \end{columns}
 \note{	\scriptsize
-		Of course I have to mention that this is kind of a beta phase and that there are bugs that can occur.
-		But the more people will use this compiler, the more bugs can be fixed and this will become an even more handy tool, when programming for the PPU.
+		I have to mention that this is kind of in a beta phase and that there are still bugs that can occur.
+		But the more people will use this compiler, the more bugs can be fixed over time and this will become an even more handy tool, when programming for the PPU.
 		
 		Nonetheless there already exist programs and tests that make use of the compiler extension.
 
 		This for example is the program David Stöckel used for his criticality tests, which he presented a few weeks ago.
-		You can see the use of a testing framework which David established, called libnux.
-		This is also a great help when programming for the PPU since it is available.
+		You can see the use of a testing framework which David established himself, called libnux.
+		libnux is a great help when programming for the PPU since it is available, I recommend using it when conducting your first experiments.
 
-		And this is one of a few tests which later shall extend the exiting testing scenarios on the PPU.
+		And this is one of a few tests which later shall extend the exiting testing coverage of the PPU.
 
-		And there is more of what might be possible in the future with compiler support of nux.
+		And there is more of what might be possible in the future with compiler support for nux.
 		For once it will be easier to create high-level tests for the PPU and extending the current test coverage is something I would like to do in the future.
-		Also it might be possible to realize GDB support for the PPU, which would allow for extended debugging of PPU software but this is something that is not yet on the agenda.
+		Also it might be possible to realize debugging support for the PPU, but this is something that is not yet on the agenda.
 
 		All in all I want to encourage as many of you as possible to use the new compiler, as it will become better over time as more users develop with it.
-		And I hope, that I was able to give a comprehensive introduction to the compiler and some fundamentals of processor architecture.
+		And I hope, that I was able to give a comprehensive introduction to the compiler which included some fundamentals of processor architecture.
 
-		If by any means some of you are interested in learning more about these topics I recommend the following books, which helped me to get into the subject and which I also used for references.
+		If by any means some of you are interested in learning more about these topics I recommend the following books, which helped me to get into the subject and which I also used for references in my thesis.
 		
 }
 \end{frame}
 
 \appendix
 
+\setbeamerfont{caption}{size=\tiny}
+
+
 \section{Appendix}
-\scriptsize
+\nocite{PPU}
 \nocite{microprocessor}
 \nocite{UBHD-67548259}
 \nocite{UBHD-66483012}
 \nocite{nuxmanual}
 \nocite{GCCint}
+
 \begin{frame}[fragile]{References}
-\bibliographystyle{bib/agu}
-\bibliography{bib/myrefs}
-\note{	thank you all for listening to this rather technical talk.
+	\vspace*{3em}
+	{\scriptsize
+	\printbibliography}
+\note{	So thank you everybody for listening this was my talk about my bachelor thesis.
 }
 \end{frame}
 
@@ -460,6 +484,10 @@ The topic of my thesis was Extending Compiler Support for the BrainScaleS Plasti
         \begin{bytefield}[bitwidth=0.11111111\textwidth, bitheight=2em]{8}
             \bitheader[endianness=big]{0-7}\\
             \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{$2^{-1}$} & \bitbox{1}{$2^{-2}$} & \bitbox{1}{$2^{-3}$} & \bitbox{1}{$2^{-4}$} & \bitbox{1}{$2^{-5}$} & \bitbox{1}{$2^{-6}$}\\
+        \end{bytefield}
+        \begin{bytefield}[bitwidth=0.11111111\textwidth, bitheight=2em]{8}
+            \bitheader[endianness=big]{0-7}\\
+            \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{\color{lightgray}\rule{\width}{\height}} & \bitbox{1}{$2^{5}$} & \bitbox{1}{$2^{4}$} & \bitbox{1}{$2^{3}$} & \bitbox{1}{$2^{2}$} & \bitbox{1}{$2^{1}$} & \bitbox{1}{$2^{0}$}\\
         \end{bytefield}
         \begin{bytefield}[bitwidth=0.11111111\textwidth, bitheight=2em]{8}
             \bitheader[endianness=big]{0-7}\\
