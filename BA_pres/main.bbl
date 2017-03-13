@@ -1,64 +1,36 @@
-% $ biblatex auxiliary file $
-% $ biblatex version 2.4 $
-% Do not modify the above lines!
-%
-% This is an auxiliary file used by the 'biblatex' package.
-% This file may safely be deleted. It will be recreated as
-% required.
-%
-\begingroup
-\makeatletter
-\@ifundefined{ver@biblatex.sty}
-  {\@latex@error
-     {Missing 'biblatex' package}
-     {The bibliography requires the 'biblatex' package.}
-      \aftergroup\endinput}
-  {}
-\endgroup
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
 
-\entry{PPU}{article}{}
-  \name{author}{6}{}{%
-    {{}%
-     {Friedmann}{F.}%
-     {Simon}{S.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Schemmel}{S.}%
-     {Johannes}{J.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Grübl}{G.}%
-     {Andreas}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Hartel}{H.}%
-     {Andreas}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Hock}{H.}%
-     {Matthias}{M.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Meier}{M.}%
-     {Karlheinz}{K.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{FS+1}
-  \strng{fullhash}{FSSJGAHAHMMK1}
-  \field{sortinit}{F}
-  \field{title}{Demonstrating Hybrid Learning in a Flexible Neuromorphic
-  Hardware System}
-  \field{year}{2016}
-  \warn{\item Invalid format of field 'month'}
-\endentry
+\bibitem[{\textit{Aho}(2008)}]{UBHD-66483012}
+Aho, A.~V., \textit{Compiler}, it Informatik, 2., aktualisierte aufl. ed.,
+  XXXVI, 1253 S. pp., Pearson Studium, M{\"u}nchen [u.a.], index S. 1227-1253,
+  2008.
 
-\lossort
-\endlossort
+\bibitem[{\textit{Cooper and Torczon}(2012)}]{UBHD-67548259}
+Cooper, K.~D., and L.~Torczon, \textit{Engineering a compiler}, 2. ed. ed.,
+  XXIII, 800 S. pp., Elsevier, Amsterdam ; Heidelberg [u.a.], previous ed.:
+  2004 ; Hier auch sp{\"a}ter erschienene, unver{\"a}nderte Nachdrucke, 2012.
 
-\endinput
+\bibitem[{\textit{Flik}(2005)}]{microprocessor}
+Flik, T., \textit{Mikroprozessortechnik und Rechnerstrukturen}, 7., neu bearb.
+  aufl. ed., XIV, 649 S. pp., Springer, Berlin ; Heidelberg [u.a.], 2005.
+
+\bibitem[{\textit{Friedmann}(2016)}]{nuxmanual}
+Friedmann, S., \textit{nux Manual}, 2016.
+
+\bibitem[{\textit{Friedmann et~al.}(2016)\textit{Friedmann, Schemmel, Grübl,
+  Hartel, Hock, and Meier}}]{PPU}
+Friedmann, S., J.~Schemmel, A.~Grübl, A.~Hartel, M.~Hock, and K.~Meier,
+  Demonstrating hybrid learning in a flexible neuromorphic hardware system,
+  2016.
+
+\bibitem[{FSF()}]{GCCint}
+FSF, \textit{GNU Compiler Collection Internals Manual}, Free Software
+  Foundation Inc., \url{https://gcc.gnu.org/onlinedocs/gccint/index.html},
+  2017.
+
+\end{thebibliography}
