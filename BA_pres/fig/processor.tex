@@ -19,19 +19,14 @@ fonttitle=\bfseries,nobeforeafter,center title, noparskip, size=small}
         Control Section
         \end{tcolorbox}
     
-        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, size=small, fontupper=\footnotesize]
-            \centering
+        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, height=.7cm, size=small, remember as=os]
+        \centering
+        Operational Section
+        \end{tcolorbox}
     
-            \begin{tcolorbox}[enhanced, width=\linewidth, remember as=alu]
-                \centering
-                ALU
-            \end{tcolorbox}
-            \begin{tcolorbox}[enhanced, width=\linewidth, remember as=rf]
-                \centering
-                Register File
-            \end{tcolorbox}
-    
-            Operational Section
+        \begin{tcolorbox}[enhanced jigsaw, noparskip,opacityframe=0.3, opacityback=0.3, width=\linewidth, height=.7cm, size=small, remember as=rf]
+        \centering
+        Registers
         \end{tcolorbox}
     
         Processor
@@ -64,15 +59,14 @@ fonttitle=\bfseries,nobeforeafter,center title, noparskip, size=small}
 %    \draw[->, shorten >=-1.0mm] (in.east) -- ($(cs.west)!.0!(cs.north west)$);
 %    \draw[->, shorten >=-1.0mm] ($(cs.east)!.0!(cs.north east)$) -- (out.west);
 
-    \draw[->, out=225, in=165, shorten >=-1.0mm] (mem.west) to node[left, align=right]{\footnotesize Data \\ \footnotesize In} (cs.west);
-    \draw[->, out=20, in=315, shorten >=-1.0mm] (cs.east) to node[right, align=left]{\footnotesize Data \\ \footnotesize Out} (mem.east);
-    \draw[->, shorten >=-1.0mm] (mem.south) to node[right, align=left]{\footnotesize Machine \\ \footnotesize Instructions} (cs.north);
+%    \draw[->, out=225, in=165, shorten >=-1.0mm] (mem.west) to node[left, align=right]{\footnotesize Data \\ \footnotesize In} (cs.west);
+%    \draw[->, out=20, in=315, shorten >=-1.0mm] (cs.east) to node[right, align=left]{\footnotesize Data \\ \footnotesize Out} (mem.east);
+    \draw[<->, line width=1.5mm, shorten >=-1.0mm, shorten <=-1.0mm] (mem.south) to (cs.north);
 
-    \draw[->, shorten >=-1.0mm] ($(cs.west)!.5!(cs.south west)$) to [out=225, in=165] (alu.west);
-    \draw[->, shorten >=-1.0mm] (alu.east) to [out=20, in=315] ($(cs.east)!.5!(cs.south east)$);
+    \draw[->, shorten >=-1.0mm, shorten <=-1.0mm] (cs.south) to (os.north);
     
-    \draw[->, shorten >=-1.0mm] ($(alu.south)!.5!(alu.south east)$) -- ($(rf.north)!.5!(rf.north east)$);
-    \draw[->, shorten >=-1.0mm] ($(rf.north)!.5!(rf.north west)$) -- ($(alu.south)!.5!(alu.south west)$);
+    \draw[->, shorten >=-1.0mm] ($(os.south)!.5!(os.south east)$) -- ($(rf.north)!.5!(rf.north east)$);
+    \draw[->, shorten >=-1.0mm] ($(rf.north)!.5!(rf.north west)$) -- ($(os.south)!.5!(os.south west)$);
 \end{tikzpicture}
 
 

@@ -15,23 +15,12 @@
     \end{tcolorbox}
 \end{tcolorbox}
 
-\begin{tcolorbox}[height=0.7cm, width=\linewidth, watermark text=Assembler, remember as=as, enhanced jigsaw, noparskip]
-\end{tcolorbox}
-
-\begin{tcolorbox}[height=0.7cm, width=\linewidth, watermark text=Linker, remember as=lk, enhanced]
-\end{tcolorbox}
-
-\begin{tcolorbox}[height=0.7cm, width=\linewidth, watermark text=Loader, remember as=ld, enhanced]\end{tcolorbox}
-
 \end{tcolorbox}
 
 \begin{tikzpicture}[overlay,remember picture,line width=1mm]
-    \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1)$) -- node [left] {program code} (pp.north);
+    \draw[->, shorten >=-1.5mm] ($(pp.north)+(0,1.5)$) -- node [left] {program code} (pp.north);
     \draw[->, shorten >=-1.5mm] (pp.south) -- (fe.north);
     \draw[->, shorten >=-1.5mm] (fe.south) -- (me.north);
     \draw[->, shorten >=-1.5mm] (me.south) -- (be.north);
-    \draw[->, shorten >=-1.5mm] (be.south) -- (as.north);
-    \draw[->, shorten >=-1.5mm] (as.south) -- (lk.north);
-    \draw[->, shorten >=-1.5mm] (lk.south) -- (ld.north);
-    \draw[->] (ld.south) -- node [left] {machine files} ++(0,-1.0);
+    \draw[->] (be.south) -- node [left] {machine files} ++(0,-1.5);
 \end{tikzpicture}

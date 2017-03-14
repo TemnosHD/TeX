@@ -46,7 +46,7 @@
 \setbeamercolor{title}{fg=colorblue}
 \setbeamerfont{title}{series=\huge\sffamily,parent=structure}
 \setbeamercolor{section in toc}{fg=colorblue}
-\setbeamertemplate{caption}[numbered]
+%\setbeamertemplate{caption}[numbered]
 \setbeamercolor{caption name}{fg=colororange}
 \setbeamerfont{caption}{size=\scriptsize}
 \setbeamercolor{itemize item}{fg=colorblue}
@@ -77,7 +77,7 @@
   \fi
   \hfill{
     \tikz{
-      \filldraw[fill=white, draw=colorblue!50, line width=.3mm,line cap=round]  (0,0.2) arc (90:-{\value{framenumber}*(360/(\value{totalfr}-4))+90}:0.2);
+      \filldraw[fill=white, draw=colorblue!50, line width=.3mm,line cap=round]  (0,0.2) arc (90:-{\value{framenumber}*(360/(\value{totalfr}-3))+90}:0.2);
       \node at (0,0) {\normalsize \color{colororange}\tiny{\insertframenumber}};
     }
   }
