@@ -155,12 +155,12 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 \begin{frame}{Plasticity Processing Unit}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
-        \begin{itemize}
+		\begin{itemize}[<1->]
 			\setlength\itemsep{1em}
             \item ``Common'' von-Neumann architecture
 			\item Machine Instructions
             \item Arithmetic Logic Unit (ALU)
-            \item $\textrm{latency}(\textrm{register}) \ll \textrm{latency}(\textrm{memory}) $
+            \item<2-> $\textrm{latency}(\textrm{register}) \ll \textrm{latency}(\textrm{memory}) $
 		\end{itemize}
     \end{column}
 
@@ -247,9 +247,9 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
     \begin{column}{0.5\textwidth}
         \centering
         \begin{figure}
-            \begin{adjustbox}{center, max width={.5\columnwidth}}
-                \input{fig/cmpstruct}
-                \input{fig/cmpintstruct}
+            \begin{adjustbox}{center, max width={.6\columnwidth}}
+				\input{fig/cmpstruct}
+				\input{fig/cmpintstruct}
             \end{adjustbox}
             \caption{\label{fig:compiler} Structure of Compiling Process and Compiler}
         \end{figure}
@@ -284,26 +284,49 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 	The PPU though, is based on the POWER architecture, as I already mentioned.}
 \end{frame}
 
-\begin{frame}{GCC for the PPU}
+\begin{frame}[fragile]{GCC for the PPU}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
         \begin{itemize}
 			\setlength\itemsep{1em}
-            \item No ``official'' support of s2pp
+            \item No ``official'' support for s2pp
 			\item Currently using macros
-			\item Existing AltiVec extension
-			\item Intrinsics $\rightarrow$ \textbf{use this}
+			\item<3-> Existing AltiVec extension
+			\item<4-> Intrinsics $\rightarrow$ \textbf{use this}
         \end{itemize}
     \end{column}
 
     \begin{column}{0.5\textwidth}
         \centering
-        \begin{figure}
-            \begin{adjustbox}{center, max width={.5\columnwidth}}
-                listing of PPU code
-            \end{adjustbox}
-            \caption{\label{fig:compiler} Structure of Compiling Process and Compiler}
-        \end{figure}
+		\begin{onlyenv}<1>
+				\begin{lstlisting}[title=Example from ppu\_sweep.c]
+...
+/** Definitions for vector registers **/
+#define VR_TMP     0
+#define VR_CAUSAL  1
+#define VR_ACAUSAL 2
+#define VR_RST     3
+#define VR_NULL_C  4
+
+...
+				\end{lstlisting}
+	\end{onlyenv}
+
+		\begin{onlyenv}<2->
+				\begin{lstlisting}[title=Example of Macro Usage]
+				...
+  fxv_splatb(VR_TMP, 1);
+  fxv_addbm(VR_TMP_1, VR_A, VR_TMP);
+				\end{lstlisting}
+	\end{onlyenv}
+
+		\begin{onlyenv}<3->
+				\begin{lstlisting}[title=Example of AltiVec]
+				...
+  tmp = vec_splat(1);
+  tmp = vec_add(tmp, tmp);
+				\end{lstlisting}
+	\end{onlyenv}
     \end{column}
     \end{columns}
 \note{\scriptsize	Of course there exist different compilers and one which is used by this group is the GNU Compiler Collection, or just GCC.
@@ -331,26 +354,34 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 
 
 \section{Extending GCC for the PPU}
-\begin{frame}{Main Work of this Thesis}
+\begin{frame}[fragile]{Main Work of this Thesis}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
         \begin{itemize}
 			\setlength\itemsep{1em}
-            \item No ``official'' support of s2pp
-			\item Currently using macros
-			\item Existing AltiVec extension
-			\item Intrinsics $\rightarrow$ \textbf{use this}
+            \item Add GCC support for s2pp
+			\item Overcome missing documentation
+			\item AltiVec inspiration
+			\item Components:\\\hspace{2em}
+				Vector Register\\\hspace{2em}
+				|vector| attribute\\\hspace{2em}
+				New intrinsics\\\hspace{2em}
+					...
         \end{itemize}
     \end{column}
 
     \begin{column}{0.5\textwidth}
-        \centering
-        \begin{figure}
-            \begin{adjustbox}{center, max width={.5\columnwidth}}
-                listing of PPU code
-            \end{adjustbox}
-            \caption{\label{fig:compiler} Structure of Compiling Process and Compiler}
-        \end{figure}
+				\begin{lstlisting}[title=Example of Macro Usage]
+				...
+  fxv_splatb(VR_TMP, 1);
+  fxv_addbm(VR_TMP_1, VR_A, VR_TMP);
+				\end{lstlisting}
+				\begin{lstlisting}[title=Example of AltiVec]
+				...
+  tmp = vec_splat(1);
+  tmp = vec_add(tmp, tmp);
+				\end{lstlisting}
+			
     \end{column}
     \end{columns}
 \note{	So this is what I did throughout my Bachelor's thesis.
@@ -376,7 +407,7 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 \begin{frame}[fragile]{New Features}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
-        \begin{itemize}
+		\begin{itemize}[<+->]
 			\setlength\itemsep{1em}
             \item |-mcpu=nux| target flag
 			\item |vector| attribute
@@ -388,6 +419,78 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 
     \begin{column}{0.5\textwidth}
         \centering
+		\begin{onlyenv}<1>
+				\begin{lstlisting}[title=Compiling Directive]
+powerpc-linux-eabi-ppc -mcpu=nux
+				\end{lstlisting}
+				
+				\begin{lstlisting}[title=Example File]
+				#include<s2pp.h>
+				
+				start(){
+				  return;
+				}
+				\end{lstlisting}
+	\end{onlyenv}
+		\begin{onlyenv}<2>
+				\begin{lstlisting}[title=Compiling Directive]
+powerpc-linux-eabi-ppc -mcpu=nux
+				\end{lstlisting}
+				\begin{lstlisting}[title=Example File]
+				#include<s2pp.h>
+
+				start(){
+				  vector int8_t vec;
+				  return;
+				}
+				\end{lstlisting}
+	\end{onlyenv}
+		\begin{onlyenv}<3>
+				\begin{lstlisting}[title=Compiling Directive]
+powerpc-linux-eabi-ppc -mcpu=nux
+				\end{lstlisting}
+				\begin{lstlisting}[title=Example File]
+				#include<s2pp.h>
+
+				start(){
+				vector int8_t vec =fxv_splat(1);
+				vec = fxv_add(vec, vec);
+				return;
+				}
+				\end{lstlisting}
+	\end{onlyenv}
+		\begin{onlyenv}<4>
+				\begin{lstlisting}[title=Compiling Directive]
+powerpc-linux-eabi-ppc -mcpu=nux
+				\end{lstlisting}
+				\begin{lstlisting}[title=Example File]
+				#include<s2pp.h>
+
+				start(){
+				vector int8_t vec =fxv_splat(1);
+				vec = fxv_add(vec, vec);
+				asm ("fxvaddbm %0, %0, %0"
+				    :"=kv" (vec)::);
+				return;
+				}
+				\end{lstlisting}
+	\end{onlyenv}
+		\begin{onlyenv}<5>
+				\begin{lstlisting}[title=Compiling Directive]
+powerpc-linux-eabi-ppc -mcpu=nux -O1
+				\end{lstlisting}
+				\begin{lstlisting}[title=Example File]
+				#include<s2pp.h>
+				
+				start(){
+				vector int8_t vec =fxv_splat(1);
+				vec = fxv_add(vec, vec);
+				asm ("fxvaddbm %0, %0, %0"
+				    :"=kv" (vec)::);
+				return;
+				}
+				\end{lstlisting}
+	\end{onlyenv}
     \end{column}
     \end{columns}
 \note{	Let's start on how it is possible to generate code for the PPU with the Compiler.
@@ -406,57 +509,72 @@ The title of my thesis was Extending Compiler Support for the BrainScaleS Plasti
 
 \begin{frame}[fragile]{Outlook}
     \begin{columns}[c]
-    \begin{column}{0.5\textwidth}
-        \begin{itemize}
+    \begin{column}{0.4\textwidth}
+		\begin{itemize}[<2->]
 			\setlength\itemsep{1em}
 			\item Further testing for bugs
 			\item Existing applications with |libnux|
 			\item Extending test coverage
 			\item Debugging support?
-			\item \textbf{New tool for development!}
+			\item<2-> \textbf{New tool for development!}
         \end{itemize}
     \end{column}
 
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.6\textwidth}
         \centering
-        \begin{figure}
-            \begin{adjustbox}{center, max width={\columnwidth}}
+		\scriptsize Comparison of unoptimized code (left) and |-O1| optimized code (right)
+            \begin{adjustbox}{center, max width={1\columnwidth}}
 			\begin{lstlisting}[basicstyle=\ttfamily\tiny\color{darkblue}]
-void measure_correlation(  uint32_t ca_hist[],
-              uint32_t ac_hist[],
-              vector uint8_t ca_offsets[],
-              vector uint8_t ac_offsets[])
-    {
-    vector uint8_t select = fxv_splatb(reset_ca | reset_ac);
-    vector uint8_t ca_meas;
-    vector uint8_t ac_meas;
-    for (uint32_t index = 0; index < dls_num_synapse_vectors; index++) {
-      vector uint8_t ca_offset = ca_offsets[index];
-      vector uint8_t ac_offset = ac_offsets[index];
-      asm volatile (
-      // Load causal and acausal
-        "fxvinx %[ca_meas], %[ca_base], %[index]\n"
-        "fxvinx %[ac_meas], %[ac_base], %[index]\n"
-        "fxvshb %[ca_meas], %[ca_meas], -1\n"
-        "fxvshb %[ac_meas], %[ac_meas], -1\n"
-      // Subtract offsets
-        "fxvsubbfs %[ca_meas], %[ca_meas], %[ca_offset]\n"
-        "fxvsubbfs %[ac_meas], %[ac_meas], %[ac_offset]\n"
-      // Reset correlation measurement
-        "fxvoutx %[select], %[ca_base], %[index]\n"
-        : [ca_meas] "+kv" (ca_meas),
-          [ac_meas] "+kv" (ac_meas)
-        : [ca_base] "r" (dls_causal_base),
-          [ac_base] "r" (dls_acausal_base),
-          [index] "r" (index),
-          [ca_offset] "kv" (ca_offset),
-          [ac_offset] "kv" (ac_offset),
-          [select] "kv" (select));
-      vector uint8_t weights = fxv_in(dls_weight_base, (uint8_t*)(index));
-	  ...
+start:
+	stwu %r1,-64(%r1)
+	stw %r31,60(%r1)
+	mr %r31,%r1
+	li %r9,1
+	fxvsplatb %f12,%r9
+	li %r9,16
+	fxvstax %f12,%r31,%r9
+	li %r9,16
+	fxvlax %f12,%r31,%r9
+	li %r9,16
+	fxvlax %f11,%r31,%r9
+	fxvaddbfs %f12,%f12,%f11
+	li %r9,16
+	fxvstax %f12,%r31,%r9
+#APP
+ # 277 "nux/main.c" 1
+	fxvaddbm %f12, %f12, %f12
+ # 0 "" 2
+#NO_APP
+	li %r9,16
+	fxvstax %f12,%r31,%r9
+	nop
+	addi %r11,%r31,64
+	lwz %r31,-4(%r11)
+	mr %r1,%r11
+	blr
+			\end{lstlisting}
+			\hspace*{2em}
+			\begin{lstlisting}[basicstyle=\ttfamily\tiny\color{darkblue}]
+start:
+	stwu %r1,-48(%r1)
+	li %r9,1
+	fxvsplatb %f12,%r9
+	li %r9,16
+	fxvstax %f12,%r1,%r9
+	fxvlax %f12,%r1,%r9
+	fxvlax %f11,%r1,%r9
+	fxvaddbfs %f12,%f12,%f11
+	fxvstax %f12,%r1,%r9
+#APP
+ # 277 "nux/main.c" 1
+	fxvaddbm %f12, %f12, %f12
+ # 0 "" 2
+#NO_APP
+	fxvstax %f12,%r1,%r9
+	addi %r1,%r1,48
+	blr
 			\end{lstlisting}
             \end{adjustbox}
-        \end{figure}
     \end{column}
     \end{columns}
 \note{	\scriptsize
