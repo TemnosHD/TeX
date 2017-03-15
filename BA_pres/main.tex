@@ -401,8 +401,9 @@ a = fxv_add(a, tmp);
 
 \section{Results}
 \begin{frame}[fragile]{New Features}
-    \begin{columns}[c]
+    \begin{columns}[t]
     \begin{column}{0.5\textwidth}
+		\vspace*{2em}
 		\begin{itemize}[<+->]
 			\setlength\itemsep{1em}
 			\item |-mcpu=nux| target flag \& |s2pp.h| header
@@ -412,9 +413,10 @@ a = fxv_add(a, tmp);
 			\item inline assembly support
 			\item optimization
         \end{itemize}
+		\vspace*{2em}
     \end{column}
 
-    \begin{column}{0.5\textwidth}
+	\begin{column}[t]{0.5\textwidth}
         \centering
 		\begin{onlyenv}<1>
 				\begin{lstlisting}[title=Compile command]
@@ -428,7 +430,6 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				  return;
 				}
 				\end{lstlisting}
-				\vspace{5em}
 	\end{onlyenv}
 		\begin{onlyenv}<2>
 				\begin{lstlisting}[title=Compile command]
@@ -442,7 +443,6 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				  return;
 				}
 				\end{lstlisting}
-				\vspace{4em}
 	\end{onlyenv}
 		\begin{onlyenv}<3>
 				\begin{lstlisting}[title=Compile command]
@@ -457,7 +457,6 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				  return;
 				}
 				\end{lstlisting}
-				\vspace{3em}
 	\end{onlyenv}
 		\begin{onlyenv}<4>
 				\begin{lstlisting}[title=Compile command]
@@ -473,7 +472,6 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				  return;
 				}
 				\end{lstlisting}
-				\vspace{2em}
 	\end{onlyenv}
 		\begin{onlyenv}<5>
 				\begin{lstlisting}[title=Compile command]
