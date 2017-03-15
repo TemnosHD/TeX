@@ -2,12 +2,12 @@
 \defcounter {refsection}{0}\relax 
 \beamer@endinputifotherversion {3.33pt}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {1}{PPU Architecture}{3}{0}{1}
+\beamer@sectionintoc {2}{PPU Architecture}{3}{0}{1}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {2}{Compiler Structure}{7}{0}{2}
+\beamer@sectionintoc {3}{Compiler Structure}{7}{0}{2}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {3}{Extending GCC for the PPU}{12}{0}{3}
+\beamer@sectionintoc {4}{Extending GCC for the PPU}{12}{0}{3}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {4}{Results}{16}{0}{4}
+\beamer@sectionintoc {5}{Results}{16}{0}{4}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {5}{Appendix}{27}{1}{5}
+\beamer@sectionintoc {6}{Appendix}{27}{1}{5}

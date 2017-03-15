@@ -68,6 +68,7 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
 
 }
 
+\section*{Extending Compiler Support for the BrainScaleS Plasticity Processor}
 \begin{frame}{Contents}
 \begin{columns}[c]
     \begin{column}{.5\textwidth}
@@ -105,7 +106,7 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
                     \input{fig/array}
                 \end{adjustbox}
 			\vspace*{-1em}
-            \caption{\label{fig:array} Schematic Representation of the Synapse Array on HICANN-DLS v2 and newer}
+            \caption{\label{fig:array} Schematic representation of the synapse array on HICANN-DLS v2 and newer}
         \end{figure}
 
     \end{column}
@@ -114,7 +115,7 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
         \centering
         \begin{figure}
             \includegraphics[width=\textwidth]{pictures/dls_marked.pdf}
-            \caption{\label{fig:dls} Photograph of the HICANN-DLS v1 Chip, modified from \citeauthor{PPU}}
+            \caption{\label{fig:dls} Photograph of the HICANN-DLS v1 chip, modified from \citeauthor{PPU}}
         \end{figure}
     \end{column}
     \note{\tiny
@@ -165,7 +166,7 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
                 \begin{adjustbox}{center, max width={.7\columnwidth}}
                     \input{fig/processor}
                 \end{adjustbox}
-            \caption{\label{fig:processor} Schematic of General Purpose Processor with von-Neumann Architecture}
+            \caption{\label{fig:processor} Schematic of general purpose processor with von-Neumann architecture}
         \end{figure}
     \end{column}
     \end{columns}
@@ -200,7 +201,7 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
         \centering
         \begin{figure}
             \includegraphics[width=.8\textwidth]{pictures/nux.pdf}
-            \caption{\label{fig:nux} Structure of nux Architecture}
+            \caption{\label{fig:nux} Structure of the PPU's architecture}
         \end{figure}
     \end{column}
     \end{columns}
@@ -221,16 +222,16 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
 
 
 \section{Compiler Structure}
-\begin{frame}[fragile]{Compiler Structure}
+\begin{frame}[fragile]{Compiling Stages}
     \begin{columns}[c]
     \begin{column}{0.5\textwidth}
         \begin{itemize}
 			\setlength\itemsep{1em}
             \item code $\xrightarrow{\text{compile}}$ executable
 			\item different compiling stages (e.g. Preprocessor)
-			\item front-end $\rightarrow$ programming language
+			\item front-end $\leftrightarrow$ programming language
 			\item middle-end $\rightarrow$ optimization
-			\item back-End $\rightarrow$ processor architecture
+			\item back-end $\leftrightarrow$ processor architecture
         \end{itemize}
     \end{column}
 
@@ -240,7 +241,7 @@ Now the title of my thesis was Extending Compiler Support for the BrainScaleS Pl
             \begin{adjustbox}{center, max width={.6\columnwidth}}
 				\input{fig/cmpstruct}
             \end{adjustbox}
-            \caption{\label{fig:compiler} Structure of Compiling Process and Compiler}
+            \caption{\label{fig:compiler} Structure of compiling process and compiler}
         \end{figure}
     \end{column}
     \end{columns}
@@ -345,15 +346,15 @@ a = vec_add(a, tmp);
     \begin{column}{0.5\textwidth}
 		\begin{itemize}[<+->]
 			\setlength\itemsep{1em}
-            \item Add GCC support for PPU
+            \item add GCC support for PPU
 			\item GCC back-ends not documented
 			\item AltiVec inspiration for\\\hspace{2em}
-				Internal functions\\\hspace{2em}
-				Internal macros
-			\item Other Components:\\\hspace{2em}
-				Vector Registers\\\hspace{2em}
-				Vector variables\\\hspace{2em}
-				New intrinsics\\\hspace{2em}
+				internal functions\\\hspace{2em}
+				internal macros
+			\item other components:\\\hspace{2em}
+				vector registers\\\hspace{2em}
+				vector variables\\\hspace{2em}
+				new intrinsics\\\hspace{2em}
 					...
         \end{itemize}
     \end{column}
@@ -365,7 +366,7 @@ a = vec_add(a, tmp);
 ...
 fxv_addbm(VR_A, VR_A, VR_TMP);
 				\end{lstlisting}
-				\hspace*{3em}\tikz{\draw[->, line width=1mm] (0,0) -- node [right] {This thesis} ++(0,-1.0);}
+				\hspace*{3em}\tikz{\draw[->, line width=1mm] (0,0) -- node [right] {this thesis} ++(0,-1.0);}
 				\begin{lstlisting}[title=New PPU code]
 vector char a, tmp;
 ...
@@ -406,7 +407,7 @@ a = fxv_add(a, tmp);
 			\setlength\itemsep{1em}
 			\item |-mcpu=nux| target flag \& |s2pp.h| header
 			\item |vector| attribute for variables
-			\item simple vector construction
+			\item simple vector initialization
 			\item PPU vector intrinsics
 			\item inline assembly support
 			\item optimization
@@ -416,11 +417,11 @@ a = fxv_add(a, tmp);
     \begin{column}{0.5\textwidth}
         \centering
 		\begin{onlyenv}<1>
-				\begin{lstlisting}[title=Compiling Directive]
+				\begin{lstlisting}[title=Compile command]
 powerpc-linux-eabi-gcc -mcpu=nux
 				\end{lstlisting}
 				
-				\begin{lstlisting}[title=Example File]
+				\begin{lstlisting}[title=Example file]
 				#include<s2pp.h>
 				
 				start(){
@@ -430,10 +431,10 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				\vspace{5em}
 	\end{onlyenv}
 		\begin{onlyenv}<2>
-				\begin{lstlisting}[title=Compiling Directive]
+				\begin{lstlisting}[title=Compile command]
 powerpc-linux-eabi-gcc -mcpu=nux
 				\end{lstlisting}
-				\begin{lstlisting}[title=Example File]
+				\begin{lstlisting}[title=Example file]
 				#include<s2pp.h>
 
 				start(){
@@ -444,10 +445,10 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				\vspace{4em}
 	\end{onlyenv}
 		\begin{onlyenv}<3>
-				\begin{lstlisting}[title=Compiling Directive]
+				\begin{lstlisting}[title=Compile command]
 powerpc-linux-eabi-gcc -mcpu=nux
 				\end{lstlisting}
-				\begin{lstlisting}[title=Example File]
+				\begin{lstlisting}[title=Example file]
 				#include<s2pp.h>
 
 				start(){
@@ -459,10 +460,10 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				\vspace{3em}
 	\end{onlyenv}
 		\begin{onlyenv}<4>
-				\begin{lstlisting}[title=Compiling Directive]
+				\begin{lstlisting}[title=Compile command]
 powerpc-linux-eabi-gcc -mcpu=nux
 				\end{lstlisting}
-				\begin{lstlisting}[title=Example File]
+				\begin{lstlisting}[title=Example file]
 				#include<s2pp.h>
 
 				start(){
@@ -475,10 +476,10 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				\vspace{2em}
 	\end{onlyenv}
 		\begin{onlyenv}<5>
-				\begin{lstlisting}[title=Compiling Directive]
+				\begin{lstlisting}[title=Compile command]
 powerpc-linux-eabi-gcc -mcpu=nux
 				\end{lstlisting}
-				\begin{lstlisting}[title=Example File]
+				\begin{lstlisting}[title=Example file]
 				#include<s2pp.h>
 
 				start(){
@@ -492,10 +493,10 @@ powerpc-linux-eabi-gcc -mcpu=nux
 				\end{lstlisting}
 	\end{onlyenv}
 		\begin{onlyenv}<6>
-				\begin{lstlisting}[title=Compiling Directive]
+				\begin{lstlisting}[title=Compile command]
 powerpc-linux-eabi-gcc -mcpu=nux -O1
 				\end{lstlisting}
-				\begin{lstlisting}[title=Example File]
+				\begin{lstlisting}[title=Example file]
 				#include<s2pp.h>
 				
 				start(){
@@ -541,7 +542,6 @@ powerpc-linux-eabi-gcc -mcpu=nux -O1
             \item easier PPU programs for users
 			\item efficient programs
 			\item workarounds in compiler
-			\item C-library support for PPU\\\hspace{2em} $\rightarrow$ soft-float
         \end{itemize}
     \end{column}
 
@@ -626,6 +626,7 @@ start:
 			\item further testing for compiler bugs
 			\item already existing applications
 			\item extending PPU test coverage
+			\item C-library support for PPU\\\hspace{2em} $\rightarrow$ soft-float
 			\item debugging support?
 			\item<2-> \textbf{new tools for PPU experiments!}
 			\item<3-> \textbf{more experiments!}
